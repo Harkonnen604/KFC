@@ -1,0 +1,1 @@
+[a],[b],[FILE:line2.txt:[a]=[a][a]:[b]=[b][b]:[c]:[c]=[c]\n.\\\t.\n[c]][FILE:post.txt::::]

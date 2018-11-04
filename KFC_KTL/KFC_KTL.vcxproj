@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{546701C5-7141-4089-AF79-2BC013197EC0}</ProjectGuid>
+    <RootNamespace>KFC_KTL</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\_out_deb\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\_out_rel\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <AdditionalOptions> /J</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>kfc_ktl_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <AdditionalOptions> /J</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>kfc_ktl_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="array.cpp" />
+    <ClCompile Include="auto_holder.cpp" />
+    <ClCompile Include="avl_storage.cpp" />
+    <ClCompile Include="basic_bitypes.cpp" />
+    <ClCompile Include="basic_templates.cpp" />
+    <ClCompile Include="basic_types.cpp" />
+    <ClCompile Include="basic_wintypes.cpp" />
+    <ClCompile Include="bounding.cpp" />
+    <ClCompile Include="consts.cpp" />
+    <ClCompile Include="critical_section.cpp" />
+    <ClCompile Include="date_time.cpp" />
+    <ClCompile Include="debug.cpp" />
+    <ClCompile Include="debug_console.cpp" />
+    <ClCompile Include="debug_file.cpp" />
+    <ClCompile Include="debug_message_box.cpp" />
+    <ClCompile Include="event.cpp" />
+    <ClCompile Include="factory.cpp" />
+    <ClCompile Include="file_names.cpp" />
+    <ClCompile Include="fixed_item_heap.cpp" />
+    <ClCompile Include="fixed_item_heap_accessors.cpp" />
+    <ClCompile Include="fixed_item_heap_avl_storage.cpp" />
+    <ClCompile Include="fixed_item_heap_list.cpp" />
+    <ClCompile Include="flag_setter.cpp" />
+    <ClCompile Include="flexible_item_heap.cpp" />
+    <ClCompile Include="for_each.cpp" />
+    <ClCompile Include="globals.cpp" />
+    <ClCompile Include="globals_collector.cpp" />
+    <ClCompile Include="growable_allocator.cpp" />
+    <ClCompile Include="hex.cpp" />
+    <ClCompile Include="job.cpp" />
+    <ClCompile Include="kfc_env.cpp" />
+    <ClCompile Include="kfc_ktl_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="kfc_mem.cpp" />
+    <ClCompile Include="kstring.cpp" />
+    <ClCompile Include="kstrings.cpp" />
+    <ClCompile Include="ktl_consts.cpp" />
+    <ClCompile Include="ktl_device_globals.cpp" />
+    <ClCompile Include="ktl_globals.cpp" />
+    <ClCompile Include="ktl_tls_item.cpp" />
+    <ClCompile Include="list.cpp" />
+    <ClCompile Include="lru_cache.cpp" />
+    <ClCompile Include="masking.cpp" />
+    <ClCompile Include="memory_stream.cpp" />
+    <ClCompile Include="method_ptr.cpp" />
+    <ClCompile Include="module_globals.cpp" />
+    <ClCompile Include="mutex.cpp" />
+    <ClCompile Include="persistent_fixed_item_heap.cpp" />
+    <ClCompile Include="placement_allocation.cpp" />
+    <ClCompile Include="pow2.cpp" />
+    <ClCompile Include="process.cpp" />
+    <ClCompile Include="ptr_holder.cpp" />
+    <ClCompile Include="rects.cpp" />
+    <ClCompile Include="registration_manager.cpp" />
+    <ClCompile Include="segments.cpp" />
+    <ClCompile Include="semaphore.cpp" />
+    <ClCompile Include="stacked_storage.cpp" />
+    <ClCompile Include="stream.cpp" />
+    <ClCompile Include="string_conv.cpp" />
+    <ClCompile Include="subobject_lister.cpp" />
+    <ClCompile Include="suspendable.cpp" />
+    <ClCompile Include="swmr_controller.cpp" />
+    <ClCompile Include="synched_queue.cpp" />
+    <ClCompile Include="synched_value.cpp" />
+    <ClCompile Include="termination.cpp" />
+    <ClCompile Include="text_container.cpp" />
+    <ClCompile Include="tls_storage.cpp" />
+    <ClCompile Include="tokens.cpp" />
+    <ClCompile Include="tree.cpp" />
+    <ClCompile Include="trie.cpp" />
+    <ClCompile Include="variable_list.cpp" />
+    <ClCompile Include="vfifo.cpp" />
+    <ClCompile Include="waitable_timer.cpp" />
+    <ClCompile Include="win_inc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="array.h" />
+    <ClInclude Include="auto_holder.h" />
+    <ClInclude Include="avl_storage.h" />
+    <ClInclude Include="basic_bitypes.h" />
+    <ClInclude Include="basic_macros.h" />
+    <ClInclude Include="basic_templates.h" />
+    <ClInclude Include="basic_types.h" />
+    <ClInclude Include="basic_wintypes.h" />
+    <ClInclude Include="bounding.h" />
+    <ClInclude Include="consts.h" />
+    <ClInclude Include="critical_section.h" />
+    <ClInclude Include="data_alignment.h" />
+    <ClInclude Include="date_time.h" />
+    <ClInclude Include="debug.h" />
+    <ClInclude Include="debug_console.h" />
+    <ClInclude Include="debug_file.h" />
+    <ClInclude Include="debug_message_box.h" />
+    <ClInclude Include="event.h" />
+    <ClInclude Include="factory.h" />
+    <ClInclude Include="file_names.h" />
+    <ClInclude Include="fixed_item_heap.h" />
+    <ClInclude Include="fixed_item_heap_accessors.h" />
+    <ClInclude Include="fixed_item_heap_avl_storage.h" />
+    <ClInclude Include="fixed_item_heap_list.h" />
+    <ClInclude Include="flag_setter.h" />
+    <ClInclude Include="flexible_item_heap.h" />
+    <ClInclude Include="for_each.h" />
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="globals_collector.h" />
+    <ClInclude Include="growable_allocator.h" />
+    <ClInclude Include="hex.h" />
+    <ClInclude Include="job.h" />
+    <ClInclude Include="kfc_env.h" />
+    <ClInclude Include="kfc_ktl_pch.h" />
+    <ClInclude Include="kfc_mem.h" />
+    <ClInclude Include="kstring.h" />
+    <ClInclude Include="kstrings.h" />
+    <ClInclude Include="ktl_consts.h" />
+    <ClInclude Include="ktl_device_globals.h" />
+    <ClInclude Include="ktl_globals.h" />
+    <ClInclude Include="ktl_tls_item.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="lru_cache.h" />
+    <ClInclude Include="masking.h" />
+    <ClInclude Include="memory_stream.h" />
+    <ClInclude Include="method_ptr.h" />
+    <ClInclude Include="module_globals.h" />
+    <ClInclude Include="mutex.h" />
+    <ClInclude Include="object_defs.h" />
+    <ClInclude Include="object_pointer.h" />
+    <ClInclude Include="object_reference.h" />
+    <ClInclude Include="persistent_fixed_item_heap.h" />
+    <ClInclude Include="placement_allocation.h" />
+    <ClInclude Include="postfixes.h" />
+    <ClInclude Include="pow2.h" />
+    <ClInclude Include="process.h" />
+    <ClInclude Include="ptr_holder.h" />
+    <ClInclude Include="qsort.h" />
+    <ClInclude Include="rects.h" />
+    <ClInclude Include="registration_manager.h" />
+    <ClInclude Include="segments.h" />
+    <ClInclude Include="semaphore.h" />
+    <ClInclude Include="stacked_storage.h" />
+    <ClInclude Include="stream.h" />
+    <ClInclude Include="string_conv.h" />
+    <ClInclude Include="subobject_lister.h" />
+    <ClInclude Include="suspendable.h" />
+    <ClInclude Include="swmr_controller.h" />
+    <ClInclude Include="synched_queue.h" />
+    <ClInclude Include="synched_value.h" />
+    <ClInclude Include="termination.h" />
+    <ClInclude Include="text_container.h" />
+    <ClInclude Include="tls_storage.h" />
+    <ClInclude Include="tokens.h" />
+    <ClInclude Include="tree.h" />
+    <ClInclude Include="trie.h" />
+    <ClInclude Include="variable_list.h" />
+    <ClInclude Include="vbtree.h" />
+    <ClInclude Include="vfifo.h" />
+    <ClInclude Include="vmatrix.h" />
+    <ClInclude Include="waitable_timer.h" />
+    <ClInclude Include="win_inc.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

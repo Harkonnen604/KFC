@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{26D8C355-09A6-431D-B58B-AB25FFEF17F7}</ProjectGuid>
+    <RootNamespace>KFC_Common</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\_out_deb\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>d:\projects\kfc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\_out_rel\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>d:\projects\kfc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <AdditionalOptions> /J</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>kfc_common_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <AdditionalOptions> /J</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>kfc_common_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="assignments.cpp" />
+    <ClCompile Include="atom.cpp" />
+    <ClCompile Include="clipboard.cpp" />
+    <ClCompile Include="cmd_line.cpp" />
+    <ClCompile Include="com.cpp" />
+    <ClCompile Include="com_impl.cpp" />
+    <ClCompile Include="com_port.cpp" />
+    <ClCompile Include="common_cfg.cpp" />
+    <ClCompile Include="common_consts.cpp" />
+    <ClCompile Include="common_device_globals.cpp" />
+    <ClCompile Include="common_globals.cpp" />
+    <ClCompile Include="common_initials.cpp" />
+    <ClCompile Include="common_tls_item.cpp" />
+    <ClCompile Include="common_tokens.cpp" />
+    <ClCompile Include="dde.cpp" />
+    <ClCompile Include="delay_load.cpp" />
+    <ClCompile Include="dll.cpp" />
+    <ClCompile Include="file.cpp" />
+    <ClCompile Include="file_chars_tree.cpp" />
+    <ClCompile Include="file_mapping.cpp" />
+    <ClCompile Include="file_table.cpp" />
+    <ClCompile Include="file_text_storage.cpp" />
+    <ClCompile Include="file_validation.cpp" />
+    <ClCompile Include="global_mem.cpp" />
+    <ClCompile Include="hooks.cpp" />
+    <ClCompile Include="install.cpp" />
+    <ClCompile Include="interpolator.cpp" />
+    <ClCompile Include="interpolator_message_defs.cpp" />
+    <ClCompile Include="kfc_common_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="message.cpp" />
+    <ClCompile Include="message_loop.cpp" />
+    <ClCompile Include="module.cpp" />
+    <ClCompile Include="module_resource.cpp" />
+    <ClCompile Include="msg_box.cpp" />
+    <ClCompile Include="obscure.cpp" />
+    <ClCompile Include="persistence_factory.cpp" />
+    <ClCompile Include="random_globals.cpp" />
+    <ClCompile Include="registry.cpp" />
+    <ClCompile Include="resource_enumerator.cpp" />
+    <ClCompile Include="resource_updater.cpp" />
+    <ClCompile Include="rpc_message_registerer.cpp" />
+    <ClCompile Include="service.cpp" />
+    <ClCompile Include="shortcut.cpp" />
+    <ClCompile Include="startup_globals.cpp" />
+    <ClCompile Include="storage.cpp" />
+    <ClCompile Include="structured_info.cpp" />
+    <ClCompile Include="time_globals.cpp" />
+    <ClCompile Include="timelimit.cpp" />
+    <ClCompile Include="timer.cpp" />
+    <ClCompile Include="version.cpp" />
+    <ClCompile Include="window_timer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="assignments.h" />
+    <ClInclude Include="atom.h" />
+    <ClInclude Include="clipboard.h" />
+    <ClInclude Include="cmd_line.h" />
+    <ClInclude Include="com.h" />
+    <ClInclude Include="com_impl.h" />
+    <ClInclude Include="com_port.h" />
+    <ClInclude Include="common_cfg.h" />
+    <ClInclude Include="common_consts.h" />
+    <ClInclude Include="common_device_globals.h" />
+    <ClInclude Include="common_globals.h" />
+    <ClInclude Include="common_initials.h" />
+    <ClInclude Include="common_tls_item.h" />
+    <ClInclude Include="common_tokens.h" />
+    <ClInclude Include="dde.h" />
+    <ClInclude Include="delay_load.h" />
+    <ClInclude Include="dll.h" />
+    <ClInclude Include="file.h" />
+    <ClInclude Include="file_chars_tree.h" />
+    <ClInclude Include="file_mapping.h" />
+    <ClInclude Include="file_table.h" />
+    <ClInclude Include="file_text_storage.h" />
+    <ClInclude Include="file_validation.h" />
+    <ClInclude Include="global_mem.h" />
+    <ClInclude Include="hooks.h" />
+    <ClInclude Include="install.h" />
+    <ClInclude Include="interpolator.h" />
+    <ClInclude Include="interpolator_defs.h" />
+    <ClInclude Include="interpolator_macros.h" />
+    <ClInclude Include="interpolator_message_defs.h" />
+    <ClInclude Include="interpolator_message_map.h" />
+    <ClInclude Include="kfc_common_pch.h" />
+    <ClInclude Include="message.h" />
+    <ClInclude Include="message_loop.h" />
+    <ClInclude Include="module.h" />
+    <ClInclude Include="module_resource.h" />
+    <ClInclude Include="msg_box.h" />
+    <ClInclude Include="obscure.h" />
+    <ClInclude Include="persistence_factory.h" />
+    <ClInclude Include="random_globals.h" />
+    <ClInclude Include="registry.h" />
+    <ClInclude Include="resource_enumerator.h" />
+    <ClInclude Include="resource_updater.h" />
+    <ClInclude Include="rpc_message_registerer.h" />
+    <ClInclude Include="service.h" />
+    <ClInclude Include="shortcut.h" />
+    <ClInclude Include="startup_globals.h" />
+    <ClInclude Include="storage.h" />
+    <ClInclude Include="structured_info.h" />
+    <ClInclude Include="time_globals.h" />
+    <ClInclude Include="timelimit.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="version.h" />
+    <ClInclude Include="window_timer.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

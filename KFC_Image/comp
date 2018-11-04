@@ -1,0 +1,1 @@
+rm *.o;g++ *.cpp -m32 -c -pthread -Wall -Wno-parentheses -funsigned-char -O2 -fno-strict-aliasing -I.. -I../../libjpeg -I../../libpng -I../../libtiff

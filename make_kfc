@@ -1,0 +1,36 @@
+echo KFC_KTL
+cd KFC_KTL
+./comp
+cd ..
+
+echo KFC_Common
+cd KFC_Common
+./comp
+cd ..
+
+echo KFC_Formats
+cd KFC_Formats
+./comp
+cd ..
+
+echo KFC_CGI
+cd KFC_CGI
+./comp
+cd ..
+
+echo KFC_Networking
+cd KFC_Networking
+./comp
+cd ..
+
+echo KFC_Protocols
+cd KFC_Protocols
+./comp
+cd ..
+
+echo KFC_Tester
+cd KFC_Tester
+./comp
+./link
+./KFC_Tester
+cd ..

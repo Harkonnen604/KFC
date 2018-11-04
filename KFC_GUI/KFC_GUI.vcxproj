@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5487A4B2-E9AF-4F4D-915D-32E8AA3093EF}</ProjectGuid>
+    <RootNamespace>KFC_GUI</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v141_xp</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\_out_deb\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>d:\projects\kfc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\_out_rel\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>d:\projects\kfc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <AdditionalOptions> /J</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>kfc_gui_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <AdditionalOptions> /J</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>kfc_gui_pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="accelerators_table.cpp" />
+    <ClCompile Include="bit_button.cpp" />
+    <ClCompile Include="check_list_control.cpp" />
+    <ClCompile Include="color_label_control.cpp" />
+    <ClCompile Include="common_dialogs.cpp" />
+    <ClCompile Include="dialog.cpp" />
+    <ClCompile Include="document_management.cpp" />
+    <ClCompile Include="edit_filter.cpp" />
+    <ClCompile Include="gui.cpp" />
+    <ClCompile Include="gui_back_buffer.cpp" />
+    <ClCompile Include="gui_cfg.cpp" />
+    <ClCompile Include="gui_consts.cpp" />
+    <ClCompile Include="gui_device_globals.cpp" />
+    <ClCompile Include="gui_elements.cpp" />
+    <ClCompile Include="gui_font.cpp" />
+    <ClCompile Include="gui_font_storage.cpp" />
+    <ClCompile Include="gui_globals.cpp" />
+    <ClCompile Include="gui_initials.cpp" />
+    <ClCompile Include="gui_tokens.cpp" />
+    <ClCompile Include="icon.cpp" />
+    <ClCompile Include="image_list.cpp" />
+    <ClCompile Include="kfc_gui_pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="list_control.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="message_box.cpp" />
+    <ClCompile Include="message_dialog.cpp" />
+    <ClCompile Include="mouse_hoverer.cpp" />
+    <ClCompile Include="notification.cpp" />
+    <ClCompile Include="page_control.cpp" />
+    <ClCompile Include="simple_dialog.cpp" />
+    <ClCompile Include="splitter_control.cpp" />
+    <ClCompile Include="status_bar.cpp" />
+    <ClCompile Include="toolbar.cpp" />
+    <ClCompile Include="tray_icon.cpp" />
+    <ClCompile Include="tree_control.cpp" />
+    <ClCompile Include="window_dragger.cpp" />
+    <ClCompile Include="window_subclasser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="accelerators_table.h" />
+    <ClInclude Include="bit_button.h" />
+    <ClInclude Include="check_list_control.h" />
+    <ClInclude Include="color_label_control.h" />
+    <ClInclude Include="common_dialogs.h" />
+    <ClInclude Include="dialog.h" />
+    <ClInclude Include="document_management.h" />
+    <ClInclude Include="edit_filter.h" />
+    <ClInclude Include="gui.h" />
+    <ClInclude Include="gui_back_buffer.h" />
+    <ClInclude Include="gui_cfg.h" />
+    <ClInclude Include="gui_consts.h" />
+    <ClInclude Include="gui_device_globals.h" />
+    <ClInclude Include="gui_elements.h" />
+    <ClInclude Include="gui_font.h" />
+    <ClInclude Include="gui_font_defs.h" />
+    <ClInclude Include="gui_font_storage.h" />
+    <ClInclude Include="gui_globals.h" />
+    <ClInclude Include="gui_initials.h" />
+    <ClInclude Include="gui_tokens.h" />
+    <ClInclude Include="icon.h" />
+    <ClInclude Include="image_list.h" />
+    <ClInclude Include="kfc_gui_pch.h" />
+    <ClInclude Include="list_control.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="message_box.h" />
+    <ClInclude Include="message_dialog.h" />
+    <ClInclude Include="mouse_hoverer.h" />
+    <ClInclude Include="notification.h" />
+    <ClInclude Include="page_control.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="simple_dialog.h" />
+    <ClInclude Include="splitter_control.h" />
+    <ClInclude Include="status_bar.h" />
+    <ClInclude Include="toolbar.h" />
+    <ClInclude Include="tray_icon.h" />
+    <ClInclude Include="tree_control.h" />
+    <ClInclude Include="window_dragger.h" />
+    <ClInclude Include="window_subclasser.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,1 @@
+rm KFC_Tester;g++ -m32 *.o ../KFC_KTL/*.o ../KFC_Common/*.o ../KFC_Formats/*.o ../KFC_CGI/*.o -Wall -Wno-parentheses -funsigned-char -pthread -O2 -fno-strict-aliasing -I.. -lm -oKFC_Tester

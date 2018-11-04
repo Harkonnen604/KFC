@@ -1,0 +1,3 @@
+line1: [FILE:line1.txt:[a]=1:[b]=2:[c]=[e]]
+line2: [FILE:line2.txt:[a]=11:[b]=22:[c]=[e][e]]
+line3: [e]
