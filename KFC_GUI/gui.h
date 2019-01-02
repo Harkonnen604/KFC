@@ -88,7 +88,7 @@ public:
 	void Allocate(COLORREF crColor);
 
 	void Allocate(HBITMAP hBitmap);
-	
+
 	void Allocate(HBRUSH hSBrush);
 
 	HBRUSH GetBrush() const
@@ -110,7 +110,7 @@ private:
 	TPen(const TPen&);
 
 	TPen& operator = (const TPen&);
-	
+
 public:
 	TPen();
 
@@ -127,7 +127,7 @@ public:
 		{ return m_hPen; }
 
 	void Release();
-	
+
 	void Allocate(	COLORREF	crColor,
 					size_t		szWidth = 1,
 					kmode_t		mdStyle	= PS_SOLID);
@@ -148,7 +148,7 @@ class TBitmap
 {
 private:
 	HBITMAP m_hBitmap;
-	
+
 private:
 	TBitmap(const TBitmap&);
 
@@ -200,7 +200,7 @@ public:
 	TDC();
 	TDC(HWND	hSWnd);
 	TDC(HDC		hSDC);
-	
+
 	~TDC()
 		{ Release(); }
 
@@ -233,14 +233,14 @@ class TPaintDC
 {
 private:
 	HWND m_hWnd;
-	
+
 	PAINTSTRUCT m_PaintStruct;
 
 private:
 	TPaintDC(const TPaintDC&);
 
 	TPaintDC& operator = (const TPaintDC&);
-	
+
 public:
 	TPaintDC(HWND hSWnd)
 	{
@@ -262,7 +262,7 @@ public:
 
 	HWND GetWnd() const
 		{ return m_hWnd; }
-	
+
 	const PAINTSTRUCT& GetPaintStruct() const
 		{ return m_PaintStruct; }
 };
@@ -505,7 +505,7 @@ struct TWindowPlacement
 {
 	IPOINT m_Coords;
 	SZSIZE m_Size;
-	
+
 	TWindowPlacement() {}
 
 	TWindowPlacement(const IPOINT& SCoords, const SZSIZE& SSize) :	m_Coords(SCoords),
@@ -799,7 +799,7 @@ inline TSize<t>& operator *= (TSize<t>& s, const DXFORM& wt)
 	{ return s = s * wt; }
 
 inline float GetWT_ScaleFactor(const FXFORM& wt)
-	{ return sqrt((FSIZE(1, 1) * wt).GetLengthSquare() * 0.5f); }
+	{ return sqrtf((FSIZE(1, 1) * wt).GetLengthSquare() * 0.5f); }
 
 inline double GetWT_ScaleFactor(const DXFORM& wt)
 	{ return sqrt((DSIZE(1, 1) * wt).GetLengthSquare() * 0.5); }

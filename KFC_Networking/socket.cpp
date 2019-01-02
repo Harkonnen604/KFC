@@ -1021,7 +1021,7 @@ bool WaitForSockets(SOCKET* pReceive,	size_t szNReceive,
 
 			const size_t szTickTime = Min(szTimeout - szElapsed, szPollDelay);
 
-			timeval tm = {szTickTime / 1000, szTickTime % 1000 * 1000};
+			timeval tm = {(long)(szTickTime / 1000), (long)(szTickTime % 1000) * 1000};
 
 			if(r = select(nfds, &rset, &wset, &eset, &tm))
 				break;

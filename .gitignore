@@ -3,3 +3,12 @@
 ################################################################################
 
 *.user
+/KFC_Common/Debug
+/KFC_Common/Release
+/KFC_KTL/Debug
+/KFC_KTL/Release
+*.filters
+/KFC_Networking/Debug
+/KFC_Networking/Release
+/_out_deb
+/_out_rel

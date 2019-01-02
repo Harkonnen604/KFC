@@ -19,7 +19,7 @@
 
 #define FOR_EACH_C_ARRAY_REV(_array, _index) \
 	for(size_t _index = ARRAY_SIZE(_array) - 1 ; _index != UINT_MAX ; --_index)
-	
+
 #define FOR_EACH_C_ARRAY(_array, _index) \
 	FOR_EACH_C_ARRAY_FWD((_array), _index)
 
@@ -29,7 +29,7 @@
 
 #define FOR_EACH_C_ARRAY_REV_EI(_array, _index) \
 	for((_index) = ARRAY_SIZE(_array) - 1 ; (size_t)(_index) != UINT_MAX ; --(_index))
-	
+
 #define FOR_EACH_C_ARRAY_EI(_array, _index) \
 	FOR_EACH_C_ARRAY_FWD_EI((_array), (_index))
 
@@ -78,12 +78,25 @@
 	FOR_EACH_LIST_FWD_EI_nodel((_list), (_iter))
 
 // Tree
+#define FOR_EACH_TREE_FWD(_tree, _iter_type, _iter)				\
+	for(_iter_type _iter = (_tree).GetFirst(), _niter ;			\
+		_iter.IsValid() && (_niter = _iter.GetNext(), true) ;	\
+		_iter = _niter)											\
+
+#define FOR_EACH_TREE_REV(_tree, _iter_type, _iter)				\
+	for(_iter_type _iter = (_tree).GetLast(), _piter ;			\
+		_iter.IsValid() && (_piter = _iter.GetPrev(), true) ;	\
+		_iter = _piter)											\
+
+#define FOR_EACH_TREE(_tree, _iter_type, _iter) \
+	FOR_EACH_TREE_FWD((_tree), _iter_type, _iter)
+
 #define FOR_EACH_TREE_FWD_NODEL(_tree, _iter_type, _iter) \
 	for(_iter_type _iter = (_tree).GetFirst() ; _iter.IsValid() ; ++_iter)
 
 #define FOR_EACH_TREE_REV_NODEL(_tree, _iter_type, _iter) \
 	for(_iter_type _iter = (_tree).GetLast() ; _iter.IsValid() ; --_iter)
-		
+
 #define FOR_EACH_TREE_NODEL(_tree, _iter_type, _iter) \
 	FOR_EACH_TREE_FWD((_tree), _iter_type, _iter)
 
@@ -93,7 +106,7 @@
 
 #define FOR_EACH_TREE_REV_EI_NODEL(_tree, _iter) \
 	for((_iter) = (_tree).GetLast() ; (_iter).IsValid() ; --(_iter))
-		
+
 #define FOR_EACH_TREE_EI_NODEL(_tree, _iter) \
 	FOR_EACH_TREE_FWD_EI_NODEL((_tree), (_iter))
 

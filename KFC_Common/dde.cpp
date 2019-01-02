@@ -1686,7 +1686,7 @@ LRESULT T_DDE_Client::WindowProc
 					if(!PostMessage(m_hPeerWnd,
 									WM_DDE_ACK,
 									(WPARAM)m_hWnd,
-									DDE_lParam = PackDDElParam(WM_DDE_ACK, (WORD)&Ack, aItem)))
+									DDE_lParam = PackDDElParam(WM_DDE_ACK, (WORD)(uintptr_t)&Ack, aItem)))
 					{
 						FreeDDElParam(WM_DDE_ACK, DDE_lParam);
 

@@ -2,7 +2,7 @@
 #define kfc_ktl_pch_h
 
 #ifdef _MSC_VER
-	#pragma warning( disable : 4345 4800 4996 )
+	#pragma warning( disable : 4091 4345 4800 4996 )
 #endif // _MSC_VER
 
 #ifdef _DEBUG
