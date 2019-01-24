@@ -24,9 +24,8 @@ TCommonConsts::TCommonConsts()
 	// Filenames
 	m_TempFileNamePrefix	= TEXT("Temp");
 	m_DefinitionsFolderName	= TEXT("Definitions\\");
-	
+
 	// Global registry
-	m_szRegistryKeyTimeout			= 500;
 	m_ApplicationRegistryKeyName	= TEXT("Software\\ECCM Corp.\\KFC Defaults\\");
 	m_CfgRegistryKeyName			= TEXT("Configuration\\");
 	m_InitialsRegistryKeyName		= TEXT("Initials\\");

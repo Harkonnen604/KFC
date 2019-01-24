@@ -678,10 +678,12 @@ public:
 	TAnsiString();
 
 	TAnsiString(LPCSTR pAnsiString, size_t szLength = UINT_MAX);
-	
+
 	TAnsiString(LPCWSTR pWideString, size_t szLength = UINT_MAX, UINT uiCodePage = CP_ACP);
 
 	size_t GetLength() const { return GetN() - 1; }
+
+  bool IsEmpty() const { return GetLength() == 0; }
 
 	TAnsiString operator + (LPCSTR s) const
 	{
@@ -838,6 +840,8 @@ public:
 
 	size_t GetLength() const { return GetN() - 1; }
 
+  bool IsEmpty() const { return GetLength() == 0; }
+
 	TWideString operator + (LPCWSTR s) const
 	{
 		size_t l = wcslen(s);
@@ -850,6 +854,8 @@ public:
 
 		return ret;
 	}
+
+  
 
 	operator LPWSTR	()			{ return GetDataPtr(); }
 	operator LPCWSTR() const	{ return GetDataPtr(); }

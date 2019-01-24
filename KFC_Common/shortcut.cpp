@@ -11,7 +11,7 @@
 KString GetShortcutTarget(	const KString&	FileName,
 							bool			bResolve,
 							kflags_t		flFlags)
-{	
+{
 	HRESULT r = S_OK;
 
 	T_COM_Interface<IShellLink> ShellLink(CLSID_ShellLink, IID_IShellLink);
@@ -34,7 +34,7 @@ KString GetShortcutTarget(	const KString&	FileName,
 	{
 		if(r = ShellLink->Resolve(NULL, SLR_ANY_MATCH | SLR_NO_UI))
 		{
-			INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error resolving shortcut \"")	+ 
+			INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error resolving shortcut \"")	+
 												FileName									+
 												TEXT("\""),
 											r);

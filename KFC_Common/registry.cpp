@@ -41,7 +41,7 @@ void KRegistryKey::Release()
 {
 	if(IsAllocated())
 		Close();
-	
+
 	m_hParentKey = NULL;
 
 	m_Name.Empty();
@@ -57,7 +57,7 @@ void KRegistryKey::Allocate(HKEY			hSParentKey,
 	try
 	{
 		DEBUG_VERIFY(hSParentKey != NULL);
-	
+
 		m_hParentKey = hSParentKey;
 
 		m_Name = SlashedFolderName(SName);
@@ -93,10 +93,10 @@ void KRegistryKey::Allocate(HKEY			hSParentKey,
 void KRegistryKey::Close()
 {
 	DEBUG_VERIFY_ALLOCATION;
-	
+
 	if(!IsOpen())
 		return;
-	
+
 	RegCloseKey(m_hKey), m_hKey = NULL;
 }
 
@@ -107,27 +107,13 @@ KRegistryKey& KRegistryKey::Open(REGSAM rsAccess)
 	if(IsOpen())
 		Close();
 
-	size_t szStartTime = GetTickCount();
-	
-	LONG r;
-	while(r = RegOpenKeyEx(m_hParentKey, UnslashedFolderName(m_Name), 0, rsAccess, &m_hKey))
+	if(LONG r = RegOpenKeyEx(m_hParentKey, UnslashedFolderName(m_Name), 0, rsAccess, &m_hKey))
 	{
-		if(r == ERROR_FILE_NOT_FOUND)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error opening registry key \"") +
-												m_Name +
-												TEXT("\""),
-											r);
-		}
-
-		if(GetTickCount() - szStartTime >= g_CommonConsts.m_szRegistryKeyTimeout)
-		{
-			m_hKey = NULL;
-
-			INITIATE_DEFINED_FAILURE(	(KString)TEXT("Registry key \"") +
-										m_Name +
-										TEXT("\" opening time out."));
-		}
+    m_hKey = NULL;
+		INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error opening registry key \"") +
+											m_Name +
+											TEXT("\""),
+										r);
 	}
 
 	return *this;
@@ -144,8 +130,7 @@ bool KRegistryKey::Create(	REGSAM		rsAccess,
 
 	DWORD dwDisposition;
 
-	size_t szStartTime = GetTickCount();
-	while(RegCreateKeyEx(	m_hParentKey,
+	if(LSTATUS r = RegCreateKeyEx(	m_hParentKey,
 							UnslashedFolderName(m_Name),
 							0,
 							NULL,
@@ -155,16 +140,11 @@ bool KRegistryKey::Create(	REGSAM		rsAccess,
 							&m_hKey,
 							&dwDisposition))
 	{
-		const size_t r = GetLastError();
-
-		if(GetTickCount() - szStartTime >= g_CommonConsts.m_szRegistryKeyTimeout)
-		{
-			m_hKey = NULL;
-			INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error creating registry key: \"") +
-												m_Name +
-												TEXT("\""),
-											r);
-		}
+		m_hKey = NULL;
+		INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error creating registry key: \"") +
+											m_Name +
+											TEXT("\""),
+										r);
 	}
 
 	if(!bAutoOpen)
@@ -594,7 +574,7 @@ DWORD KRegistryKey::GetValueType(const KString& ValueName) const
 
 		INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error getting regisry value \"") + ValueName + TEXT("\" type"), r);
 	}
-		
+
 	return dwType;
 }
 
@@ -734,13 +714,13 @@ bool KRegistryKey::Delete(bool bRecursive, bool bSafe)
 	if(RegDeleteKey(m_hParentKey, m_Name))
 	{
 		if(!bSafe)
-		{		
+		{
 			INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error deleting registry key \"") +
 												m_Name +
 												TEXT("\""),
 											GetLastError());
 		}
-		
+
 		bSuccess = false;
 	}
 
@@ -811,9 +791,9 @@ void ProcessMultiReg(LPCTSTR pText, bool bSafe, bool bUnroll)
 				INITIATE_DEFINED_FAILURE((KString)TEXT("No base key found in multireg row \"" + *Iter + TEXT("\".")));
 
 			KString BaseKeyName		= Iter->Left(i);
-			KString NameAndValue	= Iter->Mid (i+1);			
+			KString NameAndValue	= Iter->Mid (i+1);
 
-			HKEY hBaseKey = GetBaseKey(BaseKeyName);			
+			HKEY hBaseKey = GetBaseKey(BaseKeyName);
 
 			KString	Name, Value;
 			bool	bValue;
@@ -842,7 +822,7 @@ void ProcessMultiReg(LPCTSTR pText, bool bSafe, bool bUnroll)
 
 					Value = NameAndValue.Mid(i + 1).Trimmed();
 				}
-				
+
 				bValue = true;
 			}
 
@@ -923,9 +903,9 @@ void UnprocessMultiReg(LPCTSTR pText, bool bForceKeyDeletion)
 			INITIATE_DEFINED_FAILURE((KString)TEXT("No base key found in multireg row \"" + *Iter + TEXT("\".")));
 
 		KString BaseKeyName  = Iter->Left(i);
-		KString NameAndValue = Iter->Mid (i+1);			
+		KString NameAndValue = Iter->Mid (i+1);
 
-		HKEY hBaseKey = GetBaseKey(BaseKeyName);			
+		HKEY hBaseKey = GetBaseKey(BaseKeyName);
 
 		KString	Name;
 		bool	bValue;

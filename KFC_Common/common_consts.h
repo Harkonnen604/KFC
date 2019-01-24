@@ -30,9 +30,8 @@ public:
 	// Filenames
 	KString	m_TempFileNamePrefix;
 	KString m_DefinitionsFolderName;
-	
+
 	// Global registry
-	size_t	m_szRegistryKeyTimeout;
 	KString	m_ApplicationRegistryKeyName; // change for the real applications
 	KString m_CfgRegistryKeyName;
 	KString m_InitialsRegistryKeyName;
@@ -44,7 +43,7 @@ public:
 	KString m_SharewareExpiredRegistryKeyName;			// required to set for sharewares
 	UINT	m_uiSharewareNonExpiredValue;				// required to set for sharewares
 	size_t	m_szSharewareTimeoutHours;					// required to set for sharewares
-	
+
 	// Min portion sizes
 	size_t m_szDefaultCompoundInterpolatorMinPortionSize;
 	size_t m_szDefaultMessageProcessorMinPortionSize;
@@ -71,7 +70,7 @@ public:
 		bool		m_bInitCOM_GIT;
 		kflags_t	m_flCOM_Init;
 	#endif // _MSC_VER
-	
+
 	// Args
 	#ifndef _MSC_VER
 		KStrings m_MainProcArgs;
