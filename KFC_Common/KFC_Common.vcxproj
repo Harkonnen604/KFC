@@ -14,19 +14,19 @@
     <ProjectGuid>{26D8C355-09A6-431D-B58B-AB25FFEF17F7}</ProjectGuid>
     <RootNamespace>KFC_Common</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v141_xp</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <PlatformToolset>v141_xp</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -97,7 +97,6 @@
     <ClCompile Include="common_initials.cpp" />
     <ClCompile Include="common_tls_item.cpp" />
     <ClCompile Include="common_tokens.cpp" />
-    <ClCompile Include="dde.cpp" />
     <ClCompile Include="delay_load.cpp" />
     <ClCompile Include="dll.cpp" />
     <ClCompile Include="file.cpp" />
@@ -153,7 +152,6 @@
     <ClInclude Include="common_initials.h" />
     <ClInclude Include="common_tls_item.h" />
     <ClInclude Include="common_tokens.h" />
-    <ClInclude Include="dde.h" />
     <ClInclude Include="delay_load.h" />
     <ClInclude Include="dll.h" />
     <ClInclude Include="file.h" />

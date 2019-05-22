@@ -28,7 +28,7 @@ TEvent::TEvent(LPCTSTR pName, bool bInitialState, bool bManualReset)
 TEvent::TEvent(LPCTSTR pName)
 {
 	m_hEvent = NULL;
-	
+
 	Open(pName);
 }
 
@@ -43,7 +43,7 @@ void TEvent::Release()
 void TEvent::Allocate(bool bInitialState, bool bManualReset)
 {
 	Release();
-	
+
 	m_hEvent = CreateEvent(	NULL,
 							bManualReset	? TRUE : FALSE,
 							bInitialState	? TRUE : FALSE,
@@ -59,7 +59,7 @@ void TEvent::Allocate(bool bInitialState, bool bManualReset)
 bool TEvent::Create(LPCTSTR pName, bool bInitialState, bool bManualReset)
 {
 	Release();
-	
+
 	DEBUG_VERIFY(pName);
 
 	m_hEvent = CreateEvent(	NULL,
@@ -85,7 +85,7 @@ void TEvent::Open(LPCTSTR pName)
 	DEBUG_VERIFY(pName);
 
 	m_hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, pName);
-	
+
 	if(m_hEvent == NULL)
 	{
 		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error opening named event"),

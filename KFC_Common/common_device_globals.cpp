@@ -19,27 +19,20 @@ void TCommonDeviceGlobals::OnUninitialize()
 {
 	#ifdef _MSC_VER
 	{
-		T_DDE_Client::UnregisterWindowClass  ();
-		T_DDE_Server::UnregisterWindowClasses();
-	}
-	#endif // _MSC_VER
-
-	#ifdef _MSC_VER
-	{
 		g_pCOM_GIT.Release();
 
 		m_COM_Initializer.Release();
-		
+
 		m_COM_Initializer.Release();
 	}
 	#endif // _MSC_VER
-	
+
 	#ifdef _MSC_VER
 	{
 		m_MsgBoxesEvent.Release();
 	}
 	#endif // _MSC_VER
-	
+
 	TFileTableTLS_Item::Free();
 
 	TCommonTLS_Item::FreeItemType();
@@ -67,14 +60,4 @@ void TCommonDeviceGlobals::OnInitialize()
 	#endif // _MSC_VER
 
 	m_MsgBoxesEvent.Allocate(true, true);
-
-	#ifdef _MSC_VER
-	{
-		if(g_CommonConsts.m_bInitDDE)
-		{
-			T_DDE_Server::RegisterWindowClasses();
-			T_DDE_Client::RegisterWindowClass  ();
-		}
-	}
-	#endif // _MSC_VER
 }

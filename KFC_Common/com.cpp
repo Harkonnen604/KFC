@@ -519,21 +519,21 @@ GUID KCreateGUID()
 	return guid;
 }
 
-CLSID KProgID_ToCLSID(LPCTSTR pProgID)
+CLSID KProgID_ToCLSID(LPCWSTR pProgID)
 {
 	CLSID clsid;
-	
+
 	DEBUG_VERIFY(pProgID);
 
 	HRESULT r;
 
-	if(r = CLSIDFromProgID(TWideString(pProgID), &clsid))
+	if(r = CLSIDFromProgID(pProgID, &clsid))
 		INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error getting CLSID of \"") + pProgID + TEXT('\"'), r);
 
 	return clsid;
 }
 
-KString K_CLSID_ToProgID(REFCLSID rCLSID, bool bSafe)
+TWideString K_CLSID_ToProgID(REFCLSID rCLSID, bool bSafe)
 {
 	WCHAR* pProgID;
 
@@ -547,7 +547,7 @@ KString K_CLSID_ToProgID(REFCLSID rCLSID, bool bSafe)
 		return "";
 	}
 
-	KString ProgID = TAnsiString(pProgID);
+	TWideString ProgID = pProgID;
 
 	CoTaskMemFree(pProgID);
 

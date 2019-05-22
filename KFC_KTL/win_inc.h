@@ -3,15 +3,12 @@
 
 #ifdef _MSC_VER
 
-	#include <winsock2.h>
-	#include <ws2tcpip.h>
 	#include <windows.h>
-	#include <mstcpip.h>
 
 #else // _MSC_VER
 
 	#include <pthread.h>
-	
+
 	#define TRUE	((DWORD)1)
 	#define FALSE	((DWORD)0)
 
@@ -33,7 +30,7 @@
 	typedef unsigned char		UINT8;
 	typedef unsigned short		UINT16;
 	typedef unsigned int		UINT32;
-	typedef unsigned long long	UINT64;	
+	typedef unsigned long long	UINT64;
 
 	#define _I64_MIN	(-9223372036854775807ll - 1)
 	#define _I64_MAX	(9223372036854775807ll)
@@ -57,10 +54,10 @@
 	typedef const char*		LPCSTR;
 	typedef const WCHAR*	LPCWSTR;
 	typedef const TCHAR*	LPCTSTR;
-	
+
 	typedef void*		LPVOID;
 	typedef const void*	LPCVOID;
-	
+
 	typedef DWORD	BOOL;
 
 	#define CP_ACP 1251
@@ -76,29 +73,29 @@
 		DWORD dwLowDateTime;
 		DWORD dwHighDateTime;
 	};
-	
+
 	struct SYSTEMTIME
 	{
-		WORD wYear; 
-		WORD wMonth; 
-		WORD wDayOfWeek; 
-		WORD wDay; 
-		WORD wHour; 
-		WORD wMinute; 
-		WORD wSecond; 
-		WORD wMilliseconds; 
+		WORD wYear;
+		WORD wMonth;
+		WORD wDayOfWeek;
+		WORD wDay;
+		WORD wHour;
+		WORD wMinute;
+		WORD wSecond;
+		WORD wMilliseconds;
 	};
-	
+
 	struct POINT
 	{
 		int x, y;
 	};
-	
+
 	struct SIZE
 	{
 		int cx, cy;
 	};
-	
+
 	struct RECT
 	{
 		int left, top, right, bottom;
@@ -118,18 +115,18 @@
 		BYTE rgbRed;
 		BYTE rgbReserved;
 	};
-	
+
 	#pragma pack(2)
 
 	struct BITMAPFILEHEADER
-	{ 
+	{
 		WORD	bfType;
 		DWORD	bfSize;
 		WORD	bfReserved1;
 		WORD	bfReserved2;
 		DWORD	bfOffBits;
 	};
-	
+
 	#pragma pack()
 
 	struct BITMAPINFOHEADER
@@ -165,7 +162,7 @@
 
 	struct HEVENT__ {};
 	typedef HEVENT__* HEVENT;
-	
+
 	inline int stricmp(const char* a, const char* b)
 	{
 		for( ; *a || *b ; a++, b++)
@@ -173,7 +170,7 @@
 			if(int d = toupper(*a) - toupper(*b))
 				return d;
 		}
-		
+
 		return 0;
 	}
 
@@ -187,7 +184,7 @@
 
 		return 0;
 	}
-	
+
 	inline char* strlwr(char* s)
 	{
 		for( ; *s ; s++)
@@ -195,7 +192,7 @@
 
 		return s;
 	}
-	
+
 	inline char* strupr(char* s)
 	{
 		for( ; *s ; s++)
@@ -264,23 +261,23 @@
 	{
 		if(pTime1->dwHighDateTime < pTime2->dwHighDateTime)
 			return -1;
-			
+
 		if(pTime1->dwHighDateTime > pTime2->dwHighDateTime)
 			return +1;
-			
+
 		if(pTime1->dwLowDateTime < pTime2->dwLowDateTime)
 			return -1;
-			
+
 		if(pTime1->dwLowDateTime > pTime2->dwLowDateTime)
 			return +1;
-			
+
 		return 0;
 	}
-	
+
 	#include "critical_section.h"
 
 	extern TCriticalSection g_InterlockedCS;
-	
+
 	extern TConditionVariable g_SyncCV;
 
 	inline LONG InterlockedDecrement(volatile LONG* v)
@@ -294,34 +291,34 @@
 
 	inline LONG InterlockedExchangeAdd(volatile LONG* v, LONG a)
 		{ LONG ret; TCriticalSectionLocker Locker0(g_InterlockedCS); ret = *v; *v += a; return ret; }
-		
+
 	inline DWORD GetCurrentThreadId()
 		{ return 0;/*pthread_getthreadid_np();*/ }
-		
+
 	#define INFINITE	((DWORD)-1)
-	
+
 	#define WAIT_ABANDONED	(0x00000080L)
 	#define WAIT_OBJECT_0	(0X00000000L)
 	#define WAIT_TIMEOUT	(0x00000102L)
 	#define WAIT_FAILED		(0xFFFFFFFFL)
-	
+
 	// Sync object
 	class TSyncObject
 	{
-	public:	
+	public:
 		virtual ~TSyncObject() {}
 
 		virtual bool Acquire() = 0;
 
 		virtual void Revert() = 0;
 	};
-	
+
 	// Mutex sync object
 	class TMutexSyncObject : public TSyncObject
 	{
 	private:
 		TCriticalSection m_CS;
-	
+
 	public:
 		TMutexSyncObject(bool bCreateOwned = false)
 		{
@@ -341,9 +338,9 @@
 
 			if(!m_CS.Unlock())
 				return false;
-				
+
 			g_SyncCV.Broadcast();
-			
+
 			return true;
 		}
 	};
@@ -355,24 +352,24 @@
 		const bool m_bManualReset;
 
 		bool m_bSignaled;
-	
+
 	public:
 		TEventSyncObject(bool bManualReset, bool bCreateSignaled) : m_bManualReset(bManualReset)
 		{
 			m_bSignaled = bCreateSignaled;
 		}
-			
+
 		bool Acquire()
 		{
 			if(!m_bSignaled)
 				return false;
-			
+
 			if(!m_bManualReset)
 				m_bSignaled = false;
-				
+
 			return true;
 		}
-		
+
 		void Revert()
 		{
 			if(m_bManualReset)
@@ -384,20 +381,20 @@
 			assert(!m_bSignaled);
 			m_bSignaled = true;
 		}
-		
+
 		void Set()
 		{
 			TConditionVariableLocker Locker0(g_SyncCV);
-			
+
 			m_bSignaled = true;
-			
+
 			g_SyncCV.Broadcast();
 		}
 
 		void Reset()
 		{
 			TConditionVariableLocker Locker0(g_SyncCV);
-			
+
 			m_bSignaled = false;
 		}
 	};
@@ -409,12 +406,12 @@
 		const size_t m_szMaxN;
 
 		size_t m_szN;
-		
+
 	public:
 		TSemaphoreSyncObject(size_t szMaxN, size_t szN) : m_szMaxN(szMaxN)
 		{
 			assert(szN <= m_szMaxN);
-			
+
 			m_szN = szN;
 		}
 
@@ -422,19 +419,19 @@
 		{
 			if(!m_szN)
 				return false;
-				
+
 			m_szN--;
-			
+
 			return true;
 		}
-		
+
 		void Revert()
 		{
 			assert(m_szN < m_szMaxN);
-			
+
 			m_szN++;
 		}
-		
+
 		bool Release(size_t szDelta, size_t* pROldN)
 		{
 			TConditionVariableLocker Locker0(g_SyncCV);
@@ -446,78 +443,78 @@
 				*pROldN = m_szN;
 
 			m_szN += szDelta;
-			
+
 			g_SyncCV.Broadcast();
-			
+
 			return true;
 		}
 	};
-	
+
 	// Waitable timer sync object
 /*	class TWaitableTimerSyncObject : public TSyncObject
 	{
 	private:
 		UINT64 m_qwTimeDue; // msec
-		
+
 		UINT64 m_qwOldTimeDue; // msec
-		
+
 		size_t m_szPeriod; // msec
-		
+
 		size_t m_szTimesSignaled;
-		
+
 		size_t m_szOldTimesSignaled;
 
 		bool m_bSignaled;
-		
+
 		bool m_bOldSignaled;
-		
+
 		const bool m_bManualReset;
 
 	public:
 		TWaitableTimerSyncObject(bool bManualReset);
 
 		bool Acquire();
-		
+
 		void Revert();
 
 		void Set(UINT64 qwTimeDue, size_t szPeriod); // all msec
 
 		void Cancel();
-		
+
 		UINT64 GetTimeDue() const
 		{
 			TConditionVariableLocker Locker0(g_SyncCV);
 
 			return m_qwTimeDue;
 		}
-			
+
 		bool UpdateTimeDue(UINT64 qwTime)
 		{
 			TConditionVariableLocker Locker0(g_SyncCV);
-		
+
 			if(m_qwTimeDue > qwTime)
 				return false;
-				
+
 			m_szTimesSignaled += (qwTime - m_qwTimeDue) / m_szPeriod + 1;
-			
+
 			m_qwTimeDue += (UINT64)m_szTimesSignaled * m_szPeriod;
-				
+
 			g_SyncCV.Broadcast();
-			
+
 			return true;
 		}
 	};*/
-	
+
 	// Thread sync object
 	class TThreadSyncObject : public TSyncObject
 	{
 	private:
 		pthread_t m_Thread;
-		
+
 		#ifdef _DEBUG
 			volatile LONG m_lJoinCount;
 		#endif // _DEBUG
-		
+
 	public:
 		TThreadSyncObject(pthread_t Thread) : m_Thread(Thread)
 		{
@@ -525,7 +522,7 @@
 				m_lJoinCount = 0;
 			#endif // _DEBUG
 		}
-		
+
 		~TThreadSyncObject()
 		{
 			if(m_Thread)
@@ -534,17 +531,17 @@
 
 		bool Acquire()
 			{ return true; }
-			
+
 		void Revert() {}
-			
+
 		void Join()
 		{
 			#ifdef _DEBUG
 				assert(InterlockedIncrement(&m_lJoinCount) == 1);
 			#endif // _DEBUG
-		
+
 			assert(m_Thread);
-			
+
 			pthread_join(m_Thread, NULL), m_Thread = 0;
 		}
 	};
@@ -565,7 +562,7 @@
 	// CloseHandle
 	inline void CloseHandle(HANDLE hObject)
 		{ if(hObject) delete (TSyncObject*)hObject; }
-		
+
 	// SECURITY_ATTRIBUTES
 	struct SECURITY_ATTRIBUTES
 	{
@@ -573,7 +570,7 @@
 		LPVOID	lpSecurityDescriptor;
   		BOOL	bInheritHandle;
   	};
-  	
+
   	// LARGE_INTEGER
   	union LARGE_INTEGER
   	{
@@ -588,85 +585,85 @@
   			DWORD LowPart;
   			DWORD HighPart;
   		}u;
- 
+
   		INT64 QuadPart;
   	};
-  	
+
   	// Mutex API
   	inline HANDLE CreateMutex(SECURITY_ATTRIBUTES* pSecurity, BOOL bInitialOwner, LPCTSTR pName)
   	{
   		return (HANDLE)new TMutexSyncObject(bInitialOwner);
   	}
-  	
+
   	inline BOOL ReleaseMutex(HANDLE hMutex)
   	{
   		if(!hMutex)
   			return FALSE;
-  			
+
   		assert(dynamic_cast<TMutexSyncObject*>((TSyncObject*)hMutex));
-  
+
   		return ((TMutexSyncObject*)hMutex)->Release();
   	}
-  	
+
   	// Event API
   	inline HANDLE CreateEvent(SECURITY_ATTRIBUTES* pSecurity, BOOL bManualReset, BOOL bInitialState, LPCTSTR pName)
   	{
   		return (HANDLE)new TEventSyncObject(bManualReset, bInitialState);
   	}
- 
+
   	inline BOOL SetEvent(HANDLE hEvent)
   	{
   		if(!hEvent)
   			return FALSE;
-  			
+
   		assert(dynamic_cast<TEventSyncObject*>((TSyncObject*)hEvent));
-  		
+
   		((TEventSyncObject*)hEvent)->Set();
-  		
+
   		return TRUE;
   	}
-  	
+
   	inline BOOL ResetEvent(HANDLE hEvent)
   	{
   		if(!hEvent)
   			return FALSE;
-  			
+
   		assert(dynamic_cast<TEventSyncObject*>((TSyncObject*)hEvent));
-  		
+
   		((TEventSyncObject*)hEvent)->Reset();
-  		
+
   		return TRUE;
   	}
-  	
+
   	// Semaphore API
   	inline HANDLE CreateSemaphore(SECURITY_ATTRIBUTES* pSecurity, LONG lInitialCount, LONG lMaximumCount, LPCTSTR pName)
   	{
   		if((DWORD)lInitialCount > (DWORD)lMaximumCount)
   			return NULL;
-  	
+
   		return (HANDLE)new TSemaphoreSyncObject(lMaximumCount, lInitialCount);
   	}
-  	
+
   	inline BOOL ReleaseSemaphore(HANDLE hSemaphore, LONG lReleaseCount, LONG* pPreviousCount)
   	{
   		if(!hSemaphore)
   			return FALSE;
-  			
+
   		assert(dynamic_cast<TSemaphoreSyncObject*>((TSyncObject*)hSemaphore));
 
   		return ((TSemaphoreSyncObject*)hSemaphore)->Release(lReleaseCount, (size_t*)pPreviousCount);
   	}
-  
+
   	// Waitable timer API
 /*  HANDLE CreateWaitableTimer(SECURITY_ATTRIBUTES* pSecurity, BOOL bManualReset, LPCTSTR pName);
-  	
+
   	BOOL SetWaitableTimer(	HANDLE					hTimer,
 							const LARGE_INTEGER*	pDueTime,
 							LONG					lPeriod,
 							void*					pCompletionRoutine,
 							void*					pCompletionArg,
 							BOOL					fResume);
-  	
+
   	BOOL CancelWaitableTimer(HANDLE hTimer);*/
 
 	// Waiters
@@ -675,25 +672,25 @@
 	DWORD WaitForSingleObject(HANDLE hObject, DWORD dwTimeout);
 
 	DWORD WaitForMultipleObjects(DWORD dwN, const HANDLE* pObjects, BOOL bWaitAll, DWORD dwTimeout);
-	
+
 	// TLS API
 	#define TLS_OUT_OF_INDEXES	((DWORD)0xFFFFFFFF)
-	
+
 	inline DWORD TlsAlloc()
-	{	
+	{
 		pthread_key_t key;
-		
+
 		if(pthread_key_create(&key, NULL))
 			return TLS_OUT_OF_INDEXES;
-			
+
 		return (const DWORD&)key;
 	}
-	
+
 	inline BOOL TlsFree(DWORD dwIndex)
 	{
 		if(pthread_key_delete((const pthread_key_t&)dwIndex))
 			return FALSE;
-		
+
 		return TRUE;
 	}
 
@@ -701,11 +698,11 @@
 	{
 		return pthread_getspecific((const pthread_key_t&)dwIndex);
 	}
-	
+
 	inline BOOL TlsSetValue(DWORD dwIndex, LPVOID pValue)
 	{
 		pthread_setspecific((const pthread_key_t&)dwIndex, pValue);
-		
+
 		return TRUE;
 	}
 
@@ -713,7 +710,7 @@
 	#define S_OK					((DWORD)0)
 	#define S_FAIL					((DWORD)1)
 	#define ERROR_ALREADY_EXISTS	((DWORD)183)
-	
+
 	inline DWORD GetLastError()
 		{ return 0; }
 

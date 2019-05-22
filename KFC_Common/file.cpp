@@ -202,7 +202,7 @@ void TFile::Open(kflags_t flSOpenFlags, kflags_t flBaseSharingFlags)
 	// Opening the file
 	if(m_flOpenFlags & FOF_TEXT)
 	{
-		static LPCTSTR Modes[4] = {"rt", "wt", "r+t", "w+t"};
+		static LPCTSTR Modes[4] = {TEXT("rt"), TEXT("wt"), TEXT("r+t"), TEXT("w+t")};
 		InternalOpenStream(Modes);
 	}
 	else if(m_flOpenFlags & FOF_BINARY)

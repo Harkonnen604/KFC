@@ -4,7 +4,7 @@
 // ----------------
 // Global routines
 // ----------------
-bool DoesMaskMatch(LPCTSTR s, LPCSTR m, bool bCaseSensitive = true);
+bool DoesMaskMatch(LPCTSTR s, LPCTSTR m, bool bCaseSensitive = true);
 
 inline bool DoesMaskMatch(LPCTSTR s, const KStrings& m, bool bCaseSensitive = true)
 {

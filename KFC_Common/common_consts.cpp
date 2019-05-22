@@ -50,13 +50,6 @@ TCommonConsts::TCommonConsts()
 	// Redundancy
 	m_bSkipBasicCfgInitials = true;
 
-	// DDE
-	#ifdef _MSC_VER
-	{
-		m_bInitDDE = true;
-	}
-	#endif // _MSC_VER
-
 	// COM
 	#ifdef _MSC_VER
 	{

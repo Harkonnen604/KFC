@@ -199,8 +199,8 @@ KStrings::TIterator ParseFoldersSequence(	KString		Path,
 			if(bFullPaths)
 				*Iter = *Iter.GetNext();
 			else
-				*Iter += *Iter.GetNext();				
-			
+				*Iter += *Iter.GetNext();
+
 			RFolders.Del(Iter.GetNext());
 		}
 	}
@@ -235,7 +235,7 @@ KString NormalizePath(LPCTSTR pPath)
 		}
 	}
 
-	return RootFolder + Folders.GenerateString("");
+	return RootFolder + Folders.GenerateString(TEXT(""));
 }
 
 KString FollowPath(LPCTSTR pPath, LPCTSTR pRoute)

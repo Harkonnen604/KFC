@@ -71,9 +71,8 @@ DECLARE_ENUM_STRING_CONV(VARENUM);
 // ----------------
 GUID KCreateGUID();
 
-CLSID KProgID_ToCLSID(LPCTSTR pProgID);
-
-KString K_CLSID_ToProgID(REFCLSID rCLSID, bool bSafe = false);
+CLSID KProgID_ToCLSID(LPCWSTR pProgID);
+TWideString K_CLSID_ToProgID(REFCLSID rCLSID, bool bSafe = false);
 
 KString KGUIDToString	(REFGUID	rGUID);
 KString KCLSIDToString	(REFCLSID	rCLSID);
@@ -117,7 +116,7 @@ private:
 
 public:
 	T_COM_Initializer();
-	
+
 	T_COM_Initializer(kflags_t flInit);
 
 	~T_COM_Initializer()
@@ -252,7 +251,7 @@ public:
 							dwContext,
 							pUnkOuter);
 	}
-	
+
 	T_COM_Interface& CreateObject(	REFCLSID	rCLSID,
 									REFIID		rIID,
 									DWORD		dwContext = CLSCTX_INPROC_SERVER,
@@ -328,7 +327,7 @@ T_COM_Interface<InterfaceType>&
 {
 	Release();
 
-	HRESULT r;	
+	HRESULT r;
 
 	if(r = CoCreateInstance(rCLSID, pUnkOuter, dwContext, rIID, (void**)&m_pInterface))
 	{
@@ -437,7 +436,7 @@ public:
 		VariantInit(this);
 
 		KFC_VERIFY(!VariantChangeType(this, const_cast<VARIANT*>(&Variant), 0, vt));
-	}	
+	}
 
 	T_COM_Variant(const char* pValue)
 		{ VariantInit(this), *this = pValue; }
@@ -461,7 +460,7 @@ public:
 		{ VariantInit(this), *this = iValue; }
 
 	T_COM_Variant(UINT uiValue)
-		{ VariantInit(this), *this = uiValue; } 	
+		{ VariantInit(this), *this = uiValue; }
 
 	T_COM_Variant(short sValue)
 		{ VariantClear(this), *this = sValue; }
@@ -505,7 +504,7 @@ public:
 
 	T_COM_Variant& operator = (const T_COM_Variant& Variant)
 		{ DEBUG_EVALUATE_VERIFY(!VariantCopy(this, const_cast<T_COM_Variant*>(&Variant))); return *this; }
-		
+
 	T_COM_Variant& operator = (const char* pValue)
 		{ return *this = (const WCHAR*)TWideString(pValue); }
 
@@ -652,7 +651,7 @@ public:
 		VariantClear(this);
 
 		vt = VT_DISPATCH;
-		
+
 		if(pdispVal = pValue)
 			pdispVal->AddRef();
 
@@ -708,7 +707,7 @@ public:
 		{ DEBUG_VERIFY(vt == VT_DISPATCH && pdispVal); return pdispVal; }
 
 	operator KString () const
-		{ return vt == VT_BSTR ? KString(TAnsiString(bstrVal)) : (KString)T_COM_Variant(*this, VT_BSTR); }
+		{ return vt == VT_BSTR ? KString(TAnsiString(bstrVal)) : vt == VT_EMPTY ? TEXT("") : vt == VT_DISPATCH ? TEXT("<Dispatch>") : (KString)T_COM_Variant(*this, VT_BSTR); }
 };
 
 TStream& operator >> (TStream& Stream, VARIANT& RVariant);

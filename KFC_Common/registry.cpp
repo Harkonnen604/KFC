@@ -295,7 +295,7 @@ void KRegistryKey::ReadFloat(const KString& ValueName, float& fRValue) const
 
 	DEBUG_VERIFY(IsOpen());
 
-	fRValue = (float)atof(ReadString(ValueName));
+	fRValue = (float)_ttof(ReadString(ValueName));
 }
 
 void KRegistryKey::ReadDouble(const KString& ValueName, double& dRValue) const
@@ -304,7 +304,7 @@ void KRegistryKey::ReadDouble(const KString& ValueName, double& dRValue) const
 
 	DEBUG_VERIFY(IsOpen());
 
-	dRValue = atof(ReadString(ValueName));
+	dRValue = _ttof(ReadString(ValueName));
 }
 
 void KRegistryKey::ReadInt64(const KString& ValueName, INT64& iRValue, INT64 iDefaultValue) const

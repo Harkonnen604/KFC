@@ -51,7 +51,7 @@ public:
 		return *this;
 	}
 
-	bool Read(KString String, t& RValue) const;	
+	bool Read(KString String, t& RValue) const;
 
 	KString Write(t Value) const;
 };
@@ -71,7 +71,7 @@ bool TEnumStringConv<t>::Read(KString String, t& RValue) const
 
 	if(	m_bSafe &&
 		String.DoesStart("0x") &&
-		_stscanf(String.GetDataPtr() + 2, "%X", &v) == 1)
+		_stscanf(String.GetDataPtr() + 2, TEXT("%X"), &v) == 1)
 	{
 		RValue = (t)v;
 		return true;
@@ -90,7 +90,7 @@ KString TEnumStringConv<t>::Write(t Value) const
 	}
 
 	if(m_bSafe)
-		return KString::Formatted("0x%.8X", (size_t)Value);
+		return KString::Formatted(TEXT("0x%.8X"), (size_t)Value);
 
 	INITIATE_FAILURE;
 }
@@ -172,12 +172,12 @@ bool FromString(KString String,		bool&	bRValue);
 // Forced macro
 // -------------
 template <class t>
-t ReadFromString(const char* s)
+t ReadFromString(LPCTSTR s)
 {
 	t v;
 
 	if(!FromString(s, v))
-		INITIATE_DEFINED_FAILURE((KString)"Invalid format: \"" + s + "\".");
+		INITIATE_DEFINED_FAILURE((KString)"Invalid format: \"" + s + TEXT("\"."));
 
 	return v;
 }

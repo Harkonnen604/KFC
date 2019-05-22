@@ -82,8 +82,8 @@ private:
 
 	KString m_FileName;
 
-	kflags_t m_flOpenFlags;	
-	
+	kflags_t m_flOpenFlags;
+
 	size_t m_szOffset; // binary mode only
 	size_t m_szLength; // binary mode only
 
@@ -98,7 +98,7 @@ private:
 	void InternalOpenHandle(kflags_t flBaseSharingFlags);
 #endif // _MSC_VER
 	void InternalOpenStream(const LPCTSTR ppModes[4]);
-	
+
 	void	InternalClose	();
 	bool	InternalRemove	();
 
@@ -119,9 +119,9 @@ public:
 	TFile();
 
 	TFile(LPCTSTR pFileName);
-	
+
 	TFile(LPCTSTR pFileName, kflags_t flSOpenFlags, kflags_t flBaseSharingFlags = FSF_DEFAULT);
-	
+
 	~TFile()
 		{ Release(); }
 
@@ -194,7 +194,7 @@ public:
 	void Open(kflags_t flSOpenFlags, kflags_t flBaseSharingFlags = FSF_DEFAULT); // reopens if opened
 
 	void Reopen(bool bRetainOldOffset, kflags_t flBaseSharingFlags = FSF_DEFAULT);
-	
+
 	void Close(); // safe for closed
 
 	void SetLength(size_t szNewLength, bool bRetainOldOffset);
@@ -222,7 +222,7 @@ public:
 	{
 		KString String;
 		ReadToString(String);
-		
+
 		return String;
 	}
 
@@ -261,7 +261,7 @@ public:
 	bool DoesExist() const;
 
 	static void Copy(LPCTSTR pSrcFileName, LPCTSTR pDstFileName);
-	
+
 #ifdef _MSC_VER
 
 	void GetTimes(	FILETIME* pCreationTime,
@@ -373,13 +373,13 @@ KStrings::TIterator EnlistFilesRec(	const KString&	FolderAndMask,
 KStrings::TIterator EnlistFoldersRec(	KString		Folder,
 										KStrings&	RFolders,
 										bool		bClearFirst	= true);
-										
-#ifdef _MSC_VER										
+
+#ifdef _MSC_VER
 
 void EnlistDrives(	KStrings&	Drives,
 					bool		bEnlistFloppy	= true,
 					bool		bFullPaths		= true);
-					
+
 #endif // _MSC_VER
 
 bool FileExists(LPCTSTR pFileName);
@@ -452,7 +452,7 @@ public:
 	void Release()
 	{
 		if(!m_FileName.IsEmpty())
-			remove(m_FileName), m_FileName.Empty();
+			_tremove(m_FileName), m_FileName.Empty();
 	}
 
 	void Allocate(LPCTSTR pFileName)

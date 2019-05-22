@@ -290,13 +290,13 @@ public:
 	KString& operator += (bool bValue);
 
 	KString& operator += (TAlignment Value);
-	
+
 	LPTSTR GetDataPtr()
 		{ return m_Chars.GetDataPtr(); }
 
 	LPCTSTR	GetDataPtr() const
 		{ return m_Chars.GetDataPtr(); }
-	
+
 	TCHAR GetChar(size_t szIndex) const { return m_Chars[szIndex]; }
 
 	void SetChar(size_t szIndex, TCHAR c) { m_Chars[szIndex] = c; }
@@ -304,7 +304,7 @@ public:
 	KString GetLower() const;
 	KString GetUpper() const;
 
-	size_t Find(LPCTSTR pString, size_t szStart = 0) const;	
+	size_t Find(LPCTSTR pString, size_t szStart = 0) const;
 
 	size_t FindNoCase(LPCTSTR pString, size_t szStart = 0) const
 		{ return GetLower().Find(KString(pString).ToLower(), szStart); }
@@ -321,7 +321,7 @@ public:
 
 	// UINT_MAX rev finder result is ambiguous since UINT_MAX can also mean pre-start
 
-	size_t FindRev(LPCTSTR pString, size_t szStart = UINT_MAX - 1)  const;	
+	size_t FindRev(LPCTSTR pString, size_t szStart = UINT_MAX - 1)  const;
 
 	size_t FindRevNoCase(LPCTSTR pString, size_t szStart = UINT_MAX - 1) const
 		{ return GetLower().FindRev(KString(pString).ToLower(), szStart); }
@@ -335,7 +335,7 @@ public:
 
 	size_t FindOneOfRevNoCase(LPCTSTR pChars, size_t szStart = UINT_MAX - 1) const
 		{ return GetLower().FindOneOfRev(KString(pChars).ToLower(), szStart); }
-	
+
 	KString Left	(size_t szCount) const;
 	KString Right	(size_t szCount) const;
 	KString Mid		(size_t szStart, size_t szCount = UINT_MAX) const;
@@ -430,7 +430,7 @@ public:
 	KString& ToUpper();
 
 	KString UnAccelerated() const;
-	
+
 	KString RNToN() const;
 	KString NToRN() const;
 
@@ -444,7 +444,7 @@ public:
 	bool operator >  (const KString& SString) const { return Collate(SString) >  0; }
 	bool operator <= (const KString& SString) const { return Collate(SString) <= 0; }
 	bool operator >= (const KString& SString) const { return Collate(SString) >= 0; }
-	
+
 	bool operator == (TCHAR cChar) const
 		{ return GetLength() == 1 && m_Chars[0] == cChar; }
 
@@ -466,7 +466,7 @@ public:
 	bool operator >= (LPCTSTR pString) const { return Collate(pString) >= 0; }
 	bool operator == (LPCTSTR pString) const { return Collate(pString) == 0; }
 	bool operator != (LPCTSTR pString) const { return Collate(pString) != 0; }
-	
+
 	static int QSortFunctionCase		(const void* p1, const void* p2);
 	static int QSortFunctionNoCase		(const void* p1, const void* p2);
 	static int QSortFunctionNumeric		(const void* p1, const void* p2);
@@ -482,44 +482,13 @@ public:
 	static KString CurrentDateTimeString();
 
 	operator LPCTSTR () const { return GetDataPtr(); }
-	
+
 	#ifdef _MSC_VER
 
-		KString& SetOEMToChar();
-		KString& SetCharToOEM();
-
-		LPTSTR GetOEMToChar(KString& RText, bool bEmptyFirst = true) const;
-		LPTSTR GetCharToOEM(KString& RText, bool bEmptyFirst = true) const;
-
-		KString GetOEMToChar() const
-			{ KString Text; return GetOEMToChar(Text), Text; }
-
-		KString GetCharToOEM() const
-			{ KString Text; return GetCharToOEM(Text), Text; }
+		KString GetOEMToChar() const;
+		KString GetCharToOEM() const;
 
 	#else // _MSC_VER
-
-		KString& SetOEMToChar()
-			{ return *this; }
-
-		KString& SetCharToOEM()
-			{ return *this; }
-
-		LPTSTR GetOEMToChar(KString& RText, bool bEmptyFirst = true) const
-		{
-			if(bEmptyFirst)
-				RText.Empty();
-
-			return RText.Extend(*this, GetLength());
-		}
-
-		LPTSTR GetCharToOEM(KString& RText, bool bEmptyFirst = true) const
-		{
-			if(bEmptyFirst)
-				RText.Empty();
-
-			return RText.Extend(*this, GetLength());
-		}
 
 		KString GetOEMToChar() const
 			{ return *this; }
@@ -544,7 +513,7 @@ public:
 		{ return GetLength() < 2 ? 0 : m_Chars[1]; }
 
 	TCHAR GetLastChar() const
-		{ return GetLength() < 1 ? 0 : m_Chars[GetLength() - 1]; }	
+		{ return GetLength() < 1 ? 0 : m_Chars[GetLength() - 1]; }
 
 	TCHAR GetPreLastChar() const
 		{ return GetLength() < 2 ? 0 : m_Chars[GetLength() - 2]; }
@@ -855,8 +824,6 @@ public:
 		return ret;
 	}
 
-  
-
 	operator LPWSTR	()			{ return GetDataPtr(); }
 	operator LPCWSTR() const	{ return GetDataPtr(); }
 };
@@ -1066,11 +1033,11 @@ inline TStream& operator >> (TStream& Stream, KString& RString)
 {
 	size_t szLength;
 	Stream >> szLength;
-	
+
 	RString.Allocate(szLength);
-	
+
 	STREAM_READ_ARR(Stream, RString.GetDataPtr(), szLength, TCHAR);
-	
+
 	return Stream;
 }
 
@@ -1079,7 +1046,7 @@ inline TStream& operator << (TStream& Stream, const KString& String)
 	Stream << String.GetLength();
 
 	STREAM_WRITE_ARR(Stream, String.GetDataPtr(), String.GetStreamCharsLength(), TCHAR);
-	
+
 	return Stream;
 }
 

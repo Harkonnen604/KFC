@@ -13,7 +13,7 @@
 
 #define CHECK_POLLED_TERMINATION(hTerminator) \
 	CHECK_CUSTOM_TERMINATION(hTerminator, DEFAULT_POLL_DELAY)
-	
+
 #define TERMINATE \
 	throw TTerminationException(__FILE__, __LINE__)
 
@@ -23,11 +23,11 @@
 struct TTerminationException
 {
 public:
-	LPCTSTR	m_pFile;
+	LPCSTR	m_pFile;
 	int		m_iLine;
-	
+
 public:
-	TTerminationException(LPCTSTR pSFile, int iSLine) :
+	TTerminationException(LPCSTR pSFile, int iSLine) :
 		m_pFile(pSFile), m_iLine(iSLine) {}
 };
 
@@ -36,7 +36,7 @@ public:
 // ----------------
 bool IsTerminated(HANDLE hTerminator, size_t szTimeout = 0);
 
-inline void CheckTermination(HANDLE hTerminator, LPCTSTR pFile, int iLine, size_t szTimeout = 0)
+inline void CheckTermination(HANDLE hTerminator, LPCSTR pFile, int iLine, size_t szTimeout = 0)
 {
 	if(IsTerminated(hTerminator, szTimeout))
 		throw TTerminationException(pFile, iLine);

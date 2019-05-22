@@ -195,7 +195,7 @@ void OpenDocument(LPCTSTR pName)
 					TEXT("open"),
 					pName,
 					NULL,
-					"",
+					TEXT(""),
 					SW_SHOW);
 }
 

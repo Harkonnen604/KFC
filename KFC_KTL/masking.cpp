@@ -7,7 +7,7 @@
 // ----------------
 // Goobal routines
 // ----------------
-bool DoesMaskMatch(LPCTSTR s, LPCSTR m, bool bCaseSensitive)
+bool DoesMaskMatch(LPCTSTR s, LPCTSTR m, bool bCaseSensitive)
 {
 	const size_t ml = _tcslen(m);
 

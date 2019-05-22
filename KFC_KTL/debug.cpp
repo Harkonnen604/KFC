@@ -11,7 +11,7 @@ void _tassert(LPCTSTR pExp, LPCTSTR pFile, int iLine)
 	INITIATE_DEFINED_FAILURE(	(KString)TEXT("Test assertion failed: ") +
 									pExp +
 									TEXT(" , \"") +
-									TEXT(pFile) +
+									pFile +
 									TEXT("\" , ") +
 									iLine);
 }
@@ -91,7 +91,7 @@ KString GetErrorDescription(DWORD dwCode)
 							NULL,
 							dwCode,
 							0,
-							(LPSTR)&hResult,
+							(LPTSTR)&hResult,
 							0,
 							NULL) && hResult)
 		{

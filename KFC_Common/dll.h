@@ -19,7 +19,7 @@ public:
 	T_DLL(LPCTSTR pFileName, kflags_t flFlags = 0);
 
 	T_DLL(HMODULE hSModule);
-	
+
 	~T_DLL() { Release(); }
 
 	bool IsAllocated() const
@@ -39,12 +39,12 @@ public:
 
 	void* GetFunction(LPCSTR pFunctionName) const;
 
-	void* operator [] (LPCTSTR pFunctionName) const
+	void* operator [] (LPCSTR pFunctionName) const
 		{ return GetFunction(pFunctionName); }
 
 	HMODULE GetModule() const;
 
-	operator HMODULE () const { return m_hModule; }	
+	operator HMODULE () const { return m_hModule; }
 };
 
 #endif // _MSC_VER

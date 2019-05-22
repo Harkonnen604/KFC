@@ -58,11 +58,6 @@ public:
 	// Redundancy
 	bool m_bSkipBasicCfgInitials;
 
-	// DDE
-	#ifdef _MSC_VER
-		bool m_bInitDDE;
-	#endif // _MSC_VER
-
 	// COM
 	#ifdef _MSC_VER
 		bool		m_bInitOLE;

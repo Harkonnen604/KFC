@@ -8,7 +8,7 @@ inline bool IsHexChar(TCHAR cChar)
 {
 	if(_istdigit(cChar))
 		return true;
-	
+
 	cChar = _totupper(cChar);
 
 	if(cChar >= TEXT('A') && cChar <= TEXT('F'))
@@ -48,13 +48,13 @@ void HexDecode(LPCTSTR p, void* pRData);
 
 inline void HexDecode(LPCTSTR s, TArray<BYTE, true>& RData)
 {
-	HexDecode(s, &RData.SetN(strlen(s) / 2));
+	HexDecode(s, &RData.SetN(_tcslen(s) / 2));
 }
 
 inline KString HexDecode(LPCTSTR s)
 {
 	KString Data;
-	HexDecode(s, Data.Allocate(strlen(s) / 2));
+	HexDecode(s, Data.Allocate(_tcslen(s) / 2));
 
 	return Data;
 }
