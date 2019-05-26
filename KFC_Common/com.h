@@ -707,7 +707,7 @@ public:
 		{ DEBUG_VERIFY(vt == VT_DISPATCH && pdispVal); return pdispVal; }
 
 	operator KString () const
-		{ return vt == VT_BSTR ? KString(TAnsiString(bstrVal)) : vt == VT_EMPTY ? TEXT("") : vt == VT_DISPATCH ? TEXT("<Dispatch>") : (KString)T_COM_Variant(*this, VT_BSTR); }
+		{ return vt == VT_BSTR ? KString(TDefaultString(bstrVal)) : vt == VT_EMPTY ? TEXT("") : vt == VT_DISPATCH ? TEXT("<Dispatch>") : (KString)T_COM_Variant(*this, VT_BSTR); }
 };
 
 TStream& operator >> (TStream& Stream, VARIANT& RVariant);
@@ -907,6 +907,19 @@ public:
 		if(FAILED(r = g_pCOM_GIT->GetInterfaceFromGlobal(m_dwCookie, *m_pIID, ppRObject)))
 			INITIATE_DEFINED_CODE_FAILURE("COM GIT fetch failed", r);
 	}
+};
+
+class T_BSTR
+{
+public:
+  ~T_BSTR() { SysFreeString(m_pString); }
+
+  operator LPCWSTR () const { return m_pString; }
+
+  BSTR& GetPtr() { return m_pString; }
+
+private:
+  BSTR m_pString = nullptr;
 };
 
 #endif // _MSC_VER
