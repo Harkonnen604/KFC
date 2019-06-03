@@ -156,7 +156,7 @@ void T_COM_Port::Allocate(size_t szPortNumber, const DCB& dcb, bool bOverlapped)
 
 	try
 	{
-		m_hFile = CreateFile(	(KString)"\\\\.\\\\COM" + szPortNumber,
+		m_hFile = CreateFile(	(KString)TEXT("\\\\.\\\\COM") + szPortNumber,
 								GENERIC_READ | GENERIC_WRITE,
 								0,
 								NULL,

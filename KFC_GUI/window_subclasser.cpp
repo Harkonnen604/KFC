@@ -53,7 +53,7 @@ void TWindowSubclasserGlobals::OnInitialize()
 {
 	m_pFirstFree = NULL;
 
-	m_aFirstWS = AddAtom("KFC_FirstWS");
+	m_aFirstWS = AddAtom(TEXT("KFC_FirstWS"));
 	KFC_VERIFY(m_aFirstWS);
 }
 

@@ -19,7 +19,7 @@ inline LPTSTR ShortenFloatBuf(LPTSTR s)
 	if(i >= 0 && s[i] == TEXT('.'))
 		s[i] = 0;
 
-	if(!wcscmp(s, TEXT("-0")))
+	if(!_tcscmp(s, TEXT("-0")))
 		s++;
 
 	return s;
@@ -1062,9 +1062,10 @@ static TUnicodeTo1251Initializer gs_UnicodeTo1251Initializer;
 // ------------
 // Ansi string
 // ------------
-TAnsiString::TAnsiString()
+TAnsiString::TAnsiString(size_t szLength)
 {
-	Add(1) = 0;
+  Add(szLength + 1);
+  GetFirstItem() = 0;
 }
 
 TAnsiString::TAnsiString(LPCSTR pAnsiString, size_t szLength)
@@ -1121,9 +1122,10 @@ TAnsiString::TAnsiString(LPCWSTR pWideString, size_t szLength, UINT uiCodePage)
 // ------------
 // Wide string
 // ------------
-TWideString::TWideString()
+TWideString::TWideString(size_t szLength)
 {
-	Add(1) = 0;
+  Add(szLength + 1);
+  GetFirstItem() = 0;
 }
 
 TWideString::TWideString(LPCSTR pAnsiString, size_t szLength, UINT uiCodePage)

@@ -14,3 +14,9 @@
 /_out_rel
 /KFC_GUI/Debug
 /KFC_GUI/Release
+/KFC_Common/Debug Unicode
+/KFC_Common/Release Unicode
+/KFC_GUI/Debug Unicode
+/KFC_GUI/Release Unicode
+/KFC_KTL/Debug Unicode
+/KFC_KTL/Release Unicode

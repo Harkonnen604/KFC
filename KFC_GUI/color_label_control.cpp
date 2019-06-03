@@ -21,7 +21,7 @@ void TColorLabelControl::UnregisterClass()
 {
 	if(s_aClass)
 	{
-		::UnregisterClass((LPCSTR)s_aClass, GetKModuleHandle());
+		::UnregisterClass((LPCTSTR)s_aClass, GetKModuleHandle());
 		s_aClass = NULL;
 	}
 }

@@ -644,7 +644,7 @@ inline KString operator + (TCHAR c, const KString& String)
 class TAnsiString : public TArray<char, true>
 {
 public:
-	TAnsiString();
+	TAnsiString(size_t szLength = 0);
 
 	TAnsiString(LPCSTR pAnsiString, size_t szLength = UINT_MAX);
 
@@ -801,7 +801,7 @@ inline bool operator >= (LPCSTR pString1, const TAnsiString& String2)
 class TWideString : public TArray<wchar_t, true>
 {
 public:
-	TWideString();
+	TWideString(size_t szLength = 0);
 
 	TWideString(LPCSTR pAnsiString, size_t szLength = UINT_MAX, UINT uiCodePage = CP_ACP);
 

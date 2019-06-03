@@ -29,7 +29,7 @@ bool TSocketBase::Receive(void* pRData, size_t szLength, bool bAllowSD)
 
 		DEBUG_VERIFY(szN <= szLength);
 
-		pRData = (BYTE*)pRData + szN, szLength -= szN;		
+		pRData = (BYTE*)pRData + szN, szLength -= szN;
 	}
 
 	return true;
@@ -132,13 +132,13 @@ void TSocket::Allocate()
 		m_bUDP			= false;
 		m_bBound		= false;
 		m_bListening	= false;
-		m_bConnected	= false;		
+		m_bConnected	= false;
 
 		m_hTerminator	= NULL;
 		m_szTimeout		= UINT_MAX;
 		m_szPollDelay	= DEFAULT_POLL_DELAY;
 	}
-	
+
 	catch(...)
 	{
 		Release();
@@ -223,13 +223,13 @@ void TSocket::AllocateUDP()
 
 		m_bUDP			= true;
 		m_bBound		= false;
-		m_bListening	= false;		
+		m_bListening	= false;
 
 		m_hTerminator	= NULL;
 		m_szTimeout		= UINT_MAX;
 		m_szPollDelay	= DEFAULT_POLL_DELAY;
 	}
-	
+
 	catch(...)
 	{
 		Release();
@@ -425,7 +425,7 @@ void TSocket::Connect(DWORD dwIP, WORD wPort)
 
 		{
 			int v = 0;
-			socklen_t l = sizeof(v);
+			int l = sizeof(v);
 
 			if(getsockopt(m_Socket, SOL_SOCKET, SO_ERROR, (char*)&v, &l) || v)
 				INITIATE_DEFINED_CODE_FAILURE(TEXT("Error connecting network socket"), v);
@@ -457,19 +457,19 @@ bool TSocket::ConnectNonBlocking(DWORD dwIP, WORD wPort)
 	if(!connect(m_Socket, (const sockaddr*)&addr, sizeof(addr)))
 	{
 		m_bConnected = true;
-		
+
 		return true;
 	}
 
 	if(WSAGetLastError() == WSAEWOULDBLOCK)
 	{
 		m_bConnected = true;
-		
+
 		return false;
 	}
 
 	INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error connecting network socket"),
-									WSAGetLastError()); 
+									WSAGetLastError());
 }
 
 void TSocket::InitiateShutdown(bool bSafe)
@@ -561,9 +561,9 @@ size_t TSocket::ReceiveFrom(void*	pRData,
 	WaitReading();
 
 	sockaddr_in addr;
-	socklen_t sz = sizeof(addr);
+	int sz = sizeof(addr);
 
-	const int l = recvfrom(	m_Socket, 
+	const int l = recvfrom(	m_Socket,
 							(char*)pRData,
 							szLength,
 							0,
@@ -579,13 +579,13 @@ size_t TSocket::ReceiveFrom(void*	pRData,
 
 	return l;
 }
-	
+
 size_t TSocket::SendTo(const void* pData, size_t szLength, DWORD dwIP, WORD wPort)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
 	DEBUG_VERIFY(IsUDP());
-	
+
 	DEBUG_VERIFY(dwIP != INADDR_NONE && wPort);
 
 	WaitWriting();
@@ -616,7 +616,7 @@ void TSocket::GetLocalIP_Port(DWORD& dwR_IP, WORD& wRPort) const
 
 	sockaddr_in addr;
 
-	socklen_t sz = sizeof(addr);
+	int sz = sizeof(addr);
 
 	if(	getsockname(m_Socket, (sockaddr*)&addr, &sz) ||
 		sz != sizeof(addr) ||
@@ -635,7 +635,7 @@ void TSocket::GetRemoteIP_Port(DWORD& dwR_IP, WORD& wRPort) const
 
 	sockaddr_in addr;
 
-	socklen_t sz = sizeof(addr);
+	int sz = sizeof(addr);
 
 	if(	getpeername(m_Socket, (sockaddr*)&addr, &sz) ||
 		sz != sizeof(addr) ||
@@ -884,7 +884,7 @@ static inline int PrepareWaitSets(	const SOCKET* pReceive,	size_t szNReceive,
 		}
 		#endif // _MSC_VER
 	}
-		
+
 	for(i = 0 ; i < szNSend ; i++)
 	{
 		DEBUG_VERIFY(VALID_SOCKET(pSend[i]));
@@ -1223,7 +1223,7 @@ bool FromString(KString Text, TSubnet& RSubnet)
 	}
 
 	size_t szPos = Text.Find('/');
-	
+
 	if(szPos == UINT_MAX)
 	{
 		RSubnet.Set(ReadIP(Text));

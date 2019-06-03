@@ -85,7 +85,7 @@ void TTreeControl::SetEmptyText(LPCTSTR pText, COLORREF crColor)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
-	m_EmptyText = pText ? pText : "", m_crEmptyTextColor = crColor;
+	m_EmptyText = pText ? pText : TEXT(""), m_crEmptyTextColor = crColor;
 
 	if(IsEmpty())
 		InvalidateRect(*this, NULL, TRUE);
@@ -129,7 +129,7 @@ HTREEITEM TTreeControl::AddItem(HTREEITEM	hParentItem,
 	is.hParent		= hParentItem;
 	is.hInsertAfter	= hInsertAfter;
 
-	is.item.mask = 0;	
+	is.item.mask = 0;
 
 	if(pText)
 		is.item.mask |= TVIF_TEXT, is.item.pszText = (LPTSTR)pText;
@@ -160,7 +160,7 @@ KString TTreeControl::GetItem(	HTREEITEM	hItem,
 	DEBUG_VERIFY(hItem);
 
 	TVITEM Item;
-	memset(&Item, 0, sizeof(Item));	
+	memset(&Item, 0, sizeof(Item));
 
 	Item.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
@@ -188,7 +188,7 @@ kflags_t TTreeControl::GetItemState(HTREEITEM hItem)
 	DEBUG_VERIFY(hItem);
 
 	TVITEM Item;
-	memset(&Item, 0, sizeof(Item));	
+	memset(&Item, 0, sizeof(Item));
 
 	Item.mask |= TVIF_HANDLE, Item.hItem = hItem;
 
@@ -276,14 +276,14 @@ void TTreeControl::CheckItem(HTREEITEM hItem, bool bCheck)
 	DEBUG_VERIFY(hItem);
 
 	TVITEM Item;
-	memset(&Item, 0, sizeof(Item));	
+	memset(&Item, 0, sizeof(Item));
 
 	Item.mask |= TVIF_HANDLE, Item.hItem = hItem;
 
 	Item.mask |= TVIF_STATE, Item.stateMask = TVIS_STATEIMAGEMASK;
 
 	Item.state = ((size_t)bCheck + 1u) << 12;
-	
+
 	if(!TreeView_SetItem(*this, &Item))
 		INITIATE_DEFINED_FAILURE(TEXT("Error (un)checking tree view item."));
 }
@@ -381,7 +381,7 @@ void TTreeControl::SetItemVoidData(HTREEITEM hItem, void* pData)
 	DEBUG_VERIFY(hItem);
 
 	TVITEM Item;
-	memset(&Item, 0, sizeof(Item));	
+	memset(&Item, 0, sizeof(Item));
 
 	Item.mask = TVIF_HANDLE | TVIF_PARAM, Item.lParam = (LPARAM)pData;
 

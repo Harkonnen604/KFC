@@ -599,7 +599,7 @@ CLSID KStringToCLSID(LPCTSTR pText)
 	CLSID clsid;
 
 	if(FAILED(CLSIDFromString(TWideString(pText), &clsid)))
-		INITIATE_DEFINED_FAILURE((KString)"Error parsing CLSID: \"" + pText + "\".");
+		INITIATE_DEFINED_FAILURE((KString)"Error parsing CLSID: \"" + pText + TEXT("\"."));
 
 	return clsid;
 }

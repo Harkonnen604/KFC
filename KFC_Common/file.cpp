@@ -327,7 +327,7 @@ TFile& TFile::Read(void* pRData, size_t szSize)
 		return *this;
 
 	if(m_szOffset + szSize > m_szLength)
-		INITIATE_DEFINED_FAILURE((KString)"Attempt to read past the end of file \"" + m_FileName + "\".");
+		INITIATE_DEFINED_FAILURE((KString)TEXT("Attempt to read past the end of file \"") + m_FileName + TEXT("\"."));
 
 	SetLastOperation('r');
 
@@ -673,7 +673,7 @@ void TFile::Seek(int iOffset, TFileSeekMode Mode)
 		m_szOffset += iOffset;
 
 		if((int)m_szOffset < 0 || m_szOffset > m_szLength)
-			INITIATE_DEFINED_FAILURE((KString)"Attempt to seek outside of file \"" + m_FileName + "\".");
+			INITIATE_DEFINED_FAILURE((KString)"Attempt to seek outside of file \"" + m_FileName + TEXT("\"."));
 
 		InternalSeek(m_szOffset, FSM_BEGIN);
 	}	

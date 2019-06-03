@@ -121,7 +121,7 @@ void TListControl::SetEmptyText(LPCTSTR pText, COLORREF crColor)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
-	m_EmptyText = pText ? pText : "", m_crEmptyTextColor = crColor;
+	m_EmptyText = pText ? pText : TEXT(""), m_crEmptyTextColor = crColor;
 
 	if(IsEmpty())
 		InvalidateRect(*this, NULL, TRUE);
@@ -205,7 +205,7 @@ int TListControl::AddItem(	LPCTSTR	pText,
 	Item.iItem = szPos;
 
 	if(pText)
-		Item.mask |= LVIF_TEXT, Item.pszText = (LPSTR)pText;
+		Item.mask |= LVIF_TEXT, Item.pszText = (LPTSTR)pText;
 
 	if(iImage >= 0)
 		Item.mask |= LVIF_IMAGE, Item.iImage = iImage;
@@ -289,7 +289,7 @@ void TListControl::SetItem(	int			iItem,
 	Item.iItem = iItem, Item.iSubItem = iSubItem;
 
 	if(pText)
-		Item.mask |= LVIF_TEXT, Item.pszText = (LPSTR)pText;
+		Item.mask |= LVIF_TEXT, Item.pszText = (LPTSTR)pText;
 
 	if(iImage >= 0)
 		Item.mask |= LVIF_IMAGE, Item.iImage = iImage;

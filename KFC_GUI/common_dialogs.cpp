@@ -24,7 +24,7 @@ bool GetDialogOpenFileName(	HWND		hParentWnd,
 	memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
 
 	TCHAR Buffer[MAX_PATH];
-	strcpy(Buffer, pInitialFileName);
+	_tcscpy(Buffer, pInitialFileName);
 
 	ofn.hwndOwner		= hParentWnd;
 	ofn.lpstrFile		= Buffer;
@@ -137,7 +137,7 @@ bool GetDialogSaveFileName(	HWND		hParentWnd,
 	memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
 
 	TCHAR Buffer[MAX_PATH];
-	strcpy(Buffer, pInitialFileName);
+	_tcscpy(Buffer, pInitialFileName);
 
 	ofn.hwndOwner		= hParentWnd;
 	ofn.lpstrFile		= Buffer;

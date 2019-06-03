@@ -1,6 +1,7 @@
 #ifndef dialog_h
 #define dialog_h
 
+#include <KFC_Common/module.h>
 #include "notification.h"
 #include "gui.h"
 
@@ -113,7 +114,7 @@ protected:
 	virtual void OnCancel();
 
 	void SetIcon(HICON hIcon, bool bBig);
-	
+
 	void SetForcedResult(BOOL bSResult)
 		{ m_bForcedResult = bSResult, m_bUseForcedResult = true; }
 
@@ -152,7 +153,7 @@ public:
 
 	void SetDlgItemTextSafe	(int iID, const KString& Text);
 	void SetDlgItemText		(int iID, const KString& Text);
-	
+
 	bool SetDlgItemTextNoFlickerSafe(int iID, const KString& Text);
 	bool SetDlgItemTextNoFlicker	(int iID, const KString& Text);
 
@@ -185,10 +186,10 @@ public:
 	IRECT GetPlaceholderRect(int iID)
 		{ DEBUG_VERIFY_ALLOCATION; return GetWindowPlacementRect(GetDlgItem(iID)); }
 
-	// Getters	
-	HWND GetWnd() const;	
+	// Getters
+	HWND GetWnd() const;
 
-	operator HWND () const { return GetWnd(); }	
+	operator HWND () const { return GetWnd(); }
 
 	HPROPSHEETPAGE GetPropertySheetPage() const;
 
