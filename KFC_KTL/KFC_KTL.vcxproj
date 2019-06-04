@@ -69,18 +69,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\_out_deb\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
-    <OutDir>..\_out_deb\</OutDir>
+    <OutDir>..\_out_deb_unicode\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\_out_rel\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
-    <OutDir>..\_out_rel\</OutDir>
+    <OutDir>..\_out_rel_unicode\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

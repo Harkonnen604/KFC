@@ -1,9 +1,7 @@
 #ifndef gui_h
 #define gui_h
 
-#include <KFC_KTL\basic_types.h>
-#include <KFC_KTL\basic_bitypes.h>
-#include <KFC_KTL\kstring.h>
+#include <KFC_Common/module.h>
 
 // ---------------------
 // Destroy window guard
@@ -669,14 +667,14 @@ inline bool IsWindowRestored(HWND hWnd)
 inline bool IsWindowForeground(HWND hWnd, bool bAllowMinimizedActive = false)
 	{ return GetForegroundWindow() == hWnd && (bAllowMinimizedActive || IsWindowRestored(hWnd)); }
 
-inline HICON KLoadIcon(int iID)
-	{ return LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
+inline HICON KLoadIcon(int iID, HINSTANCE hInstance = GetKModuleHandle())
+	{ return LoadIcon(hInstance, MAKEINTRESOURCE(iID)); }
 
-inline HCURSOR KLoadCursor(int iID)
-	{ return LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
+inline HCURSOR KLoadCursor(int iID, HINSTANCE hInstance = GetKModuleHandle())
+	{ return LoadCursor(hInstance, MAKEINTRESOURCE(iID)); }
 
-inline HBITMAP KLoadBitmap(int iID)
-	{ return LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
+inline HBITMAP KLoadBitmap(int iID, HINSTANCE hInstance = GetKModuleHandle())
+	{ return LoadBitmap(hInstance, MAKEINTRESOURCE(iID)); }
 
 void TrackMouseLeave(HWND hWnd);
 

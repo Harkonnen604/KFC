@@ -41,7 +41,7 @@ void TGlobals::InternalUninitialize()
 
 	// Unitializing subs
 	while(m_szNSubGlobalsInitialized > 0)
-		m_SubGlobals[--m_szNSubGlobalsInitialized]->UnInitialize();
+		m_SubGlobals[--m_szNSubGlobalsInitialized]->Uninitialize();
 }
 
 void TGlobals::InternalInitialize()
@@ -101,7 +101,7 @@ void TGlobals::InternalInitialize()
 #endif // REPORT_GLOBALS_INITIALIZATION_STEPS
 }
 
-void TGlobals::UnInitialize()
+void TGlobals::Uninitialize()
 {
 	if(m_szRefCount == 0)
 		return;
@@ -162,7 +162,7 @@ TGlobalsInitializer::TGlobalsInitializer(TGlobals& SGlobals)
 void TGlobalsInitializer::Release()
 {
 	if(m_pGlobals)
-		m_pGlobals->UnInitialize(), m_pGlobals = NULL;
+		m_pGlobals->Uninitialize(), m_pGlobals = NULL;
 }
 
 void TGlobalsInitializer::Allocate(TGlobals& SGlobals)

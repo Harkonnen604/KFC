@@ -571,7 +571,7 @@ size_t TSocket::ReceiveFrom(void*	pRData,
 							&sz);
 
 	if(l < 0 || sz != sizeof(addr) || addr.sin_family != AF_INET)
-		INITIATE_DEFINED_FAILURE("Error receiving from UDP network socket.");
+		INITIATE_DEFINED_FAILURE(TEXT("Error receiving from UDP network socket."));
 
 	dwR_IP = ntohl(addr.sin_addr.s_addr);
 
@@ -605,7 +605,7 @@ size_t TSocket::SendTo(const void* pData, size_t szLength, DWORD dwIP, WORD wPor
 							sizeof(addr));
 
 	if(l < 0)
-		INITIATE_DEFINED_FAILURE("Error sending through UDP network socket.");
+		INITIATE_DEFINED_FAILURE(TEXT("Error sending through UDP network socket."));
 
 	return l;
 }
@@ -786,7 +786,7 @@ bool ReadAddressPort(KString s, KString& RAddress, WORD& wRPort)
 
 	UINT p;
 
-	if(_stscanf((LPCTSTR)s+i+1, "%u", &p) != 1 || p >= 0x10000)
+	if(_stscanf((LPCTSTR)s+i+1, TEXT("%u"), &p) != 1 || p >= 0x10000)
 		return false;
 
 	wRPort = (WORD)p;
@@ -814,7 +814,7 @@ bool ReadAddressPorts(KString s, KString& RAddress, WORD& wRPort1, WORD& wRPort2
 
 	UINT p1, p2;
 
-	if(_stscanf((LPCTSTR)s+i+1, "%u:%u", &p1, &p2) != 2 || p1 >= 0x10000 || p2 >= 0x10000)
+	if(_stscanf((LPCTSTR)s+i+1, TEXT("%u:%u"), &p1, &p2) != 2 || p1 >= 0x10000 || p2 >= 0x10000)
 		return false;
 
 	wRPort1 = (WORD)p1, wRPort2 = (WORD)p2;
@@ -1094,7 +1094,7 @@ DECLARE_THREAD_PROC(ResolveIPs_ThreadProc, pParam)
 		TPtrHolder<TResolveIPs_ThreadContext> pContext
 			((TResolveIPs_ThreadContext*)pParam);
 
-		const HOSTENT* pHostent = gethostbyname(pContext->m_Address);
+		const HOSTENT* pHostent = gethostbyname(TAnsiString(pContext->m_Address));
 
 		if(	pHostent &&
 			pHostent->h_addrtype == AF_INET &&
@@ -1139,7 +1139,7 @@ size_t ResolveIPs(	LPCTSTR					pAddress,
 
 	if(!hTerminator && dwTimeout == INFINITE)
 	{
-		const HOSTENT* pHostent = gethostbyname(pAddress);
+		const HOSTENT* pHostent = gethostbyname(TAnsiString(pAddress));
 
 		if(pHostent == NULL)
 		{

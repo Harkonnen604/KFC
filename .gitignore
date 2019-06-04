@@ -20,3 +20,7 @@
 /KFC_GUI/Release Unicode
 /KFC_KTL/Debug Unicode
 /KFC_KTL/Release Unicode
+/KFC_Networking/Debug Unicode
+/KFC_Networking/Release Unicode
+/_out_deb_unicode
+/_out_rel_unicode

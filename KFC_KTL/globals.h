@@ -51,7 +51,7 @@ public:
 
 	virtual ~TGlobals();
 
-	void UnInitialize	();
+	void Uninitialize	();
 	void Initialize		();
 
 	bool PreUpdate	() { DEBUG_VERIFY_INITIALIZATION; return OnPreUpdate(); }

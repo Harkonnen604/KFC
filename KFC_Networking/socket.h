@@ -21,7 +21,7 @@ public:
 
 	bool Receive(void* pRData, size_t szLength, bool bAllowSD = false);
 
-	void Send(const void* pData, size_t szLength);	
+	void Send(const void* pData, size_t szLength);
 
 	void StreamRead(void* pRData, size_t szLength)
 		{ Receive(pRData, szLength); }
@@ -29,7 +29,7 @@ public:
 	void StreamWrite(const void* pData, size_t szLength)
 		{ Send(pData, szLength); }
 
-	virtual bool IsConnected() const = 0;	
+	virtual bool IsConnected() const = 0;
 };
 
 // -------
@@ -52,7 +52,7 @@ public:
 		{
 			m_hOldTerminator = m_Socket.GetTerminator();
 
-			m_Socket.SetTerminator(hTermianator);			
+			m_Socket.SetTerminator(hTermianator);
 		}
 
 		~TTerminatorSetter()
@@ -199,9 +199,9 @@ public:
 
 	bool ConnectNonBlocking(DWORD dwIP, WORD wPort);
 
-	void InitiateShutdown(bool bSafe = false);	
+	void InitiateShutdown(bool bSafe = false);
 
-	void ReceiveShutdown(); 
+	void ReceiveShutdown();
 
 	size_t ReceiveAvailable(void* pRData, size_t szLength);
 
@@ -218,7 +218,7 @@ public:
 		{ DEBUG_VERIFY_ALLOCATION; return m_Socket; }
 
 	operator SOCKET () const
-		{ return GetSocket(); }	
+		{ return GetSocket(); }
 
 	void GetLocalIP_Port(DWORD& dwR_IP, WORD& dwR_Port = temp<WORD>()) const;
 
@@ -363,11 +363,11 @@ public:
 		switch(m_szNet)
 		{
 		case 0:
-			return "*";				
-			
+			return "*";
+
 		case 32:
 			return WriteIP(m_dwIP);
-		
+
 		default:
 			return WriteIP(m_dwIP) + '/' + m_szNet;
 		}
