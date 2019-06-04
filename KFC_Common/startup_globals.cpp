@@ -60,7 +60,7 @@ void TStartupGlobals::OnInitialize()
 		m_StartFolder = GetFilePath(m_StartFile);
 
 		// Windows folder
-		szLength = GetWindowsDirectory(Buf, sizeof(Buf) - 1);
+		szLength = GetWindowsDirectory(Buf, ARRAY_SIZE(Buf) - 1);
 
 		if(szLength == 0)
 		{
@@ -70,7 +70,7 @@ void TStartupGlobals::OnInitialize()
 		Buf[szLength] = 0, m_WindowsFolder = SlashedFolderName(Buf);
 
 		// System folder
-		szLength = GetSystemDirectory(Buf, sizeof(Buf) - 1);
+		szLength = GetSystemDirectory(Buf, ARRAY_SIZE(Buf) - 1);
 
 		if(szLength == 0)
 		{
@@ -80,7 +80,7 @@ void TStartupGlobals::OnInitialize()
 		Buf[szLength] = 0, m_SystemFolder = SlashedFolderName(Buf);
 
 		// Temp folder
-		szLength = GetTempPath(sizeof(Buf) - 1, Buf);
+		szLength = GetTempPath(ARRAY_SIZE(Buf) - 1, Buf);
 		if(szLength == 0)
 		{
 			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching temp folder"), GetLastError());
