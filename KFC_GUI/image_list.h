@@ -33,8 +33,8 @@ public:
 
 	size_t AddIcon(HICON hIcon);
 
-	size_t AddIcon(int iID)
-		{ return AddIcon(LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(iID))); }
+	size_t AddIcon(int iID, HINSTANCE hInstance = GetModuleHandle(NULL))
+		{ return AddIcon(LoadIcon(hInstance, MAKEINTRESOURCE(iID))); }
 
 	void ReplaceIcon(size_t szIndex, HICON hIcon);
 
