@@ -115,7 +115,8 @@ HTREEITEM TTreeControl::AddItem(HTREEITEM	hParentItem,
 								HTREEITEM	hInsertAfter,
 								LPCTSTR		pText,
 								int			iImage,
-								int			iSelectedImage)
+								int			iSelectedImage,
+                int     nChilndren)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
@@ -139,6 +140,9 @@ HTREEITEM TTreeControl::AddItem(HTREEITEM	hParentItem,
 
 	if(iSelectedImage >= 0)
 		is.item.mask |= TVIF_SELECTEDIMAGE, is.item.iSelectedImage = iSelectedImage;
+
+  if(nChilndren > 0)
+    is.item.mask = TVIF_CHILDREN, is.item.cChildren = nChilndren;
 
 	HTREEITEM hItem = TreeView_InsertItem(*this, &is);
 

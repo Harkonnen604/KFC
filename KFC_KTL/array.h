@@ -70,16 +70,16 @@ public:
 	void DelExceptNoFix(size_t szFirst, size_t szLast);
 
 	void DelNoFix(size_t szIndex)
-		{ DelNoFix(szIndex, szIndex + 1); }	
+		{ DelNoFix(szIndex, szIndex + 1); }
 
 	void DelExceptNoFix(size_t szIndex)
-		{ DelExceptNoFix(szIndex, szIndex + 1); }		
+		{ DelExceptNoFix(szIndex, szIndex + 1); }
 
 	void Del(size_t szFirst, size_t szLast)
 		{ DelNoFix(szFirst, szLast), FixAllocation(); }
 
 	void Del(size_t szIndex)
-		{ DelNoFix(szIndex), FixAllocation(); }	
+		{ DelNoFix(szIndex), FixAllocation(); }
 
 	void DelExcept(size_t szFirst, size_t szLast)
 		{ DelExceptNoFix(szFirst, szLast), FixAllocation(); }
@@ -116,7 +116,7 @@ public:
 	void ZeroData();
 	void ZeroData(size_t szIndex);
 	void ZeroData(size_t szFirst, size_t szLast);
-	
+
 	void Sort(TQSortFunction* pQSortFunction = CompareQSortFunction<t>);
 
 	void KillSortedDupes(TQSortFunction* pQSortFunction = CompareQSortFunction<t>, bool bFixAllocation = true);
@@ -195,7 +195,7 @@ public:
 
 	TArray& Load(TStream& Stream);
 
-	const TArray& Save(TStream& Stream) const;	
+	const TArray& Save(TStream& Stream) const;
 
 	size_t GetN() const
 		{ return m_szN; }
@@ -385,7 +385,7 @@ t& TArray<t, bPOD_Type>::SetN(size_t szSN, bool bFixAllocation)
 
 	if(bFixAllocation)
 		FixAllocation();
-	
+
 	return *m_pData;
 }
 
@@ -394,7 +394,7 @@ t& TArray<t, bPOD_Type>::SetNAndReinit(size_t szSN, bool bFixAllocation)
 {
 	const size_t szNRecreate = Min(m_szN, szSN);
 
-	SetN(szSN, bFixAllocation);	
+	SetN(szSN, bFixAllocation);
 
 	if(bPOD_Type)
 	{
@@ -529,7 +529,7 @@ void TArray<t, bPOD_Type>::DelExceptNoFix(size_t szFirst, size_t szLast)
 			m_pData[i].~t();
 
 		for(i = szFirst - 1 ; i != UINT_MAX ; i--)
-			m_pData[i].~t();		
+			m_pData[i].~t();
 	}
 
 	memmove(m_pData,
@@ -652,7 +652,7 @@ template <class t, bool bPOD_Type>
 void TArray<t, bPOD_Type>::SortAndKillDupes(TQSortFunction* pQSortFunction, bool bFixAllocation)
 {
 	Sort(pQSortFunction);
-	
+
 	KillSortedDupes(pQSortFunction, bFixAllocation);
 }
 
@@ -1034,7 +1034,7 @@ class TArrayClearer
 {
 private:
 	TArray<t, bPOD_Type>& m_Array;
-	
+
 public:
 	TArrayClearer(TArray<t, bPOD_Type>& Array) : m_Array(Array) {}
 

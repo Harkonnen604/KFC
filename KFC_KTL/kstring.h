@@ -679,7 +679,7 @@ inline TStream& operator >> (TStream& Stream, TAnsiString& RString)
 
 	RString.SetN(szLength + 1);
 
-	STREAM_READ_ARR(Stream, RString.GetDataPtr(), szLength, char);
+	STREAM_READ_ARR(Stream, RString.GetDataPtr(), szLength, TCHAR);
 
 	RString.GetLastItem() = 0;
 
@@ -690,7 +690,7 @@ inline TStream& operator << (TStream& Stream, const TAnsiString& String)
 {
 	Stream << String.GetLength();
 
-	STREAM_WRITE_ARR(Stream, String.GetDataPtr(), String.GetLength(), char);
+	STREAM_WRITE_ARR(Stream, String.GetDataPtr(), String.GetLength(), TCHAR);
 
 	return Stream;
 }
@@ -1045,7 +1045,7 @@ inline TStream& operator << (TStream& Stream, const KString& String)
 {
 	Stream << String.GetLength();
 
-	STREAM_WRITE_ARR(Stream, String.GetDataPtr(), String.GetStreamCharsLength(), TCHAR);
+	STREAM_WRITE_ARR(Stream, String.GetDataPtr(), String.GetLength(), TCHAR);
 
 	return Stream;
 }

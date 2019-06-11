@@ -47,7 +47,8 @@ public:
 						HTREEITEM	hInsertAfter,
 						LPCTSTR		pText,
 						int			iImage			= -1,  // means none
-						int			iSelectedImage	= -1); // means same as normal
+						int			iSelectedImage	= -1,
+            int     nChilndren = 0); // means same as normal
 
 	KString GetItem(HTREEITEM	hItem,
 					int&		iRImage			= temp<int>(),
@@ -96,7 +97,7 @@ public:
 
 		return TreeView_GetNextItem(*this, hItem, TVGN_CHILD);
 	}
-	
+
 	HTREEITEM GetNextSiblingItem(HTREEITEM hItem)
 	{
 		DEBUG_VERIFY_ALLOCATION;
@@ -126,7 +127,7 @@ public:
 	bool IsItemChecked(HTREEITEM hItem);
 
 	void CheckItem(HTREEITEM hItem, bool bCheck);
-	
+
 	void SortChildren(	HTREEITEM		hParent,
 						PFNTVCOMPARE	pCompare,
 						void*			pParam,
@@ -143,7 +144,7 @@ public:
 	}
 
 	void EditLabel(HTREEITEM hItem, LPCTSTR pInitialText = NULL);
-	
+
 	bool GetClientItemRect(HTREEITEM hItem, IRECT& RRect, bool bTextOnly = true);
 	bool GetScreenItemRect(HTREEITEM hItem, IRECT& RRect, bool bTextOnly = true);
 
@@ -197,7 +198,7 @@ public:
 	HTREEITEM GetItemFromScreenCoords(const IPOINT& Coords, bool bAsLClick = true, kflags_t& flRFlags = temp<kflags_t>()());
 
 	bool IsRootItem(HTREEITEM hItem)
-		{ return !GetParentItem(hItem); }	
+		{ return !GetParentItem(hItem); }
 
 	bool IsItemSelected(HTREEITEM hItem)
 		{ DEBUG_VERIFY(hItem); return GetItemState(hItem) & TVIS_SELECTED; }

@@ -18,7 +18,7 @@ private:
 	TTreeItem(const TTreeItem&);
 
 	TTreeItem& operator = (const TTreeItem&);
-	
+
 public:
 	ObjectType m_Data;
 
@@ -61,10 +61,10 @@ struct TTreeIterator
 {
 public:
 	typedef TTreeItem<ObjectType> TItem;
-	
+
 public:
 	TItem* m_pItem;
-	
+
 public:
 	TTreeIterator() : m_pItem(NULL) {}
 
@@ -84,10 +84,10 @@ public:
 
 	TTreeIterator GetParent() const
 		{ assert(IsValid()); return m_pItem->m_pParent; }
-	
+
 	TTreeIterator GetPrevSibling() const
 		{ assert(IsValid()); return m_pItem->m_pPrevSibling; }
-	
+
 	TTreeIterator GetNextSibling() const
 		{ assert(IsValid()); return m_pItem->m_pNextSibling; }
 
@@ -257,7 +257,7 @@ struct TTreeConstIterator
 {
 public:
 	typedef TTreeItem<ObjectType> TItem;
-	
+
 public:
 	TItem* m_pItem;
 
@@ -285,10 +285,10 @@ public:
 
 	TTreeConstIterator GetParent() const
 		{ assert(IsValid()); return m_pItem->m_pParent; }
-	
+
 	TTreeConstIterator GetPrevSibling() const
 		{ assert(IsValid()); return m_pItem->m_pPrevSibling; }
-	
+
 	TTreeConstIterator GetNextSibling() const
 		{ assert(IsValid()); return m_pItem->m_pNextSibling; }
 
@@ -458,11 +458,11 @@ class TTree
 {
 public:
 	typedef ObjectType TObject;
-	
+
 	typedef TTreeItem<ObjectType> TItem;
-	
+
 	typedef TTreeIterator<ObjectType> TIterator;
-	
+
 	typedef TTreeConstIterator<ObjectType> TConstIterator;
 
 public:
@@ -557,6 +557,8 @@ public:
 	static TIterator AddLastChild(TIterator Parent, const CreatorType& Data)
 		{ return Add(new TItem(Parent.m_pItem, Parent.GetLastChild().m_pItem, NULL, Data)); }
 
+  static void AddSubTree(TIterator NewParent, TIterator OldParent);
+
 	static void Del(TIterator Iter);
 
 	void DelRoot();
@@ -599,7 +601,7 @@ public:
 		for(p = m_pRoot ; p->m_pLastChild ; p = p->m_pLastChild);
 
 		return p;
-	}	
+	}
 
 	TIterator& ToRoot(TIterator& Iter)
 		{ return Iter = GetRoot(); }
@@ -634,11 +636,11 @@ inline int Compare(TTreeIterator<ObjectType> v1, TTreeIterator<ObjectType> v2)
 template <class ObjectType>
 inline int Compare(TTreeIterator<ObjectType> v1, TTreeConstIterator<ObjectType> v2)
 	{ return Compare(v1.AsPVoid(), v2.AsPVoid()); }
-	
+
 template <class ObjectType>
 inline int Compare(TTreeConstIterator<ObjectType> v1, TTreeIterator<ObjectType> v2)
 	{ return Compare(v1.AsPVoid(), v2.AsPVoid()); }
-	
+
 template <class ObjectType>
 inline int Compare(TTreeConstIterator<ObjectType> v1, TTreeConstIterator<ObjectType> v2)
 	{ return Compare(v1.AsPVoid(), v2.AsPVoid()); }
@@ -678,6 +680,13 @@ typename TTree<ObjectType>::TIterator TTree<ObjectType>::Add(TItem* pItem)
 	}
 
 	return pItem;
+}
+
+template <class ObjectType>
+void TTree<ObjectType>::AddSubTree(TIterator NewParent, TIterator OldParent)
+{
+  for(TIterator Iter = OldParent.GetFirstChild(); Iter.IsValid(); Iter.ToNextSibling())
+    AddSubTree(AddLastChild(NewParent, *Iter), Iter);
 }
 
 template <class ObjectType>
@@ -791,7 +800,7 @@ template <class ObjectType>
 void TTree<ObjectType>::SaveBranch(TConstIterator Iter, TStream& Stream)
 {
 	Stream << *Iter;
-	
+
 	Stream << Iter.GetNChildren();
 
 	for(Iter.ToFirstChild() ; Iter.IsValid() ; Iter.ToNextSibling())
