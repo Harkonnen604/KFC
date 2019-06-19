@@ -22,7 +22,7 @@ T_URL::TResource& T_URL::TResource::operator = (KString s)
 	FixSlashes(s, '/');
 
 	size_t i;
-	
+
 	if((i = s.Find(TEXT('?'))) != UINT_MAX)
 		m_File = s.Left(i), m_Arguments = s.Mid(i+1);
 	else
@@ -77,7 +77,7 @@ T_URL& T_URL::operator = (KString s)
 	if((i = s.Find(TEXT('#'))) != UINT_MAX)
 		m_Section = s.Mid(i+1), s.SetLeft(i);
 	else
-		m_Section.Empty();	
+		m_Section.Empty();
 
 	if((i = s.Find(TEXT("://"))) != UINT_MAX)
 		m_Protocol = s.Left(i), s.SetMid(i + 3);
@@ -93,9 +93,9 @@ T_URL& T_URL::operator = (KString s)
 
 	// Splitting address to address/port
 	if((i = m_Address.Find(TEXT(':'))) != UINT_MAX)
-		m_wPort = (WORD)atoi(m_Address.Mid(i+1)), m_Address = m_Address.Left(i).Trimmed();
+		m_wPort = (WORD)_ttoi(m_Address.Mid(i+1)), m_Address = m_Address.Left(i).Trimmed();
 	else
-		m_wPort = GetDefaultPort(m_Protocol);	
+		m_wPort = GetDefaultPort(m_Protocol);
 
 	// Trimming
 	m_Protocol.Trim(), m_Address.Trim(), m_Section.Trim();
@@ -134,19 +134,19 @@ KString T_URL::GetStringNoSection() const
 
 WORD T_URL::GetDefaultPort(LPCTSTR pProtocol)
 {
-	if(!_tcsicmp(pProtocol, "http"))
+	if(!_tcsicmp(pProtocol, TEXT("http")))
 		return 80;
 
-	if(!_tcsicmp(pProtocol, "https"))
+	if(!_tcsicmp(pProtocol, TEXT("https")))
 		return 443;
 
-	if(!_tcsicmp(pProtocol, "ftp"))
+	if(!_tcsicmp(pProtocol, TEXT("ftp")))
 		return 21;
 
-	if(!_tcsicmp(pProtocol, "pop3"))
+	if(!_tcsicmp(pProtocol, TEXT("pop3")))
 		return 110;
 
-	if(!_tcsicmp(pProtocol, "smtp"))
+	if(!_tcsicmp(pProtocol, TEXT("smtp")))
 		return 25;
 
 	return 0;
@@ -162,7 +162,7 @@ bool T_URL::GetLinkTarget(KString Link, T_URL& R_URL) const
 
 	// Checking for '[protocol]://' specification
 	if(_tcsstr(s, TEXT("://")))
-		return R_URL = s, true;	
+		return R_URL = s, true;
 
 	// Checking for 'news:', 'mailto:', 'javascript:', etc...
 	{

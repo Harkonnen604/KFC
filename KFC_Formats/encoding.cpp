@@ -7,8 +7,8 @@
 // --------
 // Statics
 // --------
-static const char s_Base64Alphabet[64+1] =
-	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+static const TCHAR s_Base64Alphabet[64+1] =
+	TEXT("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/");
 
 static BYTE s_Base64Map[0x100];
 
@@ -24,7 +24,7 @@ static TInitializer s_Initializer;
 
 TInitializer::TInitializer()
 {
-	size_t i;
+	BYTE i;
 
 	// Base64 map
 	{
@@ -35,6 +35,7 @@ TInitializer::TInitializer()
 	}
 }
 
+/*
 // ---------
 // Encoding
 // ---------
@@ -170,7 +171,7 @@ KString TEncoding::Encode(LPCSTR s, size_t l) const
 		l = strlen(s);
 
 	if(!this)
-		return KString(s, l);
+		return KString(TDefaultString(s), l);
 
 	DEBUG_VERIFY_ALLOCATION;
 
@@ -179,7 +180,7 @@ KString TEncoding::Encode(LPCSTR s, size_t l) const
 
 	KString Text;
 
-	LPTSTR p = Text.Allocate(l);
+	LPSTR p = Text.Allocate(l);
 
 	for( ; l ; l--)
 		*p++ = (char)m_EncData[(BYTE)*s++];
@@ -195,7 +196,7 @@ KString TEncoding::Decode(LPCSTR s, size_t l) const
 	if(!this)
 		return KString(s, l);
 
-	DEBUG_VERIFY_ALLOCATION;	
+	DEBUG_VERIFY_ALLOCATION;
 
 	KString Text;
 
@@ -217,7 +218,7 @@ LPSTR TEncoding::EncodeSelf(LPSTR s, size_t l) const
 	if(l == UINT_MAX)
 		l = strlen(s);
 
-	LPTSTR p;
+	LPSTR p;
 
 	for(p = s ; l ; l--, p++)
 		*p = (char)m_EncData[(BYTE)*p];
@@ -242,7 +243,9 @@ LPSTR TEncoding::DecodeSelf(LPSTR s, size_t l) const
 
 	return s;
 }
+*/
 
+/*
 // ----------------
 // Global routines
 // ----------------
@@ -287,6 +290,7 @@ LPTSTR DecodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l)
 {
 	return g_EncodingGlobals.FindEncoding(pName)->DecodeSelf(s, l);
 }
+*/
 
 // Base64
 KString EncodeBase64(const BYTE* p, size_t l)
@@ -334,14 +338,6 @@ KString EncodeBase64(const BYTE* p, size_t l)
 	return Text;
 }
 
-KString EncodeBase64(LPCSTR s, size_t l)
-{
-	if(l == UINT_MAX)
-		l = strlen(s);
-
-	return EncodeBase64((const BYTE*)s, l);
-}
-
 void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l)
 {
 	if(l == UINT_MAX)
@@ -354,7 +350,7 @@ void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l)
 
 	size_t i;
 
-	DWORD v = 0;	
+	DWORD v = 0;
 
 	size_t ne = 0;
 
@@ -395,15 +391,7 @@ void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l)
 	}
 }
 
-KString DecodeBase64(LPCSTR s, size_t l)
-{
-	TArray<BYTE, true> Data;
-
-	DecodeBase64(Data, s, l);
-
-	return KString((LPCSTR)Data.GetDataPtr(), Data.GetN());
-}
-
+/*
 // Quoted-printable custom
 KString EncodeQuotedPrintableCustom(char		cPrefix,
 									char		cSpace,
@@ -427,7 +415,7 @@ KString EncodeQuotedPrintableCustom(char		cPrefix,
 		}
 		else
 		{
-			Text += cPrefix, Text += HexToChar(*p >> 4), Text += HexToChar(*p & 0xF);			
+			Text += cPrefix, Text += HexToChar(*p >> 4), Text += HexToChar(*p & 0xF);
 		}
 	}
 
@@ -515,7 +503,7 @@ KString EncodeMIME(LPCTSTR pEncoding, const BYTE* p, size_t l)
 	bpl = (l + 2) / 3 * 4;
 
 	KString s;
-	
+
 	s = pEncoding ? Encode(pEncoding, (LPCSTR)p, l) : KString((LPCTSTR)p, l);
 
 	if(qpl <= bpl)
@@ -535,7 +523,7 @@ KString EncodeMIME(LPCTSTR pEncoding, LPCSTR s, size_t l)
 KString DecodeMIME(LPCSTR s, size_t l)
 {
 	if(l == UINT_MAX)
-		l = strlen(s);	
+		l = strlen(s);
 
 	KString Text;
 
@@ -659,7 +647,7 @@ TArray<KString>& DecodeQuotedComma(LPCTSTR s, TCHAR qc, TArray<KString>& RValues
 
 	RValues.Add();
 
-	bool q = false;	
+	bool q = false;
 
 	for( ; *s ; s++)
 	{
@@ -770,3 +758,4 @@ KString DecodeJS_String(LPCTSTR s)
 
 	return Text;
 }
+*/

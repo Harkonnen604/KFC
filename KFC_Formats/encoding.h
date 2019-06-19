@@ -1,6 +1,7 @@
 #ifndef encoding_h
 #define encoding_h
 
+/*
 // ---------
 // Encoding
 // ---------
@@ -29,7 +30,7 @@ public:
 
 	void Allocate(LPCTSTR pSName, LPCTSTR pFileNamePrefix = NULL);
 
-	void AllocateOEM(LPCTSTR pSName = TEXT("oem"));	
+	void AllocateOEM(LPCTSTR pSName = TEXT("oem"));
 
 	KString Encode(LPCSTR s, size_t l = UINT_MAX) const;
 	KString Decode(LPCSTR s, size_t l = UINT_MAX) const;
@@ -57,16 +58,13 @@ LPSTR DecodeSelf(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
 
 LPSTR EncodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
 LPSTR DecodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
+*/
 
 // Base64
 KString EncodeBase64(const BYTE* p, size_t l);
-
-KString EncodeBase64(LPCSTR s, size_t l = UINT_MAX);
-
 void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l = UINT_MAX);
 
-KString DecodeBase64(LPCSTR s, size_t l = UINT_MAX);
-
+/*
 // Quoted-printable custom
 KString EncodeQuotedPrintableCustom(char		cPrefix,
 									char		cSpace,
@@ -171,5 +169,5 @@ inline TArray<KString>& DecodeMySQL(LPCTSTR s, TArray<KString>& RValues)
 KString EncodeJS_String(LPCTSTR s);
 
 KString DecodeJS_String(LPCTSTR s);
-
+*/
 #endif // encoding_h

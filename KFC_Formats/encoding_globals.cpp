@@ -12,15 +12,16 @@ TEncodingGlobals::TEncodingGlobals() : TGlobals(TEXT("Encoding globals"))
 
 void TEncodingGlobals::OnUninitialize()
 {
-	m_Encodings.Clear();
+	// m_Encodings.Clear();
 }
 
 void TEncodingGlobals::OnInitialize()
 {
 	// OEM encoding
-	m_Encodings.AddLast()->AllocateOEM();
+	// m_Encodings.AddLast()->AllocateOEM();
 }
 
+/*
 const TEncoding* TEncodingGlobals::FindEncoding(LPCTSTR pName) const
 {
 	DEBUG_VERIFY_INITIALIZATION;
@@ -52,3 +53,4 @@ const TEncoding& TEncodingGlobals::GetEncoding(LPCTSTR pName) const
 
 	return *pEncoding;
 }
+*/

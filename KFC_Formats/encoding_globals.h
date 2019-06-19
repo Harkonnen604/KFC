@@ -15,17 +15,17 @@ private:
 
 public:
 	// Encodings
-	typedef TList<TEncoding> TEncodings;
+	// typedef TList<TEncoding> TEncodings;
 
 public:
-	TEncodings m_Encodings;
+	// TEncodings m_Encodings;
 
 public:
 	TEncodingGlobals();
 
-	const TEncoding* FindEncoding(LPCTSTR pName) const;
+	// const TEncoding* FindEncoding(LPCTSTR pName) const;
 
-	const TEncoding& GetEncoding(LPCTSTR pName) const;	
+	// const TEncoding& GetEncoding(LPCTSTR pName) const;	
 };
 
 extern TEncodingGlobals g_EncodingGlobals;

@@ -1,6 +1,7 @@
 #ifndef mime_h
 #define mime_h
 
+/*
 // ---------------
 // E-mail address
 // ---------------
@@ -9,7 +10,7 @@ struct TEMailAddress
 	KString m_Address;
 	KString m_Name;
 
-	
+
 	TEMailAddress() {}
 
 	TEMailAddress(LPCTSTR s)
@@ -75,5 +76,6 @@ public:
 
 // Converts to \r\n, folds headers, adds leading dots, adds trailing dot
 KString PrepareMailBody(KString RawBody);
+*/
 
 #endif // mime_h

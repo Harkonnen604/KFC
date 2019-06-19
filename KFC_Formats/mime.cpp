@@ -3,6 +3,7 @@
 
 #include "encoding.h"
 
+/*
 // ---------------
 // E-mail address
 // ---------------
@@ -55,7 +56,7 @@ void TMIMEHeaders::Parse(bool bDotted, LPCTSTR pBody, size_t szLength)
 
 	Clear();
 
-	LPCSTR s = pBody;
+	LPCTSTR s = pBody;
 
 	KString Line;
 
@@ -161,3 +162,4 @@ KString PrepareMailBody(KString RawBody)
 
 	return RawBody;
 }
+*/

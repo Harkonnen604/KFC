@@ -103,9 +103,9 @@ public:
 
 	void ModifyTags(TTags::TIterator After = NULL, TTags::TIterator Till = NULL);	
 
-	void Encode(const TEncoding* pEncoding);
+	// void Encode(const TEncoding* pEncoding);
 
-	T_HTML_Document& Decode(const TEncoding* pEncoding);
+	// T_HTML_Document& Decode(const TEncoding* pEncoding);
 
 	KString GetMetaContent(	LPCTSTR pMetaName,
 							LPCTSTR pMetaValue,

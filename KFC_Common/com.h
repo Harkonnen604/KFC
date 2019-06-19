@@ -659,7 +659,7 @@ public:
 	}
 
 	operator BSTR () const
-		{ DEBUG_VERIFY(vt == VT_BSTR && bstrVal); return bstrVal; }
+		{ KFC_VERIFY(vt == VT_BSTR && bstrVal); return bstrVal; }
 
 	operator INT64 () const
 		{ return vt == VT_I8 ? llVal : (INT64)T_COM_Variant(*this, VT_I8); }
@@ -704,7 +704,7 @@ public:
 		{ return vt == VT_DATE ? TDateTime().SetCOM_DT(date) : T_COM_Variant(*this, VT_DATE).operator TDateTime(); }
 
 	operator IDispatch* () const
-		{ DEBUG_VERIFY(vt == VT_DISPATCH && pdispVal); return pdispVal; }
+		{ KFC_VERIFY(vt == VT_DISPATCH && pdispVal); return pdispVal; }
 
 	operator KString () const
 		{ return vt == VT_BSTR ? KString(TDefaultString(bstrVal)) : vt == VT_EMPTY ? TEXT("") : vt == VT_DISPATCH ? TEXT("<Dispatch>") : (KString)T_COM_Variant(*this, VT_BSTR); }

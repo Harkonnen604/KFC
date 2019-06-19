@@ -29,7 +29,7 @@ T_HTML_Document::TTag::TTag()
 {
 	m_bSelfClose = false;
 
-	m_bModified = false;	
+	m_bModified = false;
 }
 
 void T_HTML_Document::TTag::Modify()
@@ -243,7 +243,7 @@ void T_HTML_Document::Parse(LPCTSTR s)
 			{
 				if(!Tag.m_Name.CompareNoCase(ppTextTags[j]))
 					break;
-			}			
+			}
 
 			if(j < ARRAY_SIZE(ppTextTags)) // text tag
 				TermText = (KString)TEXT("</") + ppTextTags[j] + TEXT(">");
@@ -358,6 +358,7 @@ void T_HTML_Document::ModifyTags(TTags::TIterator After, TTags::TIterator Till)
 	}
 }
 
+/*
 void T_HTML_Document::Encode(const TEncoding* pEncoding)
 {
 	if(!pEncoding)
@@ -399,6 +400,7 @@ T_HTML_Document& T_HTML_Document::Decode(const TEncoding* pEncoding)
 
 	return *this;
 }
+*/
 
 KString T_HTML_Document::GetMetaContent(LPCTSTR pMetaName,
 										LPCTSTR pMetaValue,
@@ -411,7 +413,7 @@ KString T_HTML_Document::GetMetaContent(LPCTSTR pMetaName,
 		if(	!Iter->m_Name.CompareNoCase(TEXT("meta")) &&
 			!CompareNoCase(Iter->m_Parameters[pMetaName], pMetaValue))
 		{
-			return Iter->m_Parameters.Get("content", pDefaultContent);
+			return Iter->m_Parameters.Get(TEXT("content"), pDefaultContent);
 		}
 	}
 
