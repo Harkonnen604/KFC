@@ -338,10 +338,10 @@ KString EncodeBase64(const BYTE* p, size_t l)
 	return Text;
 }
 
-void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l)
+void DecodeBase64(TArray<BYTE, true>& RData, LPCTSTR s, size_t l)
 {
 	if(l == UINT_MAX)
-		l = strlen(s);
+		l = _tcslen(s);
 
 	RData.Clear();
 
@@ -356,7 +356,7 @@ void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l)
 
 	for(i = 0 ; ; s++, l--)
 	{
-		char c = (int)l > 0 ? *s : '=';
+		char c = (int)l > 0 ? (char)*s : '=';
 
 		if(c == '=')
 		{

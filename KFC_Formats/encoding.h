@@ -62,7 +62,7 @@ LPSTR DecodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
 
 // Base64
 KString EncodeBase64(const BYTE* p, size_t l);
-void DecodeBase64(TArray<BYTE, true>& RData, LPCSTR s, size_t l = UINT_MAX);
+void DecodeBase64(TArray<BYTE, true>& RData, LPCTSTR s, size_t l = UINT_MAX);
 
 /*
 // Quoted-printable custom

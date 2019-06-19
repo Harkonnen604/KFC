@@ -249,6 +249,15 @@ public:
 
 	ObjectType& operator * () const
 		{ assert(IsValid()); return m_pItem->m_Data; }
+
+  template <class k>
+  TTreeIterator Find(const k& Value)
+  {
+    for(TTreeIterator Iter = GetFirstChild(); Iter.IsValid(); Iter.ToNextSibling())
+      if(*Iter == Value)
+        return Iter;
+    return TTreeIterator();
+  }
 };
 
 // Const iterator
@@ -450,6 +459,15 @@ public:
 
 	const ObjectType& operator * () const
 		{ assert(IsValid()); return m_pItem->m_Data; }
+
+  template <class k>
+  TTreeConstIterator Find(const k& Value)
+  {
+    for(TTreeConstIterator Iter = GetFirstChild(); Iter.IsValid(); Iter.ToNextSibling())
+      if(*Iter == Value)
+        return Iter;
+    return TTreeConstIterator();
+  }
 };
 
 // Tree
