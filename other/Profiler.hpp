@@ -78,21 +78,21 @@ public:
     Duration() : outer(0), inner(0) {}
     Duration& operator+=(const Duration& other)
     {
-      this->outer += other.outer;
-      this->inner += other.inner;
+      outer += other.outer;
+      inner += other.inner;
       return *this;
     }
     Duration& operator/=(uint32_t divisor)
     {
       assert(divisor);
-      this->outer /= divisor;
-      this->inner /= divisor;
+      outer /= divisor;
+      inner /= divisor;
       return *this;
     }
     Duration& updateMax(const Duration& other)
     {
-      this->outer = std::max(this->outer, other.outer);
-      this->inner = std::max(this->inner, other.inner);
+      outer = std::max(outer, other.outer);
+      inner = std::max(inner, other.inner);
       return *this;
     }
 
@@ -113,12 +113,12 @@ public:
   public:
     ScopeGuard(uint32_t codeBlockIndex)
     {
-      if ((this->wasEnabled = enabled))
+      if ((wasEnabled = enabled))
         enterCodeBlock(codeBlockIndex);
     }
     ~ScopeGuard()
     {
-      if (this->wasEnabled)
+      if (wasEnabled)
         leaveCodeBlock();
     }
   private:
@@ -129,20 +129,20 @@ public:
   {
     StatsEntry& operator+=(const StatsEntry& other)
     {
-      this->threadMaxDuration += other.threadMaxDuration;
-      this->totalDuration += other.totalDuration;
+      threadMaxDuration += other.threadMaxDuration;
+      totalDuration += other.totalDuration;
       return *this;
     }
     StatsEntry& operator/=(uint32_t divisor)
     {
-      this->threadMaxDuration /= divisor;
-      this->totalDuration /= divisor;
+      threadMaxDuration /= divisor;
+      totalDuration /= divisor;
       return *this;
     }
     StatsEntry& updateMax(const StatsEntry& other)
     {
-      this->threadMaxDuration.updateMax(other.threadMaxDuration);
-      this->totalDuration.updateMax(other.totalDuration);
+      threadMaxDuration.updateMax(other.threadMaxDuration);
+      totalDuration.updateMax(other.totalDuration);
       return *this;
     }
 
