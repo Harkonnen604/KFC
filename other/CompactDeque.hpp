@@ -21,22 +21,22 @@ class CompactDeque
     IteratorBase() = default;
     IteratorBase(DequeType* deque, uint32_t index) : deque(deque), index(index) {}
 
-    bool operator<(const IteratorBase& other) { assert(this->deque == other.deque); return this->index < other.index; }
-    bool operator==(const IteratorBase& other) { assert(this->deque == other.deque); return this->index == other.index; }
-    bool operator!=(const IteratorBase& other) { assert(this->deque == other.deque); return this->index != other.index; }
-    IteratorBase& operator++() { ++this->index; return *this; }
+    bool operator<(const IteratorBase& other) { assert(deque == other.deque); return index < other.index; }
+    bool operator==(const IteratorBase& other) { assert(deque == other.deque); return index == other.index; }
+    bool operator!=(const IteratorBase& other) { assert(deque == other.deque); return index != other.index; }
+    IteratorBase& operator++() { ++index; return *this; }
     IteratorBase operator++(int) { IteratorBase copy(*this); ++*this; return copy; }
-    IteratorBase& operator--() { --this->index; return *this; }
+    IteratorBase& operator--() { --index; return *this; }
     IteratorBase operator--(int) { IteratorBase copy(*this); --*this; return copy; }
-    IteratorBase& operator+=(uint32_t n) { this->index += n; return *this; }
-    IteratorBase& operator-=(uint32_t n) { this->index -= n; return *this; }
-    IteratorBase operator+(IteratorBase other) { return IteratorBase(this->deque, this->index + other.index); }
-    IteratorBase operator+(uint32_t n) { return IteratorBase(this->deque, this->index + n); }
-    uint32_t operator-(IteratorBase other) const { return this->index - other.index; }
-    IteratorBase operator-(uint32_t n) { return IteratorBase(this->deque, this->index - n); }
-    Type& operator[](uint32_t i) { return (*this->deque)[this->index + i]; }
-    Type& operator*() { return (*this->deque)[this->index]; }
-    Type* operator->() { return &(*this->deque)[this->index]; }
+    IteratorBase& operator+=(uint32_t n) { index += n; return *this; }
+    IteratorBase& operator-=(uint32_t n) { index -= n; return *this; }
+    IteratorBase operator+(IteratorBase other) { return IteratorBase(deque, index + other.index); }
+    IteratorBase operator+(uint32_t n) { return IteratorBase(deque, index + n); }
+    uint32_t operator-(IteratorBase other) const { return index - other.index; }
+    IteratorBase operator-(uint32_t n) { return IteratorBase(deque, index - n); }
+    Type& operator[](uint32_t i) { return (*deque)[index + i]; }
+    Type& operator*() { return (*deque)[index]; }
+    Type* operator->() { return &(*deque)[index]; }
 
   private:
     DequeType* deque = nullptr;
@@ -54,32 +54,32 @@ public:
 
   ~CompactDeque() noexcept
   {
-    this->clear();
-    this->shrink_to_fit();
+    clear();
+    shrink_to_fit();
   }
 
   iterator begin() { return iterator(this, 0); }
-  iterator end() { return iterator(this, this->size()); }
+  iterator end() { return iterator(this, size()); }
   const_iterator begin() const { return const_iterator(this, 0); }
-  const_iterator end() const { return const_iterator(this, this->size()); }
-  reverse_iterator rbegin() { return reverse_iterator(iterator(this, this->size())); }
+  const_iterator end() const { return const_iterator(this, size()); }
+  reverse_iterator rbegin() { return reverse_iterator(iterator(this, size())); }
   reverse_iterator rend() { return reverse_iterator(iterator(this, uint32_t(0))); }
 
   CompactDeque& operator=(const CompactDeque& other);
   CompactDeque& operator=(CompactDeque&& other) noexcept
   {
-    this->clear();
-    std::swap(this->_data, other._data);
-    std::swap(this->_capacity, other._capacity);
-    std::swap(this->_head, other._head);
-    std::swap(this->_size, other._size);
+    clear();
+    std::swap(_data, other._data);
+    std::swap(_capacity, other._capacity);
+    std::swap(_head, other._head);
+    std::swap(_size, other._size);
     return *this;
   }
 
-  bool empty() const { return this->_size == 0; }
+  bool empty() const { return _size == 0; }
   void clear();
-  uint32_t capacity() const { return this->_capacity; }
-  uint32_t size() const { return this->_size; }
+  uint32_t capacity() const { return _capacity; }
+  uint32_t size() const { return _size; }
   void reserve(uint32_t capacity);
   void shrink_to_fit();
   void resize(uint32_t size);
@@ -87,20 +87,20 @@ public:
   template <typename ... Args>
   T& emplace_front(Args&& ... args)
   {
-    if (this->_size == this->_capacity)
-      this->grow(this->_capacity ? this->_capacity * 2 : minimalAllocation);
-    if (--this->_head == uint32_t(-1))
-      this->_head = this->_capacity - 1;
-    this->_size++;
-    return *new (this->_data + this->_head)T(std::forward<Args>(args) ...);
+    if (_size == _capacity)
+      grow(_capacity ? _capacity * 2 : minimalAllocation);
+    if (--_head == uint32_t(-1))
+      _head = _capacity - 1;
+    _size++;
+    return *new (_data + _head)T(std::forward<Args>(args) ...);
   }
 
   template <typename ... Args>
   T& emplace_back(Args&& ... args)
   {
-    if (this->_size == this->_capacity)
-      this->grow(this->_capacity ? this->_capacity * 2 : minimalAllocation);
-    return *new (this->_data + this->wrap(this->_head + this->_size++))T(std::forward<Args>(args) ...);
+    if (_size == _capacity)
+      grow(_capacity ? _capacity * 2 : minimalAllocation);
+    return *new (_data + wrap(_head + _size++))T(std::forward<Args>(args) ...);
   }
 
   template <typename ... Args>
@@ -108,42 +108,42 @@ public:
 
   void pop_front()
   {
-    assert(!this->empty());
-    this->_data[this->_head].~T();
-    if (++this->_head == this->_capacity)
-      this->_head = 0;
-    if (--this->_size == 0)
-      this->_head = 0;
+    assert(!empty());
+    _data[_head].~T();
+    if (++_head == _capacity)
+      _head = 0;
+    if (--_size == 0)
+      _head = 0;
   }
 
   void pop_back()
   {
-    assert(!this->empty());
-    this->_data[this->wrap(this->_head + this->_size - 1)].~T();
-    if (--this->_size == 0)
-      this->_head = 0;
+    assert(!empty());
+    _data[wrap(_head + _size - 1)].~T();
+    if (--_size == 0)
+      _head = 0;
   }
 
   void erase(uint32_t index);
   void erase(uint32_t first, uint32_t last);
-  void erase(iterator first, iterator last) { this->erase(first.index, last.index); }
+  void erase(iterator first, iterator last) { erase(first.index, last.index); }
 
-  T& front() { assert(!this->empty()); return this->_data[this->_head]; }
-  const T& front() const { assert(!this->empty()); return this->_data[this->_head]; }
+  T& front() { assert(!empty()); return _data[_head]; }
+  const T& front() const { assert(!empty()); return _data[_head]; }
 
-  T& back() { assert(!this->empty()); return this->_data[this->wrap(this->_head + this->_size - 1)]; }
-  const T& back() const { assert(!this->empty()); return this->_data[this->wrap(this->_head + this->_size - 1)]; }
+  T& back() { assert(!empty()); return _data[wrap(_head + _size - 1)]; }
+  const T& back() const { assert(!empty()); return _data[wrap(_head + _size - 1)]; }
 
   T& operator[](uint32_t index)
   {
     assert(index <= _size);
-    return this->_data[this->wrap(this->_head + index)];
+    return _data[wrap(_head + index)];
   }
 
   const T& operator[](uint32_t index) const
   {
     assert(index <= _size);
-    return this->_data[this->wrap(this->_head + index)];
+    return _data[wrap(_head + index)];
   }
 
 private:
@@ -154,8 +154,8 @@ private:
   uint32_t wrap(uint32_t index) const
   {
     assert(index < _capacity * 2);
-    if (index >= this->_capacity)
-      index -= this->_capacity;
+    if (index >= _capacity)
+      index -= _capacity;
     return index;
   }
 
@@ -170,84 +170,84 @@ private:
 template <class T>
 CompactDeque<T>& CompactDeque<T>::operator=(const CompactDeque& other)
 {
-  this->clear();
-  this->reserve(other.size());
+  clear();
+  reserve(other.size());
   for (uint32_t i = 0; i < other.size(); i++)
-    this->emplace_back(other[i]);
+    emplace_back(other[i]);
   return *this;
 }
 
 template <class T>
 void CompactDeque<T>::clear()
 {
-  while (!this->empty())
-    this->pop_front();
+  while (!empty())
+    pop_front();
 }
 
 template <class T>
 void CompactDeque<T>::reserve(uint32_t capacity)
 {
-  if (capacity <= this->_capacity)
+  if (capacity <= _capacity)
     return;
   uint32_t newCapacity;
   for (newCapacity = 1; newCapacity < capacity; newCapacity <<= 1)
     ;
-  this->grow(newCapacity);
+  grow(newCapacity);
 }
 
 template <class T>
 void CompactDeque<T>::shrink_to_fit()
 {
-  if (this->empty())
-    this->grow(0);
+  if (empty())
+    grow(0);
   else
   {
     uint32_t newCapacity;
-    for (newCapacity = 1; newCapacity < this->_size; newCapacity <<= 1)
+    for (newCapacity = 1; newCapacity < _size; newCapacity <<= 1)
       ;
-    if (newCapacity < this->_capacity)
-      this->grow(newCapacity);
+    if (newCapacity < _capacity)
+      grow(newCapacity);
   }
 }
 
 template <class T>
 void CompactDeque<T>::resize(uint32_t size)
 {
-  this->reserve(size);
-  while (this->_size < size)
-    this->emplace_back();
-  while (this->_size > size)
-    this->pop_back();
+  reserve(size);
+  while (_size < size)
+    emplace_back();
+  while (_size > size)
+    pop_back();
 }
 
 template <class T>
 template <typename ... Args>
 T& CompactDeque<T>::emplace(uint32_t index, Args&& ... args)
 {
-  assert(index <= this->_size);
+  assert(index <= _size);
   if (index == 0)
-    return this->emplace_front(std::forward<Args>(args) ...);
+    return emplace_front(std::forward<Args>(args) ...);
   if (index == _size)
-    return this->emplace_back(std::forward<Args>(args) ...);
-  if (this->_size == this->_capacity)
-    this->grow(this->_capacity ? this->_capacity * 2 : minimalAllocation);
-  if (index * 2 >= this->_size)
+    return emplace_back(std::forward<Args>(args) ...);
+  if (_size == _capacity)
+    grow(_capacity ? _capacity * 2 : minimalAllocation);
+  if (index * 2 >= _size)
   {
-    new (this->_data + this->wrap(this->_head + this->_size))T(std::move(this->_data[this->wrap(this->_head + this->_size - 1)]));
-    if (index < this->_size - 1)
-      this->move(this->wrap(this->_head + index), this->wrap(_head + index + 1), this->_size - index - 1, true);
+    new (_data + wrap(_head + _size))T(std::move(_data[wrap(_head + _size - 1)]));
+    if (index < _size - 1)
+      move(wrap(_head + index), wrap(_head + index + 1), _size - index - 1, true);
   }
   else
   {
-    this->_head = this->_head ? this->_head - 1 : this->_capacity - 1;
-    new (this->_data + this->_head)T(std::move(this->_data[this->wrap(this->_head + 1)]));
+    _head = _head ? _head - 1 : _capacity - 1;
+    new (_data + _head)T(std::move(_data[wrap(_head + 1)]));
     if (index > 1)
-      this->move(this->wrap(this->_head + 2), this->wrap(this->_head + 1), index - 1, false);
+      move(wrap(_head + 2), wrap(_head + 1), index - 1, false);
   }
 
-  this->_size++;
+  _size++;
 
-  T* element = this->_data + this->wrap(this->_head + index);
+  T* element = _data + wrap(_head + index);
   element->~T();
   return *new (element) T(std::forward<Args>(args) ...);
 }
@@ -255,74 +255,74 @@ T& CompactDeque<T>::emplace(uint32_t index, Args&& ... args)
 template <class T>
 void CompactDeque<T>::erase(uint32_t index)
 {
-  assert(index < this->_size);
+  assert(index < _size);
   if (index == 0)
   {
-    this->pop_front();
+    pop_front();
     return;
   }
-  if (index == this->_size - 1)
+  if (index == _size - 1)
   {
-    this->pop_back();
+    pop_back();
     return;
   }
-  if (index * 2 >= this->_size)
+  if (index * 2 >= _size)
   {
-    this->move(this->wrap(this->_head + index + 1), this->wrap(this->_head + index), this->_size - index - 1, false);
-    this->pop_back();
+    move(wrap(_head + index + 1), wrap(_head + index), _size - index - 1, false);
+    pop_back();
   }
   else
   {
-    this->move(this->_head, this->wrap(this->_head + 1), index, true);
-    this->pop_front();
+    move(_head, wrap(_head + 1), index, true);
+    pop_front();
   }
 }
 
 template <class T>
 void CompactDeque<T>::erase(uint32_t first, uint32_t last)
 {
-  assert(first <= last && last <= this->_size);
+  assert(first <= last && last <= _size);
   if (first == last)
     return;
-  if (last < this->_size)
-    this->move(this->wrap(this->_head + last), this->wrap(this->_head + first), this->_size - last, false);
+  if (last < _size)
+    move(wrap(_head + last), wrap(_head + first), _size - last, false);
   for (uint32_t n = last - first; n; n--)
-    this->pop_back();
+    pop_back();
 }
 
 template <class T>
 void CompactDeque<T>::move(uint32_t source, uint32_t destination, uint32_t count, bool forward)
 {
-  assert(count > 0 && count < this->_capacity);
+  assert(count > 0 && count < _capacity);
 
   uint32_t firstPartSize;
 
-  if (source <= this->wrap(source + count - 1))
+  if (source <= wrap(source + count - 1))
   {
     if (destination <= wrap(destination + count - 1))
     {
       if (forward)
-        std::move_backward(this->_data + source, this->_data + (source + count), this->_data + (destination + count));
+        std::move_backward(_data + source, _data + (source + count), _data + (destination + count));
       else
-        std::move(this->_data + source, this->_data + (source + count), this->_data + destination);
+        std::move(_data + source, _data + (source + count), _data + destination);
       return;
     }
-    firstPartSize = this->_capacity - destination;
+    firstPartSize = _capacity - destination;
   }
   else
-    firstPartSize = this->_capacity - source;
+    firstPartSize = _capacity - source;
 
   assert(firstPartSize > 0 && firstPartSize < count);
 
   if (forward)
   {
-    this->move(this->wrap(source + firstPartSize), this->wrap(destination + firstPartSize), count - firstPartSize, forward);
-    this->move(source, destination, firstPartSize, forward);
+    move(wrap(source + firstPartSize), wrap(destination + firstPartSize), count - firstPartSize, forward);
+    move(source, destination, firstPartSize, forward);
   }
   else
   {
-    this->move(source, destination, firstPartSize, forward);
-    this->move(this->wrap(source + firstPartSize), this->wrap(destination + firstPartSize), count - firstPartSize, forward);
+    move(source, destination, firstPartSize, forward);
+    move(wrap(source + firstPartSize), wrap(destination + firstPartSize), count - firstPartSize, forward);
   }
 }
 
@@ -331,22 +331,22 @@ void CompactDeque<T>::grow(uint32_t capacity)
 {
   if (capacity == 0)
   {
-    assert(this->empty());
-    free(this->_data);
-    this->_data = nullptr;
-    this->_capacity = 0;
-    this->_head = 0;
+    assert(empty());
+    free(_data);
+    _data = nullptr;
+    _capacity = 0;
+    _head = 0;
     return;
   }
 
   T* newData = (T*)malloc(capacity * sizeof(T));
 
-  for (uint32_t i = 0; i < this->_size; i++)
+  for (uint32_t i = 0; i < _size; i++)
     new (newData + i)T(std::move((*this)[i])), (*this)[i].~T();
 
-  free(this->_data);
+  free(_data);
 
-  this->_data = newData;
-  this->_capacity = capacity;
-  this->_head = 0;
+  _data = newData;
+  _capacity = capacity;
+  _head = 0;
 }
