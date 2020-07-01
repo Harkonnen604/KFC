@@ -8,12 +8,11 @@
 #include <mutex>
 #include <memory>
 #include <cassert>
-#include <Util/Math.hpp>
 #ifdef _MSC_VER
 #include <intrin.h>
 #endif
 
-// Usage: put PROFILE_FUNCTION at the beginning of function or PROFILE_FUNCTION at the beginning of arbitrary {} scope (affects if line number will be printed)
+// Usage: put PROFILE_FUNCTION at the beginning of function or PROFILE_SCOPE at the beginning of arbitrary {} scope (affects if line number will be printed)
 // Call Profiler::getStats() to grab statistics. Call Profiler::reset() at the most outer rim.
 // Supports recursion and threading.
 // Currently implemented via rdtsc() on Windows and via std::chrono::high_resolution_clock on other platforms.
@@ -33,16 +32,12 @@
 // B.inner = t2 + t4 + t6 + t10
 // B.outer = t2 + t3 + t4 + t5 + t6 + t10
 
-#ifndef FACTORIO_PACKAGE
-//#define PROFILER_ENABLED
-#endif
-
 #ifndef PROFILER_ENABLED
 
 #define PROFILE_FUNCTION ((void)0)
 #define PROFILE_SCOPE(scope) ((void)0)
 
-#else // FACTORIO_PACKAGE
+#else // PROFILER_ENABLED
 
 // Intermediate macros as required for proper __LINE__ concatenation into variable name
 #define _PROFILE_FUNCTION2(function, line) \
