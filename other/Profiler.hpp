@@ -91,8 +91,8 @@ public:
     }
     Duration& updateMax(const Duration& other)
     {
-      this->outer = Math::max(this->outer, other.outer);
-      this->inner = Math::max(this->inner, other.inner);
+      this->outer = std::max(this->outer, other.outer);
+      this->inner = std::max(this->inner, other.inner);
       return *this;
     }
 

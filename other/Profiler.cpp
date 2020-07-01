@@ -97,8 +97,8 @@ Profiler::Stats Profiler::getStats()
       stats[&codeBlocks[i]].threadMaxDuration.updateMax((*durations)[i]);
       stats[&codeBlocks[i]].totalDuration += (*durations)[i];
     }
-  uint32_t microseconds = Math::max((uint32_t)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timeOfLastReset).count(), 1u);
-  uint32_t ticksPerMicrosecond = Math::max((uint32_t)(getTick() - tickOfLastReset) / microseconds, 1u);
+  uint32_t microseconds = std::max((uint32_t)std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - timeOfLastReset).count(), 1u);
+  uint32_t ticksPerMicrosecond = std::max((uint32_t)(getTick() - tickOfLastReset) / microseconds, 1u);
   for (auto& entry : stats)
     entry.second /= ticksPerMicrosecond;
   return stats;
