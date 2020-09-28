@@ -8,19 +8,19 @@ T_KTL_Consts g_KTL_Consts;
 // -----------
 T_KTL_Consts::T_KTL_Consts()
 {
-	#ifdef _MSC_VER
-	{
-		m_bConsole = GetConsoleWindow();
-	}
-	#else // _MSC_VER
-	{
-		m_bConsole = true;
-	}	
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+    {
+        m_bConsole = GetConsoleWindow();
+    }
+    #else // _MSC_VER
+    {
+        m_bConsole = true;
+    }
+    #endif // _MSC_VER
 
-	m_bStdoutConsoleErrors = false;
+    m_bStdoutConsoleErrors = false;
 
-	m_bTopmost = false;
+    m_bTopmost = false;
 
-	m_szStringBufferSize = 16384;
+    m_szStringBufferSize = 16384;
 }

@@ -15,99 +15,99 @@
 // ------------------------------------
 TInteractiveControlCreationStruct::TInteractiveControlCreationStruct()
 {
-	memcpy(	m_InteractiveTransitionDelays,
-			g_InterfaceConsts.m_DefaultInteractiveControlTransitionDelays,
-			sizeof(m_InteractiveTransitionDelays));
+    memcpy( m_InteractiveTransitionDelays,
+            g_InterfaceConsts.m_DefaultInteractiveControlTransitionDelays,
+            sizeof(m_InteractiveTransitionDelays));
 
-	m_szHotKey = DIK_NONE;
+    m_szHotKey = DIK_NONE;
 
-	m_bAllowNonHoveredClicks	= false;
-	m_bAllowMouseStealing		= true;
+    m_bAllowNonHoveredClicks    = false;
+    m_bAllowMouseStealing       = true;
 
-	m_szPushClickFirstDelay		= UINT_MAX;
-	m_szPushClickRepeatDelay	= UINT_MAX;
+    m_szPushClickFirstDelay     = UINT_MAX;
+    m_szPushClickRepeatDelay    = UINT_MAX;
 }
 
-void TInteractiveControlCreationStruct::Load(	TInfoNodeConstIterator	InfoNode,
-												const TControl*			pParentControl,
-												const FRECT&			Resolution)
+void TInteractiveControlCreationStruct::Load(   TInfoNodeConstIterator  InfoNode,
+                                                const TControl*         pParentControl,
+                                                const FRECT&            Resolution)
 {
-	TControlCreationStruct::Load(InfoNode, pParentControl, Resolution);
+    TControlCreationStruct::Load(InfoNode, pParentControl, Resolution);
 
-	TInfoParameterConstIterator PIter;
+    TInfoParameterConstIterator PIter;
 
-	size_t i;
+    size_t i;
 
-	// Getting transition delays
-	if(InfoNode->HasTrueParameter(TEXT("ImmediateInteractiveTransition")))
-	{
-		SetImmediateInteractiveTransitions();
-	}
-	else
-	{
-		for(i = 0 ; i < 3 ; i++)
-		{
-			if((PIter = InfoNode->FindParameter((KString)TEXT("InteractiveTransitionDelay") + i)).IsValid())
-			{
-				ReadNormalizedFloat(PIter->m_Value,
-									m_InteractiveTransitionDelays[i],
-									(KString)TEXT("interactive transition delay ") + i,
-									FSEGMENT(0.0, FLT_MAX));
-			}
-		}
-	}
+    // Getting transition delays
+    if(InfoNode->HasTrueParameter(TEXT("ImmediateInteractiveTransition")))
+    {
+        SetImmediateInteractiveTransitions();
+    }
+    else
+    {
+        for(i = 0 ; i < 3 ; i++)
+        {
+            if((PIter = InfoNode->FindParameter((KString)TEXT("InteractiveTransitionDelay") + i)).IsValid())
+            {
+                ReadNormalizedFloat(PIter->m_Value,
+                                    m_InteractiveTransitionDelays[i],
+                                    (KString)TEXT("interactive transition delay ") + i,
+                                    FSEGMENT(0.0, FLT_MAX));
+            }
+        }
+    }
 
-	// Getting hotkey
-	if((PIter = InfoNode->FindParameter(TEXT("HotKey"))).IsValid())
-	{
-		ReadUINT(	KEYBOARD_KEY_TOKENS.Process(PIter->m_Value),
-					m_szHotKey,
-					TEXT("hotkey"));					
-	}
+    // Getting hotkey
+    if((PIter = InfoNode->FindParameter(TEXT("HotKey"))).IsValid())
+    {
+        ReadUINT(   KEYBOARD_KEY_TOKENS.Process(PIter->m_Value),
+                    m_szHotKey,
+                    TEXT("hotkey"));
+    }
 
-	// Geting non-hovered clicks allowance
-	if((PIter = InfoNode->FindParameter(TEXT("AllowNonHoveredClicks"))).IsValid())
-	{
-		ReadBool(	PIter->m_Value,
-					m_bAllowNonHoveredClicks,
-					TEXT("non-hovered clicks allowance"));
-	}
-	
-	// Getting mouse stealing allowance
-	if((PIter = InfoNode->FindParameter(TEXT("AllowMouseStealing"))).IsValid())
-	{
-		ReadBool(	PIter->m_Value,
-					m_bAllowMouseStealing,
-					TEXT("mouse stealing allowance"));
-	}
-	else
-	{
-		m_bAllowMouseStealing = !AreAlternativeKeyboardKeys(m_szHotKey, DIK_ESCAPE);
-	}
+    // Geting non-hovered clicks allowance
+    if((PIter = InfoNode->FindParameter(TEXT("AllowNonHoveredClicks"))).IsValid())
+    {
+        ReadBool(   PIter->m_Value,
+                    m_bAllowNonHoveredClicks,
+                    TEXT("non-hovered clicks allowance"));
+    }
 
-	// Getting push click first delay
-	if((PIter = InfoNode->FindParameter(TEXT("PushClickFirstDelay"))).IsValid())
-	{
-		ReadUINT(	PIter->m_Value,
-					m_szPushClickFirstDelay,
-					TEXT("push click first delay"));
-	}
+    // Getting mouse stealing allowance
+    if((PIter = InfoNode->FindParameter(TEXT("AllowMouseStealing"))).IsValid())
+    {
+        ReadBool(   PIter->m_Value,
+                    m_bAllowMouseStealing,
+                    TEXT("mouse stealing allowance"));
+    }
+    else
+    {
+        m_bAllowMouseStealing = !AreAlternativeKeyboardKeys(m_szHotKey, DIK_ESCAPE);
+    }
 
-	// Getting push click repeat delay
-	if((PIter = InfoNode->FindParameter(TEXT("PushClickRepeatDelay"))).IsValid())
-	{
-		ReadUINT(	PIter->m_Value,
-					m_szPushClickRepeatDelay,
-					TEXT("push click repeat delay"));
-	}
+    // Getting push click first delay
+    if((PIter = InfoNode->FindParameter(TEXT("PushClickFirstDelay"))).IsValid())
+    {
+        ReadUINT(   PIter->m_Value,
+                    m_szPushClickFirstDelay,
+                    TEXT("push click first delay"));
+    }
+
+    // Getting push click repeat delay
+    if((PIter = InfoNode->FindParameter(TEXT("PushClickRepeatDelay"))).IsValid())
+    {
+        ReadUINT(   PIter->m_Value,
+                    m_szPushClickRepeatDelay,
+                    TEXT("push click repeat delay"));
+    }
 }
 
 void TInteractiveControlCreationStruct::SetImmediateInteractiveTransitions()
 {
-	size_t i;
+    size_t i;
 
-	for(i = 0 ; i < 3 ; i++)
-		m_InteractiveTransitionDelays[i] = IMMEDIATE_TIME;
+    for(i = 0 ; i < 3 ; i++)
+        m_InteractiveTransitionDelays[i] = IMMEDIATE_TIME;
 }
 
 // ------------------------------------
@@ -115,354 +115,354 @@ void TInteractiveControlCreationStruct::SetImmediateInteractiveTransitions()
 // ------------------------------------
 TInteractiveControlSoundsProvider::TInteractiveControlSoundsProvider()
 {
-	m_PushSound.	Allocate(SOUNDS_REGISTRATION_MANAGER[PUSH_SOUND_INDEX],		true);
-	m_ClickSound.	Allocate(SOUNDS_REGISTRATION_MANAGER[CLICK_SOUND_INDEX],	true);
+    m_PushSound.    Allocate(SOUNDS_REGISTRATION_MANAGER[PUSH_SOUND_INDEX],     true);
+    m_ClickSound.   Allocate(SOUNDS_REGISTRATION_MANAGER[CLICK_SOUND_INDEX],    true);
 }
 
 void TInteractiveControlSoundsProvider::Load(TInfoNodeConstIterator InfoNode)
 {
-	g_SoundStorage.LoadObject(InfoNode, TEXT("PushSound"),	m_PushSound,	true);
-	g_SoundStorage.LoadObject(InfoNode, TEXT("ClickSound"),	m_ClickSound,	true);
+    g_SoundStorage.LoadObject(InfoNode, TEXT("PushSound"),  m_PushSound,    true);
+    g_SoundStorage.LoadObject(InfoNode, TEXT("ClickSound"), m_ClickSound,   true);
 }
 
 // --------------------
 // Interactive control
 // --------------------
-TInteractiveControl::TInteractiveControl(	const TInteractiveControlCreationStruct&	CreationStruct,
-											TInteractiveControlSoundsProvider&			SoundsProvider) :
+TInteractiveControl::TInteractiveControl(   const TInteractiveControlCreationStruct&    CreationStruct,
+                                            TInteractiveControlSoundsProvider&          SoundsProvider) :
 
-	TControl(CreationStruct)
-				
+    TControl(CreationStruct)
+
 {
-	memcpy(	m_InteractiveTransitionDelays,
-			CreationStruct.m_InteractiveTransitionDelays,
-			sizeof(m_InteractiveTransitionDelays));
+    memcpy( m_InteractiveTransitionDelays,
+            CreationStruct.m_InteractiveTransitionDelays,
+            sizeof(m_InteractiveTransitionDelays));
 
-	m_szHotKey = CreationStruct.m_szHotKey;
+    m_szHotKey = CreationStruct.m_szHotKey;
 
-	m_PushState = PS_NONE;
+    m_PushState = PS_NONE;
 
-	m_bAllowNonHoveredClicks	= CreationStruct.m_bAllowNonHoveredClicks;
-	m_bAllowMouseStealing		= CreationStruct.m_bAllowMouseStealing;
+    m_bAllowNonHoveredClicks    = CreationStruct.m_bAllowNonHoveredClicks;
+    m_bAllowMouseStealing       = CreationStruct.m_bAllowMouseStealing;
 
-	m_szPushClickFirstDelay		= CreationStruct.m_szPushClickFirstDelay;
-	m_szPushClickRepeatDelay	= CreationStruct.m_szPushClickRepeatDelay;
+    m_szPushClickFirstDelay     = CreationStruct.m_szPushClickFirstDelay;
+    m_szPushClickRepeatDelay    = CreationStruct.m_szPushClickRepeatDelay;
 
-	m_PushSound.	ReOwn(SoundsProvider.m_PushSound);
-	m_ClickSound.	ReOwn(SoundsProvider.m_ClickSound);
+    m_PushSound.    ReOwn(SoundsProvider.m_PushSound);
+    m_ClickSound.   ReOwn(SoundsProvider.m_ClickSound);
 }
 
 void TInteractiveControl::OnAllocate()
 {
-	TControl::OnAllocate();
+    TControl::OnAllocate();
 
-	// Interactive state
-	m_InteractiveState.Allocate(m_InteractiveTransitionDelays);
+    // Interactive state
+    m_InteractiveState.Allocate(m_InteractiveTransitionDelays);
 }
 
 void TInteractiveControl::OnSetInitialValues()
-{	
-	TControl::OnSetInitialValues();
+{
+    TControl::OnSetInitialValues();
 
-	// Visible state
-	m_InteractiveState.SetState(DetermineInteractiveState(), true);
-	
-	// Push click parameters
-	m_PushClickTimer.Allocate();
-	m_bFirstPushClickDelay = true;
+    // Visible state
+    m_InteractiveState.SetState(DetermineInteractiveState(), true);
+
+    // Push click parameters
+    m_PushClickTimer.Allocate();
+    m_bFirstPushClickDelay = true;
 }
 
 // Update/render events
 bool TInteractiveControl::OnSuspend()
 {
-	if(!TControl::OnSuspend())
-		return false;
+    if(!TControl::OnSuspend())
+        return false;
 
-	m_InteractiveState.Suspend();
+    m_InteractiveState.Suspend();
 
-	m_PushClickTimer.Suspend();
+    m_PushClickTimer.Suspend();
 
-	return true;
+    return true;
 }
 
 bool TInteractiveControl::OnResume()
 {
-	if(!TControl::OnResume())
-		return false;
+    if(!TControl::OnResume())
+        return false;
 
-	m_InteractiveState.Resume();
+    m_InteractiveState.Resume();
 
-	m_PushClickTimer.Resume();
+    m_PushClickTimer.Resume();
 
-	return true;
+    return true;
 }
 
 void TInteractiveControl::OnPreUpdate()
 {
-	TControl::OnPreUpdate();
-	
-	// Interactive state
-	m_InteractiveState.Update();
+    TControl::OnPreUpdate();
+
+    // Interactive state
+    m_InteractiveState.Update();
 }
 
 void TInteractiveControl::OnPostUpdate()
 {
-	// Push clicks
-	if(m_PushState != PS_NONE)
-	{
-		size_t szCompareTime =	m_bFirstPushClickDelay ?
-									m_szPushClickFirstDelay :
-									m_szPushClickRepeatDelay;		
+    // Push clicks
+    if(m_PushState != PS_NONE)
+    {
+        size_t szCompareTime =  m_bFirstPushClickDelay ?
+                                    m_szPushClickFirstDelay :
+                                    m_szPushClickRepeatDelay;
 
-		if(szCompareTime == UINT_MAX)
-			return;
+        if(szCompareTime == UINT_MAX)
+            return;
 
-		if((size_t)m_PushClickTimer >= szCompareTime)
-		{
-			PushClick(m_PushState == PS_MOUSE);
-			m_PushClickTimer.Reset(), m_bFirstPushClickDelay = false;
-		}
-	}
+        if((size_t)m_PushClickTimer >= szCompareTime)
+        {
+            PushClick(m_PushState == PS_MOUSE);
+            m_PushClickTimer.Reset(), m_bFirstPushClickDelay = false;
+        }
+    }
 }
 
 // Appearance events
 void TInteractiveControl::OnEnable()
 {
-	TControl::OnEnable();
+    TControl::OnEnable();
 
-	m_InteractiveState.SetState(DetermineInteractiveState(), false);
+    m_InteractiveState.SetState(DetermineInteractiveState(), false);
 }
 
 void TInteractiveControl::OnDisable()
 {
-	TControl::OnDisable();
+    TControl::OnDisable();
 
-	m_InteractiveState.SetState(DetermineInteractiveState(), false);
+    m_InteractiveState.SetState(DetermineInteractiveState(), false);
 }
 
 // Mouse events
 void TInteractiveControl::OnMouseButtonDown(size_t szButton)
 {
-	TControl::OnMouseButtonDown(szButton);
+    TControl::OnMouseButtonDown(szButton);
 
-	if(szButton == 0)
-		Push(true);
+    if(szButton == 0)
+        Push(true);
 }
 
 void TInteractiveControl::OnMouseButtonUp(size_t szButton)
 {
-	if(m_PushState != PS_MOUSE || szButton != 0)
-		return;
+    if(m_PushState != PS_MOUSE || szButton != 0)
+        return;
 
-	Click(true);
+    Click(true);
 
-	Unpush(true);
+    Unpush(true);
 
-	TControl::OnMouseButtonUp(szButton);
+    TControl::OnMouseButtonUp(szButton);
 }
 
 void TInteractiveControl::OnMouseEnter()
 {
-	TControl::OnMouseEnter();
+    TControl::OnMouseEnter();
 
-	m_InteractiveState.SetState(DetermineInteractiveState(), false);
+    m_InteractiveState.SetState(DetermineInteractiveState(), false);
 }
 
 void TInteractiveControl::OnMouseLeave()
 {
-	m_InteractiveState.SetState(DetermineInteractiveState(), false);
+    m_InteractiveState.SetState(DetermineInteractiveState(), false);
 
-	TControl::OnMouseLeave();
+    TControl::OnMouseLeave();
 }
 
 void TInteractiveControl::OnMouseCaptureLost()
 {
-	TControl::OnMouseCaptureLost();
+    TControl::OnMouseCaptureLost();
 
-	Unpush(false);
+    Unpush(false);
 }
 
 // Keyboard events
 void TInteractiveControl::OnKeyboardKeyDown(size_t szKey)
 {
-	TControl::OnKeyboardKeyDown(szKey);
+    TControl::OnKeyboardKeyDown(szKey);
 
-	if(szKey == m_szHotKey)
-		Push(false);
-	else if(szKey == DIK_ESCAPE)
-		Unpush(false);
+    if(szKey == m_szHotKey)
+        Push(false);
+    else if(szKey == DIK_ESCAPE)
+        Unpush(false);
 }
 
 void TInteractiveControl::OnKeyboardKeyUp(size_t szKey)
 {
-	TControl::OnKeyboardKeyUp(szKey);
+    TControl::OnKeyboardKeyUp(szKey);
 
-	if(m_PushState != PS_KEYBOARD || m_szHotKey == 0)
-		return;
+    if(m_PushState != PS_KEYBOARD || m_szHotKey == 0)
+        return;
 
-	if(szKey == m_szHotKey)
-	{
-		Click(false);
+    if(szKey == m_szHotKey)
+    {
+        Click(false);
 
-		Unpush(false);
-	}
+        Unpush(false);
+    }
 }
 
 // Push/unpush events
 void TInteractiveControl::OnPush(bool bFromMouse)
 {
-	m_PushState = bFromMouse ? PS_MOUSE : PS_KEYBOARD;
+    m_PushState = bFromMouse ? PS_MOUSE : PS_KEYBOARD;
 
-	m_InteractiveState.SetState(DetermineInteractiveState(), false);
+    m_InteractiveState.SetState(DetermineInteractiveState(), false);
 
-	if(m_PushSound.IsAllocated())
-		m_PushSound->Play();
+    if(m_PushSound.IsAllocated())
+        m_PushSound->Play();
 
-	new(GetInterface().GetMessageProcessor())
-		TInteractiveControlPushMessage(this, true, bFromMouse);
+    new(GetInterface().GetMessageProcessor())
+        TInteractiveControlPushMessage(this, true, bFromMouse);
 }
 
 void TInteractiveControl::OnUnpush(bool bFromMouse)
 {
-	m_PushState = PS_NONE;
-	
-	m_InteractiveState.SetState(DetermineInteractiveState(), false);
+    m_PushState = PS_NONE;
 
- 	new(GetInterface().GetMessageProcessor())
-		TInteractiveControlPushMessage(this, false, bFromMouse);
+    m_InteractiveState.SetState(DetermineInteractiveState(), false);
+
+    new(GetInterface().GetMessageProcessor())
+        TInteractiveControlPushMessage(this, false, bFromMouse);
 }
 
 // Click events
 void TInteractiveControl::OnClick(bool bFromMouse)
 {
-	if(m_ClickSound.IsAllocated())
-		m_ClickSound->Play();
+    if(m_ClickSound.IsAllocated())
+        m_ClickSound->Play();
 
-	new(GetInterface().GetMessageProcessor())
-		TInteractiveControlClickMessage(this, bFromMouse);
+    new(GetInterface().GetMessageProcessor())
+        TInteractiveControlClickMessage(this, bFromMouse);
 }
 
 void TInteractiveControl::OnPushClick(bool bFromMouse)
 {
-	new(GetInterface().GetMessageProcessor())
-		TInteractiveControlPushClickMessage(this, bFromMouse);
+    new(GetInterface().GetMessageProcessor())
+        TInteractiveControlPushClickMessage(this, bFromMouse);
 }
 
 // Push/unpush rouitines
 void TInteractiveControl::Push(bool bFromMouse)
 {
-	if(	!m_bAllowMouseStealing &&
-		g_InterfaceDeviceGlobals.IsMouseOwned())
-	{
-		return;
-	}
+    if( !m_bAllowMouseStealing &&
+        g_InterfaceDeviceGlobals.IsMouseOwned())
+    {
+        return;
+    }
 
-	g_InterfaceDeviceGlobals.SetMouseOwnerControl(this, true);
+    g_InterfaceDeviceGlobals.SetMouseOwnerControl(this, true);
 
-	OnPush(bFromMouse);
+    OnPush(bFromMouse);
 
-	m_PushClickTimer.Reset(), m_bFirstPushClickDelay = true;
+    m_PushClickTimer.Reset(), m_bFirstPushClickDelay = true;
 
-	PushClick(bFromMouse);
+    PushClick(bFromMouse);
 }
 
 void TInteractiveControl::Unpush(bool bFromMouse)
 {
-	if(m_PushState != PS_NONE)
-	{
-		OnUnpush(bFromMouse);
+    if(m_PushState != PS_NONE)
+    {
+        OnUnpush(bFromMouse);
 
-		g_InterfaceDeviceGlobals.InvalidateMouseOwnership(this, false);
-	}
+        g_InterfaceDeviceGlobals.InvalidateMouseOwnership(this, false);
+    }
 }
 
 // Click routines
 void TInteractiveControl::Click(bool bFromMouse)
 {
-	if(m_PushState == PS_NONE)
-		return;
+    if(m_PushState == PS_NONE)
+        return;
 
-	if(bFromMouse && !m_bAllowNonHoveredClicks && !GetCurrentInputState().m_bHovered)
-		return;
+    if(bFromMouse && !m_bAllowNonHoveredClicks && !GetCurrentInputState().m_bHovered)
+        return;
 
-	OnClick(bFromMouse);
+    OnClick(bFromMouse);
 }
 
 void TInteractiveControl::PushClick(bool bFromMouse)
 {
-	if(m_PushState == PS_NONE)
-		return;
+    if(m_PushState == PS_NONE)
+        return;
 
-	if(bFromMouse && !m_bAllowNonHoveredClicks && !GetCurrentInputState().m_bHovered)
-		return;
-	
-	OnPushClick(bFromMouse);
+    if(bFromMouse && !m_bAllowNonHoveredClicks && !GetCurrentInputState().m_bHovered)
+        return;
+
+    OnPushClick(bFromMouse);
 }
 
 TInteractiveControl::TInteractiveState TInteractiveControl::DetermineInteractiveState() const
 {
-	TInteractiveState InteractiveState;
+    TInteractiveState InteractiveState;
 
-	const TControlState&		ScreenState	= GetCurrentScreenState	();
-	const TControlInputState&	InputState	= GetCurrentInputState	();
+    const TControlState&        ScreenState = GetCurrentScreenState ();
+    const TControlInputState&   InputState  = GetCurrentInputState  ();
 
-	if(ScreenState.IsEnabled())
-	{
-		if(m_PushState == PS_NONE)
-		{
-			InteractiveState = InputState.m_bHovered ? IS_HOVERED : IS_NONHOVERED;
-		}
-		else if(m_PushState == PS_MOUSE)
-		{
-			InteractiveState =	m_bAllowNonHoveredClicks || InputState.m_bHovered ?
-									IS_PUSHED :
-									IS_HOVERED;
-		}
-		else if(m_PushState == PS_KEYBOARD)
-		{
-			InteractiveState = IS_PUSHED;
-		}
-		else
-		{
-			INITIATE_FAILURE;
-		}
-	}
-	else
-	{
-		InteractiveState = IS_DISABLED;
-	}	
+    if(ScreenState.IsEnabled())
+    {
+        if(m_PushState == PS_NONE)
+        {
+            InteractiveState = InputState.m_bHovered ? IS_HOVERED : IS_NONHOVERED;
+        }
+        else if(m_PushState == PS_MOUSE)
+        {
+            InteractiveState =  m_bAllowNonHoveredClicks || InputState.m_bHovered ?
+                                    IS_PUSHED :
+                                    IS_HOVERED;
+        }
+        else if(m_PushState == PS_KEYBOARD)
+        {
+            InteractiveState = IS_PUSHED;
+        }
+        else
+        {
+            INITIATE_FAILURE;
+        }
+    }
+    else
+    {
+        InteractiveState = IS_DISABLED;
+    }
 
-	return InteractiveState;
+    return InteractiveState;
 }
 
 // Messages
 bool TInteractiveControl::IsValidMessage(const TControlMessage* pMessage) const
 {
-	if(!TControl::IsValidMessage(pMessage))
-		return false;
+    if(!TControl::IsValidMessage(pMessage))
+        return false;
 
-	// Push message
-	const TInteractiveControlPushMessage* pPushMessage =
-		dynamic_cast<const TInteractiveControlPushMessage*>(pMessage);
+    // Push message
+    const TInteractiveControlPushMessage* pPushMessage =
+        dynamic_cast<const TInteractiveControlPushMessage*>(pMessage);
 
-	if(pPushMessage)
-		return GetCurrentScreenState().IsEnabled();
+    if(pPushMessage)
+        return GetCurrentScreenState().IsEnabled();
 
-	// Click message
-	const TInteractiveControlClickMessage* pClickMessage =
-		dynamic_cast<const TInteractiveControlClickMessage*>(pMessage);
+    // Click message
+    const TInteractiveControlClickMessage* pClickMessage =
+        dynamic_cast<const TInteractiveControlClickMessage*>(pMessage);
 
-	if(pClickMessage)
-		return GetCurrentScreenState().IsEnabled();
+    if(pClickMessage)
+        return GetCurrentScreenState().IsEnabled();
 
-	// Push click message
-	const TInteractiveControlPushClickMessage* pPushClickMessage =
-		dynamic_cast<const TInteractiveControlPushClickMessage*>(pMessage);
+    // Push click message
+    const TInteractiveControlPushClickMessage* pPushClickMessage =
+        dynamic_cast<const TInteractiveControlPushClickMessage*>(pMessage);
 
-	if(pPushClickMessage)
-		return GetCurrentScreenState().IsEnabled();
+    if(pPushClickMessage)
+        return GetCurrentScreenState().IsEnabled();
 
-	return true;
+    return true;
 }
 
 // ----------------
@@ -470,5 +470,5 @@ bool TInteractiveControl::IsValidMessage(const TControlMessage* pMessage) const
 // ----------------
 bool IsInteractiveControl(const TControl* pControl)
 {
-	return dynamic_cast<const TInteractiveControl*>(pControl) != NULL;
+    return dynamic_cast<const TInteractiveControl*>(pControl) != NULL;
 }

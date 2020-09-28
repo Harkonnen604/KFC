@@ -6,32 +6,32 @@
 // --------------------
 // Resource enumerator
 // --------------------
-TResourceEnumerator::TResourceEnumerator(	HMODULE hModule,
-											LPCTSTR pType)
+TResourceEnumerator::TResourceEnumerator(   HMODULE hModule,
+                                            LPCTSTR pType)
 {
-	DEBUG_VERIFY(pType);
+    DEBUG_VERIFY(pType);
 
-	if(	!EnumResourceNames(hModule, pType, StaticEnumProc, (LPARAM)this)	&&
-			GetLastError() != NO_ERROR										&&
-			GetLastError() != ERROR_RESOURCE_TYPE_NOT_FOUND)
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error enumerating resources"),
-										GetLastError());
-	}
+    if( !EnumResourceNames(hModule, pType, StaticEnumProc, (LPARAM)this)    &&
+            GetLastError() != NO_ERROR                                      &&
+            GetLastError() != ERROR_RESOURCE_TYPE_NOT_FOUND)
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error enumerating resources"),
+                                        GetLastError());
+    }
 
-	m_szPos = 0;
+    m_szPos = 0;
 }
 
-BOOL CALLBACK TResourceEnumerator::StaticEnumProc(	HMODULE	hModule,
-													LPCTSTR	pType,
-													LPTSTR	pName,
-													LPARAM	lParam)
+BOOL CALLBACK TResourceEnumerator::StaticEnumProc(  HMODULE hModule,
+                                                    LPCTSTR pType,
+                                                    LPTSTR  pName,
+                                                    LPARAM  lParam)
 {
-	DEBUG_VERIFY(lParam);
+    DEBUG_VERIFY(lParam);
 
-	((TResourceEnumerator*)lParam)->m_IDs.Add() = (size_t)pName;
+    ((TResourceEnumerator*)lParam)->m_IDs.Add() = (size_t)pName;
 
-	return TRUE;
+    return TRUE;
 }
 
 #endif // _MSC_VER

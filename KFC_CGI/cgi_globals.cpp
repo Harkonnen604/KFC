@@ -13,8 +13,8 @@ T_CGI_Globals g_CGI_Globals;
 // ------------
 T_CGI_Globals::T_CGI_Globals() : TModuleGlobals(TEXT("CGI globals"))
 {
-	AddSubGlobals(g_KTL_Globals);	
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_FormatsGlobals);
-	AddSubGlobals(g_CGI_DeviceGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_FormatsGlobals);
+    AddSubGlobals(g_CGI_DeviceGlobals);
 }

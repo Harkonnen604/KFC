@@ -8,11 +8,11 @@
 // ----------------
 void TestCGI()
 {
-	puts("Testing CGI...");
+    puts("Testing CGI...");
 
-	TTokens Tokens("[e]", 3);
+    TTokens Tokens("[e]", 3);
 
-	printf("'%s'\n", (LPCTSTR)ProcessCGI_Tokens("res/test.txt", &Tokens));
+    printf("'%s'\n", (LPCTSTR)ProcessCGI_Tokens("res/test.txt", &Tokens));
 
-	puts("Done");
+    puts("Done");
 }

@@ -9,21 +9,21 @@
 // Physics initials
 // -----------------
 class TPhysicsInitials :
-	public TGlobals,
-	public TAssignmentsList
+    public TGlobals,
+    public TAssignmentsList
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	void LoadItems(KRegistryKey& Key);
-	void SaveItems(KRegistryKey& Key) const;
+    void LoadItems(KRegistryKey& Key);
+    void SaveItems(KRegistryKey& Key) const;
 
 public:
-	TPhysicsInitials();
+    TPhysicsInitials();
 
-	void Load();
-	void Save() const;
+    void Load();
+    void Save() const;
 };
 
 extern TPhysicsInitials g_PhysicsInitials;

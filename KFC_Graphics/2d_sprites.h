@@ -12,14 +12,14 @@
 // -------------------------------------
 struct TTextureImageSpriteCreationStruct : public TSpriteCreationStruct
 {
-	KString m_FileName;
+    KString m_FileName;
 
 
-	TTextureImageSpriteCreationStruct();
+    TTextureImageSpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	bool SetFileName(const KString& SFileName);
+    bool SetFileName(const KString& SFileName);
 };
 
 // ---------------------
@@ -28,44 +28,44 @@ struct TTextureImageSpriteCreationStruct : public TSpriteCreationStruct
 class TTextureImageSprite : public TSprite
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TTextureImage m_TextureImage;
+    TTextureImage m_TextureImage;
 
 public:
-	static TSprite* Create(type_t tpType);
+    static TSprite* Create(type_t tpType);
 
-	TTextureImageSprite();
+    TTextureImageSprite();
 
-	~TTextureImageSprite()
-		{ Release(); }
+    ~TTextureImageSprite()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TSprite::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TSprite::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const TTextureImageSpriteCreationStruct& CreationSturct);
+    void Allocate(const TTextureImageSpriteCreationStruct& CreationSturct);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawNonScaled(	const FPOINT&			DstCoords,
-						const TD3DColor&		Color	= WhiteColor(),
-						const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawNonScaled( const FPOINT&           DstCoords,
+                        const TD3DColor&        Color   = WhiteColor(),
+                        const TSpriteStates&    States  = TSpriteStates()) const;
 
-	void DrawRect(	const FRECT&			DstRect,
-					const TD3DColor&		Color	= WhiteColor(),
-					const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawRect(  const FRECT&            DstRect,
+                    const TD3DColor&        Color   = WhiteColor(),
+                    const TSpriteStates&    States  = TSpriteStates()) const;
 
-	bool HasDefaultSize() const;
+    bool HasDefaultSize() const;
 
-	void GetDefaultSize(FSIZE& RSize) const;
+    void GetDefaultSize(FSIZE& RSize) const;
 
-	TSprite* GetSubObject(size_t szIndex) { INITIATE_FAILURE; }
+    TSprite* GetSubObject(size_t szIndex) { INITIATE_FAILURE; }
 
-	const TSprite* GetSubObject(size_t szIndex) const { INITIATE_FAILURE; }
+    const TSprite* GetSubObject(size_t szIndex) const { INITIATE_FAILURE; }
 
-	size_t GetNSubObjects() const { return 0; }
+    size_t GetNSubObjects() const { return 0; }
 };
 
 #endif // _2d_sprites_h

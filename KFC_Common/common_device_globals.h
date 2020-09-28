@@ -12,19 +12,19 @@
 class TCommonDeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	#ifdef _MSC_VER
-		T_OLE_Initializer m_OLE_Initializer;
-		T_COM_Initializer m_COM_Initializer;
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+        T_OLE_Initializer m_OLE_Initializer;
+        T_COM_Initializer m_COM_Initializer;
+    #endif // _MSC_VER
 
-	TEvent m_MsgBoxesEvent;
+    TEvent m_MsgBoxesEvent;
 
 public:
-	TCommonDeviceGlobals();
+    TCommonDeviceGlobals();
 };
 
 extern TCommonDeviceGlobals g_CommonDeviceGlobals;

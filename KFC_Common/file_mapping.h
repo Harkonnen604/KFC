@@ -10,65 +10,65 @@
 class TFileMapping
 {
 private:
-	void* m_pData;
+    void* m_pData;
 
-	bool m_bReadOnly;
+    bool m_bReadOnly;
 
-	TFile m_File;
+    TFile m_File;
 
-	#ifdef _MSC_VER
-		HANDLE m_hMapping;
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+        HANDLE m_hMapping;
+    #endif // _MSC_VER
 
-	bool m_bAllocated;
+    bool m_bAllocated;
 
 private:
-	inline kflags_t GetOpenFlags(size_t szSize) const
-	{
-		return	m_bReadOnly ?
-					FOF_BINARY | FOF_READ :
-					szSize == -1 ?
-						FOF_BINARY | FOF_READ | FOF_WRITE:
-						FOF_BINARY | FOF_READ | FOF_WRITE | FOF_CREATE;
-	}
+    inline kflags_t GetOpenFlags(size_t szSize) const
+    {
+        return  m_bReadOnly ?
+                    FOF_BINARY | FOF_READ :
+                    szSize == -1 ?
+                        FOF_BINARY | FOF_READ | FOF_WRITE:
+                        FOF_BINARY | FOF_READ | FOF_WRITE | FOF_CREATE;
+    }
 
-	void InternalCloseMapping();
+    void InternalCloseMapping();
 
-	void ResizeFileAndOpenMapping(size_t szSize);
+    void ResizeFileAndOpenMapping(size_t szSize);
 
 public:
-	TFileMapping();
+    TFileMapping();
 
-	TFileMapping(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
+    TFileMapping(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
-	~TFileMapping()
-		{ Release(); }
+    ~TFileMapping()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
+    void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
-	void Reopen(bool bReadOnly, size_t szSize = -1);
-	
-	void SetSizeAndRelease(size_t szSize);
+    void Reopen(bool bReadOnly, size_t szSize = -1);
 
-	void* GetDataPtr()
-		{ DEBUG_VERIFY_ALLOCATION; return m_pData; }
+    void SetSizeAndRelease(size_t szSize);
 
-	const void* GetDataPtr() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pData; }
+    void* GetDataPtr()
+        { DEBUG_VERIFY_ALLOCATION; return m_pData; }
 
-	const KString& GetFileName() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_File.GetFileName(); }
+    const void* GetDataPtr() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pData; }
 
-	bool IsReadOnly() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_bReadOnly; }
+    const KString& GetFileName() const
+        { DEBUG_VERIFY_ALLOCATION; return m_File.GetFileName(); }
 
-	size_t GetActualSize() const
-		{ return m_File.GetLength(); }
+    bool IsReadOnly() const
+        { DEBUG_VERIFY_ALLOCATION; return m_bReadOnly; }
+
+    size_t GetActualSize() const
+        { return m_File.GetLength(); }
 };
 
 // --------------------------------
@@ -77,43 +77,43 @@ public:
 class TFileMappingGrowableAllocator : public TGrowableAllocator
 {
 private:
-	TFileMapping m_Mapping;
+    TFileMapping m_Mapping;
 
-	size_t m_szN;
+    size_t m_szN;
 
 public:
-	TFileMappingGrowableAllocator();
+    TFileMappingGrowableAllocator();
 
-	TFileMappingGrowableAllocator(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
+    TFileMappingGrowableAllocator(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
-	~TFileMappingGrowableAllocator()
-		{ Release(); }
+    ~TFileMappingGrowableAllocator()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_Mapping.IsAllocated(); }
+    bool IsAllocated() const
+        { return m_Mapping.IsAllocated(); }
 
-	void Release();
-	
-	void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
+    void Release();
 
-	BYTE* GetDataPtr()
-		{ DEBUG_VERIFY_ALLOCATION; return (BYTE*)m_Mapping.GetDataPtr(); }
+    void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
-	const BYTE* GetDataPtr() const
-		{ DEBUG_VERIFY_ALLOCATION; return (const BYTE*)m_Mapping.GetDataPtr(); }
+    BYTE* GetDataPtr()
+        { DEBUG_VERIFY_ALLOCATION; return (BYTE*)m_Mapping.GetDataPtr(); }
 
-	void SetN(size_t szN);
+    const BYTE* GetDataPtr() const
+        { DEBUG_VERIFY_ALLOCATION; return (const BYTE*)m_Mapping.GetDataPtr(); }
 
-	size_t Add(size_t szN);
+    void SetN(size_t szN);
 
-	size_t GetN() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_szN; }
+    size_t Add(size_t szN);
 
-	const KString& GetFileName() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Mapping.GetFileName(); }
+    size_t GetN() const
+        { DEBUG_VERIFY_ALLOCATION; return m_szN; }
 
-	bool IsReadOnly() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Mapping.IsReadOnly(); }
+    const KString& GetFileName() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Mapping.GetFileName(); }
+
+    bool IsReadOnly() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Mapping.IsReadOnly(); }
 };
 
 // ----------------
@@ -123,61 +123,61 @@ template <class t>
 class TFileMappedVar
 {
 private:
-	TFileMapping m_Mapping;
+    TFileMapping m_Mapping;
 
 public:
-	TFileMappedVar() {}
+    TFileMappedVar() {}
 
-	TFileMappedVar(LPCTSTR pFileName)
-		{ Allocate(pFileName); }
+    TFileMappedVar(LPCTSTR pFileName)
+        { Allocate(pFileName); }
 
-	~TFileMappedVar()
-		{ Release(); }
+    ~TFileMappedVar()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_Mapping.IsAllocated(); }
+    bool IsAllocated() const
+        { return m_Mapping.IsAllocated(); }
 
-	void Release()
-		{ m_Mapping.Release(); }
+    void Release()
+        { m_Mapping.Release(); }
 
-	void Allocate(LPCTSTR pFileName)
-	{
-		Release();
+    void Allocate(LPCTSTR pFileName)
+    {
+        Release();
 
-		const bool bReset = !FileExists(pFileName);
+        const bool bReset = !FileExists(pFileName);
 
-		m_Mapping.Allocate(pFileName, false, sizeof(t));
+        m_Mapping.Allocate(pFileName, false, sizeof(t));
 
-		if(bReset)
-			Reset();
-	}
+        if(bReset)
+            Reset();
+    }
 
-	void Reset()
-		{ DEBUG_VERIFY_ALLOCATION; new(GetDataPtr()) t(); }
+    void Reset()
+        { DEBUG_VERIFY_ALLOCATION; new(GetDataPtr()) t(); }
 
-	t* GetDataPtr()
-		{ DEBUG_VERIFY_ALLOCATION; return (t*)m_Mapping.GetDataPtr(); }
+    t* GetDataPtr()
+        { DEBUG_VERIFY_ALLOCATION; return (t*)m_Mapping.GetDataPtr(); }
 
-	const t* GetDataPtr() const
-		{ DEBUG_VERIFY_ALLOCATION; return (const t*)m_Mapping.GetDataPtr(); }
+    const t* GetDataPtr() const
+        { DEBUG_VERIFY_ALLOCATION; return (const t*)m_Mapping.GetDataPtr(); }
 
-	t& GetDataRef()
-		{ DEBUG_VERIFY_ALLOCATION; return *(t*)m_Mapping.GetDataPtr(); }
+    t& GetDataRef()
+        { DEBUG_VERIFY_ALLOCATION; return *(t*)m_Mapping.GetDataPtr(); }
 
-	const t& GetDataRef() const
-		{ DEBUG_VERIFY_ALLOCATION; return *(const t*)m_Mapping.GetDataPtr(); }
+    const t& GetDataRef() const
+        { DEBUG_VERIFY_ALLOCATION; return *(const t*)m_Mapping.GetDataPtr(); }
 
-	t* operator -> ()
-		{ return GetDataPtr(); }
+    t* operator -> ()
+        { return GetDataPtr(); }
 
-	const t* operator -> () const
-		{ return GetDataPtr(); }
+    const t* operator -> () const
+        { return GetDataPtr(); }
 
-	t& operator * ()
-		{ return GetDataRef(); }
+    t& operator * ()
+        { return GetDataRef(); }
 
-	const t& operator * () const
-		{ return GetDataRef(); }
+    const t& operator * () const
+        { return GetDataRef(); }
 };
 
 // ----------------
@@ -186,20 +186,20 @@ public:
 template <class t>
 inline void AllocateFileMappedContainer(t& Container, LPCTSTR pFileName)
 {
-	if(FileExists(pFileName))
-	{
-		Container.m_Accessor.GetHeapAllocator().Allocate(pFileName, false);
+    if(FileExists(pFileName))
+    {
+        Container.m_Accessor.GetHeapAllocator().Allocate(pFileName, false);
 
-		Container.m_Accessor.AllocateHeap();
-	}
-	else
-	{
-		Container.m_Accessor.GetHeapAllocator().Allocate(pFileName, false, 0);
+        Container.m_Accessor.AllocateHeap();
+    }
+    else
+    {
+        Container.m_Accessor.GetHeapAllocator().Allocate(pFileName, false, 0);
 
-		Container.m_Accessor.AllocateHeap();
+        Container.m_Accessor.AllocateHeap();
 
-		Container.Clear();
-	}
+        Container.Clear();
+    }
 }
 
 #endif // file_mapping_h

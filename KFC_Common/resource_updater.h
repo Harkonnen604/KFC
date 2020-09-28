@@ -9,40 +9,40 @@
 class TResourceUpdater
 {
 private:
-	HANDLE m_hHandle;
-	
+    HANDLE m_hHandle;
+
 public:
-	TResourceUpdater();
+    TResourceUpdater();
 
-	TResourceUpdater(	LPCTSTR	pFileName,
-						bool	bDeleteExisting = false);
+    TResourceUpdater(   LPCTSTR pFileName,
+                        bool    bDeleteExisting = false);
 
-	~TResourceUpdater() { Release(); }
+    ~TResourceUpdater() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hHandle; }
+    bool IsAllocated() const
+        { return m_hHandle; }
 
-	void Release(bool bCommit = true);
+    void Release(bool bCommit = true);
 
-	void Allocate(	LPCTSTR	pFileName,
-					bool	bDeleteExisting = false);
+    void Allocate(  LPCTSTR pFileName,
+                    bool    bDeleteExisting = false);
 
-	void Update(LPCTSTR	pType,
-				size_t	szID,
-				void*	pData,
-				size_t	szLength,
-				WORD	wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
+    void Update(LPCTSTR pType,
+                size_t  szID,
+                void*   pData,
+                size_t  szLength,
+                WORD    wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
 
-	void UpdateFile(LPCTSTR	pType,
-					size_t	szID,
-					LPCTSTR	pFileName,
-					WORD	wLanguage			= MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
-					bool	bPrependWithLength	= false,
-					BYTE	bXORValue			= 0x00);
+    void UpdateFile(LPCTSTR pType,
+                    size_t  szID,
+                    LPCTSTR pFileName,
+                    WORD    wLanguage           = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+                    bool    bPrependWithLength  = false,
+                    BYTE    bXORValue           = 0x00);
 
-	HANDLE GetHandle() const;
+    HANDLE GetHandle() const;
 
-	operator HANDLE () const { return GetHandle(); }
+    operator HANDLE () const { return GetHandle(); }
 };
 
 #endif // _MSC_VER

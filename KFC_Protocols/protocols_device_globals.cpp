@@ -14,10 +14,10 @@ TProtocolsDeviceGlobals::TProtocolsDeviceGlobals() : TGlobals(TEXT("Protocols de
 
 void TProtocolsDeviceGlobals::OnUninitialize()
 {
-	TProtocolsTLS_Item::Free();
+    TProtocolsTLS_Item::Free();
 }
 
 void TProtocolsDeviceGlobals::OnInitialize()
 {
-	TProtocolsTLS_Item::Register();
+    TProtocolsTLS_Item::Register();
 }

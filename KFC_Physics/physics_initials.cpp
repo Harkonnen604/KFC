@@ -19,7 +19,7 @@ void TPhysicsInitials::OnUninitialize()
 
 void TPhysicsInitials::OnInitialize()
 {
-	Load(), Save();
+    Load(), Save();
 }
 
 void TPhysicsInitials::LoadItems(KRegistryKey& Key)
@@ -32,14 +32,14 @@ void TPhysicsInitials::SaveItems(KRegistryKey& Key) const
 
 void TPhysicsInitials::Load()
 {
-	TAssignmentsList::Load(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_PhysicsConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Load( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_PhysicsConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }
 
 void TPhysicsInitials::Save() const
 {
-	TAssignmentsList::Save(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_PhysicsConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Save( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_PhysicsConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }

@@ -6,71 +6,71 @@
 // ------------
 TSuspendable::TSuspendable()
 {
-	ResetSuspendCount();
+    ResetSuspendCount();
 }
 
 bool TSuspendable::OnSuspend()
 {
-	return true;
+    return true;
 }
 
 bool TSuspendable::OnResume()
 {
-	return true;
+    return true;
 }
 
 void TSuspendable::ResetSuspendCount(size_t szSSuspendCount)
 {
-	m_szSuspendCount = szSSuspendCount;
+    m_szSuspendCount = szSSuspendCount;
 }
 
 bool TSuspendable::SetSuspendCount(size_t szSSuspendCount)
 {
-	if(IsSuspended())
-	{
-		if(szSSuspendCount > 0)
-		{
-			m_szSuspendCount = szSSuspendCount;
-			return true;
-		}
-		else
-		{
-			if(OnResume())
-			{
-				m_szSuspendCount = 0;
-				return true;
-			}
+    if(IsSuspended())
+    {
+        if(szSSuspendCount > 0)
+        {
+            m_szSuspendCount = szSSuspendCount;
+            return true;
+        }
+        else
+        {
+            if(OnResume())
+            {
+                m_szSuspendCount = 0;
+                return true;
+            }
 
-			return false;
-		}
-	}
-	else
-	{
-		if(szSSuspendCount > 0)
-		{
-			if(OnSuspend())
-			{
-				m_szSuspendCount = szSSuspendCount;
-				return true;
-			}
+            return false;
+        }
+    }
+    else
+    {
+        if(szSSuspendCount > 0)
+        {
+            if(OnSuspend())
+            {
+                m_szSuspendCount = szSSuspendCount;
+                return true;
+            }
 
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
 
 bool TSuspendable::Suspend()
 {
-	return SetSuspendCount(m_szSuspendCount + 1);
+    return SetSuspendCount(m_szSuspendCount + 1);
 }
 
 bool TSuspendable::Resume()
 {
-	return m_szSuspendCount > 0 && SetSuspendCount(m_szSuspendCount - 1);
+    return m_szSuspendCount > 0 && SetSuspendCount(m_szSuspendCount - 1);
 }
 
 // ----------
@@ -78,11 +78,11 @@ bool TSuspendable::Resume()
 // ----------
 TSuspender::TSuspender(TSuspendable& SSuspendable)
 {
-	m_pSuspendable = SSuspendable.Suspend() ? &SSuspendable : NULL;
+    m_pSuspendable = SSuspendable.Suspend() ? &SSuspendable : NULL;
 }
 
 TSuspender::~TSuspender()
 {
-	if(HasSucceeded())
-		m_pSuspendable->Resume();
+    if(HasSucceeded())
+        m_pSuspendable->Resume();
 }

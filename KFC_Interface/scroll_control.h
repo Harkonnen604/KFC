@@ -11,17 +11,17 @@
 // -------------------------------
 struct TScrollControlCreationStruct : public TControlCreationStruct
 {
-	size_t	m_szNVisibleItems;
-	FRECT	m_FirstVisibleItemRect;
-	FSIZE	m_VisibleItemRectsOffset;
-	float	m_fScrollDelay;
+    size_t  m_szNVisibleItems;
+    FRECT   m_FirstVisibleItemRect;
+    FSIZE   m_VisibleItemRectsOffset;
+    float   m_fScrollDelay;
 
 
-	TScrollControlCreationStruct() {}
+    TScrollControlCreationStruct() {}
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 };
 
 // -------------------------------
@@ -29,13 +29,13 @@ struct TScrollControlCreationStruct : public TControlCreationStruct
 // -------------------------------
 struct TScrollControlSoundsProvider
 {
-	TObjectPointer<TSound> m_DescendingScrollSound;
-	TObjectPointer<TSound> m_AscendingScrollSound;
+    TObjectPointer<TSound> m_DescendingScrollSound;
+    TObjectPointer<TSound> m_AscendingScrollSound;
 
 
-	TScrollControlSoundsProvider();
+    TScrollControlSoundsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ---------------------------------
@@ -44,29 +44,29 @@ struct TScrollControlSoundsProvider
 class TScrollControlControlsProvider
 {
 private:
-	bool m_bAllocated;
-	
-	TInterpolatorProcessor m_InterpolatorProcessor;
+    bool m_bAllocated;
+
+    TInterpolatorProcessor m_InterpolatorProcessor;
 
 public:
-	TControlPointer		m_DescendingArrow;
-	TControlPointer		m_AscendingArrow;
-	TControlPointers	m_Items;
+    TControlPointer     m_DescendingArrow;
+    TControlPointer     m_AscendingArrow;
+    TControlPointers    m_Items;
 
 
-	TScrollControlControlsProvider();
+    TScrollControlControlsProvider();
 
-	~TScrollControlControlsProvider()
-		{ Release(); }
+    ~TScrollControlControlsProvider()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 };
 
 // ---------------
@@ -75,106 +75,106 @@ public:
 class TScrollControl : public TControl
 {
 public:
-	// Items
-	typedef TArray<TControl*, true> TItems;
+    // Items
+    typedef TArray<TControl*, true> TItems;
 
 private:
-	// Interpolator type defs
-	typedef
-		FLOAT_TIME_SEGMENTED_CONTROL_VALUE_INTERPOLATOR(CommonVisibility, float, TInversedPowerSegmentValueMapper<1.5f>, 2)
-			TItemHiderInterpolator;
+    // Interpolator type defs
+    typedef
+        FLOAT_TIME_SEGMENTED_CONTROL_VALUE_INTERPOLATOR(CommonVisibility, float, TInversedPowerSegmentValueMapper<1.5f>, 2)
+            TItemHiderInterpolator;
 
-	typedef
-		FLOAT_TIME_SEGMENTED_CONTROL_VALUE_INTERPOLATOR(CommonVisibility, float, TPowerSegmentValueMapper<1.5f>, 2)
-			TItemShowerInterpolator;
+    typedef
+        FLOAT_TIME_SEGMENTED_CONTROL_VALUE_INTERPOLATOR(CommonVisibility, float, TPowerSegmentValueMapper<1.5f>, 2)
+            TItemShowerInterpolator;
 
-	typedef
-		FLOAT_TIME_SEGMENTED_CONTROL_VALUE_INTERPOLATOR(CommonRect, FRECT, TLinearSegmentValueMapper, 2)
-			TItemSliderInterpolator;	
+    typedef
+        FLOAT_TIME_SEGMENTED_CONTROL_VALUE_INTERPOLATOR(CommonRect, FRECT, TLinearSegmentValueMapper, 2)
+            TItemSliderInterpolator;
 
 
-	TScrollControlControlsProvider m_ControlsProvider;
+    TScrollControlControlsProvider m_ControlsProvider;
 
-	TControl*	m_pDescendingArrow;
-	TControl*	m_pAscendingArrow;
-	TItems		m_Items;
-	
-	size_t	m_szNVisibleItems;
-	FRECT	m_FirstVisibleItemRect;
-	FSIZE	m_VisibleItemRectsOffset;
-	float	m_fScrollDelay;
+    TControl*   m_pDescendingArrow;
+    TControl*   m_pAscendingArrow;
+    TItems      m_Items;
 
-	SZSEGMENT	m_VisibleItems;
-	int			m_iCurrentScrolling;
-	int			m_iAccumulatedScrolling;
-	float		m_fCurrentScrollerSpeedCoef;
-	bool		m_bScrollerHeadingBack;	
+    size_t  m_szNVisibleItems;
+    FRECT   m_FirstVisibleItemRect;
+    FSIZE   m_VisibleItemRectsOffset;
+    float   m_fScrollDelay;
 
-	// Interpolators
-	TCompoundInterpolator m_ScrollInterpolator;
+    SZSEGMENT   m_VisibleItems;
+    int         m_iCurrentScrolling;
+    int         m_iAccumulatedScrolling;
+    float       m_fCurrentScrollerSpeedCoef;
+    bool        m_bScrollerHeadingBack;
 
-	// Sub-interpolators
-	TInterpolatorHandle		m_ItemHider;
-	TInterpolatorHandle		m_ItemShower;
-	TInterpolatorHandles	m_ItemSliders;
+    // Interpolators
+    TCompoundInterpolator m_ScrollInterpolator;
+
+    // Sub-interpolators
+    TInterpolatorHandle     m_ItemHider;
+    TInterpolatorHandle     m_ItemShower;
+    TInterpolatorHandles    m_ItemSliders;
 
 protected:
-	// Allocation
-	virtual void OnAllocate();
+    // Allocation
+    virtual void OnAllocate();
 
-	virtual void OnSetInitialValues();
+    virtual void OnSetInitialValues();
 
-	// Update/render events
-	virtual void OnPreUpdate();
-	
-	virtual void OnInterfaceUpdated();
+    // Update/render events
+    virtual void OnPreUpdate();
 
-	virtual bool OnSuspend();
+    virtual void OnInterfaceUpdated();
 
-	virtual bool OnResume();
+    virtual bool OnSuspend();
 
-	// Arrow click events
-	virtual void OnDescendingArrowClick();
+    virtual bool OnResume();
 
-	virtual void OnAscendingArrowClick();
+    // Arrow click events
+    virtual void OnDescendingArrowClick();
 
-	// Scrolling events
-	virtual void OnScrollerFinished();
+    virtual void OnAscendingArrowClick();
 
-	// Scrolling methods
-	void UpdateArrowsAppearance(bool bFirstCall = false);
+    // Scrolling events
+    virtual void OnScrollerFinished();
 
-	void DescendingScroll();
+    // Scrolling methods
+    void UpdateArrowsAppearance(bool bFirstCall = false);
 
-	void AscendingScroll();
+    void DescendingScroll();
 
-	void ScrollItems(	const SZSEGMENT&	SlideSegment,
-						size_t				szHideItemIndex,
-						size_t				szShowItemIndex,
-						const FSIZE&		RectsDelta);
-	
-	void HeadScrollerBack();
+    void AscendingScroll();
 
-	void SetScrollerSpeedCoef(float fSpeedCoef);
+    void ScrollItems(   const SZSEGMENT&    SlideSegment,
+                        size_t              szHideItemIndex,
+                        size_t              szShowItemIndex,
+                        const FSIZE&        RectsDelta);
+
+    void HeadScrollerBack();
+
+    void SetScrollerSpeedCoef(float fSpeedCoef);
 
 public:
-	TObjectPointer<TSound> m_DescendingScrollSound;
-	TObjectPointer<TSound> m_AscendingScrollSound;
+    TObjectPointer<TSound> m_DescendingScrollSound;
+    TObjectPointer<TSound> m_AscendingScrollSound;
 
 
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
 
-	TScrollControl();
+    TScrollControl();
 
-	TScrollControl(	const TScrollControlCreationStruct&	CreationStruct,
-					TScrollControlSoundsProvider&		SoundsProvider,
-					TScrollControlControlsProvider&		ControlsProvider);
+    TScrollControl( const TScrollControlCreationStruct& CreationStruct,
+                    TScrollControlSoundsProvider&       SoundsProvider,
+                    TScrollControlControlsProvider&     ControlsProvider);
 
-	// ---------------- TRIVIALS ----------------
-	const TItems& GetItems() const { return m_Items; }
+    // ---------------- TRIVIALS ----------------
+    const TItems& GetItems() const { return m_Items; }
 };
 
 #endif // scroll_control_h

@@ -8,38 +8,38 @@
 class TEncoding
 {
 private:
-	KString m_Name;
+    KString m_Name;
 
-	TArray<BYTE, true> m_EncData;
-	TArray<BYTE, true> m_DecData;
+    TArray<BYTE, true> m_EncData;
+    TArray<BYTE, true> m_DecData;
 
 public:
-	TEncoding();
+    TEncoding();
 
-	TEncoding(LPCTSTR pSName, LPCTSTR pFileNamePrefix);
+    TEncoding(LPCTSTR pSName, LPCTSTR pFileNamePrefix);
 
-	~TEncoding()
-		{ Release(); }
+    ~TEncoding()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return !m_Name.IsEmpty(); }
+    bool IsAllocated() const
+        { return !m_Name.IsEmpty(); }
 
-	void Release();
+    void Release();
 
-	void AllocateIdentity(LPCTSTR pSName);
+    void AllocateIdentity(LPCTSTR pSName);
 
-	void Allocate(LPCTSTR pSName, LPCTSTR pFileNamePrefix = NULL);
+    void Allocate(LPCTSTR pSName, LPCTSTR pFileNamePrefix = NULL);
 
-	void AllocateOEM(LPCTSTR pSName = TEXT("oem"));
+    void AllocateOEM(LPCTSTR pSName = TEXT("oem"));
 
-	KString Encode(LPCSTR s, size_t l = -1) const;
-	KString Decode(LPCSTR s, size_t l = -1) const;
+    KString Encode(LPCSTR s, size_t l = -1) const;
+    KString Decode(LPCSTR s, size_t l = -1) const;
 
-	LPSTR EncodeSelf(LPSTR s, size_t l = -1) const;
-	LPSTR DecodeSelf(LPSTR s, size_t l = -1) const;
+    LPSTR EncodeSelf(LPSTR s, size_t l = -1) const;
+    LPSTR DecodeSelf(LPSTR s, size_t l = -1) const;
 
-	const KString& GetName() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Name; }
+    const KString& GetName() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Name; }
 };
 
 // ----------------
@@ -66,61 +66,61 @@ void DecodeBase64(TArray<BYTE, true>& RData, LPCTSTR s, size_t l = -1);
 
 /*
 // Quoted-printable custom
-KString EncodeQuotedPrintableCustom(char		cPrefix,
-									char		cSpace,
-									LPCSTR		pDelimeters,
-									const BYTE*	p,
-									size_t		l);
+KString EncodeQuotedPrintableCustom(char        cPrefix,
+                                    char        cSpace,
+                                    LPCSTR      pDelimeters,
+                                    const BYTE* p,
+                                    size_t      l);
 
-KString EncodeQuotedPrintableCustom(char	cPrefix,
-									char	cSpace,
-									LPCSTR	pDelimeters,
-									LPCSTR	s,
-									size_t	l = -1);
+KString EncodeQuotedPrintableCustom(char    cPrefix,
+                                    char    cSpace,
+                                    LPCSTR  pDelimeters,
+                                    LPCSTR  s,
+                                    size_t  l = -1);
 
-void DecodeQuotedPrintableCustom(	char				cPrefix,
-									char				cSpace,
-									LPCSTR				pDelimeters,
-									TArray<BYTE, true>&	RData,
-									LPCSTR				s,
-									size_t				l = -1);
+void DecodeQuotedPrintableCustom(   char                cPrefix,
+                                    char                cSpace,
+                                    LPCSTR              pDelimeters,
+                                    TArray<BYTE, true>& RData,
+                                    LPCSTR              s,
+                                    size_t              l = -1);
 
-KString DecodeQuotedPrintableCustom(char				cPrefix,
-									char				cSpace,
-									LPCSTR				pDelimeters,
-									LPCSTR				s,
-									size_t				l = -1);
+KString DecodeQuotedPrintableCustom(char                cPrefix,
+                                    char                cSpace,
+                                    LPCSTR              pDelimeters,
+                                    LPCSTR              s,
+                                    size_t              l = -1);
 
 // Quoted-printable
 inline KString EncodeQuotedPrintable(const BYTE* p, size_t l)
-	{ return EncodeQuotedPrintableCustom('=', '_', NULL, p, l); };
+    { return EncodeQuotedPrintableCustom('=', '_', NULL, p, l); };
 
 inline KString EncodeQuotedPrintable(LPCSTR s, size_t l = -1)
-	{ return EncodeQuotedPrintableCustom('=', '_', NULL, s, l); }
+    { return EncodeQuotedPrintableCustom('=', '_', NULL, s, l); }
 
 inline void DecodeQuotedPrintable(TArray<BYTE, true>& RData, LPCSTR s, size_t l = -1)
-	{ DecodeQuotedPrintableCustom('=', '_', NULL, RData, s, l); }
+    { DecodeQuotedPrintableCustom('=', '_', NULL, RData, s, l); }
 
 inline KString DecodeQuotedPrintable(LPCSTR s, size_t l = -1)
-	{ return DecodeQuotedPrintableCustom('=', '_', NULL, s, l); }
+    { return DecodeQuotedPrintableCustom('=', '_', NULL, s, l); }
 
 // CGI
 inline KString EncodeCGI_Parameter(LPCTSTR s, size_t l = -1)
-	{ return EncodeQuotedPrintableCustom('%', '+', "?=&'\"", s, l); }
+    { return EncodeQuotedPrintableCustom('%', '+', "?=&'\"", s, l); }
 
 inline KString DecodeCGI_Parameter(LPCTSTR s, size_t l = -1)
 {
-	KString Text = DecodeQuotedPrintableCustom('%', '+', "?=&'\"", s, l);
+    KString Text = DecodeQuotedPrintableCustom('%', '+', "?=&'\"", s, l);
 
-	LPTSTR p = Text.GetDataPtr();
+    LPTSTR p = Text.GetDataPtr();
 
-	for( ; *p ; p++)
-	{
-		if(*p == (TCHAR)0xA0)
-			*p = TEXT(' ');
-	}
+    for( ; *p ; p++)
+    {
+        if(*p == (TCHAR)0xA0)
+            *p = TEXT(' ');
+    }
 
-	return Text;
+    return Text;
 }
 
 // MIME
@@ -141,29 +141,29 @@ TArray<KString>& DecodeQuotedComma(LPCTSTR s, TCHAR qc, TArray<KString>& RValues
 
 // CSV
 inline KString EncodeCSV(LPCTSTR s)
-	{ return EncodeQuoted(s, TEXT('"'), true); }
+    { return EncodeQuoted(s, TEXT('"'), true); }
 
 inline KString DecodeCSV(LPCTSTR s)
-	{ return DecodeQuoted(s, TEXT('"')); }
+    { return DecodeQuoted(s, TEXT('"')); }
 
 inline KString EncodeCSV(const TArray<KString>& Values, TCHAR cSeparator = TEXT(','))
-	{ return EncodeQuotedComma(Values, TEXT('"'), true, cSeparator); }
+    { return EncodeQuotedComma(Values, TEXT('"'), true, cSeparator); }
 
 inline TArray<KString>& DecodeCSV(LPCTSTR s, TArray<KString>& RValues, TCHAR cSeparator = TEXT(';'))
-	{ return DecodeQuotedComma(s, TEXT('"'), RValues, cSeparator); }
+    { return DecodeQuotedComma(s, TEXT('"'), RValues, cSeparator); }
 
 // MySQL
 inline KString EncodeMySQL(LPCTSTR s)
-	{ return EncodeQuoted(s, TEXT('\'')); }
+    { return EncodeQuoted(s, TEXT('\'')); }
 
 inline KString DecodeMySQL(LPCTSTR s)
-	{ return DecodeQuoted(s, TEXT('\'')); }
+    { return DecodeQuoted(s, TEXT('\'')); }
 
 inline KString EncodeMySQL(const TArray<KString>& Values)
-	{ return EncodeQuotedComma(Values, TEXT('\'')); }
+    { return EncodeQuotedComma(Values, TEXT('\'')); }
 
 inline TArray<KString>& DecodeMySQL(LPCTSTR s, TArray<KString>& RValues)
-	{ return DecodeQuotedComma(s, TEXT('\''), RValues); }
+    { return DecodeQuotedComma(s, TEXT('\''), RValues); }
 
 // JS
 KString EncodeJS_String(LPCTSTR s);

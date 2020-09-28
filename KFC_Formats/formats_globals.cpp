@@ -11,6 +11,6 @@ TFormatsGlobals g_FormatsGlobals;
 // ----------------
 TFormatsGlobals::TFormatsGlobals() : TModuleGlobals(TEXT("Formats globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_EncodingGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_EncodingGlobals);
 }

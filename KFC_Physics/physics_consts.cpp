@@ -8,6 +8,6 @@ TPhysicsConsts g_PhysicsConsts;
 // ---------------
 TPhysicsConsts::TPhysicsConsts()
 {
-	// Registry
-	m_RegistryKeyName = TEXT("Physics\\");
+    // Registry
+    m_RegistryKeyName = TEXT("Physics\\");
 }

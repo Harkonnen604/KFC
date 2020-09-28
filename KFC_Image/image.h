@@ -8,11 +8,11 @@
 // --------------
 enum TBitBlitMode
 {
-	BBM_COPY						= 1,
-	BBM_ALPHABLIT					= 2,
-	BBM_ONLY_FULL_SRC_ALPHA_PIXELS	= 3,
-	BBM_ONLY_FULL_DST_ALPHA_PIXELS	= 4,
-	BBM_FORCE_UINT					= UINT_MAX,
+    BBM_COPY                        = 1,
+    BBM_ALPHABLIT                   = 2,
+    BBM_ONLY_FULL_SRC_ALPHA_PIXELS  = 3,
+    BBM_ONLY_FULL_DST_ALPHA_PIXELS  = 4,
+    BBM_FORCE_UINT                  = UINT_MAX,
 };
 
 // ------
@@ -21,155 +21,155 @@ enum TBitBlitMode
 class TImage
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TValueMatrix<DWORD, true>	m_Pixels;
-	SZSIZE						m_Size;
+    TValueMatrix<DWORD, true>   m_Pixels;
+    SZSIZE                      m_Size;
 
 private:
-	void LoadAsBMP	(const KString& FilaName);
-	void LoadAsJPEG	(const KString& FileName);
-	void LoadAsTGA	(const KString& FileName);
-	void LoadAsTIFF	(const KString& FileName);
-	void LoadAsPNG	(const KString& FileName);
+    void LoadAsBMP  (const KString& FilaName);
+    void LoadAsJPEG (const KString& FileName);
+    void LoadAsTGA  (const KString& FileName);
+    void LoadAsTIFF (const KString& FileName);
+    void LoadAsPNG  (const KString& FileName);
 
-	void SaveAsBMP	(const KString& FileName) const;
-	void SaveAsJPEG	(const KString& FileName, int iQuality) const;
-	void SaveAsTGA	(const KString& FileName) const;
-	void SaveAsTIFF	(const KString& FileName) const;
-	void SaveAsPNG	(const KString& FileName) const;
+    void SaveAsBMP  (const KString& FileName) const;
+    void SaveAsJPEG (const KString& FileName, int iQuality) const;
+    void SaveAsTGA  (const KString& FileName) const;
+    void SaveAsTIFF (const KString& FileName) const;
+    void SaveAsPNG  (const KString& FileName) const;
 
 public:
-	TImage();
+    TImage();
 
-	TImage(const SZSIZE& SSize);
+    TImage(const SZSIZE& SSize);
 
-	TImage(const KString& FileName);
+    TImage(const KString& FileName);
 
-	TImage(const TImage& Image, const SZRECT& Rect); // cropped
+    TImage(const TImage& Image, const SZRECT& Rect); // cropped
 
-	TImage(const TImage& Image, const SZSIZE& Size); // resized
-	
-	~TImage()
-		{ Release(); }
+    TImage(const TImage& Image, const SZSIZE& Size); // resized
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    ~TImage()
+        { Release(); }
 
-	void Release(bool bFromAllocatorException = false);
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	TImage& Allocate(const SZSIZE& SSize);
+    void Release(bool bFromAllocatorException = false);
 
-	TImage& CreateCropped(const TImage& SrcImage, const SZRECT& Rect);
+    TImage& Allocate(const SZSIZE& SSize);
 
-	TImage& CreateResized(const TImage& SrcImage, const SZSIZE& SSize);
+    TImage& CreateCropped(const TImage& SrcImage, const SZRECT& Rect);
 
-	TImage& Clear()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TImage& CreateResized(const TImage& SrcImage, const SZSIZE& SSize);
 
-		memset(GetDataPtr(), 0x00, m_Size.GetArea() * sizeof(DWORD));
+    TImage& Clear()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return *this;
-	}
+        memset(GetDataPtr(), 0x00, m_Size.GetArea() * sizeof(DWORD));
 
-	TImage& FillWhite()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return *this;
+    }
 
-		memset(GetDataPtr(), 0xFF, m_Size.GetArea() * sizeof(DWORD));
+    TImage& FillWhite()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return *this;
-	}
+        memset(GetDataPtr(), 0xFF, m_Size.GetArea() * sizeof(DWORD));
 
-	TImage& Fill(DWORD dwColor)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return *this;
+    }
 
-		DWORD* pData = GetDataPtr();
+    TImage& Fill(DWORD dwColor)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		for(size_t i = m_Size.GetArea() ; i ; i--)
-			*pData++ = dwColor;
+        DWORD* pData = GetDataPtr();
 
-		return *this;
-	}
+        for(size_t i = m_Size.GetArea() ; i ; i--)
+            *pData++ = dwColor;
 
-	DWORD GetPixel(const SZPOINT& Coords) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return *this;
+    }
 
-		return m_Pixels.GetDataRef(Coords);
-	}
+    DWORD GetPixel(const SZPOINT& Coords) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	void SetPixel(const SZPOINT& Coords, DWORD dwColor)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_Pixels.GetDataRef(Coords);
+    }
 
-		m_Pixels.GetDataRef(Coords) = dwColor;
-	}
+    void SetPixel(const SZPOINT& Coords, DWORD dwColor)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	TImage& BitBlit(const TImage&	SrcImage,
-					IPOINT			DstCoords	= IPOINT(0, 0),
-					const IRECT*	pSrcRect	= NULL,
-					TBitBlitMode	Mode		= BBM_COPY,
-					const ALSIZE&	Alignment	= ALSIZE(ALIGNMENT_MIN, ALIGNMENT_MIN),
-					float			fMulAlpha	= 1.0f);
+        m_Pixels.GetDataRef(Coords) = dwColor;
+    }
 
-	TImage& DrawLine(	const IPOINT&	Coords1,
-						const IPOINT&	Coords2,
-						DWORD			dwColor,
-						const IRECT*	pClipRect = NULL);
+    TImage& BitBlit(const TImage&   SrcImage,
+                    IPOINT          DstCoords   = IPOINT(0, 0),
+                    const IRECT*    pSrcRect    = NULL,
+                    TBitBlitMode    Mode        = BBM_COPY,
+                    const ALSIZE&   Alignment   = ALSIZE(ALIGNMENT_MIN, ALIGNMENT_MIN),
+                    float           fMulAlpha   = 1.0f);
 
-	void Load(const KString& FileName);
+    TImage& DrawLine(   const IPOINT&   Coords1,
+                        const IPOINT&   Coords2,
+                        DWORD           dwColor,
+                        const IRECT*    pClipRect = NULL);
 
-	void Save(const KString& FileName, int iQuality = 90) const;	
+    void Load(const KString& FileName);
 
-	static size_t GetFileSize(const SZSIZE& Size)
-		{ return Size.GetArea() * sizeof(DWORD); }
+    void Save(const KString& FileName, int iQuality = 90) const;
 
-	DWORD* GetDataPtr()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    static size_t GetFileSize(const SZSIZE& Size)
+        { return Size.GetArea() * sizeof(DWORD); }
 
-		return m_Pixels.GetDataPtr();
-	}
+    DWORD* GetDataPtr()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const DWORD* GetDataPtr() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_Pixels.GetDataPtr();
+    }
 
-		return m_Pixels.GetDataPtr();
-	}
+    const DWORD* GetDataPtr() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	DWORD* GetDataPtr(const SZPOINT& Coords)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_Pixels.GetDataPtr();
+    }
 
-		DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
+    DWORD* GetDataPtr(const SZPOINT& Coords)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_Pixels.GetDataPtr(Coords);
-	}
+        DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
 
-	const DWORD* GetDataPtr(const SZPOINT& Coords) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_Pixels.GetDataPtr(Coords);
+    }
 
-		DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
+    const DWORD* GetDataPtr(const SZPOINT& Coords) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_Pixels.GetDataPtr(Coords);
-	}
+        DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
 
-	const SZSIZE& GetSize() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Size; }
+        return m_Pixels.GetDataPtr(Coords);
+    }
 
-	IRECT GetRect() const
-		{ DEBUG_VERIFY_ALLOCATION; return IRECT(0, 0, m_Size.cx, m_Size.cy); }
+    const SZSIZE& GetSize() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Size; }
 
-	size_t GetWidth() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Size.cx; }
+    IRECT GetRect() const
+        { DEBUG_VERIFY_ALLOCATION; return IRECT(0, 0, m_Size.cx, m_Size.cy); }
 
-	size_t GetHeight() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Size.cy; }
+    size_t GetWidth() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Size.cx; }
+
+    size_t GetHeight() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Size.cy; }
 };
 
 DECLARE_STREAMING(TImage);

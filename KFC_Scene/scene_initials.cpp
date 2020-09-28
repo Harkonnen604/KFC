@@ -19,8 +19,8 @@ void TSceneInitials::OnUninitialize()
 
 void TSceneInitials::OnInitialize()
 {
-	if(!g_CommonConsts.m_bSkipBasicCfgInitials)
-		Load(), Save();
+    if(!g_CommonConsts.m_bSkipBasicCfgInitials)
+        Load(), Save();
 }
 
 void TSceneInitials::LoadItems(KRegistryKey& Key)
@@ -33,14 +33,14 @@ void TSceneInitials::SaveItems(KRegistryKey& Key) const
 
 void TSceneInitials::Load()
 {
-	TAssignmentsList::Load(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_SceneConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Load( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_SceneConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }
 
 void TSceneInitials::Save() const
 {
-	TAssignmentsList::Save(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_SceneConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Save( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_SceneConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }

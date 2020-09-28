@@ -9,49 +9,49 @@
 class TWaitableTimer
 {
 private:
-	HANDLE m_hTimer;
+    HANDLE m_hTimer;
 
 public:
-	TWaitableTimer();
-	
-	TWaitableTimer(bool bManualReset, LPCTSTR pName = NULL);
-	
-	#ifdef _MSC_VER
-		TWaitableTimer(LPCTSTR pName);
-	#endif // _MSC_VER
+    TWaitableTimer();
 
-	~TWaitableTimer()
-		{ Release(); }
+    TWaitableTimer(bool bManualReset, LPCTSTR pName = NULL);
 
-	bool IsAllocated() const
-		{ return m_hTimer; }
+    #ifdef _MSC_VER
+        TWaitableTimer(LPCTSTR pName);
+    #endif // _MSC_VER
 
-	void Release();
+    ~TWaitableTimer()
+        { Release(); }
 
-	bool Create(bool bManualReset, LPCTSTR pName = NULL);
+    bool IsAllocated() const
+        { return m_hTimer; }
 
-	#ifdef _MSC_VER
-		void Open(LPCTSTR pName);
-	#endif // _MSC_VER
+    void Release();
 
-	void SetRelative(size_t szDelay, size_t szPeriod = 0);
+    bool Create(bool bManualReset, LPCTSTR pName = NULL);
 
-	void SetAbsolute(const FILETIME& GlobalTime, size_t szPeriod = 0);
+    #ifdef _MSC_VER
+        void Open(LPCTSTR pName);
+    #endif // _MSC_VER
 
-	void Cancel(bool bSafe);
+    void SetRelative(size_t szDelay, size_t szPeriod = 0);
 
-	bool Wait(size_t szTimeout = INFINITE)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void SetAbsolute(const FILETIME& GlobalTime, size_t szPeriod = 0);
 
-		return WaitForSingleObject(m_hTimer, (DWORD)szTimeout) == WAIT_OBJECT_0;
-	}
+    void Cancel(bool bSafe);
 
-	HANDLE GetTimer() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hTimer; }
+    bool Wait(size_t szTimeout = INFINITE)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	operator HANDLE () const
-		{ return GetTimer(); }
+        return WaitForSingleObject(m_hTimer, (DWORD)szTimeout) == WAIT_OBJECT_0;
+    }
+
+    HANDLE GetTimer() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hTimer; }
+
+    operator HANDLE () const
+        { return GetTimer(); }
 };
 
 #endif // _MSC_VER

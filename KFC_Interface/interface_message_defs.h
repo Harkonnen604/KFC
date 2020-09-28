@@ -9,12 +9,12 @@
 // ----------------
 struct TControlMessage : public TMessage
 {
-	TControl* m_pControl;
+    TControl* m_pControl;
 
 
-	TControlMessage(TControl* pSControl) :
+    TControlMessage(TControl* pSControl) :
 
-		m_pControl(pSControl) {}
+        m_pControl(pSControl) {}
 };
 
 // -----------------------------------
@@ -22,15 +22,15 @@ struct TControlMessage : public TMessage
 // -----------------------------------
 struct TControlVisibilityMessage : public TControlMessage
 {
-	bool m_bNewState;
+    bool m_bNewState;
 
 
-	TControlVisibilityMessage(	TControl*	pSControl,
-								bool		bSNewState) :
-	
-		TControlMessage(pSControl),
+    TControlVisibilityMessage(  TControl*   pSControl,
+                                bool        bSNewState) :
 
-		m_bNewState(bSNewState) {}
+        TControlMessage(pSControl),
+
+        m_bNewState(bSNewState) {}
 };
 
 // ---------------------------
@@ -38,15 +38,15 @@ struct TControlVisibilityMessage : public TControlMessage
 // ---------------------------
 struct TControlEnablementMessage : public TControlMessage
 {
-	bool m_bNewState;
+    bool m_bNewState;
 
 
-	TControlEnablementMessage(	TControl*	pSControl,
-								bool		bSNewState) :
-	
-		TControlMessage(pSControl),
+    TControlEnablementMessage(  TControl*   pSControl,
+                                bool        bSNewState) :
 
-		m_bNewState(bSNewState) {}	
+        TControlMessage(pSControl),
+
+        m_bNewState(bSNewState) {}
 };
 
 // -----------------------------
@@ -54,18 +54,18 @@ struct TControlEnablementMessage : public TControlMessage
 // -----------------------------
 struct TControlKeyboardKeyMessage : public TControlMessage
 {
-	size_t	m_szKey;
-	bool	m_bNewState;
+    size_t  m_szKey;
+    bool    m_bNewState;
 
 
-	TControlKeyboardKeyMessage(	TControl*	pSControl,
-								size_t		szSKey,
-								bool		bSNewState) :
+    TControlKeyboardKeyMessage( TControl*   pSControl,
+                                size_t      szSKey,
+                                bool        bSNewState) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_szKey		(szSKey),
-		m_bNewState	(bSNewState) {}
+        m_szKey     (szSKey),
+        m_bNewState (bSNewState) {}
 };
 
 // ----------------------
@@ -73,14 +73,14 @@ struct TControlKeyboardKeyMessage : public TControlMessage
 // ----------------------
 struct TControlFocusMessage : public TControlMessage
 {
-	bool m_bNewState;
+    bool m_bNewState;
 
 
-	TControlFocusMessage(	TControl*	pSControl,
-							bool		bSNewState) :
+    TControlFocusMessage(   TControl*   pSControl,
+                            bool        bSNewState) :
 
-		TControlMessage	(pSControl),
-		m_bNewState		(bSNewState) {}
+        TControlMessage (pSControl),
+        m_bNewState     (bSNewState) {}
 };
 
 // -----------------------------
@@ -88,21 +88,21 @@ struct TControlFocusMessage : public TControlMessage
 // -----------------------------
 struct TControlMouseButtonMessage : public TControlMessage
 {
-	size_t	m_szButton;
-	bool	m_bNewState;
-	FPOINT	m_Coords;
+    size_t  m_szButton;
+    bool    m_bNewState;
+    FPOINT  m_Coords;
 
 
-	TControlMouseButtonMessage(	TControl*		pSControl,
-								size_t			szSButton,
-								bool			bSNewState,
-								const FPOINT&	SCoords) :
+    TControlMouseButtonMessage( TControl*       pSControl,
+                                size_t          szSButton,
+                                bool            bSNewState,
+                                const FPOINT&   SCoords) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_szButton	(szSButton),
-		m_bNewState	(bSNewState),
-		m_Coords	(SCoords) {}
+        m_szButton  (szSButton),
+        m_bNewState (bSNewState),
+        m_Coords    (SCoords) {}
 };
 
 // -------------------------------
@@ -110,18 +110,18 @@ struct TControlMouseButtonMessage : public TControlMessage
 // -------------------------------
 struct TControlMouseMovementMessage : public TControlMessage
 {
-	FPOINT	m_DstCoords;
-	FSIZE	m_Delta;
+    FPOINT  m_DstCoords;
+    FSIZE   m_Delta;
 
 
-	TControlMouseMovementMessage(	TControl*		pSControl,
-									const FSIZE&	SDelta,
-									const FPOINT&	SDstCoords) :
+    TControlMouseMovementMessage(   TControl*       pSControl,
+                                    const FSIZE&    SDelta,
+                                    const FPOINT&   SDstCoords) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_DstCoords	(SDstCoords),
-		m_Delta		(SDelta) {}
+        m_DstCoords (SDstCoords),
+        m_Delta     (SDelta) {}
 };
 
 // -------------------------------
@@ -129,18 +129,18 @@ struct TControlMouseMovementMessage : public TControlMessage
 // -------------------------------
 struct TControlMouseHoveringMessage : public TControlMessage
 {
-	FPOINT	m_Coords;
-	bool	m_bNewState;
+    FPOINT  m_Coords;
+    bool    m_bNewState;
 
 
-	TControlMouseHoveringMessage(	TControl*		pSControl,
-									bool			bSNewState,
-									const FPOINT&	SCoords) :
+    TControlMouseHoveringMessage(   TControl*       pSControl,
+                                    bool            bSNewState,
+                                    const FPOINT&   SCoords) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_Coords	(SCoords),
-		m_bNewState	(bSNewState){}
+        m_Coords    (SCoords),
+        m_bNewState (bSNewState){}
 };
 
 // --------------------------------
@@ -148,18 +148,18 @@ struct TControlMouseHoveringMessage : public TControlMessage
 // --------------------------------
 struct TInteractiveControlPushMessage : public TControlMessage
 {
-	bool m_bNewState;
-	bool m_bFromMouse;
+    bool m_bNewState;
+    bool m_bFromMouse;
 
 
-	TInteractiveControlPushMessage(	TControl*	pSControl,
-									bool		bSNewState,
-									bool		bSFromMouse) :
+    TInteractiveControlPushMessage( TControl*   pSControl,
+                                    bool        bSNewState,
+                                    bool        bSFromMouse) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_bNewState	(bSNewState),
-		m_bFromMouse(bSFromMouse) {}
+        m_bNewState (bSNewState),
+        m_bFromMouse(bSFromMouse) {}
 };
 
 // ----------------------------------
@@ -167,15 +167,15 @@ struct TInteractiveControlPushMessage : public TControlMessage
 // ----------------------------------
 struct TInteractiveControlClickMessage : public TControlMessage
 {
-	bool m_bFromMouse;
+    bool m_bFromMouse;
 
 
-	TInteractiveControlClickMessage(TControl*	pSControl,
-									bool		bSFromMouse) :
+    TInteractiveControlClickMessage(TControl*   pSControl,
+                                    bool        bSFromMouse) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_bFromMouse(bSFromMouse) {}
+        m_bFromMouse(bSFromMouse) {}
 };
 
 // ---------------------------------------
@@ -183,15 +183,15 @@ struct TInteractiveControlClickMessage : public TControlMessage
 // ---------------------------------------
 struct TInteractiveControlPushClickMessage : public TControlMessage
 {
-	bool m_bFromMouse;
+    bool m_bFromMouse;
 
 
-	TInteractiveControlPushClickMessage(TControl*	pSControl,
-										bool		bSFromMouse) :
+    TInteractiveControlPushClickMessage(TControl*   pSControl,
+                                        bool        bSFromMouse) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_bFromMouse(bSFromMouse) {}
+        m_bFromMouse(bSFromMouse) {}
 };
 
 // -------------------------------
@@ -199,18 +199,18 @@ struct TInteractiveControlPushClickMessage : public TControlMessage
 // -------------------------------
 struct TCheckBoxControlCheckMessage : public TControlMessage
 {
-	bool m_bNewState;
-	bool m_bFromMouse;
+    bool m_bNewState;
+    bool m_bFromMouse;
 
 
-	TCheckBoxControlCheckMessage(	TControl*	pSControl,
-									bool		bSNewState,
-									bool		bSFromMouse) :
+    TCheckBoxControlCheckMessage(   TControl*   pSControl,
+                                    bool        bSNewState,
+                                    bool        bSFromMouse) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_bNewState	(bSNewState),
-		m_bFromMouse(bSFromMouse) {}
+        m_bNewState (bSNewState),
+        m_bFromMouse(bSFromMouse) {}
 };
 
 // ------------------------------
@@ -218,15 +218,15 @@ struct TCheckBoxControlCheckMessage : public TControlMessage
 // ------------------------------
 struct TScrollControlScrollMessage : public TControlMessage
 {
-	int m_iDirection;
+    int m_iDirection;
 
 
-	TScrollControlScrollMessage(TControl*	pSControl,
-								int			iSDirection) :
+    TScrollControlScrollMessage(TControl*   pSControl,
+                                int         iSDirection) :
 
-		TControlMessage(pSControl),
+        TControlMessage(pSControl),
 
-		m_iDirection(iSDirection) {}
+        m_iDirection(iSDirection) {}
 };
 
 #endif // interface_message_defs_h

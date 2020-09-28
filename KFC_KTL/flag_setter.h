@@ -7,12 +7,12 @@
 class TFlagSetter
 {
 private:
-	bool* m_pFlag;
+    bool* m_pFlag;
 
 public:
-	TFlagSetter(bool& bSFlag);
+    TFlagSetter(bool& bSFlag);
 
-	~TFlagSetter();
+    ~TFlagSetter();
 };
 
 #endif // flag_setter_h

@@ -8,20 +8,20 @@
 // --------------------------
 // Value mapper interpolator
 // --------------------------
-#define SEGMENTED_VALUE_MAPPER_INTERPOLATOR(SrcType, DstType, GetterTemplate, SetterType, SegmentValueMapperType, szNSegments)	\
-	TValueMapperInterpolator<	SrcType,																						\
-								DstType,																						\
-								GetterTemplate<SrcType>,																		\
-								SetterType,																						\
-								TSegmentedValueMapper<	SrcType,																\
-														DstType,																\
-														SegmentValueMapperType,													\
-														szNSegments> >															\
+#define SEGMENTED_VALUE_MAPPER_INTERPOLATOR(SrcType, DstType, GetterTemplate, SetterType, SegmentValueMapperType, szNSegments)  \
+    TValueMapperInterpolator<   SrcType,                                                                                        \
+                                DstType,                                                                                        \
+                                GetterTemplate<SrcType>,                                                                        \
+                                SetterType,                                                                                     \
+                                TSegmentedValueMapper<  SrcType,                                                                \
+                                                        DstType,                                                                \
+                                                        SegmentValueMapperType,                                                 \
+                                                        szNSegments> >                                                          \
 
 // -------------------------------------
 // Float time value mapper interpolator
 // -------------------------------------
-#define FLOAT_TIME_SEGMENTED_VALUE_MAPPER_INTERPOLATOR(DstType, SetterType, SegmentValueMapperType, szNSegments)				\
-	SEGMENTED_VALUE_MAPPER_INTERPOLATOR(float, DstType, TTimeSrcValueGetter, SetterType, SegmentValueMapperType, szNSegments)	\
-*/	
+#define FLOAT_TIME_SEGMENTED_VALUE_MAPPER_INTERPOLATOR(DstType, SetterType, SegmentValueMapperType, szNSegments)                \
+    SEGMENTED_VALUE_MAPPER_INTERPOLATOR(float, DstType, TTimeSrcValueGetter, SetterType, SegmentValueMapperType, szNSegments)   \
+*/
 #endif // interpolator_macros_h

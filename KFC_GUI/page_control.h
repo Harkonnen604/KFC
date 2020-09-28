@@ -9,60 +9,60 @@
 class TPageControl
 {
 private:
-	// DLGTEMPLATEEX
-	typedef struct tagDLGTEMPLATEEX
-	{
-		WORD	dlgVer;
-		WORD	signature;
-		DWORD	helpID;
-		DWORD	exStyle;
-		DWORD	style;
-		WORD	cDlgItems;
-		short	x;
-		short	y;
-		short	cx;
-		short	cy;
+    // DLGTEMPLATEEX
+    typedef struct tagDLGTEMPLATEEX
+    {
+        WORD    dlgVer;
+        WORD    signature;
+        DWORD   helpID;
+        DWORD   exStyle;
+        DWORD   style;
+        WORD    cDlgItems;
+        short   x;
+        short   y;
+        short   cx;
+        short   cy;
 
-	}DLGTEMPLATEEX, *LPDLGTEMPLATEEX;
-
-
-	// Page control
-	bool m_bAllocated;	
-
-	HWND m_hWnd;
-
-	TArray<TDialog*, true> m_Pages;
+    }DLGTEMPLATEEX, *LPDLGTEMPLATEEX;
 
 
-	static int CALLBACK StaticPropertySheetCallback(HWND hWnd, UINT uiMsg, LPARAM lParam);
+    // Page control
+    bool m_bAllocated;
 
-	static BOOL CALLBACK StaticEnumProc(HWND hWnd, LPARAM lParam);
+    HWND m_hWnd;
+
+    TArray<TDialog*, true> m_Pages;
+
+
+    static int CALLBACK StaticPropertySheetCallback(HWND hWnd, UINT uiMsg, LPARAM lParam);
+
+    static BOOL CALLBACK StaticEnumProc(HWND hWnd, LPARAM lParam);
 
 public:
-	TPageControl();
+    TPageControl();
 
-	~TPageControl()
-		{ Release(); }
+    ~TPageControl()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
-	
-	void Release(bool bFromAllocatorException = false);
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Allocate(	TDialog&		ParentDialog,
-					const IPOINT&	Coords,
-					TDialog* const*	ppSPages,
-					size_t			szN,
-					size_t			szStartPage = 0);
+    void Release(bool bFromAllocatorException = false);
 
-	void SetActivePage(size_t szIndex);	
+    void Allocate(  TDialog&        ParentDialog,
+                    const IPOINT&   Coords,
+                    TDialog* const* ppSPages,
+                    size_t          szN,
+                    size_t          szStartPage = 0);
 
-	// Getters
-	size_t GetN() const;
+    void SetActivePage(size_t szIndex);
 
-	HWND GetWnd() const;
+    // Getters
+    size_t GetN() const;
 
-	operator HWND () const { return GetWnd(); }
+    HWND GetWnd() const;
+
+    operator HWND () const { return GetWnd(); }
 };
 
 #endif // page_control_h

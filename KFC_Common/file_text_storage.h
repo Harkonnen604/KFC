@@ -12,65 +12,65 @@
 class TFileTextStorage
 {
 private:
-	// Storage
-	typedef TFlexibleItemHeap
-		<TFileMappingGrowableAllocator, TFileMappingGrowableAllocator>
-			TStorage;
+    // Storage
+    typedef TFlexibleItemHeap
+        <TFileMappingGrowableAllocator, TFileMappingGrowableAllocator>
+            TStorage;
 
 public:
-	// Iterator
-	typedef TStorage::TIterator TIterator;
+    // Iterator
+    typedef TStorage::TIterator TIterator;
 
-	// Const iterator
-	typedef TStorage::TConstIterator TConstIterator;
-
-private:
-	TStorage m_Storage;
+    // Const iterator
+    typedef TStorage::TConstIterator TConstIterator;
 
 private:
-	TIterator AddText(LPCTSTR pText, size_t szLength);
+    TStorage m_Storage;
 
-	TIterator ReplaceText(TIterator Iter, LPCTSTR pText, size_t szLength)
-		{ return DelText(Iter), AddText(pText, szLength); }
+private:
+    TIterator AddText(LPCTSTR pText, size_t szLength);
+
+    TIterator ReplaceText(TIterator Iter, LPCTSTR pText, size_t szLength)
+        { return DelText(Iter), AddText(pText, szLength); }
 
 public:
-	TFileTextStorage() {}
+    TFileTextStorage() {}
 
-	TFileTextStorage(LPCTSTR pFileNamePrefix)
-		{ Allocate(pFileNamePrefix); }
+    TFileTextStorage(LPCTSTR pFileNamePrefix)
+        { Allocate(pFileNamePrefix); }
 
-	~TFileTextStorage()
-		{ Release(); }
+    ~TFileTextStorage()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_Storage.IsAllocated(); }
+    bool IsAllocated() const
+        { return m_Storage.IsAllocated(); }
 
-	void Release();
+    void Release();
 
-	void Allocate(LPCTSTR pFileNamePrefix);
+    void Allocate(LPCTSTR pFileNamePrefix);
 
-	void Clear();
+    void Clear();
 
-	LPCTSTR GetText(const TConstIterator Iter) const
-		{ DEBUG_VERIFY_ALLOCATION; return (LPCTSTR)m_Storage[Iter]; }
+    LPCTSTR GetText(const TConstIterator Iter) const
+        { DEBUG_VERIFY_ALLOCATION; return (LPCTSTR)m_Storage[Iter]; }
 
-	LPCTSTR operator [] (const TConstIterator Iter) const
-		{ return GetText(Iter); }
+    LPCTSTR operator [] (const TConstIterator Iter) const
+        { return GetText(Iter); }
 
-	void DelText(TIterator Iter)
-		{ DEBUG_VERIFY_ALLOCATION; m_Storage.Free(Iter); }
+    void DelText(TIterator Iter)
+        { DEBUG_VERIFY_ALLOCATION; m_Storage.Free(Iter); }
 
-	TIterator AddText(LPCTSTR pText)
-		{ DEBUG_VERIFY(pText); return AddText(pText, _tcslen(pText)); }
+    TIterator AddText(LPCTSTR pText)
+        { DEBUG_VERIFY(pText); return AddText(pText, _tcslen(pText)); }
 
-	TIterator AddText(const KString& Text)
-		{ return AddText(Text.GetDataPtr(), Text.GetLength()); }	
+    TIterator AddText(const KString& Text)
+        { return AddText(Text.GetDataPtr(), Text.GetLength()); }
 
-	TIterator ReplaceText(TIterator Iter, LPCTSTR pText)
-		{ return ReplaceText(Iter, pText, _tcslen(pText)); }
+    TIterator ReplaceText(TIterator Iter, LPCTSTR pText)
+        { return ReplaceText(Iter, pText, _tcslen(pText)); }
 
-	TIterator ReplaceText(TIterator Iter, const KString& Text)
-		{ return ReplaceText(Iter, Text.GetDataPtr(), Text.GetLength()); }
+    TIterator ReplaceText(TIterator Iter, const KString& Text)
+        { return ReplaceText(Iter, Text.GetDataPtr(), Text.GetLength()); }
 };
 
 #endif // _MSC_VER

@@ -8,102 +8,102 @@
 // -----------------------------------
 // Control parameter dst value setter
 // -----------------------------------
-template <	class DstValueType,
-			class ControlStateParameterSetterType>
+template <  class DstValueType,
+            class ControlStateParameterSetterType>
 
 class TControlParameterDstValueSetter :
-	public TDstValueSetter<DstValueType>,
-	public ControlStateParameterSetterType
+    public TDstValueSetter<DstValueType>,
+    public ControlStateParameterSetterType
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TControl* m_pControl;
+    TControl* m_pControl;
 
 public:
-	TControlParameterDstValueSetter();
+    TControlParameterDstValueSetter();
 
-	~TControlParameterDstValueSetter()
-		{ Release(); }
+    ~TControlParameterDstValueSetter()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TDstValueSetter<DstValueType>::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TDstValueSetter<DstValueType>::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
-	
-	void Allocate(TControl* pSControl);
+    void Release(bool bFromAllocatorException = false);
 
-	void SetDstValue(const DstValueType& DstValue);
+    void Allocate(TControl* pSControl);
+
+    void SetDstValue(const DstValueType& DstValue);
 };
 
-template <	class DstValueType,
-			class ControlStateParameterSetterType>
+template <  class DstValueType,
+            class ControlStateParameterSetterType>
 
 TControlParameterDstValueSetter<DstValueType,
-								ControlStateParameterSetterType>::
-	TControlParameterDstValueSetter()
+                                ControlStateParameterSetterType>::
+    TControlParameterDstValueSetter()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
-template <	class DstValueType,
-			class ControlStateParameterSetterType>
+template <  class DstValueType,
+            class ControlStateParameterSetterType>
 
-void TControlParameterDstValueSetter<	DstValueType,
-										ControlStateParameterSetterType>::
-	Release(bool bFromAllocatorException)
+void TControlParameterDstValueSetter<   DstValueType,
+                                        ControlStateParameterSetterType>::
+    Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		TDstValueSetter<DstValueType>::Release();
-	}
+        TDstValueSetter<DstValueType>::Release();
+    }
 }
 
-template <	class DstValueType,
-			class ControlStateParameterSetterType>
+template <  class DstValueType,
+            class ControlStateParameterSetterType>
 
-void TControlParameterDstValueSetter<	DstValueType,
-										ControlStateParameterSetterType>::
-	Allocate(TControl* pSControl)
+void TControlParameterDstValueSetter<   DstValueType,
+                                        ControlStateParameterSetterType>::
+    Allocate(TControl* pSControl)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(pSControl);
+    try
+    {
+        DEBUG_VERIFY(pSControl);
 
-		TDstValueSetter<DstValueType>::Allocate();
+        TDstValueSetter<DstValueType>::Allocate();
 
-		m_pControl = pSControl;
+        m_pControl = pSControl;
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
-template <	class DstValueType,
-			class ControlStateParameterSetterType>
+template <  class DstValueType,
+            class ControlStateParameterSetterType>
 
-void TControlParameterDstValueSetter<	DstValueType,
-										ControlStateParameterSetterType>::
-	SetDstValue(const DstValueType& DstValue)
+void TControlParameterDstValueSetter<   DstValueType,
+                                        ControlStateParameterSetterType>::
+    SetDstValue(const DstValueType& DstValue)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	TDstValueSetter<DstValueType>::SetDstValue(DstValue);
-	
-	TControlState State = m_pControl->GetCurrentClientState();
+    TDstValueSetter<DstValueType>::SetDstValue(DstValue);
 
-	ControlStateParameterSetterType::SetControlStateParameter(State, DstValue);
+    TControlState State = m_pControl->GetCurrentClientState();
 
-	TInterface::SetControlClientState(m_pControl, State);
+    ControlStateParameterSetterType::SetControlStateParameter(State, DstValue);
+
+    TInterface::SetControlClientState(m_pControl, State);
 }
 
 // ---------------------------------
@@ -112,8 +112,8 @@ void TControlParameterDstValueSetter<	DstValueType,
 class TControlStateCommonRectSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const FRECT&	Rect);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const FRECT&    Rect);
 };
 
 // ------------------------------
@@ -122,8 +122,8 @@ protected:
 class TControlStateOwnRectSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const FRECT&	Rect);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const FRECT&    Rect);
 };
 
 // -----------------------------------
@@ -132,8 +132,8 @@ protected:
 class TControlStateChildrenRectSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const FRECT&	Rect);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const FRECT&    Rect);
 };
 
 // --------------------------------
@@ -142,8 +142,8 @@ protected:
 class TControlStateHoverRectSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const FRECT&	Rect);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const FRECT&    Rect);
 };
 
 // ----------------------------------
@@ -152,8 +152,8 @@ protected:
 class TControlStateCommonColorSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&		State,
-											const TD3DColor&	Color);
+    static void SetControlStateParameter(   TControlState&      State,
+                                            const TD3DColor&    Color);
 };
 
 // -------------------------------
@@ -162,8 +162,8 @@ protected:
 class TControlStateOwnColorSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&		State,
-											const TD3DColor&	Color);
+    static void SetControlStateParameter(   TControlState&      State,
+                                            const TD3DColor&    Color);
 };
 
 // ------------------------------------
@@ -172,8 +172,8 @@ protected:
 class TControlStateChildrenColorSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&		State,
-											const TD3DColor&	Color);
+    static void SetControlStateParameter(   TControlState&      State,
+                                            const TD3DColor&    Color);
 };
 
 // ---------------------------------------
@@ -182,8 +182,8 @@ protected:
 class TControlStateCommonVisibilitySetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const float&	fVisibility);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const float&    fVisibility);
 };
 
 // ------------------------------------
@@ -192,8 +192,8 @@ protected:
 class TControlStateOwnVisibilitySetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const float&	fVisibility);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const float&    fVisibility);
 };
 
 // ----------------------------------------
@@ -202,8 +202,8 @@ protected:
 class TControlStateChildrenVisibilitySetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const float&	fVisibility);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const float&    fVisibility);
 };
 
 // ---------------------------------------
@@ -212,8 +212,8 @@ protected:
 class TControlStateCommonEnablementSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const float&	fEnablement);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const float&    fEnablement);
 };
 
 // ------------------------------------
@@ -222,8 +222,8 @@ protected:
 class TControlStateOwnEnablementSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const float&	fEnablement);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const float&    fEnablement);
 };
 
 // -----------------------------------------
@@ -232,8 +232,8 @@ protected:
 class TControlStateChildrenEnablementSetter
 {
 protected:
-	static void SetControlStateParameter(	TControlState&	State,
-											const float&	fEnablement);
+    static void SetControlStateParameter(   TControlState&  State,
+                                            const float&    fEnablement);
 };
 
 #endif // interface_interpolators_h

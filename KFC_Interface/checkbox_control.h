@@ -14,27 +14,27 @@
 // ---------------------------------
 struct TCheckBoxControlCreationStruct :
 
-	public TInteractiveControlCreationStruct,
-	public TCheckContainer
+    public TInteractiveControlCreationStruct,
+    public TCheckContainer
 {
-	bool m_bChecked;
+    bool m_bChecked;
 
-	bool m_bPushClickCheckToggling;
-	
-	float m_fCheckTransitionDelay;
+    bool m_bPushClickCheckToggling;
+
+    float m_fCheckTransitionDelay;
 
 
-	TCheckBoxControlCreationStruct();
+    TCheckBoxControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 
-	void SetImmediateCheckTransition();
+    void SetImmediateCheckTransition();
 
-	bool GetCheck(bool* pRSuccess = NULL) const;
+    bool GetCheck(bool* pRSuccess = NULL) const;
 
-	bool SetCheck(bool bCheck);
+    bool SetCheck(bool bCheck);
 };
 
 // ----------------------------------
@@ -42,133 +42,133 @@ struct TCheckBoxControlCreationStruct :
 // ----------------------------------
 struct TCheckBoxControlSpritesProvider : public TTextContainer
 {
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	TCheckBoxControlSpritesProvider();
+    TCheckBoxControlSpritesProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool SetText(const KString& Text);
+    bool SetText(const KString& Text);
 };
 
 // ---------------------------------
 // Checkbox control sounds provider
 // ---------------------------------
 struct TCheckBoxControlSoundsProvider :
-	public TInteractiveControlSoundsProvider
+    public TInteractiveControlSoundsProvider
 {
-	TCheckBoxControlSoundsProvider();
+    TCheckBoxControlSoundsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -----------------
 // Checkbox control
 // -----------------
-class TCheckBoxControl :	public TInteractiveControl,
-							public TTextContainer,
-							public TCheckContainer
+class TCheckBoxControl :    public TInteractiveControl,
+                            public TTextContainer,
+                            public TCheckContainer
 {
 public:
-	// Check state
-	enum TCheckState
-	{
-		CS_NONE			= 0,
-		CS_CHECKED		= 1,
-		CS_FORCE_UINT	= UINT_MAX,
-	};
-	
+    // Check state
+    enum TCheckState
+    {
+        CS_NONE         = 0,
+        CS_CHECKED      = 1,
+        CS_FORCE_UINT   = UINT_MAX,
+    };
+
 protected:
-	// Allocation
-	void OnAllocate();
+    // Allocation
+    void OnAllocate();
 
-	void OnSetInitialValues();
+    void OnSetInitialValues();
 
-	// Suspension
-	bool OnResume	();
-	bool OnSuspend	();
+    // Suspension
+    bool OnResume   ();
+    bool OnSuspend  ();
 
-	// Update/render events
-	void OnPreUpdate();
+    // Update/render events
+    void OnPreUpdate();
 
-	void OnRender() const;
+    void OnRender() const;
 
-	// Click events
-	virtual void OnClick(bool bFromMouse);
+    // Click events
+    virtual void OnClick(bool bFromMouse);
 
-	virtual void OnPushClick(bool bFromMouse);
+    virtual void OnPushClick(bool bFromMouse);
 
-	// Check events
-	virtual void OnCheck(bool bFromMouse);
+    // Check events
+    virtual void OnCheck(bool bFromMouse);
 
 private:
-	TControlInterpolatedState<TCheckState, 2> m_CheckState;
+    TControlInterpolatedState<TCheckState, 2> m_CheckState;
 
-	bool m_bChecked;
+    bool m_bChecked;
 
 
-	// Check methods
-	void Check(bool bFromMouse);	
-	
+    // Check methods
+    void Check(bool bFromMouse);
+
 public:
-	bool m_bPushClickCheckToggling;
+    bool m_bPushClickCheckToggling;
 
-	float m_fCheckTransitionDelay;
+    float m_fCheckTransitionDelay;
 
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
-	
-	TCheckBoxControl(	const TCheckBoxControlCreationStruct&	CreationStruct,
-						TCheckBoxControlSpritesProvider&		SpritesProvider,
-						TCheckBoxControlSoundsProvider&			SoundsProvider);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    TCheckBoxControl(   const TCheckBoxControlCreationStruct&   CreationStruct,
+                        TCheckBoxControlSpritesProvider&        SpritesProvider,
+                        TCheckBoxControlSoundsProvider&         SoundsProvider);
 
-	bool SetText(const KString& Text);
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool GetCheck(bool* pRSuccess = NULL) const;
+    bool SetText(const KString& Text);
 
-	bool SetCheck(bool bCheck);
+    bool GetCheck(bool* pRSuccess = NULL) const;
 
-	TCheckState GetCheckState() const
-		{ return m_CheckState; }
+    bool SetCheck(bool bCheck);
 
-	float GetInterpolatedCheckState() const
-		{ return m_CheckState.GetInterpolatedState(); }
+    TCheckState GetCheckState() const
+        { return m_CheckState; }
 
-	bool IsChecked() const
-		{ return GetCheckState() == CS_CHECKED; }
+    float GetInterpolatedCheckState() const
+        { return m_CheckState.GetInterpolatedState(); }
+
+    bool IsChecked() const
+        { return GetCheckState() == CS_CHECKED; }
 };
 
 // --------------------------------------
 // Easy checkbox control creation struct
 // --------------------------------------
-struct TEasyCheckBoxControlCreationStruct :	TCheckBoxControlCreationStruct,
-											TTextSpriteCreationStruct
+struct TEasyCheckBoxControlCreationStruct : TCheckBoxControlCreationStruct,
+                                            TTextSpriteCreationStruct
 {
-	float m_fTextOffset;
+    float m_fTextOffset;
 
-	TD3DColor m_TextColors[2][4]; // check x interactive
+    TD3DColor m_TextColors[2][4]; // check x interactive
 
 
-	TEasyCheckBoxControlCreationStruct();
+    TEasyCheckBoxControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentConrol,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentConrol,
+                const FRECT&            Resolution);
 
-	void SetTextColors(	size_t				szIndex,
-						const TD3DColor*	pSTextColors);
+    void SetTextColors( size_t              szIndex,
+                        const TD3DColor*    pSTextColors);
 
-	void SetTextColors(const TD3DColor STextColors[2][4]);
+    void SetTextColors(const TD3DColor STextColors[2][4]);
 };
 
 // ---------------------------------------
@@ -176,9 +176,9 @@ struct TEasyCheckBoxControlCreationStruct :	TCheckBoxControlCreationStruct,
 // ---------------------------------------
 struct TEasyCheckBoxControlSpritesProvider : TCheckBoxControlSpritesProvider
 {
-	TEasyCheckBoxControlSpritesProvider();
+    TEasyCheckBoxControlSpritesProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -------------------------------------
@@ -186,9 +186,9 @@ struct TEasyCheckBoxControlSpritesProvider : TCheckBoxControlSpritesProvider
 // -------------------------------------
 struct TEasyCheckBoxControlFontsProvider : TTextSpriteFontsProvider
 {
-	TEasyCheckBoxControlFontsProvider();
+    TEasyCheckBoxControlFontsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // --------------------------------------
@@ -196,9 +196,9 @@ struct TEasyCheckBoxControlFontsProvider : TTextSpriteFontsProvider
 // --------------------------------------
 struct TEasyCheckBoxControlSoundsProvider : TCheckBoxControlSoundsProvider
 {
-	TEasyCheckBoxControlSoundsProvider();
+    TEasyCheckBoxControlSoundsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ----------------------
@@ -207,15 +207,15 @@ struct TEasyCheckBoxControlSoundsProvider : TCheckBoxControlSoundsProvider
 struct TEasyCheckBoxControl : public TCheckBoxControl
 {
 public:
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
-	
-	TEasyCheckBoxControl(	const TEasyCheckBoxControlCreationStruct&	CreationStruct,
-							TEasyCheckBoxControlSpritesProvider&		SpritesProvider,
-							TEasyCheckBoxControlFontsProvider&			FontsProvider,
-							TEasyCheckBoxControlSoundsProvider&			SoundsProvider);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
+
+    TEasyCheckBoxControl(   const TEasyCheckBoxControlCreationStruct&   CreationStruct,
+                            TEasyCheckBoxControlSpritesProvider&        SpritesProvider,
+                            TEasyCheckBoxControlFontsProvider&          FontsProvider,
+                            TEasyCheckBoxControlSoundsProvider&         SoundsProvider);
 };
 
 #endif // checkbox_control_h

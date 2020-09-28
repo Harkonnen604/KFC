@@ -9,13 +9,13 @@
 class TDestroyWindowGuard
 {
 private:
-	HWND& m_hWnd;
+    HWND& m_hWnd;
 
 public:
-	TDestroyWindowGuard(HWND& hWnd) : m_hWnd(hWnd) {}
+    TDestroyWindowGuard(HWND& hWnd) : m_hWnd(hWnd) {}
 
-	~TDestroyWindowGuard()
-		{ if(m_hWnd) DestroyWindow(m_hWnd), m_hWnd = NULL; }
+    ~TDestroyWindowGuard()
+        { if(m_hWnd) DestroyWindow(m_hWnd), m_hWnd = NULL; }
 };
 
 // -------
@@ -24,33 +24,33 @@ public:
 class TRegion
 {
 private:
-	HRGN m_hRegion;
+    HRGN m_hRegion;
 
 private:
-	TRegion(const TRegion&);
+    TRegion(const TRegion&);
 
-	TRegion& operator = (const TRegion&);
+    TRegion& operator = (const TRegion&);
 
 public:
-	TRegion();
+    TRegion();
 
-	~TRegion()
-		{ Release(); }
+    ~TRegion()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hRegion; }
+    bool IsAllocated() const
+        { return m_hRegion; }
 
-	void Release();
+    void Release();
 
-	void Allocate(HRGN hSRegion);
+    void Allocate(HRGN hSRegion);
 
-	void AssignToWindow(HWND hWnd, bool bRedraw = true);
+    void AssignToWindow(HWND hWnd, bool bRedraw = true);
 
-	HRGN GetRegion() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hRegion; }
+    HRGN GetRegion() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hRegion; }
 
-	operator HRGN () const
-		{ return GetRegion(); }
+    operator HRGN () const
+        { return GetRegion(); }
 };
 
 // ------
@@ -59,41 +59,41 @@ public:
 class TBrush
 {
 private:
-	HBRUSH m_hBrush;
+    HBRUSH m_hBrush;
 
 private:
-	TBrush(const TBrush&);
+    TBrush(const TBrush&);
 
-	TBrush& operator = (const TBrush&);
+    TBrush& operator = (const TBrush&);
 
 public:
-	TBrush();
+    TBrush();
 
-	TBrush(COLORREF crColor);
+    TBrush(COLORREF crColor);
 
-	TBrush(HBITMAP hBitmap);
+    TBrush(HBITMAP hBitmap);
 
-	TBrush(HBRUSH hSBhrush);
+    TBrush(HBRUSH hSBhrush);
 
-	~TBrush()
-		{ Release(); }
+    ~TBrush()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hBrush; }
+    bool IsAllocated() const
+        { return m_hBrush; }
 
-	void Release();
+    void Release();
 
-	void Allocate(COLORREF crColor);
+    void Allocate(COLORREF crColor);
 
-	void Allocate(HBITMAP hBitmap);
+    void Allocate(HBITMAP hBitmap);
 
-	void Allocate(HBRUSH hSBrush);
+    void Allocate(HBRUSH hSBrush);
 
-	HBRUSH GetBrush() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hBrush; }
+    HBRUSH GetBrush() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hBrush; }
 
-	operator HBRUSH () const
-		{ return GetBrush(); }
+    operator HBRUSH () const
+        { return GetBrush(); }
 };
 
 // ----
@@ -102,41 +102,41 @@ public:
 class TPen
 {
 private:
-	HPEN m_hPen;
+    HPEN m_hPen;
 
 private:
-	TPen(const TPen&);
+    TPen(const TPen&);
 
-	TPen& operator = (const TPen&);
+    TPen& operator = (const TPen&);
 
 public:
-	TPen();
+    TPen();
 
-	TPen(	COLORREF	crColor,
-			size_t		szWidth = 1,
-			kmode_t		mdStyle	= PS_SOLID);
+    TPen(   COLORREF    crColor,
+            size_t      szWidth = 1,
+            kmode_t     mdStyle = PS_SOLID);
 
-	TPen(HPEN hSPen);
+    TPen(HPEN hSPen);
 
-	~TPen()
-		{ Release(); }
+    ~TPen()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hPen; }
+    bool IsAllocated() const
+        { return m_hPen; }
 
-	void Release();
+    void Release();
 
-	void Allocate(	COLORREF	crColor,
-					size_t		szWidth = 1,
-					kmode_t		mdStyle	= PS_SOLID);
+    void Allocate(  COLORREF    crColor,
+                    size_t      szWidth = 1,
+                    kmode_t     mdStyle = PS_SOLID);
 
-	void Allocate(HPEN hSPen);
+    void Allocate(HPEN hSPen);
 
-	HPEN GetPen() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hPen; }
+    HPEN GetPen() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hPen; }
 
-	operator HPEN() const
-		{ return GetPen(); }
+    operator HPEN() const
+        { return GetPen(); }
 };
 
 // -------
@@ -145,37 +145,37 @@ public:
 class TBitmap
 {
 private:
-	HBITMAP m_hBitmap;
+    HBITMAP m_hBitmap;
 
 private:
-	TBitmap(const TBitmap&);
+    TBitmap(const TBitmap&);
 
-	TBitmap& operator = (const TBitmap&);
+    TBitmap& operator = (const TBitmap&);
 
 public:
-	TBitmap();
+    TBitmap();
 
-	TBitmap(HDC hDC, const SZSIZE& Size);
+    TBitmap(HDC hDC, const SZSIZE& Size);
 
-	TBitmap(HBITMAP hSBitmap);
+    TBitmap(HBITMAP hSBitmap);
 
-	~TBitmap()
-		{ Release(); }
+    ~TBitmap()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hBitmap; }
+    bool IsAllocated() const
+        { return m_hBitmap; }
 
-	void Release();
+    void Release();
 
-	void Allocate(HDC hDC, const SZSIZE& Size);
+    void Allocate(HDC hDC, const SZSIZE& Size);
 
-	void Allocate(HBITMAP hSBitmap);
+    void Allocate(HBITMAP hSBitmap);
 
-	HBITMAP GetBitmap() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hBitmap; }
+    HBITMAP GetBitmap() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hBitmap; }
 
-	operator HBITMAP () const
-		{ return GetBitmap(); }
+    operator HBITMAP () const
+        { return GetBitmap(); }
 };
 
 // ---
@@ -184,44 +184,44 @@ public:
 class TDC
 {
 private:
-	HDC		m_hDC;
-	HWND	m_hWnd;
+    HDC     m_hDC;
+    HWND    m_hWnd;
 
-	bool m_bWindowDC;
+    bool m_bWindowDC;
 
 private:
-	TDC(const TDC&);
+    TDC(const TDC&);
 
-	TDC& operator = (const TDC&);
+    TDC& operator = (const TDC&);
 
 public:
-	TDC();
-	TDC(HWND	hSWnd);
-	TDC(HDC		hSDC);
+    TDC();
+    TDC(HWND    hSWnd);
+    TDC(HDC     hSDC);
 
-	~TDC()
-		{ Release(); }
+    ~TDC()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hDC; }
+    bool IsAllocated() const
+        { return m_hDC; }
 
-	void Release();
+    void Release();
 
-	void Allocate(HWND hSWnd);
+    void Allocate(HWND hSWnd);
 
-	void Allocate(HDC hSDC);
+    void Allocate(HDC hSDC);
 
-	HDC GetDC() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hDC; }
+    HDC GetDC() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hDC; }
 
-	operator HDC () const
-		{ return GetDC(); };
+    operator HDC () const
+        { return GetDC(); };
 
-	HWND GetWnd() const
-		{ return m_hWnd; }
+    HWND GetWnd() const
+        { return m_hWnd; }
 
-	bool IsWindowDC() const
-		{ return m_bWindowDC; }
+    bool IsWindowDC() const
+        { return m_bWindowDC; }
 };
 
 // ---------
@@ -230,39 +230,39 @@ public:
 class TPaintDC
 {
 private:
-	HWND m_hWnd;
+    HWND m_hWnd;
 
-	PAINTSTRUCT m_PaintStruct;
+    PAINTSTRUCT m_PaintStruct;
 
 private:
-	TPaintDC(const TPaintDC&);
+    TPaintDC(const TPaintDC&);
 
-	TPaintDC& operator = (const TPaintDC&);
+    TPaintDC& operator = (const TPaintDC&);
 
 public:
-	TPaintDC(HWND hSWnd)
-	{
-		DEBUG_VERIFY(hSWnd);
+    TPaintDC(HWND hSWnd)
+    {
+        DEBUG_VERIFY(hSWnd);
 
-		BeginPaint(m_hWnd = hSWnd, &m_PaintStruct);
-	}
+        BeginPaint(m_hWnd = hSWnd, &m_PaintStruct);
+    }
 
-	~TPaintDC()
-	{
-		EndPaint(m_hWnd, &m_PaintStruct);
-	}
+    ~TPaintDC()
+    {
+        EndPaint(m_hWnd, &m_PaintStruct);
+    }
 
-	HDC GetDC() const
-		{ return m_PaintStruct.hdc; }
+    HDC GetDC() const
+        { return m_PaintStruct.hdc; }
 
-	operator HDC () const
-		{ return GetDC(); }
+    operator HDC () const
+        { return GetDC(); }
 
-	HWND GetWnd() const
-		{ return m_hWnd; }
+    HWND GetWnd() const
+        { return m_hWnd; }
 
-	const PAINTSTRUCT& GetPaintStruct() const
-		{ return m_PaintStruct; }
+    const PAINTSTRUCT& GetPaintStruct() const
+        { return m_PaintStruct; }
 };
 
 // --------------------
@@ -271,25 +271,25 @@ public:
 class TGDIObjectSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	HGDIOBJ m_hOldObject;
+    HGDIOBJ m_hOldObject;
 
 public:
-	TGDIObjectSelector(HDC hSDC, HGDIOBJ hNewObject)
-	{
-		DEBUG_VERIFY(hSDC);
+    TGDIObjectSelector(HDC hSDC, HGDIOBJ hNewObject)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		DEBUG_VERIFY(hNewObject);
+        DEBUG_VERIFY(hNewObject);
 
-		m_hOldObject = SelectObject(m_hDC = hSDC, hNewObject);
-	}
+        m_hOldObject = SelectObject(m_hDC = hSDC, hNewObject);
+    }
 
-	~TGDIObjectSelector()
-	{
-		if(m_hOldObject)
-			SelectObject(m_hDC, m_hOldObject);
-	}
+    ~TGDIObjectSelector()
+    {
+        if(m_hOldObject)
+            SelectObject(m_hDC, m_hOldObject);
+    }
 };
 
 // --------------------------
@@ -298,23 +298,23 @@ public:
 class TStretchBltModeSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	int m_iOldStretchMode;
+    int m_iOldStretchMode;
 
 public:
-	TStretchBltModeSelector(HDC hSDC, int iNewStretchMode)
-	{
-		DEBUG_VERIFY(hSDC);
+    TStretchBltModeSelector(HDC hSDC, int iNewStretchMode)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		m_iOldStretchMode = SetStretchBltMode(m_hDC = hSDC, iNewStretchMode);
-	}
+        m_iOldStretchMode = SetStretchBltMode(m_hDC = hSDC, iNewStretchMode);
+    }
 
-	~TStretchBltModeSelector()
-	{
-		if(m_iOldStretchMode)
-			SetStretchBltMode(m_hDC, m_iOldStretchMode);
-	}
+    ~TStretchBltModeSelector()
+    {
+        if(m_iOldStretchMode)
+            SetStretchBltMode(m_hDC, m_iOldStretchMode);
+    }
 };
 
 // ------------------------
@@ -323,25 +323,25 @@ public:
 class TPolyFillModeSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	int m_iOldPolyFillMode;
+    int m_iOldPolyFillMode;
 
 public:
-	TPolyFillModeSelector(HDC hSDC, int iNewPolyFillMode)
-	{
-		DEBUG_VERIFY(hSDC);
+    TPolyFillModeSelector(HDC hSDC, int iNewPolyFillMode)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		DEBUG_VERIFY(iNewPolyFillMode);
+        DEBUG_VERIFY(iNewPolyFillMode);
 
-		m_iOldPolyFillMode = SetPolyFillMode(m_hDC = hSDC, iNewPolyFillMode);
-	}
+        m_iOldPolyFillMode = SetPolyFillMode(m_hDC = hSDC, iNewPolyFillMode);
+    }
 
-	~TPolyFillModeSelector()
-	{
-		if(m_iOldPolyFillMode)
-			SetPolyFillMode(m_hDC, m_iOldPolyFillMode);
-	}
+    ~TPolyFillModeSelector()
+    {
+        if(m_iOldPolyFillMode)
+            SetPolyFillMode(m_hDC, m_iOldPolyFillMode);
+    }
 };
 
 // -----------------
@@ -350,25 +350,25 @@ public:
 class TBkModeSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	int m_iOldMode;
+    int m_iOldMode;
 
 public:
-	TBkModeSelector(HDC hSDC, int iNewMode)
-	{
-		DEBUG_VERIFY(hSDC);
+    TBkModeSelector(HDC hSDC, int iNewMode)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		DEBUG_VERIFY(iNewMode);
+        DEBUG_VERIFY(iNewMode);
 
-		m_iOldMode = SetBkMode(m_hDC = hSDC, iNewMode);
-	}
+        m_iOldMode = SetBkMode(m_hDC = hSDC, iNewMode);
+    }
 
-	~TBkModeSelector()
-	{
-		if(m_iOldMode)
-			SetBkMode(m_hDC, m_iOldMode);
-	}
+    ~TBkModeSelector()
+    {
+        if(m_iOldMode)
+            SetBkMode(m_hDC, m_iOldMode);
+    }
 };
 
 // ------------------
@@ -377,25 +377,25 @@ public:
 class TBkColorSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	COLORREF m_crOldColor;
+    COLORREF m_crOldColor;
 
 public:
-	TBkColorSelector(HDC hSDC, COLORREF crNewColor)
-	{
-		DEBUG_VERIFY(hSDC);
+    TBkColorSelector(HDC hSDC, COLORREF crNewColor)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		DEBUG_VERIFY(crNewColor != CLR_INVALID);
+        DEBUG_VERIFY(crNewColor != CLR_INVALID);
 
-		m_crOldColor = SetBkColor(m_hDC = hSDC, crNewColor);
-	}
+        m_crOldColor = SetBkColor(m_hDC = hSDC, crNewColor);
+    }
 
-	~TBkColorSelector()
-	{
-		if(m_crOldColor != CLR_INVALID)
-			SetBkColor(m_hDC, m_crOldColor);
-	}
+    ~TBkColorSelector()
+    {
+        if(m_crOldColor != CLR_INVALID)
+            SetBkColor(m_hDC, m_crOldColor);
+    }
 };
 
 // --------------------
@@ -404,25 +404,25 @@ public:
 class TTextColorSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	COLORREF m_crOldColor;
+    COLORREF m_crOldColor;
 
 public:
-	TTextColorSelector(HDC hSDC, COLORREF crNewColor)
-	{
-		DEBUG_VERIFY(hSDC);
+    TTextColorSelector(HDC hSDC, COLORREF crNewColor)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		DEBUG_VERIFY(crNewColor != CLR_INVALID);
+        DEBUG_VERIFY(crNewColor != CLR_INVALID);
 
-		m_crOldColor = SetTextColor(m_hDC = hSDC, crNewColor);
-	}
+        m_crOldColor = SetTextColor(m_hDC = hSDC, crNewColor);
+    }
 
-	~TTextColorSelector()
-	{
-		if(m_crOldColor != CLR_INVALID)
-			SetTextColor(m_hDC, m_crOldColor);
-	}
+    ~TTextColorSelector()
+    {
+        if(m_crOldColor != CLR_INVALID)
+            SetTextColor(m_hDC, m_crOldColor);
+    }
 };
 
 // ------------------
@@ -431,25 +431,25 @@ public:
 class TMapModeSelector
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	int m_iOldMode;
+    int m_iOldMode;
 
 public:
-	TMapModeSelector(HDC hSDC, int iNewMode)
-	{
-		DEBUG_VERIFY(hSDC);
+    TMapModeSelector(HDC hSDC, int iNewMode)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		DEBUG_VERIFY(iNewMode);
+        DEBUG_VERIFY(iNewMode);
 
-		m_iOldMode = SetMapMode(m_hDC = hSDC, iNewMode);
-	}
+        m_iOldMode = SetMapMode(m_hDC = hSDC, iNewMode);
+    }
 
-	~TMapModeSelector()
-	{
-		if(m_iOldMode)
-			SetMapMode(m_hDC, m_iOldMode);
-	}
+    ~TMapModeSelector()
+    {
+        if(m_iOldMode)
+            SetMapMode(m_hDC, m_iOldMode);
+    }
 };
 
 // -----------------------
@@ -458,26 +458,26 @@ public:
 class TWorldTransformSetter
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	XFORM m_OldWT;
+    XFORM m_OldWT;
 
 public:
-	TWorldTransformSetter(HDC hSDC, const XFORM& NewWT)
-	{
-		DEBUG_VERIFY(hSDC);
+    TWorldTransformSetter(HDC hSDC, const XFORM& NewWT)
+    {
+        DEBUG_VERIFY(hSDC);
 
-		m_hDC = hSDC;
+        m_hDC = hSDC;
 
-		GetWorldTransform(m_hDC, &m_OldWT);
+        GetWorldTransform(m_hDC, &m_OldWT);
 
-		SetWorldTransform(m_hDC, &NewWT);
-	}
+        SetWorldTransform(m_hDC, &NewWT);
+    }
 
-	~TWorldTransformSetter()
-	{
-		SetWorldTransform(m_hDC, &m_OldWT);
-	}
+    ~TWorldTransformSetter()
+    {
+        SetWorldTransform(m_hDC, &m_OldWT);
+    }
 };
 
 // -----------
@@ -486,14 +486,14 @@ public:
 class T_DC_Clipper
 {
 private:
-	HDC m_hDC;
+    HDC m_hDC;
 
-	HRGN m_hOldRgn;
+    HRGN m_hOldRgn;
 
 public:
-	T_DC_Clipper(HDC hDC, const IRECT& Rect);
+    T_DC_Clipper(HDC hDC, const IRECT& Rect);
 
-	~T_DC_Clipper();
+    ~T_DC_Clipper();
 };
 
 // -----------------
@@ -501,19 +501,19 @@ public:
 // -----------------
 struct TWindowPlacement
 {
-	IPOINT m_Coords;
-	SZSIZE m_Size;
+    IPOINT m_Coords;
+    SZSIZE m_Size;
 
-	TWindowPlacement() {}
+    TWindowPlacement() {}
 
-	TWindowPlacement(const IPOINT& SCoords, const SZSIZE& SSize) :	m_Coords(SCoords),
-																	m_Size(SSize) {}
+    TWindowPlacement(const IPOINT& SCoords, const SZSIZE& SSize) :  m_Coords(SCoords),
+                                                                    m_Size(SSize) {}
 
-	TWindowPlacement(const IRECT& Rect) :	m_Coords(	Rect.m_Left,
-														Rect.m_Right),
+    TWindowPlacement(const IRECT& Rect) :   m_Coords(   Rect.m_Left,
+                                                        Rect.m_Right),
 
-											m_Size(	Rect.m_Right - Rect.m_Left,
-													Rect.m_Bottom - Rect.m_Top) {}
+                                            m_Size( Rect.m_Right - Rect.m_Left,
+                                                    Rect.m_Bottom - Rect.m_Top) {}
 };
 
 // ---------------
@@ -522,13 +522,13 @@ struct TWindowPlacement
 class TFocusRestorer
 {
 private:
-	HWND m_hWnd;
+    HWND m_hWnd;
 
 public:
-	TFocusRestorer(HWND hWnd = ::GetFocus()) : m_hWnd(hWnd) {}
+    TFocusRestorer(HWND hWnd = ::GetFocus()) : m_hWnd(hWnd) {}
 
-	~TFocusRestorer()
-		{ SetFocus(m_hWnd); }
+    ~TFocusRestorer()
+        { SetFocus(m_hWnd); }
 };
 
 // ---------------
@@ -537,36 +537,36 @@ public:
 class TWindowEnabler
 {
 private:
-	HWND m_hWnd;
-	bool m_bOldState;
+    HWND m_hWnd;
+    bool m_bOldState;
 
 public:
-	TWindowEnabler(HWND hWnd, bool bState)
-	{
-		DEBUG_VERIFY(hWnd);
+    TWindowEnabler(HWND hWnd, bool bState)
+    {
+        DEBUG_VERIFY(hWnd);
 
-		m_hWnd = hWnd;
+        m_hWnd = hWnd;
 
-		m_bOldState = IsWindowEnabled(m_hWnd);
-		EnableWindow(m_hWnd, bState);
-	}
+        m_bOldState = IsWindowEnabled(m_hWnd);
+        EnableWindow(m_hWnd, bState);
+    }
 
-	~TWindowEnabler()
-	{
-		EnableWindow(m_hWnd, m_bOldState);
-	}
+    ~TWindowEnabler()
+    {
+        EnableWindow(m_hWnd, m_bOldState);
+    }
 };
 
 // ----------------
 // Global routines
 // ----------------
-KString GetKWindowTextSafe	(HWND hWnd);
-KString GetKWindowText		(HWND hWnd);
+KString GetKWindowTextSafe  (HWND hWnd);
+KString GetKWindowText      (HWND hWnd);
 
-void SetKWindowTextSafe	(HWND hWnd, LPCTSTR pText);
-void SetKWindowText		(HWND hWnd, LPCTSTR pText);
+void SetKWindowTextSafe (HWND hWnd, LPCTSTR pText);
+void SetKWindowText     (HWND hWnd, LPCTSTR pText);
 
-KString GetKListBoxItemText	(HWND hWnd, size_t szIndex);
+KString GetKListBoxItemText (HWND hWnd, size_t szIndex);
 KString GetKComboBoxItemText(HWND hWnd, size_t szIndex);
 
 size_t GetKListBoxSelection(HWND hWnd);
@@ -581,14 +581,14 @@ size_t KListControlHitTest(HWND hWnd, const IPOINT& Coords);
 
 size_t GetKListControlItemCount(HWND hWnd);
 
-void ChangeKWindowLong(	HWND		hWnd,
-						ktype_t		tpType,
-						kflags_t	uiSetFlags,
-						kflags_t	uiDropFlags);
+void ChangeKWindowLong( HWND        hWnd,
+                        ktype_t     tpType,
+                        kflags_t    uiSetFlags,
+                        kflags_t    uiDropFlags);
 
-bool LimitSizingRect(	IRECT&			Rect,
-						const IRECT&	Limits,
-						kmode_t			mdKind);
+bool LimitSizingRect(   IRECT&          Rect,
+                        const IRECT&    Limits,
+                        kmode_t         mdKind);
 
 SZSIZE GetTextSize(HDC hDC, LPCTSTR pText);
 
@@ -596,11 +596,11 @@ SZSIZE GetMultiLineTextSize(HDC hDC, LPCTSTR pText);
 
 IRECT GetWindowPlacementRect(HWND hWnd);
 
-IPOINT& KClientToScreen(HWND hWnd, IPOINT&	Point);
-IRECT&  KClientToScreen(HWND hWnd, IRECT&	Rect);
+IPOINT& KClientToScreen(HWND hWnd, IPOINT&  Point);
+IRECT&  KClientToScreen(HWND hWnd, IRECT&   Rect);
 
-IPOINT&	KScreenToClient(HWND hWnd, IPOINT&	Point);
-IRECT&	KScreenToClient(HWND hWnd, IRECT&	Rect);
+IPOINT& KScreenToClient(HWND hWnd, IPOINT&  Point);
+IRECT&  KScreenToClient(HWND hWnd, IRECT&   Rect);
 
 IPOINT GetKCursorPos();
 
@@ -620,22 +620,22 @@ IRECT GetKClientScreenRect(HWND hWnd);
 void SetKClientScreenRect(HWND hWnd, const IRECT& Rect, bool bRedraw = true);
 
 inline IRECT GetKScreenRect(HWND hWnd)
-	{ return GetKWindowRect(hWnd); }
+    { return GetKWindowRect(hWnd); }
 
 inline HWND KWindowFromPoint(const IPOINT& Coords)
-	{ return WindowFromPoint(*(const POINT*)Coords); }
+    { return WindowFromPoint(*(const POINT*)Coords); }
 
-void SetWindowScrollInfo(	HWND			hWnd,
-							const IRECT&	Rect,
-							const ISIZE&	PageSize,
-							const IPOINT*	pCoords = NULL); // NULL for top-left
+void SetWindowScrollInfo(   HWND            hWnd,
+                            const IRECT&    Rect,
+                            const ISIZE&    PageSize,
+                            const IPOINT*   pCoords = NULL); // NULL for top-left
 
-bool HandleWindowScrolling(	HWND			hWnd,
-							UINT			uiMsg,
-							WPARAM			wParam,
-							LPARAM			lParam,
-							const SZSIZE&	Step,
-							bool			bRedraw = true);
+bool HandleWindowScrolling( HWND            hWnd,
+                            UINT            uiMsg,
+                            WPARAM          wParam,
+                            LPARAM          lParam,
+                            const SZSIZE&   Step,
+                            bool            bRedraw = true);
 
 int GetScrollPos32(HWND hWnd, ktype_t tpType);
 
@@ -662,19 +662,19 @@ void SetIPControlAddress(HWND hWnd, DWORD dwAddress);
 void ShowCursorNoAcc(bool bShow);
 
 inline bool IsWindowRestored(HWND hWnd)
-	{ return GetWindowLong(hWnd, GWL_STYLE) & WS_MINIMIZE; }
+    { return GetWindowLong(hWnd, GWL_STYLE) & WS_MINIMIZE; }
 
 inline bool IsWindowForeground(HWND hWnd, bool bAllowMinimizedActive = false)
-	{ return GetForegroundWindow() == hWnd && (bAllowMinimizedActive || IsWindowRestored(hWnd)); }
+    { return GetForegroundWindow() == hWnd && (bAllowMinimizedActive || IsWindowRestored(hWnd)); }
 
 inline HICON KLoadIcon(int iID, HINSTANCE hInstance = GetKModuleHandle())
-	{ return LoadIcon(hInstance, MAKEINTRESOURCE(iID)); }
+    { return LoadIcon(hInstance, MAKEINTRESOURCE(iID)); }
 
 inline HCURSOR KLoadCursor(int iID, HINSTANCE hInstance = GetKModuleHandle())
-	{ return LoadCursor(hInstance, MAKEINTRESOURCE(iID)); }
+    { return LoadCursor(hInstance, MAKEINTRESOURCE(iID)); }
 
 inline HBITMAP KLoadBitmap(int iID, HINSTANCE hInstance = GetKModuleHandle())
-	{ return LoadBitmap(hInstance, MAKEINTRESOURCE(iID)); }
+    { return LoadBitmap(hInstance, MAKEINTRESOURCE(iID)); }
 
 void TrackMouseLeave(HWND hWnd);
 
@@ -693,7 +693,7 @@ typedef XFORM FXFORM;
 
 struct DXFORM
 {
-	double eM11, eM12, eM21, eM22, eDx, eDy;
+    double eM11, eM12, eM21, eM22, eDx, eDy;
 };
 
 extern FXFORM g_FNullWorldTransform;
@@ -704,103 +704,103 @@ extern DXFORM g_DIdentityWorldTransform;
 
 inline bool operator == (const FXFORM& wt1, const FXFORM& wt2)
 {
-	return	!Compare(wt1.eM11, wt2.eM11) &&
-			!Compare(wt1.eM12, wt2.eM12) &&
-			!Compare(wt1.eM21, wt2.eM21) &&
-			!Compare(wt1.eM22, wt2.eM22) &&
-			!Compare(wt1.eDx,  wt2.eDx)  &&
-			!Compare(wt1.eDy,  wt2.eDy);
+    return  !Compare(wt1.eM11, wt2.eM11) &&
+            !Compare(wt1.eM12, wt2.eM12) &&
+            !Compare(wt1.eM21, wt2.eM21) &&
+            !Compare(wt1.eM22, wt2.eM22) &&
+            !Compare(wt1.eDx,  wt2.eDx)  &&
+            !Compare(wt1.eDy,  wt2.eDy);
 }
 
 inline bool operator == (const DXFORM& wt1, const DXFORM& wt2)
 {
-	return	!Compare(wt1.eM11, wt2.eM11) &&
-			!Compare(wt1.eM12, wt2.eM12) &&
-			!Compare(wt1.eM21, wt2.eM21) &&
-			!Compare(wt1.eM22, wt2.eM22) &&
-			!Compare(wt1.eDx,  wt2.eDx)  &&
-			!Compare(wt1.eDy,  wt2.eDy);
+    return  !Compare(wt1.eM11, wt2.eM11) &&
+            !Compare(wt1.eM12, wt2.eM12) &&
+            !Compare(wt1.eM21, wt2.eM21) &&
+            !Compare(wt1.eM22, wt2.eM22) &&
+            !Compare(wt1.eDx,  wt2.eDx)  &&
+            !Compare(wt1.eDy,  wt2.eDy);
 }
 
 inline bool operator != (const FXFORM& wt1, const FXFORM& wt2)
-	{ return !(wt1 == wt2); }
+    { return !(wt1 == wt2); }
 
 inline bool operator != (const DXFORM& wt1, const DXFORM& wt2)
-	{ return !(wt1 == wt2); }
+    { return !(wt1 == wt2); }
 
 inline bool operator ! (const FXFORM& wt)
-	{ return wt == g_FNullWorldTransform; }
+    { return wt == g_FNullWorldTransform; }
 
 inline bool operator ! (const DXFORM& wt)
-	{ return wt == g_DNullWorldTransform; }
+    { return wt == g_DNullWorldTransform; }
 
 inline XFORM operator * (const FXFORM& wt1, const FXFORM& wt2)
 {
-	FXFORM wt = {	wt1.eM11 * wt2.eM11 + wt1.eM12 * wt2.eM21,
-					wt1.eM11 * wt2.eM12 + wt1.eM12 * wt2.eM22,
-					wt1.eM21 * wt2.eM11 + wt1.eM22 * wt2.eM21,
-					wt1.eM21 * wt2.eM12 + wt1.eM22 * wt2.eM22,
-					wt1.eDx  * wt2.eM11 + wt1.eDy  * wt2.eM21 + wt2.eDx,
-					wt1.eDx  * wt2.eM12 + wt1.eDy  * wt2.eM22 + wt2.eDy};
+    FXFORM wt = {   wt1.eM11 * wt2.eM11 + wt1.eM12 * wt2.eM21,
+                    wt1.eM11 * wt2.eM12 + wt1.eM12 * wt2.eM22,
+                    wt1.eM21 * wt2.eM11 + wt1.eM22 * wt2.eM21,
+                    wt1.eM21 * wt2.eM12 + wt1.eM22 * wt2.eM22,
+                    wt1.eDx  * wt2.eM11 + wt1.eDy  * wt2.eM21 + wt2.eDx,
+                    wt1.eDx  * wt2.eM12 + wt1.eDy  * wt2.eM22 + wt2.eDy};
 
-	return wt;
+    return wt;
 }
 
 inline DXFORM operator * (const DXFORM& wt1, const DXFORM& wt2)
 {
-	DXFORM wt = {	wt1.eM11 * wt2.eM11 + wt1.eM12 * wt2.eM21,
-					wt1.eM11 * wt2.eM12 + wt1.eM12 * wt2.eM22,
-					wt1.eM21 * wt2.eM11 + wt1.eM22 * wt2.eM21,
-					wt1.eM21 * wt2.eM12 + wt1.eM22 * wt2.eM22,
-					wt1.eDx  * wt2.eM11 + wt1.eDy  * wt2.eM21 + wt2.eDx,
-					wt1.eDx  * wt2.eM12 + wt1.eDy  * wt2.eM22 + wt2.eDy};
+    DXFORM wt = {   wt1.eM11 * wt2.eM11 + wt1.eM12 * wt2.eM21,
+                    wt1.eM11 * wt2.eM12 + wt1.eM12 * wt2.eM22,
+                    wt1.eM21 * wt2.eM11 + wt1.eM22 * wt2.eM21,
+                    wt1.eM21 * wt2.eM12 + wt1.eM22 * wt2.eM22,
+                    wt1.eDx  * wt2.eM11 + wt1.eDy  * wt2.eM21 + wt2.eDx,
+                    wt1.eDx  * wt2.eM12 + wt1.eDy  * wt2.eM22 + wt2.eDy};
 
-	return wt;
+    return wt;
 }
 
 inline XFORM& operator *= (FXFORM& wt1, const FXFORM& wt2)
-	{ return wt1 = wt1 * wt2; }
+    { return wt1 = wt1 * wt2; }
 
 inline DXFORM& operator *= (DXFORM& wt1, const DXFORM& wt2)
-	{ return wt1 = wt1 * wt2; }
+    { return wt1 = wt1 * wt2; }
 
 template <class t>
 inline TPoint<t> operator * (const TPoint<t>& p, const FXFORM& wt)
-	{ return TPoint<t>((t)(p.x * wt.eM11 + p.y * wt.eM21 + wt.eDx), (t)(p.x * wt.eM12 + p.y * wt.eM22 + wt.eDy)); }
+    { return TPoint<t>((t)(p.x * wt.eM11 + p.y * wt.eM21 + wt.eDx), (t)(p.x * wt.eM12 + p.y * wt.eM22 + wt.eDy)); }
 
 template <class t>
 inline TPoint<t> operator * (const TPoint<t>& p, const DXFORM& wt)
-	{ return TPoint<t>((t)(p.x * wt.eM11 + p.y * wt.eM21 + wt.eDx), (t)(p.x * wt.eM12 + p.y * wt.eM22 + wt.eDy)); }
+    { return TPoint<t>((t)(p.x * wt.eM11 + p.y * wt.eM21 + wt.eDx), (t)(p.x * wt.eM12 + p.y * wt.eM22 + wt.eDy)); }
 
 template <class t>
 inline TPoint<t>& operator *= (TPoint<t>& p, const FXFORM& wt)
-	{ return p = p * wt; }
+    { return p = p * wt; }
 
 template <class t>
 inline TPoint<t>& operator *= (TPoint<t>& p, const DXFORM& wt)
-	{ return p = p * wt; }
+    { return p = p * wt; }
 
 template <class t>
 inline TSize<t> operator * (const TSize<t>& s, const FXFORM& wt)
-	{ return TSize<t>((t)(s.cx * wt.eM11 + s.cy * wt.eM21), (t)(s.cx * wt.eM12 + s.cy * wt.eM22)); }
+    { return TSize<t>((t)(s.cx * wt.eM11 + s.cy * wt.eM21), (t)(s.cx * wt.eM12 + s.cy * wt.eM22)); }
 
 template <class t>
 inline TSize<t> operator * (const TSize<t>& s, const DXFORM& wt)
-	{ return TSize<t>((t)(s.cx * wt.eM11 + s.cy * wt.eM21), (t)(s.cx * wt.eM12 + s.cy * wt.eM22)); }
+    { return TSize<t>((t)(s.cx * wt.eM11 + s.cy * wt.eM21), (t)(s.cx * wt.eM12 + s.cy * wt.eM22)); }
 
 template <class t>
 inline TSize<t>& operator *= (TSize<t>& s, const FXFORM& wt)
-	{ return s = s * wt; }
+    { return s = s * wt; }
 
 template <class t>
 inline TSize<t>& operator *= (TSize<t>& s, const DXFORM& wt)
-	{ return s = s * wt; }
+    { return s = s * wt; }
 
 inline float GetWT_ScaleFactor(const FXFORM& wt)
-	{ return sqrtf((FSIZE(1, 1) * wt).GetLengthSquare() * 0.5f); }
+    { return sqrtf((FSIZE(1, 1) * wt).GetLengthSquare() * 0.5f); }
 
 inline double GetWT_ScaleFactor(const DXFORM& wt)
-	{ return sqrt((DSIZE(1, 1) * wt).GetLengthSquare() * 0.5); }
+    { return sqrt((DSIZE(1, 1) * wt).GetLengthSquare() * 0.5); }
 
 FXFORM InvertWT(const FXFORM& wt);
 DXFORM InvertWT(const DXFORM& wt);

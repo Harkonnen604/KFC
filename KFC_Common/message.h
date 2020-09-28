@@ -27,18 +27,18 @@ typedef TStackedStorageConstIterator<TMessage> TMessageIterator;
 struct TMessage
 {
 public:
-	virtual ~TMessage() {}
+    virtual ~TMessage() {}
 
-	void* operator new(size_t szSize) { return kfc_malloc(szSize); }
+    void* operator new(size_t szSize) { return kfc_malloc(szSize); }
 
-	void operator delete(void* pPtr) { if(pPtr) kfc_free(pPtr); }
+    void operator delete(void* pPtr) { if(pPtr) kfc_free(pPtr); }
 
-	void* operator new (size_t				szSize,
-						TMessageStorage&	Storage)
+    void* operator new (size_t              szSize,
+                        TMessageStorage&    Storage)
 
-		{ return Storage.AllocateData(szSize); }
+        { return Storage.AllocateData(szSize); }
 
-	void operator delete(void*, TMessageStorage&) {}
+    void operator delete(void*, TMessageStorage&) {}
 };
 
 // ------------------
@@ -47,20 +47,20 @@ public:
 class TMessageProcessor : public TMessageStorage
 {
 private:
-	bool m_bAllocated;
-	
+    bool m_bAllocated;
+
 public:
-	TMessageProcessor();
-	
-	~TMessageProcessor() { Release(); }
+    TMessageProcessor();
 
-	bool IsAllocated() const
-		{ return TMessageStorage::IsAllocated() && m_bAllocated; }
+    ~TMessageProcessor() { Release(); }
 
-	void Release(bool bFromAllocatorException = false);
+    bool IsAllocated() const
+        { return TMessageStorage::IsAllocated() && m_bAllocated; }
 
-	void Allocate(	size_t szMinPortionSize =
-						g_CommonConsts.m_szDefaultMessageProcessorMinPortionSize);
+    void Release(bool bFromAllocatorException = false);
+
+    void Allocate(  size_t szMinPortionSize =
+                        g_CommonConsts.m_szDefaultMessageProcessorMinPortionSize);
 };
 
 #endif // message_h

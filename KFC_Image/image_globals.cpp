@@ -11,6 +11,6 @@ TImageGlobals g_ImageGlobals;
 // --------------
 TImageGlobals::TImageGlobals() : TModuleGlobals(TEXT("Image globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
 }

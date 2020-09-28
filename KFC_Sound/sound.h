@@ -9,9 +9,9 @@
 // ----------------------
 struct TSoundCreationStruct
 {
-	TSoundCreationStruct();
+    TSoundCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ------
@@ -20,27 +20,27 @@ struct TSoundCreationStruct
 class TSound
 {
 private:
-	bool m_bAllocated;	
+    bool m_bAllocated;
 
 public:
-	TSound();
+    TSound();
 
-	virtual ~TSound()
-		{ Release(); }
+    virtual ~TSound()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const TSoundCreationStruct& CreationStruct);	
+    void Allocate(const TSoundCreationStruct& CreationStruct);
 
-	virtual void Load(TInfoNodeConstIterator InfoNode) = 0;
+    virtual void Load(TInfoNodeConstIterator InfoNode) = 0;
 
-	virtual void Play() const = 0;
-	virtual void Stop() const = 0;
+    virtual void Play() const = 0;
+    virtual void Stop() const = 0;
 
-	virtual bool IsPlaying() const = 0;
+    virtual bool IsPlaying() const = 0;
 };
 
 #endif // sound_h

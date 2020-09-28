@@ -10,27 +10,27 @@
 struct TCommonTLS_Item : public T_TLS_Storage::TItem
 {
 private:
-	static size_t ms_szIndex;
+    static size_t ms_szIndex;
 
 private:
-	static T_TLS_Storage::TItem* Creator()
-		{ return new TCommonTLS_Item; }
+    static T_TLS_Storage::TItem* Creator()
+        { return new TCommonTLS_Item; }
 
 public:
-	#ifdef _MSC_VER
-		TAuxMessages* m_pAuxMessages;
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+        TAuxMessages* m_pAuxMessages;
+    #endif // _MSC_VER
 
 public:
-	static void FreeItemType();
+    static void FreeItemType();
 
-	static void ReserveItemType();
+    static void ReserveItemType();
 
-	static TCommonTLS_Item& Get()
-		{ return (TCommonTLS_Item&)g_TLS_Storage[ms_szIndex]; }
+    static TCommonTLS_Item& Get()
+        { return (TCommonTLS_Item&)g_TLS_Storage[ms_szIndex]; }
 
 public:
-	TCommonTLS_Item();
+    TCommonTLS_Item();
 };
 
 #ifdef _MSC_VER
@@ -41,20 +41,20 @@ public:
 class TAuxMessagesSetter
 {
 private:
-	TAuxMessages* m_pOldAuxMessages;
+    TAuxMessages* m_pOldAuxMessages;
 
 public:
-	TAuxMessagesSetter(TAuxMessages& AuxMessages)
-	{
-		TCommonTLS_Item& Item = TCommonTLS_Item::Get();
+    TAuxMessagesSetter(TAuxMessages& AuxMessages)
+    {
+        TCommonTLS_Item& Item = TCommonTLS_Item::Get();
 
-		m_pOldAuxMessages = Item.m_pAuxMessages;
+        m_pOldAuxMessages = Item.m_pAuxMessages;
 
-		Item.m_pAuxMessages = &AuxMessages;
-	}
+        Item.m_pAuxMessages = &AuxMessages;
+    }
 
-	~TAuxMessagesSetter()
-		{ TCommonTLS_Item::Get().m_pAuxMessages = m_pOldAuxMessages; }
+    ~TAuxMessagesSetter()
+        { TCommonTLS_Item::Get().m_pAuxMessages = m_pOldAuxMessages; }
 };
 
 #endif // _MSC_VER

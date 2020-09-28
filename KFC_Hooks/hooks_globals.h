@@ -9,7 +9,7 @@
 class THooksGlobals : public TModuleGlobals
 {
 public:
-	THooksGlobals();
+    THooksGlobals();
 };
 
 extern THooksGlobals g_HooksGlobals;

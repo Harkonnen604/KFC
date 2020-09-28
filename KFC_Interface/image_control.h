@@ -12,11 +12,11 @@
 // ------------------------------
 struct TImageControlCreationStruct : public TControlCreationStruct
 {
-	TImageControlCreationStruct();
+    TImageControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 };
 
 // -------------------------------
@@ -24,65 +24,65 @@ struct TImageControlCreationStruct : public TControlCreationStruct
 // -------------------------------
 struct TImageControlSpritesProvider : public TTextContainer
 {
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
-	
-	TImageControlSpritesProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    TImageControlSpritesProvider();
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	bool SetText(const KString& Text);
+    KString GetText(bool* pRSuccess = NULL) const;
+
+    bool SetText(const KString& Text);
 };
 
 // --------------
 // Image control
 // --------------
-class TImageControl :	public TControl,
-						public TTextContainer
+class TImageControl :   public TControl,
+                        public TTextContainer
 {
 protected:
-	// Update/render events
-	virtual void OnRender() const;
+    // Update/render events
+    virtual void OnRender() const;
 
 public:
-	enum TVisibleState
-	{
-		VS_DISABLED		= 0,
-		VS_ENABLED		= 1,
-		VS_FORCE_UINT	= UINT_MAX,
-	};
+    enum TVisibleState
+    {
+        VS_DISABLED     = 0,
+        VS_ENABLED      = 1,
+        VS_FORCE_UINT   = UINT_MAX,
+    };
 
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
 
-	TImageControl(	const TImageControlCreationStruct&	CreationStruct,
-					TImageControlSpritesProvider&		SpritesProvider);	
+    TImageControl(  const TImageControlCreationStruct&  CreationStruct,
+                    TImageControlSpritesProvider&       SpritesProvider);
 
-	TVisibleState GetVisibleState() const;
+    TVisibleState GetVisibleState() const;
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool SetText(const KString& Text);
+    bool SetText(const KString& Text);
 };
 
 // -----------------------------------
 // Easy label control creation struct
 // -----------------------------------
-struct TEasyLabelControlCreationStruct :	TImageControlCreationStruct,
-											TTextSpriteCreationStruct
+struct TEasyLabelControlCreationStruct :    TImageControlCreationStruct,
+                                            TTextSpriteCreationStruct
 {
-	TEasyLabelControlCreationStruct();
+    TEasyLabelControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 };
 
 // ----------------------------------
@@ -90,9 +90,9 @@ struct TEasyLabelControlCreationStruct :	TImageControlCreationStruct,
 // ----------------------------------
 struct TEasyLabelControlFontsProvider : TTextSpriteFontsProvider
 {
-	TEasyLabelControlFontsProvider();
+    TEasyLabelControlFontsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -------------------
@@ -101,13 +101,13 @@ struct TEasyLabelControlFontsProvider : TTextSpriteFontsProvider
 class TEasyLabelControl : public TImageControl
 {
 public:
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
 
-	TEasyLabelControl(	const TEasyLabelControlCreationStruct&	CreationStruct,
-						TEasyLabelControlFontsProvider&			FontsProvider);
+    TEasyLabelControl(  const TEasyLabelControlCreationStruct&  CreationStruct,
+                        TEasyLabelControlFontsProvider&         FontsProvider);
 };
 
 #endif // image_control_h

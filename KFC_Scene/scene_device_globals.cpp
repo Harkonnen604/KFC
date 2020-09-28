@@ -11,8 +11,8 @@ TSceneDeviceGlobals g_SceneDeviceGlobals;
 // -----------------------
 TSceneDeviceGlobals::TSceneDeviceGlobals() : TGlobals(TEXT("Scene device globals"))
 {
-	AddSubGlobals(g_SceneCfg);
-	AddSubGlobals(g_SceneInitials);
+    AddSubGlobals(g_SceneCfg);
+    AddSubGlobals(g_SceneInitials);
 }
 
 void TSceneDeviceGlobals::OnUninitialize()

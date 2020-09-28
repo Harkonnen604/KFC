@@ -13,95 +13,95 @@
 class TSurface
 {
 private:
-	IDirect3DSurface9* m_pSurface;
+    IDirect3DSurface9* m_pSurface;
 
-	SZSIZE		m_Size;
-	D3DFORMAT	m_Format;
-	D3DPOOL		m_Pool;
+    SZSIZE      m_Size;
+    D3DFORMAT   m_Format;
+    D3DPOOL     m_Pool;
 
 public:
-	TSurface();
+    TSurface();
 
-	TSurface(IDirect3DSurface9* pSSurface);
+    TSurface(IDirect3DSurface9* pSSurface);
 
-	~TSurface()
-		{ Release(); }
+    ~TSurface()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_pSurface; }
-	
-	void Release();
+    bool IsAllocated() const
+        { return m_pSurface; }
 
-	void Allocate(const SZSIZE&	SSize, D3DFORMAT SFormat, D3DPOOL Pool = D3DPOOL_MANAGED);
+    void Release();
 
-	void Allocate(IDirect3DSurface9* pSSurface);
+    void Allocate(const SZSIZE& SSize, D3DFORMAT SFormat, D3DPOOL Pool = D3DPOOL_MANAGED);
 
-	void CreateFromImage(	const TImage&	Image,
-							D3DFORMAT		SFormat,
-							const SZRECT*	pSrcRect		= NULL,
-							bool			bClampOutside	= true);
+    void Allocate(IDirect3DSurface9* pSSurface);
 
-	void FillFromImage(	const TImage&	Image,
-						const SZRECT*	pSrcRect		= NULL,
-						bool			bClampOutside	= true);
+    void CreateFromImage(   const TImage&   Image,
+                            D3DFORMAT       SFormat,
+                            const SZRECT*   pSrcRect        = NULL,
+                            bool            bClampOutside   = true);
 
-	void Lock(	void*&			pRData,
-				size_t&			szRPitch,
-				const SZRECT*	pRect	= NULL,
-				flags_t			flFlags	= 0);
+    void FillFromImage( const TImage&   Image,
+                        const SZRECT*   pSrcRect        = NULL,
+                        bool            bClampOutside   = true);
 
-	void Lock(	BYTE*&			pRData,
-				size_t&			szRPitch,
-				const SZRECT*	pRect	= NULL,
-				flags_t			flFlags	= 0);
+    void Lock(  void*&          pRData,
+                size_t&         szRPitch,
+                const SZRECT*   pRect   = NULL,
+                flags_t         flFlags = 0);
 
-	void Lock(	WORD*&			pRData,
-				size_t&			szRPitch,
-				const SZRECT*	pRect	= NULL,
-				flags_t			flFlags	= 0);
+    void Lock(  BYTE*&          pRData,
+                size_t&         szRPitch,
+                const SZRECT*   pRect   = NULL,
+                flags_t         flFlags = 0);
 
-	void Lock(	DWORD*&			pRData,
-				size_t&			szRPitch,
-				const SZRECT*	pRect	= NULL,
-				flags_t			flFlags	= 0);
+    void Lock(  WORD*&          pRData,
+                size_t&         szRPitch,
+                const SZRECT*   pRect   = NULL,
+                flags_t         flFlags = 0);
 
-	void Unlock();
+    void Lock(  DWORD*&         pRData,
+                size_t&         szRPitch,
+                const SZRECT*   pRect   = NULL,
+                flags_t         flFlags = 0);
 
-	void Copy(	TSurface&				DstSurface,
-				const IPOINT&			DstCoords,
-				const IRECT*			pSrcRect, // can be NULL
-				D3DTEXTUREFILTERTYPE	Filter) const;
+    void Unlock();
 
-	void CopyClipped(	TSurface&				DstSurface,
-						IPOINT&					DstCoords,
-						IRECT*					pSrcRect,     // can be NULL
-						const IRECT*			pDstClipRect, // can be NULL
-						D3DTEXTUREFILTERTYPE	Filter) const;
+    void Copy(  TSurface&               DstSurface,
+                const IPOINT&           DstCoords,
+                const IRECT*            pSrcRect, // can be NULL
+                D3DTEXTUREFILTERTYPE    Filter) const;
 
-	void CopyRects(	TSurface&				DstSurface,
-					const IRECT*			pSrcRects,
-					const IPOINT*			pDstCoords,
-					size_t					szN,
-					D3DTEXTUREFILTERTYPE	Filter) const;
+    void CopyClipped(   TSurface&               DstSurface,
+                        IPOINT&                 DstCoords,
+                        IRECT*                  pSrcRect,     // can be NULL
+                        const IRECT*            pDstClipRect, // can be NULL
+                        D3DTEXTUREFILTERTYPE    Filter) const;
 
-	void CopyRectsClipped(	TSurface&				DstSurface,
-							const IRECT*			pSrcRects,  // can be NULL
-							const IPOINT*			pDstCoords, // can be NULL
-							size_t					szN,
-							const IRECT*			pDstClipRect, // can be NULL
-							D3DTEXTUREFILTERTYPE	Filter) const;
+    void CopyRects( TSurface&               DstSurface,
+                    const IRECT*            pSrcRects,
+                    const IPOINT*           pDstCoords,
+                    size_t                  szN,
+                    D3DTEXTUREFILTERTYPE    Filter) const;
 
-	void SaveContents(const KString& FileName) const;
+    void CopyRectsClipped(  TSurface&               DstSurface,
+                            const IRECT*            pSrcRects,  // can be NULL
+                            const IPOINT*           pDstCoords, // can be NULL
+                            size_t                  szN,
+                            const IRECT*            pDstClipRect, // can be NULL
+                            D3DTEXTUREFILTERTYPE    Filter) const;
 
-	IDirect3DSurface9* GetSurface() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pSurface; }
+    void SaveContents(const KString& FileName) const;
 
-	operator IDirect3DSurface9* () const
-		{ return GetSurface(); }
+    IDirect3DSurface9* GetSurface() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pSurface; }
 
-	// ---------------- TRIVIALS ----------------
-	const SZSIZE&	GetSize		() const { return m_Size;		}
-	D3DFORMAT		GetFormat	() const { return m_Format;		}
+    operator IDirect3DSurface9* () const
+        { return GetSurface(); }
+
+    // ---------------- TRIVIALS ----------------
+    const SZSIZE&   GetSize     () const { return m_Size;       }
+    D3DFORMAT       GetFormat   () const { return m_Format;     }
 };
 
 // ---------------
@@ -110,37 +110,37 @@ public:
 class TSurfaceLocker
 {
 private:
-	TSurface& m_Surface;
+    TSurface& m_Surface;
 
 public:
-	TSurfaceLocker(	TSurface&		SSurface,
-					void*&			pRData,
-					size_t&			szRPitch,
-					const SZRECT*	pRect	= NULL,
-					flags_t			flFlags	= 0);
+    TSurfaceLocker( TSurface&       SSurface,
+                    void*&          pRData,
+                    size_t&         szRPitch,
+                    const SZRECT*   pRect   = NULL,
+                    flags_t         flFlags = 0);
 
-	TSurfaceLocker(	TSurface&		SSurface,
-					BYTE*&			pRData,
-					size_t&			szRPitch,
-					const SZRECT*	pRect	= NULL,
-					flags_t			flFlags	= 0);
+    TSurfaceLocker( TSurface&       SSurface,
+                    BYTE*&          pRData,
+                    size_t&         szRPitch,
+                    const SZRECT*   pRect   = NULL,
+                    flags_t         flFlags = 0);
 
-	TSurfaceLocker(	TSurface&		SSurface,
-					WORD*&			pRData,
-					size_t&			szRPitch,
-					const SZRECT*	pRect	= NULL,
-					flags_t			flFlags	= 0);
+    TSurfaceLocker( TSurface&       SSurface,
+                    WORD*&          pRData,
+                    size_t&         szRPitch,
+                    const SZRECT*   pRect   = NULL,
+                    flags_t         flFlags = 0);
 
-	TSurfaceLocker(	TSurface&		SSurface,
-					DWORD*&			pRData,
-					size_t&			szRPitch,
-					const SZRECT*	pRect	= NULL,
-					flags_t			flFlags	= 0);
+    TSurfaceLocker( TSurface&       SSurface,
+                    DWORD*&         pRData,
+                    size_t&         szRPitch,
+                    const SZRECT*   pRect   = NULL,
+                    flags_t         flFlags = 0);
 
-	~TSurfaceLocker();
+    ~TSurfaceLocker();
 
-	// ---------------- TRIVIALS ----------------
-	TSurface& GetSurface() { return m_Surface; }
+    // ---------------- TRIVIALS ----------------
+    TSurface& GetSurface() { return m_Surface; }
 };
 
 #endif // surface_h

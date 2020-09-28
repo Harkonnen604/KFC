@@ -3,18 +3,18 @@
 
 #ifdef _MSC_VER
 #ifndef __AFX_H__
-	#include <mmreg.h>
+    #include <mmreg.h>
 #endif // __AFX_H
 #endif // _MSC_VER
 
 #ifdef _MSC_VER
-	#include <tchar.h>
+    #include <tchar.h>
 #endif // _MSC_VER
 
 #include <ctype.h>
 
 // Casts
-#define LONG_REF_CAST(Value)	(*(LONG*)(&(Value)))
+#define LONG_REF_CAST(Value)    (*(LONG*)(&(Value)))
 
 // -------------------------
 // Basic wintypes streaming
@@ -27,7 +27,7 @@ DECLARE_BASIC_STREAMING(SYSTEMTIME);
 // --------------------------
 inline int Compare(HWND hWnd1, HWND hWnd2)
 {
-	return hWnd1 < hWnd2 ? -1 : hWnd1 > hWnd2 ? +1 : 0;
+    return hWnd1 < hWnd2 ? -1 : hWnd1 > hWnd2 ? +1 : 0;
 }
 
 #endif // basic_wintypes_h

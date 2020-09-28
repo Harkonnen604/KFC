@@ -9,7 +9,7 @@
 class TProtocolsGlobals : public TModuleGlobals
 {
 public:
-	TProtocolsGlobals();
+    TProtocolsGlobals();
 };
 
 extern TProtocolsGlobals g_ProtocolsGlobals;

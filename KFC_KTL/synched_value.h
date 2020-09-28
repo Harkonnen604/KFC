@@ -10,98 +10,98 @@ template <class t>
 class TSynchedValue
 {
 private:
-	t m_Data;
+    t m_Data;
 
-	mutable TCriticalSection m_CriticalSection;
-	
+    mutable TCriticalSection m_CriticalSection;
+
 public:
-	TSynchedValue() {}
+    TSynchedValue() {}
 
-	TSynchedValue(const t& SData) : m_Data(SData) {}
+    TSynchedValue(const t& SData) : m_Data(SData) {}
 
-	operator t () const
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    operator t () const
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		return m_Data;
-	}
+        return m_Data;
+    }
 
-	TSynchedValue<t>& operator = (const t& SData)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    TSynchedValue<t>& operator = (const t& SData)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		m_Data = SData;
+        m_Data = SData;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	TSynchedValue<t>& operator -= (const t& SData)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    TSynchedValue<t>& operator -= (const t& SData)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		m_Data -= m_Data;
+        m_Data -= m_Data;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	TSynchedValue<t>& operator += (const t& SData)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    TSynchedValue<t>& operator += (const t& SData)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		m_Data += m_Data;
+        m_Data += m_Data;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	TSynchedValue<t>& operator *= (const t& SData)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    TSynchedValue<t>& operator *= (const t& SData)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		m_Data *= m_Data;
+        m_Data *= m_Data;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	TSynchedValue<t>& operator /= (const t& SData)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    TSynchedValue<t>& operator /= (const t& SData)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		m_Data /= m_Data;
+        m_Data /= m_Data;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	TSynchedValue<t>& operator -- ()
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    TSynchedValue<t>& operator -- ()
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		--m_Data;
+        --m_Data;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	TSynchedValue<t>& operator ++ ()
-	{
-		TCriticalSectionLocker Locker1(m_CriticalSection);
+    TSynchedValue<t>& operator ++ ()
+    {
+        TCriticalSectionLocker Locker1(m_CriticalSection);
 
-		++m_Data;
+        ++m_Data;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	t operator -- (int)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    t operator -- (int)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		return m_Data--;
-	}
+        return m_Data--;
+    }
 
-	t operator ++ (int)
-	{
-		TCriticalSectionLocker Locker0(m_CriticalSection);
+    t operator ++ (int)
+    {
+        TCriticalSectionLocker Locker0(m_CriticalSection);
 
-		return m_Data++;
-	}
+        return m_Data++;
+    }
 };
 
 #endif // synched_value_h

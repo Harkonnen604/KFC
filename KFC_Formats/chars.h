@@ -5,6 +5,6 @@
 // Global routines
 // ----------------
 inline bool IsQuote(TCHAR c)
-	{ return c == '\'' || c == '"'; }
+    { return c == '\'' || c == '"'; }
 
 #endif // chars_h

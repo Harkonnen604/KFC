@@ -6,42 +6,42 @@
 // ----------------
 // Global routines
 // ----------------
-bool FromString(const KString&			String,
-				THotPointerDirection&	RDirection)
+bool FromString(const KString&          String,
+                THotPointerDirection&   RDirection)
 {
-	const KString& TempString = String.Trimmed();
+    const KString& TempString = String.Trimmed();
 
-	if(String == TEXT("Up"))
-	{
-		RDirection = HPD_UP;
-		return true;
-	}
+    if(String == TEXT("Up"))
+    {
+        RDirection = HPD_UP;
+        return true;
+    }
 
-	if(String == TEXT("Right"))
-	{
-		RDirection = HPD_RIGHT;
-		return true;
-	}
+    if(String == TEXT("Right"))
+    {
+        RDirection = HPD_RIGHT;
+        return true;
+    }
 
-	if(String == TEXT("Down"))
-	{
-		RDirection = HPD_DOWN;
-		return true;
-	}
+    if(String == TEXT("Down"))
+    {
+        RDirection = HPD_DOWN;
+        return true;
+    }
 
-	if(String == TEXT("Left"))
-	{
-		RDirection = HPD_LEFT;
-		return true;
-	}
+    if(String == TEXT("Left"))
+    {
+        RDirection = HPD_LEFT;
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
-void ReadHotPointerDirection(	const KString&			String,
-								THotPointerDirection&	RDirection,
-								LPCTSTR					pValueName)
+void ReadHotPointerDirection(   const KString&          String,
+                                THotPointerDirection&   RDirection,
+                                LPCTSTR                 pValueName)
 {
-	if(!FromString(String, RDirection))
-		REPORT_INCORRECT_VALUE_FORMAT;
+    if(!FromString(String, RDirection))
+        REPORT_INCORRECT_VALUE_FORMAT;
 }

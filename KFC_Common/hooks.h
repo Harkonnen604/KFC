@@ -11,28 +11,28 @@
 class THookInstaller
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	HHOOK m_hHook;
+    HHOOK m_hHook;
 
 public:
-	THookInstaller();
+    THookInstaller();
 
-	~THookInstaller() { Release(); }
+    ~THookInstaller() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(	int				iType,
-					const T_DLL&	DLL,
-					LPCSTR			pFunctionName,
-					DWORD			dwThreadID = 0);
+    void Allocate(  int             iType,
+                    const T_DLL&    DLL,
+                    LPCSTR          pFunctionName,
+                    DWORD           dwThreadID = 0);
 
-	HHOOK GetHook() const;
+    HHOOK GetHook() const;
 
-	operator HHOOK () const { return GetHook(); }
+    operator HHOOK () const { return GetHook(); }
 };
 
 #endif // _MSC_VER

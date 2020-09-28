@@ -7,32 +7,32 @@
 class T_DB_Environment
 {
 private:
-	bool m_bAllocated;
-	
-	SQLHENV m_hEnv;
+    bool m_bAllocated;
+
+    SQLHENV m_hEnv;
 
 public:
-	T_DB_Environment();
+    T_DB_Environment();
 
-	~T_DB_Environment()
-		{ Release(); }
+    ~T_DB_Environment()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate();	
+    void Allocate();
 
-	void SetIntAttr(size_t szAttr, size_t szValue);
+    void SetIntAttr(size_t szAttr, size_t szValue);
 
-	void SetStringAttr(size_t szAttr, LPCTSTR pValue);
+    void SetStringAttr(size_t szAttr, LPCTSTR pValue);
 
-	SQLHENV GetEnv() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hEnv; }
+    SQLHENV GetEnv() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hEnv; }
 
-	operator SQLHENV () const
-		{ return GetEnv(); }
+    operator SQLHENV () const
+        { return GetEnv(); }
 };
 
 #endif // db_env_h

@@ -13,8 +13,8 @@ T_SDL_Globals g_SDL_Globals;
 // ------------
 T_SDL_Globals::T_SDL_Globals() : TModuleGlobals(TEXT("SDL globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_ImageGlobals);
-	AddSubGlobals(g_SDL_DeviceGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_ImageGlobals);
+    AddSubGlobals(g_SDL_DeviceGlobals);
 }

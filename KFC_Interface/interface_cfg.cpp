@@ -19,8 +19,8 @@ void TInterfaceCfg::OnUninitialize()
 
 void TInterfaceCfg::OnInitialize()
 {
-	if(!g_CommonConsts.m_bSkipBasicCfgInitials)
-		Load(), Save();
+    if(!g_CommonConsts.m_bSkipBasicCfgInitials)
+        Load(), Save();
 }
 
 void TInterfaceCfg::LoadItems(KRegistryKey& Key)
@@ -33,14 +33,14 @@ void TInterfaceCfg::SaveItems(KRegistryKey& Key) const
 
 void TInterfaceCfg::Load()
 {
-	TAssignmentsList::Load(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_InterfaceConsts.m_RegistryKeyName +
-							g_CommonConsts.m_CfgRegistryKeyName);
+    TAssignmentsList::Load( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_InterfaceConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_CfgRegistryKeyName);
 }
 
 void TInterfaceCfg::Save() const
 {
-	TAssignmentsList::Save(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_InterfaceConsts.m_RegistryKeyName +
-							g_CommonConsts.m_CfgRegistryKeyName);
+    TAssignmentsList::Save( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_InterfaceConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_CfgRegistryKeyName);
 }

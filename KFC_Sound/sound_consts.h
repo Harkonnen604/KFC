@@ -12,15 +12,15 @@
 // -------------
 class TSoundConsts : public TConsts
 {
-public:	
-	// Filenames
-	KString m_SoundsFolderName;
+public:
+    // Filenames
+    KString m_SoundsFolderName;
 
-	// Storages
-	size_t m_szNSoundsRegistrationManagerFixedEntries;
+    // Storages
+    size_t m_szNSoundsRegistrationManagerFixedEntries;
 
 
-	TSoundConsts();
+    TSoundConsts();
 };
 
 extern TSoundConsts g_SoundConsts;

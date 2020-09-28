@@ -7,13 +7,13 @@
 // Rect effect
 // ------------
 class TRectEffect
-{	
+{
 public:
-	static void DrawRect(	FRECT		Rect, // altered inside
-							D3DCOLOR	Color = WhiteColor());
+    static void DrawRect(   FRECT       Rect, // altered inside
+                            D3DCOLOR    Color = WhiteColor());
 
-	static void DrawRect(	FRECT			Rect, // altered inside
-							const D3DCOLOR	Colors[4]);
+    static void DrawRect(   FRECT           Rect, // altered inside
+                            const D3DCOLOR  Colors[4]);
 };
 
 // -----------------
@@ -22,11 +22,11 @@ public:
 class TWireRectEffect
 {
 public:
-	static void DrawRect(	FRECT			Rect, // altered inside
-							const D3DCOLOR	Color = WhiteColor());
+    static void DrawRect(   FRECT           Rect, // altered inside
+                            const D3DCOLOR  Color = WhiteColor());
 
-	static void DrawRect(	FRECT			Rect, // altered inside
-							const D3DCOLOR	Colors[4]);
+    static void DrawRect(   FRECT           Rect, // altered inside
+                            const D3DCOLOR  Colors[4]);
 };
 
 #endif // _2d_effects_h

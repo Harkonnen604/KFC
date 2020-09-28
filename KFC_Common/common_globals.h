@@ -9,7 +9,7 @@
 class TCommonGlobals : public TModuleGlobals
 {
 public:
-	TCommonGlobals();
+    TCommonGlobals();
 };
 
 extern TCommonGlobals g_CommonGlobals;

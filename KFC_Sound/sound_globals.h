@@ -9,7 +9,7 @@
 class TSoundGlobals : public TModuleGlobals
 {
 public:
-	TSoundGlobals();
+    TSoundGlobals();
 };
 
 extern TSoundGlobals g_SoundGlobals;

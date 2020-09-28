@@ -7,16 +7,16 @@
 // ---------------
 struct TEMailAddress
 {
-	KString m_Address;
-	KString m_Name;
+    KString m_Address;
+    KString m_Name;
 
 
-	TEMailAddress() {}
+    TEMailAddress() {}
 
-	TEMailAddress(LPCTSTR s)
-		{ Parse(s); }
+    TEMailAddress(LPCTSTR s)
+        { Parse(s); }
 
-	void Parse(LPCTSTR s);
+    void Parse(LPCTSTR s);
 };
 
 // -----------------
@@ -25,12 +25,12 @@ struct TEMailAddress
 class TEMailAddresses : public TList<TEMailAddress>
 {
 public:
-	TEMailAddresses() {}
+    TEMailAddresses() {}
 
-	TEMailAddresses(LPCTSTR s)
-		{ Parse(s); }
+    TEMailAddresses(LPCTSTR s)
+        { Parse(s); }
 
-	TIterator Parse(LPCTSTR s, bool bClearFirst = true);
+    TIterator Parse(LPCTSTR s, bool bClearFirst = true);
 };
 
 // ------------
@@ -38,12 +38,12 @@ public:
 // ------------
 struct TMIMEHeader
 {
-	KString m_Name;
-	KString m_Value;
+    KString m_Name;
+    KString m_Value;
 
 
-	TMIMEHeader& Set(LPCTSTR pSName, LPCTSTR pSValue)
-		{ m_Name = pSName, m_Value = pSValue; return *this; }
+    TMIMEHeader& Set(LPCTSTR pSName, LPCTSTR pSValue)
+        { m_Name = pSName, m_Value = pSValue; return *this; }
 };
 
 // -------------
@@ -52,22 +52,22 @@ struct TMIMEHeader
 class TMIMEHeaders : public TList<TMIMEHeader>
 {
 public:
-	TMIMEHeaders() {}
+    TMIMEHeaders() {}
 
-	TMIMEHeaders(bool bDotted, LPCTSTR pBody, size_t szLength = -1)
-		{ Parse(bDotted, pBody, szLength); }
+    TMIMEHeaders(bool bDotted, LPCTSTR pBody, size_t szLength = -1)
+        { Parse(bDotted, pBody, szLength); }
 
-	void Parse(bool bDotted, LPCTSTR pBody, size_t szLength = -1);
+    void Parse(bool bDotted, LPCTSTR pBody, size_t szLength = -1);
 
-	KString GetValue(LPCTSTR pName, LPCTSTR pDefaultValue = TEXT("")) const;
+    KString GetValue(LPCTSTR pName, LPCTSTR pDefaultValue = TEXT("")) const;
 
-	TEMailAddresses::TIterator
-		ExtractFromAddresses(	TEMailAddresses&	RAddresses,
-								bool				bClearFirst = true) const;
+    TEMailAddresses::TIterator
+        ExtractFromAddresses(   TEMailAddresses&    RAddresses,
+                                bool                bClearFirst = true) const;
 
-	TEMailAddresses::TIterator
-		ExtractToAddresses(	TEMailAddresses&	RAddresses,
-							bool				bClearFirst = true) const;
+    TEMailAddresses::TIterator
+        ExtractToAddresses( TEMailAddresses&    RAddresses,
+                            bool                bClearFirst = true) const;
 };
 
 // ----------------

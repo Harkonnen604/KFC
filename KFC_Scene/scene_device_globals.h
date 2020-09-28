@@ -9,11 +9,11 @@
 class TSceneDeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();	
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TSceneDeviceGlobals();
+    TSceneDeviceGlobals();
 };
 
 extern TSceneDeviceGlobals g_SceneDeviceGlobals;

@@ -8,9 +8,9 @@
 // -------------------------
 enum TDebugFileControlChar
 {
-	DFCC_CLEAR		= 1,
-	DFCC_EOL		= 2,
-	DFCC_FORCE_UINT	= UINT_MAX,
+    DFCC_CLEAR      = 1,
+    DFCC_EOL        = 2,
+    DFCC_FORCE_UINT = UINT_MAX,
 };
 
 // -----------
@@ -19,59 +19,59 @@ enum TDebugFileControlChar
 class TDebugFile
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	KString m_FileName;
+    KString m_FileName;
 
-	TCriticalSection m_AccessCS;
+    TCriticalSection m_AccessCS;
 
 private:
-	void Clear();
+    void Clear();
 
 public:
-	TDebugFile();
+    TDebugFile();
 
-	~TDebugFile();
+    ~TDebugFile();
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const KString& SFileName, bool bClear = true);
-	
-	void Lock()
-		{ m_AccessCS.Lock(); }
-		
-	void Unlock()
-		{ m_AccessCS.Unlock(); }
+    void Allocate(const KString& SFileName, bool bClear = true);
 
-	TDebugFile& operator << (LPCTSTR pString);
+    void Lock()
+        { m_AccessCS.Lock(); }
 
-	TDebugFile& operator << (TCHAR cChar)
-		{ return *this << KString(cChar); }
+    void Unlock()
+        { m_AccessCS.Unlock(); }
 
-	TDebugFile& operator << (LPTSTR pString)
-		{ return *this << (LPCTSTR)pString; }
+    TDebugFile& operator << (LPCTSTR pString);
 
-	TDebugFile& operator << (const KString& String)
-		{ return *this << (LPCTSTR)String; }
+    TDebugFile& operator << (TCHAR cChar)
+        { return *this << KString(cChar); }
 
-	TDebugFile& operator << (INT64	iValue)		{ return *this << KString(iValue);	}
-	TDebugFile& operator << (int	iValue)		{ return *this << KString(iValue);	}
-	TDebugFile& operator << (QWORD	qwValue)	{ return *this << KString(qwValue);	}
-	TDebugFile& operator << (UINT	uiValue)	{ return *this << KString(uiValue); }
+    TDebugFile& operator << (LPTSTR pString)
+        { return *this << (LPCTSTR)pString; }
 
-	TDebugFile& operator << (float			fValue)		{ return *this << KString(fValue);		}
-	TDebugFile& operator << (double			dValue)		{ return *this << KString(dValue);		}
-	TDebugFile& operator << (bool			bValue)		{ return *this << KString(bValue);		}
-	TDebugFile& operator << (const void*	pPtr)		{ return *this << KString(pPtr);		}
-	TDebugFile& operator << (TAlignment		Alignment)	{ return *this << KString(Alignment);	}
+    TDebugFile& operator << (const KString& String)
+        { return *this << (LPCTSTR)String; }
 
-	TDebugFile& operator << (TDebugFileControlChar ControlChar);
+    TDebugFile& operator << (INT64  iValue)     { return *this << KString(iValue);  }
+    TDebugFile& operator << (int    iValue)     { return *this << KString(iValue);  }
+    TDebugFile& operator << (QWORD  qwValue)    { return *this << KString(qwValue); }
+    TDebugFile& operator << (UINT   uiValue)    { return *this << KString(uiValue); }
 
-	// ---------------- TRIVIALS ----------------
-	const KString& GetFileName() const { return m_FileName; }
+    TDebugFile& operator << (float          fValue)     { return *this << KString(fValue);      }
+    TDebugFile& operator << (double         dValue)     { return *this << KString(dValue);      }
+    TDebugFile& operator << (bool           bValue)     { return *this << KString(bValue);      }
+    TDebugFile& operator << (const void*    pPtr)       { return *this << KString(pPtr);        }
+    TDebugFile& operator << (TAlignment     Alignment)  { return *this << KString(Alignment);   }
+
+    TDebugFile& operator << (TDebugFileControlChar ControlChar);
+
+    // ---------------- TRIVIALS ----------------
+    const KString& GetFileName() const { return m_FileName; }
 };
 
 extern TDebugFile g_DebugFile;
@@ -82,11 +82,11 @@ extern TDebugFile g_DebugFile;
 class TDebugFileLocker
 {
 public:
-	TDebugFileLocker()
-		{ g_DebugFile.Lock(); }
+    TDebugFileLocker()
+        { g_DebugFile.Lock(); }
 
-	~TDebugFileLocker()
-		{ g_DebugFile.Unlock(); }
+    ~TDebugFileLocker()
+        { g_DebugFile.Unlock(); }
 };
 
 // --------------------
@@ -95,25 +95,25 @@ public:
 template <class t>
 inline TDebugFile& operator << (TDebugFile& DebugFile, const TPoint<t>& Point)
 {
-	return DebugFile << (KString)Point;
+    return DebugFile << (KString)Point;
 }
 
 template <class t>
 inline TDebugFile& operator << (TDebugFile& DebugFile, const TRect<t>& Rect)
 {
-	return DebugFile << (KString)Rect;
+    return DebugFile << (KString)Rect;
 }
 
 template <class t>
 inline TDebugFile& operator << (TDebugFile& DebugFile, const TSize<t>& Size)
 {
-	return DebugFile << (KString)Size;
+    return DebugFile << (KString)Size;
 }
 
 template <class t>
 inline TDebugFile& operator << (TDebugFile& DebugFile, const TSegment<t>& Segment)
 {
-	return DebugFile << (KString)Segment;
+    return DebugFile << (KString)Segment;
 }
 
 #endif // debug_file_h

@@ -4,8 +4,8 @@
 #include <KFC_KTL\globals.h>
 #include <KFC_KTL\token.h>
 
-#define CONTROL_TYPE_TOKENS		(g_InterfaceTokens.m_ControlTypeTokens)
-#define CONTROL_ID_TOKENS		(g_InterfaceTokens.m_ControlIDTokens)
+#define CONTROL_TYPE_TOKENS     (g_InterfaceTokens.m_ControlTypeTokens)
+#define CONTROL_ID_TOKENS       (g_InterfaceTokens.m_ControlIDTokens)
 
 // -----------------
 // Interface tokens
@@ -13,23 +13,23 @@
 class TInterfaceTokens : public TGlobals
 {
 private:
-	TTokensRegisterer m_FileNameTokensRegisterer;
-	TTokensRegisterer m_SpriteIndexTokensRegisterer;
-	TTokensRegisterer m_FontIndexTokensRegisterer;
-	TTokensRegisterer m_SoundIndexTokensRegisterer;
-	TTokensRegisterer m_ControlTypeTokensRegisterer;
-	TTokensRegisterer m_ControlIDTokensRegisterer;
+    TTokensRegisterer m_FileNameTokensRegisterer;
+    TTokensRegisterer m_SpriteIndexTokensRegisterer;
+    TTokensRegisterer m_FontIndexTokensRegisterer;
+    TTokensRegisterer m_SoundIndexTokensRegisterer;
+    TTokensRegisterer m_ControlTypeTokensRegisterer;
+    TTokensRegisterer m_ControlIDTokensRegisterer;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
-	
+    void OnUninitialize ();
+    void OnInitialize   ();
+
 public:
-	TTokens m_ControlTypeTokens;
-	TTokens m_ControlIDTokens;
+    TTokens m_ControlTypeTokens;
+    TTokens m_ControlIDTokens;
 
 
-	TInterfaceTokens();
+    TInterfaceTokens();
 };
 
 extern TInterfaceTokens g_InterfaceTokens;

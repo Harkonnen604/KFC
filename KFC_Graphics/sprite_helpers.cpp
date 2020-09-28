@@ -7,81 +7,81 @@
 // ----------------
 // Global routines
 // ----------------
-KString GetSpriteText(	const TSprite*	pSprite,
-						bool*			pRSuccess,
-						bool			bRecursive)
+KString GetSpriteText(  const TSprite*  pSprite,
+                        bool*           pRSuccess,
+                        bool            bRecursive)
 {
-	if(pRSuccess)
-		*pRSuccess = false;
+    if(pRSuccess)
+        *pRSuccess = false;
 
-	if(pSprite == NULL)
-		return KString();
+    if(pSprite == NULL)
+        return KString();
 
-	// Direct
-	const TTextContainer* pTextContainer =
-		dynamic_cast<const TTextContainer*>(pSprite);
+    // Direct
+    const TTextContainer* pTextContainer =
+        dynamic_cast<const TTextContainer*>(pSprite);
 
-	if(pTextContainer)
-	{
-		bool bSuccess;
+    if(pTextContainer)
+    {
+        bool bSuccess;
 
-		const KString Text = pTextContainer->GetText(&bSuccess);
+        const KString Text = pTextContainer->GetText(&bSuccess);
 
-		if(bSuccess)
-		{
-			if(pRSuccess)
-				*pRSuccess = true;
+        if(bSuccess)
+        {
+            if(pRSuccess)
+                *pRSuccess = true;
 
-			return Text;
-		}
-	}
+            return Text;
+        }
+    }
 
-	// Recursive
-	if(bRecursive)
-	{
-		for(size_t i = 0 ; i < pSprite->GetNSubObjects() ; i++)
-		{
-			bool bSuccess;
+    // Recursive
+    if(bRecursive)
+    {
+        for(size_t i = 0 ; i < pSprite->GetNSubObjects() ; i++)
+        {
+            bool bSuccess;
 
-			const KString Text = GetSpriteText(	pSprite->GetSubObject(i),
-												&bSuccess,
-												bRecursive);
+            const KString Text = GetSpriteText( pSprite->GetSubObject(i),
+                                                &bSuccess,
+                                                bRecursive);
 
-			if(bSuccess)
-			{
-				if(pRSuccess)
-					*pRSuccess = true;
+            if(bSuccess)
+            {
+                if(pRSuccess)
+                    *pRSuccess = true;
 
-				return Text;
-			}
-		}
-	}
+                return Text;
+            }
+        }
+    }
 
-	return KString();
+    return KString();
 }
 
-bool SetSpriteText(	TSprite*		pSprite,
-					const KString&	Text,
-					bool			bRecursive)
+bool SetSpriteText( TSprite*        pSprite,
+                    const KString&  Text,
+                    bool            bRecursive)
 {
-	if(pSprite == NULL)
-		return false;
+    if(pSprite == NULL)
+        return false;
 
-	// Direct
-	bool bSuccess = false;
+    // Direct
+    bool bSuccess = false;
 
-	TTextContainer* pTextContainer =
-		dynamic_cast<TTextContainer*>(pSprite);	
+    TTextContainer* pTextContainer =
+        dynamic_cast<TTextContainer*>(pSprite);
 
-	if(pTextContainer)
-		bSuccess |= pTextContainer->SetText(Text);
+    if(pTextContainer)
+        bSuccess |= pTextContainer->SetText(Text);
 
-	// Recursive
-	if(bRecursive)
-	{
-		for(size_t i = 0 ; i < pSprite->GetNSubObjects() ; i++)
-			bSuccess |= SetSpriteText(pSprite->GetSubObject(i), Text, bRecursive);
-	}
+    // Recursive
+    if(bRecursive)
+    {
+        for(size_t i = 0 ; i < pSprite->GetNSubObjects() ; i++)
+            bSuccess |= SetSpriteText(pSprite->GetSubObject(i), Text, bRecursive);
+    }
 
-	return bSuccess;
+    return bSuccess;
 }

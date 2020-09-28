@@ -9,7 +9,7 @@
 class T_SSL_Globals : public TModuleGlobals
 {
 public:
-	T_SSL_Globals();
+    T_SSL_Globals();
 };
 
 extern T_SSL_Globals g_SSL_Globals;

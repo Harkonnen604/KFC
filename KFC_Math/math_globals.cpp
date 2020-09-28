@@ -11,7 +11,7 @@ TMathGlobals g_MathGlobals;
 // -------------
 TMathGlobals::TMathGlobals() : TModuleGlobals(TEXT("Math globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_KTL_Globals);
 
-	AddSubGlobals(g_MathDeviceGlobals);
+    AddSubGlobals(g_MathDeviceGlobals);
 }

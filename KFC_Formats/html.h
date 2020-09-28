@@ -10,108 +10,108 @@
 class T_HTML_Document
 {
 public:
-	// Tag
-	class TTag
-	{
-	public:
-		// Parameter
-		typedef TVariable TParameter;
+    // Tag
+    class TTag
+    {
+    public:
+        // Parameter
+        typedef TVariable TParameter;
 
-		// Parameters
-		class TParameters : public TVariableList
-		{
-		public:
-			TParameters() : TVariableList(false) {}
+        // Parameters
+        class TParameters : public TVariableList
+        {
+        public:
+            TParameters() : TVariableList(false) {}
 
-			KString Write() const;
-		};
+            KString Write() const;
+        };
 
-	private:
-		bool m_bModified;
+    private:
+        bool m_bModified;
 
-	public:
-		KString		m_OriginalText;
-		KString		m_Name;
-		TParameters	m_Parameters;
-		KString		m_TextAfter;
-		bool		m_bSelfClose;
+    public:
+        KString     m_OriginalText;
+        KString     m_Name;
+        TParameters m_Parameters;
+        KString     m_TextAfter;
+        bool        m_bSelfClose;
 
-	public:
-		TTag();
+    public:
+        TTag();
 
-		void Modify();
+        void Modify();
 
-		KString Write() const;
-	};
+        KString Write() const;
+    };
 
-	// Tags
-	typedef TList<TTag> TTags;
-
-
-	KString m_StartText;
-
-	TTags m_Tags;
+    // Tags
+    typedef TList<TTag> TTags;
 
 
-	T_HTML_Document() {}
+    KString m_StartText;
 
-	T_HTML_Document(LPCTSTR s)
-		{ Parse(s); }
+    TTags m_Tags;
 
-	void Clear();
 
-	void Parse(LPCTSTR s);
+    T_HTML_Document() {}
 
-	KString Write() const;
+    T_HTML_Document(LPCTSTR s)
+        { Parse(s); }
 
-	void ClearTags(TTags::TIterator& Iter, LPCTSTR pTerminatorTagNames);	
+    void Clear();
 
-	TTags::TIterator FindTag(	LPCTSTR				pTagName,
-								TTags::TIterator	After = NULL,
-								TTags::TIterator	Till  = NULL)
-	{
-		return	TTags::TIterator().
-					FromPVoid(	static_cast<const T_HTML_Document*>(this)->
-									FindTag(pTagName, After, Till).AsPVoid());
-	}
+    void Parse(LPCTSTR s);
 
-	TTags::TConstIterator FindTag(	LPCTSTR					pTagName,
-									TTags::TConstIterator	After = NULL,
-									TTags::TConstIterator	Till  = NULL) const;
+    KString Write() const;
 
-	static TTags::TIterator GetNextSame(TTags::TIterator Iter,
-										TTags::TIterator Till = NULL);
+    void ClearTags(TTags::TIterator& Iter, LPCTSTR pTerminatorTagNames);
 
-	static TTags::TConstIterator GetNextSame(	TTags::TConstIterator Iter,
-												TTags::TConstIterator Till = NULL);
+    TTags::TIterator FindTag(   LPCTSTR             pTagName,
+                                TTags::TIterator    After = NULL,
+                                TTags::TIterator    Till  = NULL)
+    {
+        return  TTags::TIterator().
+                    FromPVoid(  static_cast<const T_HTML_Document*>(this)->
+                                    FindTag(pTagName, After, Till).AsPVoid());
+    }
 
-	static TTags::TIterator& ToNextSame(TTags::TIterator&	Iter,
-										TTags::TIterator	Till = NULL)
-	{
-		return Iter = GetNextSame(Iter, Till);
-	}
+    TTags::TConstIterator FindTag(  LPCTSTR                 pTagName,
+                                    TTags::TConstIterator   After = NULL,
+                                    TTags::TConstIterator   Till  = NULL) const;
 
-	static const TTags::TConstIterator& ToNextSame(	TTags::TConstIterator&	Iter,
-													TTags::TConstIterator	Till = NULL)
-	{
-		return Iter = GetNextSame(Iter, Till);
-	}
+    static TTags::TIterator GetNextSame(TTags::TIterator Iter,
+                                        TTags::TIterator Till = NULL);
 
-	size_t GetNTags(LPCTSTR					pTagName,
-					TTags::TConstIterator	After = NULL,
-					TTags::TConstIterator	Till  = NULL) const;
+    static TTags::TConstIterator GetNextSame(   TTags::TConstIterator Iter,
+                                                TTags::TConstIterator Till = NULL);
 
-	void ModifyTags(TTags::TIterator After = NULL, TTags::TIterator Till = NULL);	
+    static TTags::TIterator& ToNextSame(TTags::TIterator&   Iter,
+                                        TTags::TIterator    Till = NULL)
+    {
+        return Iter = GetNextSame(Iter, Till);
+    }
 
-	// void Encode(const TEncoding* pEncoding);
+    static const TTags::TConstIterator& ToNextSame( TTags::TConstIterator&  Iter,
+                                                    TTags::TConstIterator   Till = NULL)
+    {
+        return Iter = GetNextSame(Iter, Till);
+    }
 
-	// T_HTML_Document& Decode(const TEncoding* pEncoding);
+    size_t GetNTags(LPCTSTR                 pTagName,
+                    TTags::TConstIterator   After = NULL,
+                    TTags::TConstIterator   Till  = NULL) const;
 
-	KString GetMetaContent(	LPCTSTR pMetaName,
-							LPCTSTR pMetaValue,
-							LPCTSTR pDefaultContent = TEXT("")) const;
+    void ModifyTags(TTags::TIterator After = NULL, TTags::TIterator Till = NULL);
 
-	KString GetTitle() const;
+    // void Encode(const TEncoding* pEncoding);
+
+    // T_HTML_Document& Decode(const TEncoding* pEncoding);
+
+    KString GetMetaContent( LPCTSTR pMetaName,
+                            LPCTSTR pMetaValue,
+                            LPCTSTR pDefaultContent = TEXT("")) const;
+
+    KString GetTitle() const;
 };
 
 #endif // document_h

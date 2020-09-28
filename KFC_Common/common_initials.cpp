@@ -20,8 +20,8 @@ void TCommonInitials::OnUninitialize()
 
 void TCommonInitials::OnInitialize()
 {
-	if(!g_CommonConsts.m_bSkipBasicCfgInitials)
-		Load(), Save();
+    if(!g_CommonConsts.m_bSkipBasicCfgInitials)
+        Load(), Save();
 }
 
 void TCommonInitials::LoadItems(KRegistryKey& Key)
@@ -34,16 +34,16 @@ void TCommonInitials::SaveItems(KRegistryKey& Key) const
 
 void TCommonInitials::Load()
 {
-	TAssignmentsList::Load(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_CommonConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Load( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_CommonConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }
 
 void TCommonInitials::Save() const
 {
-	TAssignmentsList::Save(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_CommonConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Save( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_CommonConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }
 
 #endif // _MSC_VER

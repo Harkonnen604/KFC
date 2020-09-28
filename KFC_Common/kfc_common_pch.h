@@ -13,22 +13,22 @@
 #include <math.h>
 
 #ifdef _MSC_VER
-	#include <direct.h>
-	#include <io.h>
+    #include <direct.h>
+    #include <io.h>
 #endif // _MSC_VER
 
 #include <time.h>
 #include <KFC_KTL/win_inc.h>
 
 #ifdef _MSC_VER
-	#include <tchar.h>
-	#include <shlwapi.h>
-	#include <shlobj.h>
+    #include <tchar.h>
+    #include <shlwapi.h>
+    #include <shlobj.h>
 #endif // _MSC_VER
 
 #ifdef _MSC_VER
-	#include <OleCtl.h>
-	#include <ObjBase.h>
+    #include <OleCtl.h>
+    #include <ObjBase.h>
 #endif // _MSC_VER
 
 #endif // kfc_common_pch_h

@@ -8,11 +8,11 @@
 // Visual binder
 // --------------
 class TVisualBinder
-{	
+{
 public:
-	virtual ~TVisualBinder() {}
+    virtual ~TVisualBinder() {}
 
-	virtual void Bind() const = 0;
+    virtual void Bind() const = 0;
 };
 
 // -----------------------------------
@@ -21,25 +21,25 @@ public:
 class TSoftPhysicalObjectVisualBinder : public TVisualBinder
 {
 private:
-	const TSoftPhysicalObject* m_pObject;
+    const TSoftPhysicalObject* m_pObject;
 
-	TVisualModelBase* m_pModel;
+    TVisualModelBase* m_pModel;
 
 public:
-	TSoftPhysicalObjectVisualBinder();
+    TSoftPhysicalObjectVisualBinder();
 
-	~TSoftPhysicalObjectVisualBinder()
-		{ Release(); }
-	
-	bool IsAllocated() const
-		{ return m_pObject && m_pModel; }
+    ~TSoftPhysicalObjectVisualBinder()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_pObject && m_pModel; }
 
-	void Allocate(	const TSoftPhysicalObject&	SObject,
-					TVisualModelBase&			SModel);
+    void Release();
 
-	void Bind() const;
+    void Allocate(  const TSoftPhysicalObject&  SObject,
+                    TVisualModelBase&           SModel);
+
+    void Bind() const;
 };
 
 #endif // visual_binder_h

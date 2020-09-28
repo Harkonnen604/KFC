@@ -6,57 +6,57 @@
 // -----
 TIcon::TIcon()
 {
-	m_hIcon = NULL;
+    m_hIcon = NULL;
 }
 
 TIcon::TIcon(HICON hSIcon)
 {
-	m_hIcon = NULL;
+    m_hIcon = NULL;
 
-	Allocate(hSIcon);
+    Allocate(hSIcon);
 }
 
 TIcon::TIcon(HINSTANCE hInstance, UINT uiID)
 {
-	m_hIcon = NULL;
+    m_hIcon = NULL;
 
-	Allocate(hInstance, uiID);
+    Allocate(hInstance, uiID);
 }
 
 TIcon::TIcon(UINT uiID)
 {
-	m_hIcon = NULL;
+    m_hIcon = NULL;
 
-	Allocate(uiID);
+    Allocate(uiID);
 }
 
 void TIcon::Release()
 {
-	if(m_hIcon)
-		DestroyIcon(m_hIcon), m_hIcon = NULL;
+    if(m_hIcon)
+        DestroyIcon(m_hIcon), m_hIcon = NULL;
 }
 
 void TIcon::Allocate(HICON hSIcon)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(hSIcon);
+    try
+    {
+        DEBUG_VERIFY(hSIcon);
 
-		m_hIcon = hSIcon;
-	}
+        m_hIcon = hSIcon;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 HICON TIcon::GetIcon() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_hIcon;
+    return m_hIcon;
 }

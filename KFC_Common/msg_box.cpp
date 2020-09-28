@@ -10,7 +10,7 @@
 // ---------------
 int TMsgBoxParams::Spawn() const
 {
-	return MessageBox(m_hWnd, m_Text, m_Caption, m_tpType);
+    return MessageBox(m_hWnd, m_Text, m_Caption, m_tpType);
 }
 
 // ----------------
@@ -18,26 +18,26 @@ int TMsgBoxParams::Spawn() const
 // ----------------
 static UINT __stdcall MsgBoxThreadProc(void* pParam)
 {
-	const TMsgBoxParams LocalParams = *(const TMsgBoxParams*)pParam;
+    const TMsgBoxParams LocalParams = *(const TMsgBoxParams*)pParam;
 
-	g_CommonDeviceGlobals.m_MsgBoxesEvent.Set();
+    g_CommonDeviceGlobals.m_MsgBoxesEvent.Set();
 
-	LocalParams.Spawn();
+    LocalParams.Spawn();
 
-	return 0;
+    return 0;
 }
 
 void ThreadedMessageBox(const TMsgBoxParams& Params)
 {
-	g_CommonDeviceGlobals.m_MsgBoxesEvent.Reset();
+    g_CommonDeviceGlobals.m_MsgBoxesEvent.Reset();
 
-	UINT uiThread;
-	if(_beginthreadex(NULL, 0, MsgBoxThreadProc, (void*)&Params, 0, &uiThread) == 0)
-	{
-		INITIATE_DEFINED_FAILURE(TEXT("Error starting threaded message box thread."));
-	}
+    UINT uiThread;
+    if(_beginthreadex(NULL, 0, MsgBoxThreadProc, (void*)&Params, 0, &uiThread) == 0)
+    {
+        INITIATE_DEFINED_FAILURE(TEXT("Error starting threaded message box thread."));
+    }
 
-	g_CommonDeviceGlobals.m_MsgBoxesEvent.Wait();
+    g_CommonDeviceGlobals.m_MsgBoxesEvent.Wait();
 }
 
 #endif // _MSC_VER

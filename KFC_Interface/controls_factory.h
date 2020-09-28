@@ -6,7 +6,7 @@
 #include "control.h"
 
 // Speed defs
-#define CONTROLS_FACTORY	(g_ControlsFactory)
+#define CONTROLS_FACTORY    (g_ControlsFactory)
 
 // Declarations
 class TControlsFactory;
@@ -16,21 +16,21 @@ class TControlsFactory;
 // ------------------------
 struct TControlsFactoryEntry
 {
-	typedef TControl* TControlLoader(	type_t					tpType,
-										TInfoNodeConstIterator	InfoNode,
-										const TControl*			pParentControl,
-										const FRECT&			Resolution);
+    typedef TControl* TControlLoader(   type_t                  tpType,
+                                        TInfoNodeConstIterator  InfoNode,
+                                        const TControl*         pParentControl,
+                                        const FRECT&            Resolution);
 
 
-	TPSEGMENT		m_Types;
-	TControlLoader*	m_pLoader;
+    TPSEGMENT       m_Types;
+    TControlLoader* m_pLoader;
 
-	void Set(	const TPSEGMENT&	STypes,
-				TControlLoader*		pSLoader)
-	{
-		m_Types		= STypes;
-		m_pLoader	= pSLoader;
-	}
+    void Set(   const TPSEGMENT&    STypes,
+                TControlLoader*     pSLoader)
+    {
+        m_Types     = STypes;
+        m_pLoader   = pSLoader;
+    }
 };
 
 // ----------------------------------
@@ -39,68 +39,68 @@ struct TControlsFactoryEntry
 class TControlsFactoryTypesRegisterer
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TControlsFactory* m_pFactory;
+    TControlsFactory* m_pFactory;
 
-	size_t m_szN;
+    size_t m_szN;
 
 public:
-	TControlsFactoryTypesRegisterer();
+    TControlsFactoryTypesRegisterer();
 
-	TControlsFactoryTypesRegisterer(TControlsFactory& SFactory);
+    TControlsFactoryTypesRegisterer(TControlsFactory& SFactory);
 
-	~TControlsFactoryTypesRegisterer() { Release(); }
+    ~TControlsFactoryTypesRegisterer() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(TControlsFactory& SFactory);
+    void Allocate(TControlsFactory& SFactory);
 
-	void Add(	TControlsFactoryEntry::TControlLoader*	pLoader,
-				type_t									tpType,
-				size_t									szAmt = 1);
+    void Add(   TControlsFactoryEntry::TControlLoader*  pLoader,
+                type_t                                  tpType,
+                size_t                                  szAmt = 1);
 
-	// ---------------- TRIVIALS ----------------
-	TControlsFactory& GetFactory() { return *m_pFactory; }
+    // ---------------- TRIVIALS ----------------
+    TControlsFactory& GetFactory() { return *m_pFactory; }
 
-	const TControlsFactory& GetFactory() const { return *m_pFactory; }
+    const TControlsFactory& GetFactory() const { return *m_pFactory; }
 
-	size_t GetN() const { return m_szN; }
+    size_t GetN() const { return m_szN; }
 };
 
 // -----------------
 // Controls factory
 // -----------------
-class TControlsFactory :	public TGlobals,
-							public TPersistenceFactory<TControl>
+class TControlsFactory :    public TGlobals,
+                            public TPersistenceFactory<TControl>
 {
 private:
-	typedef TArray<TControlsFactoryEntry, true> TControlsFactoryEntries;
-
-	
-	TControlsFactoryEntries m_ControlsEntries;
-
-	TControlsFactoryTypesRegisterer m_SystemControlTypesRegisterer;
+    typedef TArray<TControlsFactoryEntry, true> TControlsFactoryEntries;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
+    TControlsFactoryEntries m_ControlsEntries;
+
+    TControlsFactoryTypesRegisterer m_SystemControlTypesRegisterer;
+
+
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TControlsFactory();
+    TControlsFactory();
 
-	void UnregisterControls(size_t szN);
-	
-	void RegisterControl(	TControlsFactoryEntry::TControlLoader*	pLoader,
-							type_t									tpType,
-							size_t									szAmt = 1);
+    void UnregisterControls(size_t szN);
 
-	TControl* LoadControl(	TInfoNodeConstIterator	InfoNode,
-							const TControl*			pParentControl,
-							const FRECT&			Resolution);
+    void RegisterControl(   TControlsFactoryEntry::TControlLoader*  pLoader,
+                            type_t                                  tpType,
+                            size_t                                  szAmt = 1);
+
+    TControl* LoadControl(  TInfoNodeConstIterator  InfoNode,
+                            const TControl*         pParentControl,
+                            const FRECT&            Resolution);
 };
 
 extern TControlsFactory g_ControlsFactory;

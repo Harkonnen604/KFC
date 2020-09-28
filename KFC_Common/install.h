@@ -12,10 +12,10 @@ bool IsInstallationRegistered(LPCTSTR pName);
 
 void UnregisterInstallation(LPCTSTR pName);
 
-void RegisterInstallation(	LPCTSTR			pName,
-							LPCTSTR			pUninstallerFileName,
-							const KStrings*	pCustomNames	= NULL,
-							const KStrings* pCustomValues	= NULL);
+void RegisterInstallation(  LPCTSTR         pName,
+                            LPCTSTR         pUninstallerFileName,
+                            const KStrings* pCustomNames    = NULL,
+                            const KStrings* pCustomValues   = NULL);
 
 KString GetInstallationCustomValue(LPCTSTR pName, LPCTSTR pCustomName);
 

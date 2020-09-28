@@ -11,163 +11,163 @@ template <class ObjectType>
 class TObjectReference
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	BYTE m_Data[sizeof(ObjectType)];
+    BYTE m_Data[sizeof(ObjectType)];
 
-	ObjectType*	m_pObject;
+    ObjectType* m_pObject;
 
 public:
-	TObjectReference();
+    TObjectReference();
 
-	~TObjectReference() { Release(); }
-	
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    ~TObjectReference() { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	ObjectType& CreateInternal();
-	ObjectType& CreateInternal(const ObjectType& SObject);
+    void Release();
 
-	ObjectType& CreateReference(ObjectType& SObject);
+    ObjectType& CreateInternal();
+    ObjectType& CreateInternal(const ObjectType& SObject);
 
-	ObjectType* GetDataPtr()
-		{ return IsAllocated() ? m_pObject : NULL; }
+    ObjectType& CreateReference(ObjectType& SObject);
 
-	const ObjectType* GetDataPtr() const
-		{ return IsAllocated() ? m_pObject : NULL;; }
+    ObjectType* GetDataPtr()
+        { return IsAllocated() ? m_pObject : NULL; }
 
-	ObjectType& GetDataRef()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    const ObjectType* GetDataPtr() const
+        { return IsAllocated() ? m_pObject : NULL;; }
 
-		return *GetDataPtr();
-	}
+    ObjectType& GetDataRef()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const ObjectType& GetDataRef() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return *GetDataPtr();
+    }
 
-		return *GetDataPtr();
-	}
+    const ObjectType& GetDataRef() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	ObjectType* operator -> ()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return *GetDataPtr();
+    }
 
-		return GetDataPtr();
-	}
+    ObjectType* operator -> ()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const ObjectType* operator -> () const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return GetDataPtr();
+    }
 
-		return GetDataPtr();
-	}
+    const ObjectType* operator -> () const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	ObjectType& operator * ()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return GetDataPtr();
+    }
 
-		return GetDataRef();
-	}
+    ObjectType& operator * ()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const ObjectType& operator * () const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return GetDataRef();
+    }
 
-		return GetDataRef();
-	}
+    const ObjectType& operator * () const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	// -------------------- TRIVIALS -----------------------
-	bool IsInternal() const { return m_pObject == (ObjectType*)m_Data; }
-	bool IsExternal() const { return m_pObject != (ObjectType*)m_Data; }
+        return GetDataRef();
+    }
+
+    // -------------------- TRIVIALS -----------------------
+    bool IsInternal() const { return m_pObject == (ObjectType*)m_Data; }
+    bool IsExternal() const { return m_pObject != (ObjectType*)m_Data; }
 };
 
 template <class ObjectType>
 TObjectReference<ObjectType>::TObjectReference()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 template <class ObjectType>
 void TObjectReference<ObjectType>::Release()
 {
-	if(m_bAllocated)
-	{
-		if(IsInternal())
-			((ObjectType*)m_Data)->~ObjectType();
+    if(m_bAllocated)
+    {
+        if(IsInternal())
+            ((ObjectType*)m_Data)->~ObjectType();
 
-		m_bAllocated = false;
-	}
+        m_bAllocated = false;
+    }
 }
 
 template <class ObjectType>
 ObjectType& TObjectReference<ObjectType>::CreateInternal()
 {
-	Release();
+    Release();
 
-	try
-	{
-		new(m_Data) ObjectType();
+    try
+    {
+        new(m_Data) ObjectType();
 
-		m_pObject = (ObjectType*)m_Data;
+        m_pObject = (ObjectType*)m_Data;
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 
-	return *m_pObject;
+    return *m_pObject;
 }
 
 template <class ObjectType>
 ObjectType& TObjectReference<ObjectType>::CreateInternal(const ObjectType& SObject)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_pObject = new((void*)m_Data) ObjectType(SObject);
+    try
+    {
+        m_pObject = new((void*)m_Data) ObjectType(SObject);
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 
-	return *m_pObject;
+    return *m_pObject;
 }
 
 template <class ObjectType>
 ObjectType& TObjectReference<ObjectType>::CreateReference(ObjectType& SObject)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(&SObject != (ObjectType*)m_Data);
+    try
+    {
+        DEBUG_VERIFY(&SObject != (ObjectType*)m_Data);
 
-		m_pObject = &SObject;
+        m_pObject = &SObject;
 
-		m_bAllocated = true;
-	}
-	
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+        m_bAllocated = true;
+    }
 
-	return *m_pObject;
+    catch(...)
+    {
+        Release();
+        throw;
+    }
+
+    return *m_pObject;
 }
 
 #endif // object_reference_h

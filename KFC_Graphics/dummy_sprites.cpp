@@ -12,7 +12,7 @@ TDummySpriteCreationStruct::TDummySpriteCreationStruct()
 
 void TDummySpriteCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 {
-	TSpriteCreationStruct::Load(InfoNode);
+    TSpriteCreationStruct::Load(InfoNode);
 }
 
 // -------------
@@ -20,100 +20,100 @@ void TDummySpriteCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 // -------------
 TSprite* TDummySprite::Create(type_t tpType)
 {
-	DEBUG_VERIFY(tpType == SPRITE_TYPE_DUMMY);
+    DEBUG_VERIFY(tpType == SPRITE_TYPE_DUMMY);
 
-	return new TDummySprite;
+    return new TDummySprite;
 }
 
 TDummySprite::TDummySprite()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TDummySprite::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		TSprite::Release();
-	}
+        TSprite::Release();
+    }
 }
-	
+
 void TDummySprite::Allocate(TDummySpriteCreationStruct& CreationStruct)
 {
-	Release();
+    Release();
 
-	try
-	{
-		TSprite::Allocate(CreationStruct);
+    try
+    {
+        TSprite::Allocate(CreationStruct);
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 void TDummySprite::Load(TInfoNodeConstIterator InfoNode)
 {
-	DEBUG_VERIFY(InfoNode.IsValid());
+    DEBUG_VERIFY(InfoNode.IsValid());
 
-	TDummySpriteCreationStruct CreationStruct;
-	CreationStruct.Load(InfoNode);
+    TDummySpriteCreationStruct CreationStruct;
+    CreationStruct.Load(InfoNode);
 
-	Allocate(CreationStruct);
+    Allocate(CreationStruct);
 }
 
-void TDummySprite::DrawNonScaled(	const FPOINT&			DstCoords,
-									const TD3DColor&		Color,
-									const TSpriteStates&	States) const
+void TDummySprite::DrawNonScaled(   const FPOINT&           DstCoords,
+                                    const TD3DColor&        Color,
+                                    const TSpriteStates&    States) const
 {
-	INITIATE_FAILURE;
+    INITIATE_FAILURE;
 }
 
-void TDummySprite::DrawRect(const FRECT&			DstRect,
-							const TD3DColor&		Color,
-							const TSpriteStates&	States) const
+void TDummySprite::DrawRect(const FRECT&            DstRect,
+                            const TD3DColor&        Color,
+                            const TSpriteStates&    States) const
 {
 }
 
 bool TDummySprite::HasDefaultSize() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return false;
+    return false;
 }
 
 void TDummySprite::GetDefaultSize(FSIZE& RSize) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	INITIATE_FAILURE;
+    INITIATE_FAILURE;
 }
 
 TSprite* TDummySprite::GetSubObject(size_t szIndex)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	INITIATE_FAILURE;
+    INITIATE_FAILURE;
 }
 
 const TSprite* TDummySprite::GetSubObject(size_t szIndex) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	INITIATE_FAILURE;
+    INITIATE_FAILURE;
 }
 
 size_t TDummySprite::GetNSubObjects() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return 0;
+    return 0;
 }
 
 // -------------------------------------
@@ -121,15 +121,15 @@ size_t TDummySprite::GetNSubObjects() const
 // -------------------------------------
 TStateSkipperSpriteCreationStruct::TStateSkipperSpriteCreationStruct()
 {
-	m_szNStates = 1;
+    m_szNStates = 1;
 }
 
 void TStateSkipperSpriteCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 {
-	TInfoParameterConstIterator PIter;
+    TInfoParameterConstIterator PIter;
 
-	if((PIter = InfoNode->FindParameter(TEXT("NStates"))).IsValid())
-		ReadUINT(PIter->m_Value, m_szNStates, TEXT("number of skipped states"));
+    if((PIter = InfoNode->FindParameter(TEXT("NStates"))).IsValid())
+        ReadUINT(PIter->m_Value, m_szNStates, TEXT("number of skipped states"));
 }
 
 // --------------------------------------
@@ -141,7 +141,7 @@ TStateSkipperSpriteSpritesProvider::TStateSkipperSpriteSpritesProvider()
 
 void TStateSkipperSpriteSpritesProvider::Load(TInfoNodeConstIterator InfoNode)
 {
-	g_SpriteStorage.LoadObject(InfoNode, TEXT("Sprite"), m_Sprite, false);
+    g_SpriteStorage.LoadObject(InfoNode, TEXT("Sprite"), m_Sprite, false);
 }
 
 // ---------------------
@@ -149,119 +149,119 @@ void TStateSkipperSpriteSpritesProvider::Load(TInfoNodeConstIterator InfoNode)
 // ---------------------
 TSprite* TStateSkipperSprite::Create(type_t tpType)
 {
-	DEBUG_VERIFY(tpType == SPRITE_TYPE_STATE_SKIPPER);
+    DEBUG_VERIFY(tpType == SPRITE_TYPE_STATE_SKIPPER);
 
-	return new TStateSkipperSprite;
+    return new TStateSkipperSprite;
 }
 
 TStateSkipperSprite::TStateSkipperSprite()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_szNStates = 1;
+    m_szNStates = 1;
 }
 
 void TStateSkipperSprite::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		m_szNStates = 1;
+        m_szNStates = 1;
 
-		TSprite::Release();
-	}
+        TSprite::Release();
+    }
 }
 
-void TStateSkipperSprite::Allocate(	const TStateSkipperSpriteCreationStruct&	CreationStruct,
-									TStateSkipperSpriteSpritesProvider&			SpritesProvider)
+void TStateSkipperSprite::Allocate( const TStateSkipperSpriteCreationStruct&    CreationStruct,
+                                    TStateSkipperSpriteSpritesProvider&         SpritesProvider)
 {
-	Release();
+    Release();
 
-	try
-	{
-		TSprite::Allocate(CreationStruct);
+    try
+    {
+        TSprite::Allocate(CreationStruct);
 
-		m_szNStates = CreationStruct.m_szNStates;
+        m_szNStates = CreationStruct.m_szNStates;
 
-		m_Sprite.ReOwn(SpritesProvider.m_Sprite);
+        m_Sprite.ReOwn(SpritesProvider.m_Sprite);
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 void TStateSkipperSprite::Load(TInfoNodeConstIterator InfoNode)
 {
-	DEBUG_VERIFY(InfoNode.IsValid());
+    DEBUG_VERIFY(InfoNode.IsValid());
 
-	TStateSkipperSpriteCreationStruct CreationStruct;
-	CreationStruct.Load(InfoNode);
+    TStateSkipperSpriteCreationStruct CreationStruct;
+    CreationStruct.Load(InfoNode);
 
-	TStateSkipperSpriteSpritesProvider SpritesProvider;
-	SpritesProvider.Load(InfoNode);
+    TStateSkipperSpriteSpritesProvider SpritesProvider;
+    SpritesProvider.Load(InfoNode);
 
-	Allocate(CreationStruct, SpritesProvider);
+    Allocate(CreationStruct, SpritesProvider);
 }
 
-void TStateSkipperSprite::DrawNonScaled(const FPOINT&			DstCoords,
-										const TD3DColor&		Color,
-										const TSpriteStates&	States) const
+void TStateSkipperSprite::DrawNonScaled(const FPOINT&           DstCoords,
+                                        const TD3DColor&        Color,
+                                        const TSpriteStates&    States) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Sprite->DrawNonScaled(DstCoords, Color, States + m_szNStates);
+    m_Sprite->DrawNonScaled(DstCoords, Color, States + m_szNStates);
 }
 
-void TStateSkipperSprite::DrawRect(	const FRECT&			DstRect,
-									const TD3DColor&		Color,
-									const TSpriteStates&	States) const
+void TStateSkipperSprite::DrawRect( const FRECT&            DstRect,
+                                    const TD3DColor&        Color,
+                                    const TSpriteStates&    States) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Sprite->DrawRect(DstRect, Color, States + m_szNStates);
+    m_Sprite->DrawRect(DstRect, Color, States + m_szNStates);
 }
 
 bool TStateSkipperSprite::HasDefaultSize() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_Sprite->HasDefaultSize();
+    return m_Sprite->HasDefaultSize();
 }
 
 void TStateSkipperSprite::GetDefaultSize(FSIZE& RSize) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Sprite->GetDefaultSize(RSize);
+    m_Sprite->GetDefaultSize(RSize);
 }
 
 TSprite* TStateSkipperSprite::GetSubObject(size_t szIndex)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(szIndex == 0);
+    DEBUG_VERIFY(szIndex == 0);
 
-	return m_Sprite.GetDataPtr();
+    return m_Sprite.GetDataPtr();
 }
 
 const TSprite* TStateSkipperSprite::GetSubObject(size_t szIndex) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(szIndex == 0);
+    DEBUG_VERIFY(szIndex == 0);
 
-	return m_Sprite.GetDataPtr();
+    return m_Sprite.GetDataPtr();
 }
 
 size_t TStateSkipperSprite::GetNSubObjects() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return 1;
+    return 1;
 }

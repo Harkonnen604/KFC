@@ -12,382 +12,382 @@
 // -------------
 void T_HTTP_Headers::Clear()
 {
-	m_Prefix.Empty();
+    m_Prefix.Empty();
 
-	TVariableList::Clear();
+    TVariableList::Clear();
 }
 
 void T_HTTP_Headers::Parse(LPCTSTR s)
 {
-	Clear();
+    Clear();
 
-	KStrings Tokens(s, TEXT("\r\n"));
+    KStrings Tokens(s, TEXT("\r\n"));
 
-	if(Tokens.IsEmpty())
-		return;
+    if(Tokens.IsEmpty())
+        return;
 
-	m_Prefix = *Tokens.GetFirst();
-	
-	for(KStrings::TConstIterator Iter = Tokens + 1 ; Iter.IsValid() ; ++Iter)
-	{
-		TIterator Iter2 = AddLast();
+    m_Prefix = *Tokens.GetFirst();
 
-		{
-			LPCTSTR s = *Iter;
+    for(KStrings::TConstIterator Iter = Tokens + 1 ; Iter.IsValid() ; ++Iter)
+    {
+        TIterator Iter2 = AddLast();
 
-			LPCTSTR p;
+        {
+            LPCTSTR s = *Iter;
 
-			if(p = _tcschr(s, TEXT(':')))
-				Iter2->m_Name = KString(s, p - s).Trim(), (Iter2->m_Value = p+1).Trim();
-			else
-				(Iter2->m_Name = s).Trim(), Iter2->m_Value.Empty();
-		}
-	}
+            LPCTSTR p;
+
+            if(p = _tcschr(s, TEXT(':')))
+                Iter2->m_Name = KString(s, p - s).Trim(), (Iter2->m_Value = p+1).Trim();
+            else
+                (Iter2->m_Name = s).Trim(), Iter2->m_Value.Empty();
+        }
+    }
 }
 
 KString T_HTTP_Headers::Write() const
 {
-	KString Text;
+    KString Text;
 
-	Text += m_Prefix, Text += TEXT("\r\n");
+    Text += m_Prefix, Text += TEXT("\r\n");
 
-	for(TConstIterator Iter = GetFirst() ; Iter.IsValid() ; ++Iter)
-		Text += Iter->m_Name, Text += TEXT(": "), Text += Iter->m_Value, Text += TEXT("\r\n");
+    for(TConstIterator Iter = GetFirst() ; Iter.IsValid() ; ++Iter)
+        Text += Iter->m_Name, Text += TEXT(": "), Text += Iter->m_Value, Text += TEXT("\r\n");
 
-	return Text;
+    return Text;
 }
 
 void T_HTTP_Headers::ParseRequestPrefix(KString* pRCommand,
-										KString* pRResource,
-										KString* pRVersion) const
+                                        KString* pRResource,
+                                        KString* pRVersion) const
 {
-	KStrings Tokens(m_Prefix, TEXT(" \t\r\n"));
+    KStrings Tokens(m_Prefix, TEXT(" \t\r\n"));
 
-	if(0 < Tokens.GetN() && pRCommand)
-		*pRCommand = Tokens[0];
+    if(0 < Tokens.GetN() && pRCommand)
+        *pRCommand = Tokens[0];
 
-	if(1 < Tokens.GetN() && pRResource)
-		*pRResource = Tokens[1];
+    if(1 < Tokens.GetN() && pRResource)
+        *pRResource = Tokens[1];
 
-	if(2 < Tokens.GetN() && pRVersion)
-		*pRVersion = Tokens[2];
+    if(2 < Tokens.GetN() && pRVersion)
+        *pRVersion = Tokens[2];
 }
 
-void T_HTTP_Headers::ParseResponsePrefix(	int*		pRCode,
-											KString*	pRCodeText,
-											KString*	pRVersion) const
+void T_HTTP_Headers::ParseResponsePrefix(   int*        pRCode,
+                                            KString*    pRCodeText,
+                                            KString*    pRVersion) const
 {
-	KStrings Tokens(m_Prefix, TEXT(" \t\r\n"));
+    KStrings Tokens(m_Prefix, TEXT(" \t\r\n"));
 
-	if(0 < Tokens.GetN() && pRVersion)
-		*pRVersion = Tokens[0];
+    if(0 < Tokens.GetN() && pRVersion)
+        *pRVersion = Tokens[0];
 
-	if(1 < Tokens.GetN() && pRCode)
-		*pRCode = _ttoi(Tokens[1]);
+    if(1 < Tokens.GetN() && pRCode)
+        *pRCode = _ttoi(Tokens[1]);
 
-	if(pRCodeText)
-	{
-		pRCodeText->Empty();
+    if(pRCodeText)
+    {
+        pRCodeText->Empty();
 
-		for(KStrings::TConstIterator Iter = Tokens + 2 ; Iter.IsValid() ; ++Iter)
-			*pRCodeText += *Iter, *pRCodeText += TEXT(' ');
+        for(KStrings::TConstIterator Iter = Tokens + 2 ; Iter.IsValid() ; ++Iter)
+            *pRCodeText += *Iter, *pRCodeText += TEXT(' ');
 
-		pRCodeText->TrimRight();
-	}
+        pRCodeText->TrimRight();
+    }
 }
 
-void T_HTTP_Headers::SetRequestPrefix(	LPCTSTR pCommand,
-										LPCTSTR pResource,
-										LPCTSTR pVersion)
+void T_HTTP_Headers::SetRequestPrefix(  LPCTSTR pCommand,
+                                        LPCTSTR pResource,
+                                        LPCTSTR pVersion)
 {
-	m_Prefix =
-		KString(pCommand).Trim().ToUpper() + TEXT(' ') +
-		KString(pResource).Trim() + TEXT(' ') +
-		KString(pVersion).Trim().ToUpper();
+    m_Prefix =
+        KString(pCommand).Trim().ToUpper() + TEXT(' ') +
+        KString(pResource).Trim() + TEXT(' ') +
+        KString(pVersion).Trim().ToUpper();
 }
 
-void T_HTTP_Headers::SetResponsePrefix(	int		iCode,
-										LPCTSTR	pCodeText,
-										LPCTSTR	pVersion)
+void T_HTTP_Headers::SetResponsePrefix( int     iCode,
+                                        LPCTSTR pCodeText,
+                                        LPCTSTR pVersion)
 {
-	m_Prefix =
-		KString(pVersion).Trim().ToUpper() + TEXT(' ') +
-		KString(iCode) + TEXT(' ') +
-		KString(pCodeText).Trim();
+    m_Prefix =
+        KString(pVersion).Trim().ToUpper() + TEXT(' ') +
+        KString(iCode) + TEXT(' ') +
+        KString(pCodeText).Trim();
 }
 
 // ----------------
 // Global routines
 // ----------------
-void OpenURL(	const T_URL&			URL,
-				const T_HTTP_Buffer&	Request,
-				T_HTTP_Buffer&			RResponse,
-				T_HTTP_Headers*			pRHeaders,
-				bool					bHeadersOnly,
-				HANDLE					hTerminator,
-				size_t					szTimeout)
+void OpenURL(   const T_URL&            URL,
+                const T_HTTP_Buffer&    Request,
+                T_HTTP_Buffer&          RResponse,
+                T_HTTP_Headers*         pRHeaders,
+                bool                    bHeadersOnly,
+                HANDLE                  hTerminator,
+                size_t                  szTimeout)
 {
-	T_HTTP_Headers TempHeaders;
+    T_HTTP_Headers TempHeaders;
 
-	if(pRHeaders == NULL)
-		pRHeaders = &TempHeaders;
+    if(pRHeaders == NULL)
+        pRHeaders = &TempHeaders;
 
-	KString Text;
+    KString Text;
 
-	if(URL.m_Protocol.CollateNoCase(TEXT("http")))
-		INITIATE_DEFINED_FAILURE((KString)TEXT("Unsupported protocol \"") + URL.m_Protocol + TEXT("\"."));
+    if(URL.m_Protocol.CollateNoCase(TEXT("http")))
+        INITIATE_DEFINED_FAILURE((KString)TEXT("Unsupported protocol \"") + URL.m_Protocol + TEXT("\"."));
 
-	TArray<DWORD, true> IPs;
-	ResolveIPs(URL.m_Address, IPs, true, hTerminator, szTimeout);
+    TArray<DWORD, true> IPs;
+    ResolveIPs(URL.m_Address, IPs, true, hTerminator, szTimeout);
 
-	for(size_t i = 0 ; ; i++)
-	{
-		TEST_BLOCK_BEGIN
-		{
-			RResponse.Clear();
+    for(size_t i = 0 ; ; i++)
+    {
+        TEST_BLOCK_BEGIN
+        {
+            RResponse.Clear();
 
-			TSocket Socket;
-			Socket.Allocate();
+            TSocket Socket;
+            Socket.Allocate();
 
-			Socket.SetTerminator(hTerminator);
-			Socket.SetTimeout	(szTimeout);
+            Socket.SetTerminator(hTerminator);
+            Socket.SetTimeout   (szTimeout);
 
-			const TProxyType ProxyType =
-				PerformProxyBypass(	Socket,
-									IPs[i],
-									URL.m_wPort);
+            const TProxyType ProxyType =
+                PerformProxyBypass( Socket,
+                                    IPs[i],
+                                    URL.m_wPort);
 
-			// Sending request headers
-			{
-				T_HTTP_Headers Headers;
+            // Sending request headers
+            {
+                T_HTTP_Headers Headers;
 
-				if(ProxyType == PT_HTTP)
-				{
-					Headers.SetRequestPrefix(	Request.IsEmpty() ?
-													TEXT("GET") :
-													TEXT("POST"),
-												(KString)URL,
-												TEXT("HTTP/1.0"));
-				}
-				else
-				{
-					Headers.SetRequestPrefix(	Request.IsEmpty() ?
-													TEXT("GET") :
-													TEXT("POST"),
-												(KString)URL.m_Resource);
-				}
+                if(ProxyType == PT_HTTP)
+                {
+                    Headers.SetRequestPrefix(   Request.IsEmpty() ?
+                                                    TEXT("GET") :
+                                                    TEXT("POST"),
+                                                (KString)URL,
+                                                TEXT("HTTP/1.0"));
+                }
+                else
+                {
+                    Headers.SetRequestPrefix(   Request.IsEmpty() ?
+                                                    TEXT("GET") :
+                                                    TEXT("POST"),
+                                                (KString)URL.m_Resource);
+                }
 
-				Headers.Add(TEXT("User-Agent"), TEXT("MSIE"));
+                Headers.Add(TEXT("User-Agent"), TEXT("MSIE"));
 
-				Headers.Add(TEXT("Host"), URL.m_Address);
+                Headers.Add(TEXT("Host"), URL.m_Address);
 
-				Headers.Add(TEXT("Accept"), TEXT("*/*"));
+                Headers.Add(TEXT("Accept"), TEXT("*/*"));
 
-				Headers.Add(TEXT("Accept-Language"), TEXT("en-us"));
+                Headers.Add(TEXT("Accept-Language"), TEXT("en-us"));
 
-		//		Headers.Add(TEXT("Connection"), TEXT("close"));
+        //      Headers.Add(TEXT("Connection"), TEXT("close"));
 
-				if(!Request.IsEmpty())
-				{
-					Headers.Add(TEXT("Content-Type"), TEXT("application/x-www-form-urlencoded"));
+                if(!Request.IsEmpty())
+                {
+                    Headers.Add(TEXT("Content-Type"), TEXT("application/x-www-form-urlencoded"));
 
-					Headers.Add(TEXT("Content-Length"), (KString)Request.GetN());
-				}
+                    Headers.Add(TEXT("Content-Length"), (KString)Request.GetN());
+                }
 
-				Text = Headers.Write(), Text += TEXT("\r\n"), Text += (KString)Request;
+                Text = Headers.Write(), Text += TEXT("\r\n"), Text += (KString)Request;
 
-				Socket.Send(Text.GetDataPtr(), Text.GetLength());
-			}
+                Socket.Send(Text.GetDataPtr(), Text.GetLength());
+            }
 
-			// Receiving response headers
-			{
-				Text.Empty();
+            // Receiving response headers
+            {
+                Text.Empty();
 
-				char lc[2] = {0, 0};
+                char lc[2] = {0, 0};
 
-				for(;;)
-				{
-					char c;
+                for(;;)
+                {
+                    char c;
 
-					Socket >> c;
+                    Socket >> c;
 
-					Text += c;
+                    Text += c;
 
-					if(	lc[1] == '\n' && c == '\n' ||
-						lc[0] == '\n' && lc[1] == '\r' && c == '\n')
-					{
-						break;
-					}
+                    if( lc[1] == '\n' && c == '\n' ||
+                        lc[0] == '\n' && lc[1] == '\r' && c == '\n')
+                    {
+                        break;
+                    }
 
-					lc[0] = lc[1], lc[1] = c;
-				}
+                    lc[0] = lc[1], lc[1] = c;
+                }
 
-				pRHeaders->Parse(Text);
-			}
+                pRHeaders->Parse(Text);
+            }
 
-			if(bHeadersOnly)
-				return;
+            if(bHeadersOnly)
+                return;
 
-			// Estimating response data length
-			size_t	szDataLength;
-			bool	bChunked = false;
+            // Estimating response data length
+            size_t  szDataLength;
+            bool    bChunked = false;
 
-			{
-				size_t	szContentLength	= UINT_MAX;
-				bool	bClose			= false;
+            {
+                size_t  szContentLength = UINT_MAX;
+                bool    bClose          = false;
 
-				for(T_HTTP_Headers::TConstIterator Iter = pRHeaders->GetFirst() ;
-					Iter.IsValid() ;
-					++Iter)
-				{
-					if(!Iter->m_Name.CompareNoCase(TEXT("Content-Length")))
-					{
-						szContentLength = _ttoi(Iter->m_Value);
-					}
-					else if(!Iter->m_Name .CompareNoCase(TEXT("Connection")) &&
-							!Iter->m_Value.CompareNoCase(TEXT("close")))
-					{
-						bClose = true;
-					}
-					else if(!Iter->m_Name .CompareNoCase(TEXT("Transfer-Encoding")) &&
-							!Iter->m_Value.CompareNoCase(TEXT("chunked")))
-					{
-						bChunked = true;
-					}
-				}
+                for(T_HTTP_Headers::TConstIterator Iter = pRHeaders->GetFirst() ;
+                    Iter.IsValid() ;
+                    ++Iter)
+                {
+                    if(!Iter->m_Name.CompareNoCase(TEXT("Content-Length")))
+                    {
+                        szContentLength = _ttoi(Iter->m_Value);
+                    }
+                    else if(!Iter->m_Name .CompareNoCase(TEXT("Connection")) &&
+                            !Iter->m_Value.CompareNoCase(TEXT("close")))
+                    {
+                        bClose = true;
+                    }
+                    else if(!Iter->m_Name .CompareNoCase(TEXT("Transfer-Encoding")) &&
+                            !Iter->m_Value.CompareNoCase(TEXT("chunked")))
+                    {
+                        bChunked = true;
+                    }
+                }
 
-				if(szContentLength != UINT_MAX)
-					szDataLength = szContentLength;
-				else if(bClose)
-					szDataLength = UINT_MAX;
-				else
-					szDataLength = 0;
-			}
+                if(szContentLength != UINT_MAX)
+                    szDataLength = szContentLength;
+                else if(bClose)
+                    szDataLength = UINT_MAX;
+                else
+                    szDataLength = 0;
+            }
 
-			// Receiving response data
-			if(bChunked)
-			{
-				char c;
+            // Receiving response data
+            if(bChunked)
+            {
+                char c;
 
-				for(;;)
-				{
-					size_t cl = 0;
+                for(;;)
+                {
+                    size_t cl = 0;
 
-					for(;;)
-					{
-						Socket >> c;
+                    for(;;)
+                    {
+                        Socket >> c;
 
-						if(IsHexChar(c))
-							cl <<= 4, cl |= CharToHex(c);
-						else if(c == '\n')
-							break;
-					}
+                        if(IsHexChar(c))
+                            cl <<= 4, cl |= CharToHex(c);
+                        else if(c == '\n')
+                            break;
+                    }
 
-					Socket.Receive(&RResponse.Add(cl), cl);
+                    Socket.Receive(&RResponse.Add(cl), cl);
 
-					while((Socket >> c, c) != '\n');
+                    while((Socket >> c, c) != '\n');
 
-					if(cl == 0)
-						break;
-				}
-			}
-			else
-			{
-				if(szDataLength == UINT_MAX)
-				{
-					for(;;)
-					{
-						char buf[2048];
+                    if(cl == 0)
+                        break;
+                }
+            }
+            else
+            {
+                if(szDataLength == UINT_MAX)
+                {
+                    for(;;)
+                    {
+                        char buf[2048];
 
-						const size_t l = Socket.ReceiveAvailable(buf, sizeof(buf));
+                        const size_t l = Socket.ReceiveAvailable(buf, sizeof(buf));
 
-						if(l == 0)
-							break;
+                        if(l == 0)
+                            break;
 
-						memcpy(&RResponse.Add(l), buf, l);
-					}
-				}
-				else
-				{
-					Socket.Receive(&RResponse.Add(szDataLength), szDataLength);
-				}
-			}
-		}
-		TEST_BLOCK_KFC_EXCEPTION_HANDLER
-		{
-			if(	!g_ProtocolsConsts.m_bTryAllHTTP_IPs ||
-				i == IPs.GetN() - 1)
-			{
-				throw;
-			}
+                        memcpy(&RResponse.Add(l), buf, l);
+                    }
+                }
+                else
+                {
+                    Socket.Receive(&RResponse.Add(szDataLength), szDataLength);
+                }
+            }
+        }
+        TEST_BLOCK_KFC_EXCEPTION_HANDLER
+        {
+            if( !g_ProtocolsConsts.m_bTryAllHTTP_IPs ||
+                i == IPs.GetN() - 1)
+            {
+                throw;
+            }
 
-			continue;
-		}
-		TEST_BLOCK_END
+            continue;
+        }
+        TEST_BLOCK_END
 
-		break;
-	}
+        break;
+    }
 }
 
 void ParseContentType(LPCTSTR s, KString& RType, KString* pRCharset)
 {
-	LPCTSTR p;
+    LPCTSTR p;
 
-	RType.Empty();
-	
-	if(pRCharset)
-		pRCharset->Empty();
+    RType.Empty();
 
-	bool bFirst = true;
+    if(pRCharset)
+        pRCharset->Empty();
 
-	for(;;)
-	{
-		if(!(p = _tcschr(s, TEXT(';'))))
-			break;
+    bool bFirst = true;
 
-		if(bFirst)
-		{
-			bFirst = false;
+    for(;;)
+    {
+        if(!(p = _tcschr(s, TEXT(';'))))
+            break;
 
-			RType.Allocate(s, p - s);
+        if(bFirst)
+        {
+            bFirst = false;
 
-			if(!pRCharset)
-				break;
+            RType.Allocate(s, p - s);
 
-			continue;
-		}
+            if(!pRCharset)
+                break;
 
-		p++;
+            continue;
+        }
 
-		for( ; _istspace(*p) ; p++);
+        p++;
 
-		if(!_tcsnicmp(p, TEXT("charset"), 7))
-		{
-			pRCharset->Empty();
+        for( ; _istspace(*p) ; p++);
 
-			p += 7;
+        if(!_tcsnicmp(p, TEXT("charset"), 7))
+        {
+            pRCharset->Empty();
 
-			for( ; _istspace(*p) ; p++);
+            p += 7;
 
-			if(*p == TEXT('='))
-			{
-				p++;
+            for( ; _istspace(*p) ; p++);
 
-				for( ; _istspace(*p) ; p++);
+            if(*p == TEXT('='))
+            {
+                p++;
 
-				for( ; *p && !_istspace(*p) && *p != TEXT(';') ; p++)
-					(*pRCharset) += *p;
-			}
-		}
+                for( ; _istspace(*p) ; p++);
 
-		s = p;
-	}
+                for( ; *p && !_istspace(*p) && *p != TEXT(';') ; p++)
+                    (*pRCharset) += *p;
+            }
+        }
 
-	if(bFirst)
-		RType = s;
+        s = p;
+    }
 
-	RType.Trim();
+    if(bFirst)
+        RType = s;
 
-	if(pRCharset)
-		pRCharset->Trim();
+    RType.Trim();
+
+    if(pRCharset)
+        pRCharset->Trim();
 }

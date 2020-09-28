@@ -4,8 +4,8 @@
 // ----------------
 // Global routines
 // ----------------
-void TestPtrAutoHolder			();
-void TestListAutoHolder			();
-void TestAVL_StorageAutoHolder	();
+void TestPtrAutoHolder          ();
+void TestListAutoHolder         ();
+void TestAVL_StorageAutoHolder  ();
 
 #endif // auto_holder_test_h

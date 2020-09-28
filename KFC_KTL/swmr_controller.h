@@ -9,54 +9,54 @@
 class T_SWMR_Controller
 {
 private:
-	// Item
-	struct TItem
-	{
-	public:
-		TEvent	m_GrantedEvent;
-		TEvent	m_FreedEvent;
-		bool	m_bWriter;
+    // Item
+    struct TItem
+    {
+    public:
+        TEvent  m_GrantedEvent;
+        TEvent  m_FreedEvent;
+        bool    m_bWriter;
 
-	public:
-		TItem();
-	};
+    public:
+        TItem();
+    };
 
 private:
-	TCriticalSection m_AccessCS;
+    TCriticalSection m_AccessCS;
 
-	TArray<TItem> m_Items;
+    TArray<TItem> m_Items;
 
-	size_t m_szHead;
-	size_t m_szTail;
-	size_t m_szN;
-	
-	size_t	m_szTimesReadLocked;
-	bool	m_bWriteLocked;
+    size_t m_szHead;
+    size_t m_szTail;
+    size_t m_szN;
+
+    size_t  m_szTimesReadLocked;
+    bool    m_bWriteLocked;
 
 public:
-	T_SWMR_Controller(size_t szMaxThreads = 0);
+    T_SWMR_Controller(size_t szMaxThreads = 0);
 
-	~T_SWMR_Controller()
-		{ Release(); }
+    ~T_SWMR_Controller()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return !m_Items.IsEmpty(); }
+    bool IsAllocated() const
+        { return !m_Items.IsEmpty(); }
 
-	void Release();
+    void Release();
 
-	void Allocate(size_t szMaxThreads);
+    void Allocate(size_t szMaxThreads);
 
-	bool TryLockRead();
+    bool TryLockRead();
 
-	void LockRead();
+    void LockRead();
 
-	void UnlockRead();
+    void UnlockRead();
 
-	bool TryLockWrite();
+    bool TryLockWrite();
 
-	void LockWrite();
+    void LockWrite();
 
-	void UnlockWrite();
+    void UnlockWrite();
 };
 
 // -----------------
@@ -65,19 +65,19 @@ public:
 class T_SWMR_ReadLocker
 {
 private:
-	T_SWMR_Controller& m_Controller;
+    T_SWMR_Controller& m_Controller;
 
 public:
-	T_SWMR_ReadLocker(T_SWMR_Controller& Controller) :
-		m_Controller(Controller)
-	{
-		DEBUG_VERIFY(m_Controller.IsAllocated());
+    T_SWMR_ReadLocker(T_SWMR_Controller& Controller) :
+        m_Controller(Controller)
+    {
+        DEBUG_VERIFY(m_Controller.IsAllocated());
 
-		m_Controller.LockRead();
-	}
+        m_Controller.LockRead();
+    }
 
-	~T_SWMR_ReadLocker()
-		{ m_Controller.UnlockRead(); }
+    ~T_SWMR_ReadLocker()
+        { m_Controller.UnlockRead(); }
 };
 
 // -------------------
@@ -86,17 +86,17 @@ public:
 class T_SWMR_ReadUnlocker
 {
 private:
-	T_SWMR_Controller& m_Controller;
+    T_SWMR_Controller& m_Controller;
 
 public:
-	T_SWMR_ReadUnlocker(T_SWMR_Controller& Controller) :
-		m_Controller(Controller)
-	{
-		DEBUG_VERIFY(m_Controller.IsAllocated());
-	}
+    T_SWMR_ReadUnlocker(T_SWMR_Controller& Controller) :
+        m_Controller(Controller)
+    {
+        DEBUG_VERIFY(m_Controller.IsAllocated());
+    }
 
-	~T_SWMR_ReadUnlocker()
-		{ m_Controller.UnlockRead(); }
+    ~T_SWMR_ReadUnlocker()
+        { m_Controller.UnlockRead(); }
 };
 
 // ------------------
@@ -105,19 +105,19 @@ public:
 class T_SWMR_WriteLocker
 {
 private:
-	T_SWMR_Controller& m_Controller;
+    T_SWMR_Controller& m_Controller;
 
 public:
-	T_SWMR_WriteLocker(T_SWMR_Controller& Controller) :
-		m_Controller(Controller)
-	{
-		DEBUG_VERIFY(m_Controller.IsAllocated());
+    T_SWMR_WriteLocker(T_SWMR_Controller& Controller) :
+        m_Controller(Controller)
+    {
+        DEBUG_VERIFY(m_Controller.IsAllocated());
 
-		m_Controller.LockWrite();
-	}
+        m_Controller.LockWrite();
+    }
 
-	~T_SWMR_WriteLocker()
-		{ m_Controller.UnlockWrite(); }
+    ~T_SWMR_WriteLocker()
+        { m_Controller.UnlockWrite(); }
 };
 
 // --------------------
@@ -126,17 +126,17 @@ public:
 class T_SWMR_WriteUnlocker
 {
 private:
-	T_SWMR_Controller& m_Controller;
+    T_SWMR_Controller& m_Controller;
 
 public:
-	T_SWMR_WriteUnlocker(T_SWMR_Controller& Controller) :
-		m_Controller(Controller)
-	{
-		DEBUG_VERIFY(m_Controller.IsAllocated());
-	}
+    T_SWMR_WriteUnlocker(T_SWMR_Controller& Controller) :
+        m_Controller(Controller)
+    {
+        DEBUG_VERIFY(m_Controller.IsAllocated());
+    }
 
-	~T_SWMR_WriteUnlocker()
-		{ m_Controller.UnlockWrite(); }
+    ~T_SWMR_WriteUnlocker()
+        { m_Controller.UnlockWrite(); }
 };
 
 #endif // swmr_controller_h

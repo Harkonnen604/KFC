@@ -9,30 +9,30 @@
 // -----------------------------------
 TRectEffectSpriteCreationStruct::TRectEffectSpriteCreationStruct()
 {
-	size_t i;
+    size_t i;
 
-	for(i = 0 ; i < 4 ; i++)
-		m_SubColors[i] = WhiteColor();
+    for(i = 0 ; i < 4 ; i++)
+        m_SubColors[i] = WhiteColor();
 }
 
 void TRectEffectSpriteCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 {
-	size_t i;
-	
-	TInfoParameterConstIterator PIter;
+    size_t i;
 
-	TSpriteCreationStruct::Load(InfoNode);
+    TInfoParameterConstIterator PIter;
 
-	for(i = 0 ; i < 4 ; i++)
-	{
-		if((PIter = InfoNode->FindParameter((KString)TEXT("SubColor") + i)).IsValid())
-		{
-			ReadColor(	PIter->m_Value,
-						m_SubColors[i],
-						TEXT("rect effect sprite sub-color"),
-						true);
-		}
-	}
+    TSpriteCreationStruct::Load(InfoNode);
+
+    for(i = 0 ; i < 4 ; i++)
+    {
+        if((PIter = InfoNode->FindParameter((KString)TEXT("SubColor") + i)).IsValid())
+        {
+            ReadColor(  PIter->m_Value,
+                        m_SubColors[i],
+                        TEXT("rect effect sprite sub-color"),
+                        true);
+        }
+    }
 }
 
 // -------------------
@@ -40,86 +40,86 @@ void TRectEffectSpriteCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 // -------------------
 TSprite* TRectEffectSprite::Create(type_t tpType)
 {
-	DEBUG_VERIFY(tpType == SPRITE_TYPE_RECT_EFFECT);
+    DEBUG_VERIFY(tpType == SPRITE_TYPE_RECT_EFFECT);
 
-	return new TRectEffectSprite;
+    return new TRectEffectSprite;
 }
 
 TRectEffectSprite::TRectEffectSprite()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TRectEffectSprite::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		TSprite::Release();
-	}
+        TSprite::Release();
+    }
 }
 
 void TRectEffectSprite::Allocate(const TRectEffectSpriteCreationStruct& CreationStruct)
 {
-	Release();
+    Release();
 
-	try
-	{
-		TSprite::Allocate(CreationStruct);
+    try
+    {
+        TSprite::Allocate(CreationStruct);
 
-		memcpy(m_SubColors, CreationStruct.m_SubColors, sizeof(m_SubColors));
+        memcpy(m_SubColors, CreationStruct.m_SubColors, sizeof(m_SubColors));
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 void TRectEffectSprite::Load(TInfoNodeConstIterator InfoNode)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(InfoNode.IsValid());
+    DEBUG_VERIFY(InfoNode.IsValid());
 
-	TRectEffectSpriteCreationStruct CreationStruct;
-	CreationStruct.Load(InfoNode);
+    TRectEffectSpriteCreationStruct CreationStruct;
+    CreationStruct.Load(InfoNode);
 
-	Allocate(CreationStruct);
+    Allocate(CreationStruct);
 }
 
-void TRectEffectSprite::DrawNonScaled(	const FPOINT&			DstCoords,
-										const TD3DColor&		Color,
-										const TSpriteStates&	States) const
+void TRectEffectSprite::DrawNonScaled(  const FPOINT&           DstCoords,
+                                        const TD3DColor&        Color,
+                                        const TSpriteStates&    States) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	INITIATE_FAILURE;
+    INITIATE_FAILURE;
 }
 
-void TRectEffectSprite::DrawRect(	const FRECT&			DstRect,
-									const TD3DColor&		Color,
-									const TSpriteStates&	States) const
+void TRectEffectSprite::DrawRect(   const FRECT&            DstRect,
+                                    const TD3DColor&        Color,
+                                    const TSpriteStates&    States) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	size_t i;
+    size_t i;
 
-	D3DCOLOR Colors[4];
+    D3DCOLOR Colors[4];
 
-	for(i = 0 ; i < 4 ; i++)
-		Colors[i] = m_SubColors[i] * m_Color * Color;
+    for(i = 0 ; i < 4 ; i++)
+        Colors[i] = m_SubColors[i] * m_Color * Color;
 
-	TRectEffect::DrawRect(DstRect, Colors);
+    TRectEffect::DrawRect(DstRect, Colors);
 }
 
 void TRectEffectSprite::GetDefaultSize(FSIZE& RSize) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	INITIATE_FAILURE;
+    INITIATE_FAILURE;
 }

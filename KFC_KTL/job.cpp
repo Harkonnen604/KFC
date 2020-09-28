@@ -6,189 +6,189 @@
 // -------------
 TJobsManager::TJobsManager(bool bAllocate, HANDLE hTerminator)
 {
-	m_bAllocated = 0;
+    m_bAllocated = 0;
 
-	if(bAllocate)
-		Allocate(hTerminator);
+    if(bAllocate)
+        Allocate(hTerminator);
 }
 
 void TJobsManager::Release()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_Jobs.Clear();
+    m_Jobs.Clear();
 
-	m_DoneEvent.Release();
+    m_DoneEvent.Release();
 
-	m_AvailableEvent.Release();
+    m_AvailableEvent.Release();
 }
 
 void TJobsManager::Allocate(HANDLE hTerminator)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_AvailableEvent.Allocate(false, false);
+    try
+    {
+        m_AvailableEvent.Allocate(false, false);
 
-		m_DoneEvent.Allocate(true, true);
+        m_DoneEvent.Allocate(true, true);
 
-		m_lNJobs = 0;
+        m_lNJobs = 0;
 
-		m_hTerminator = NULL;
+        m_hTerminator = NULL;
 
-		m_bAllocated = true;
+        m_bAllocated = true;
 
-		if(hTerminator)
-			SetTerminator(hTerminator);
-	}
+        if(hTerminator)
+            SetTerminator(hTerminator);
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TJobsManager::RegisterJob()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_EVERIFY(InterlockedIncrement(&m_lNJobs) > 0);
+    DEBUG_EVERIFY(InterlockedIncrement(&m_lNJobs) > 0);
 
-	m_DoneEvent.Reset();
+    m_DoneEvent.Reset();
 }
 
 void TJobsManager::UnregisterJob()
 {
-	if(!IsAllocated())
-		return;
+    if(!IsAllocated())
+        return;
 
-	const LONG r = InterlockedDecrement(&m_lNJobs);
+    const LONG r = InterlockedDecrement(&m_lNJobs);
 
-	DEBUG_VERIFY(r >= 0);
+    DEBUG_VERIFY(r >= 0);
 
-	if(!r)
-		m_DoneEvent.Set();
+    if(!r)
+        m_DoneEvent.Set();
 }
 
 bool TJobsManager::Enqueue(TJob* pJob, bool bDelIfTerminated)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(pJob);
+    DEBUG_VERIFY(pJob);
 
-	DEBUG_VERIFY(&pJob->GetJobsManager() == this);
+    DEBUG_VERIFY(&pJob->GetJobsManager() == this);
 
-	if(	bDelIfTerminated &&
-		m_hTerminator && WaitForSingleObject(m_hTerminator, 0) == WAIT_OBJECT_0)
-	{
-		delete pJob;
-		return false;
-	}
+    if( bDelIfTerminated &&
+        m_hTerminator && WaitForSingleObject(m_hTerminator, 0) == WAIT_OBJECT_0)
+    {
+        delete pJob;
+        return false;
+    }
 
-	{
-		TCriticalSectionLocker Locker0(m_AccessCS);	
+    {
+        TCriticalSectionLocker Locker0(m_AccessCS);
 
-		*m_Jobs.AddLast() = pJob;
+        *m_Jobs.AddLast() = pJob;
 
-		m_AvailableEvent.Set();
-	}
+        m_AvailableEvent.Set();
+    }
 
-	return true;
+    return true;
 }
 
-TJob* TJobsManager::Dequeue(bool	bStopOnDone,
-							size_t	szTimeout,
-							HANDLE*	pExtraEvents,
-							size_t	szNExtraEvents)
+TJob* TJobsManager::Dequeue(bool    bStopOnDone,
+                            size_t  szTimeout,
+                            HANDLE* pExtraEvents,
+                            size_t  szNExtraEvents)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!(szNExtraEvents && !pExtraEvents));
+    DEBUG_VERIFY(!(szNExtraEvents && !pExtraEvents));
 
-	HANDLE FewHandles[8];
+    HANDLE FewHandles[8];
 
-	TArray<HANDLE, true> ManyHandles;
-	
-	HANDLE*	pHandles;
-	size_t	szN;
+    TArray<HANDLE, true> ManyHandles;
 
-	size_t szDoneIndex			= -1;
-	size_t szTerminatorIndex	= -1;
-	size_t szExtraIndexBase;
+    HANDLE* pHandles;
+    size_t  szN;
 
-	// Considering 'bStopOnDone' and 'm_hTerminator' would be more accurate, but slower
-	if(szNExtraEvents <= ARRAY_SIZE(FewHandles) - 3)
-	{
-		szN = 0;
+    size_t szDoneIndex          = -1;
+    size_t szTerminatorIndex    = -1;
+    size_t szExtraIndexBase;
 
-		FewHandles[szN++] = m_AvailableEvent;
+    // Considering 'bStopOnDone' and 'm_hTerminator' would be more accurate, but slower
+    if(szNExtraEvents <= ARRAY_SIZE(FewHandles) - 3)
+    {
+        szN = 0;
 
-		if(bStopOnDone)
-			FewHandles[szDoneIndex = szN++] = m_DoneEvent;
+        FewHandles[szN++] = m_AvailableEvent;
 
-		if(m_hTerminator)
-			FewHandles[szTerminatorIndex = szN++] = m_hTerminator;
+        if(bStopOnDone)
+            FewHandles[szDoneIndex = szN++] = m_DoneEvent;
 
-		szExtraIndexBase = szN;
-		memcpy(FewHandles + szN, pExtraEvents, szNExtraEvents * sizeof(HANDLE));
-		szN += szNExtraEvents;
+        if(m_hTerminator)
+            FewHandles[szTerminatorIndex = szN++] = m_hTerminator;
 
-		pHandles = FewHandles;
-	}
-	else
-	{
-		ManyHandles.Add() = m_AvailableEvent;
+        szExtraIndexBase = szN;
+        memcpy(FewHandles + szN, pExtraEvents, szNExtraEvents * sizeof(HANDLE));
+        szN += szNExtraEvents;
 
-		if(bStopOnDone)
-			szDoneIndex = ManyHandles.GetN(), ManyHandles.Add() = m_DoneEvent;
+        pHandles = FewHandles;
+    }
+    else
+    {
+        ManyHandles.Add() = m_AvailableEvent;
 
-		if(m_hTerminator)
-			szTerminatorIndex = ManyHandles.GetN(), ManyHandles.Add() = m_hTerminator;
+        if(bStopOnDone)
+            szDoneIndex = ManyHandles.GetN(), ManyHandles.Add() = m_DoneEvent;
 
-		szExtraIndexBase = ManyHandles.GetN();
-		memcpy(&ManyHandles.Add(szNExtraEvents), pExtraEvents, szNExtraEvents * sizeof(HANDLE));
+        if(m_hTerminator)
+            szTerminatorIndex = ManyHandles.GetN(), ManyHandles.Add() = m_hTerminator;
 
-		pHandles = ManyHandles.GetDataPtr(), szN = ManyHandles.GetN();
-	}
+        szExtraIndexBase = ManyHandles.GetN();
+        memcpy(&ManyHandles.Add(szNExtraEvents), pExtraEvents, szNExtraEvents * sizeof(HANDLE));
 
-	for(;;)
-	{
-		DWORD r = WaitForMultipleObjects((DWORD)szN, pHandles, FALSE, (DWORD)szTimeout);
+        pHandles = ManyHandles.GetDataPtr(), szN = ManyHandles.GetN();
+    }
 
-		CHECK_TERMINATION(m_hTerminator);
+    for(;;)
+    {
+        DWORD r = WaitForMultipleObjects((DWORD)szN, pHandles, FALSE, (DWORD)szTimeout);
 
-		if(r == WAIT_TIMEOUT)
-			return TIMEOUT_JOB;
+        CHECK_TERMINATION(m_hTerminator);
 
-		if(r == WAIT_OBJECT_0 + 0) // available
-		{
-			TCriticalSectionLocker Locker0(m_AccessCS);
+        if(r == WAIT_TIMEOUT)
+            return TIMEOUT_JOB;
 
-			if(m_Jobs.IsEmpty())
-				continue;
+        if(r == WAIT_OBJECT_0 + 0) // available
+        {
+            TCriticalSectionLocker Locker0(m_AccessCS);
 
-			TJob* pJob = m_Jobs.GetFirst()->Extract();
+            if(m_Jobs.IsEmpty())
+                continue;
 
-			m_Jobs.DelFirst();
+            TJob* pJob = m_Jobs.GetFirst()->Extract();
 
-			if(!m_Jobs.IsEmpty())
-				m_AvailableEvent.Set();
+            m_Jobs.DelFirst();
 
-			return pJob;
-		}
-		else if(r == WAIT_OBJECT_0 + szDoneIndex)
-		{
-			return DONE_JOB;
-		}
-		else if(r == WAIT_OBJECT_0 + szTerminatorIndex)
-		{
-			INITIATE_FAILURE;
-		}
-		else
-		{
-			return EXTRA_EVENT_JOB(r - WAIT_OBJECT_0 - szExtraIndexBase);
-		}
-	}
+            if(!m_Jobs.IsEmpty())
+                m_AvailableEvent.Set();
+
+            return pJob;
+        }
+        else if(r == WAIT_OBJECT_0 + szDoneIndex)
+        {
+            return DONE_JOB;
+        }
+        else if(r == WAIT_OBJECT_0 + szTerminatorIndex)
+        {
+            INITIATE_FAILURE;
+        }
+        else
+        {
+            return EXTRA_EVENT_JOB(r - WAIT_OBJECT_0 - szExtraIndexBase);
+        }
+    }
 }

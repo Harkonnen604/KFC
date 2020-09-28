@@ -10,68 +10,68 @@
 class TSynchedQueue
 {
 public:
-	// Item
-	class TItem
-	{
-	protected:
-		TSynchedQueue* const m_pQueue;
+    // Item
+    class TItem
+    {
+    protected:
+        TSynchedQueue* const m_pQueue;
 
-	public:
-		TItem(TSynchedQueue* pQueue = NULL) : m_pQueue(pQueue)
-			{ if(m_pQueue) m_pQueue->RegisterItem(); }
+    public:
+        TItem(TSynchedQueue* pQueue = NULL) : m_pQueue(pQueue)
+            { if(m_pQueue) m_pQueue->RegisterItem(); }
 
-		virtual ~TItem()
-			{ if(m_pQueue) m_pQueue->UnregisterItem(); }
-	};
-
-private:
-	// Items
-	typedef TList<TPtrHolder<TItem> > TItems;
+        virtual ~TItem()
+            { if(m_pQueue) m_pQueue->UnregisterItem(); }
+    };
 
 private:
-	bool m_bAllocated;
+    // Items
+    typedef TList<TPtrHolder<TItem> > TItems;
 
-	volatile LONG m_lNRegisteredItems;
+private:
+    bool m_bAllocated;
 
-	mutable TCriticalSection m_AccessCS;
+    volatile LONG m_lNRegisteredItems;
 
-	TEvent m_AvailableEvent;
+    mutable TCriticalSection m_AccessCS;
 
-	TEvent m_DoneEvent;		
+    TEvent m_AvailableEvent;
 
-	TItems m_Items;
+    TEvent m_DoneEvent;
 
-	HANDLE m_hTerminator;
+    TItems m_Items;
+
+    HANDLE m_hTerminator;
 
 public:
-	TSynchedQueue();
+    TSynchedQueue();
 
-	TSynchedQueue(HANDLE hTerminator);
+    TSynchedQueue(HANDLE hTerminator);
 
-	~TSynchedQueue()
-		{ Release(); }
+    ~TSynchedQueue()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Allocate(HANDLE hTerminator);
+    void Allocate(HANDLE hTerminator);
 
-	void RegisterItem();
+    void RegisterItem();
 
-	void UnregisterItem();
+    void UnregisterItem();
 
-	void Enqueue(TItem* pItem);
+    void Enqueue(TItem* pItem);
 
-	// Timing out will return 'NULL'
-	TItem* DequeueOnceAvailable(size_t szTimeout = INFINITE);
+    // Timing out will return 'NULL'
+    TItem* DequeueOnceAvailable(size_t szTimeout = INFINITE);
 
-	// Done event will return 'NULL'
-	TItem* DequeueUntilDone();
+    // Done event will return 'NULL'
+    TItem* DequeueUntilDone();
 
-	HANDLE GetDoneEvent() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_DoneEvent; }
+    HANDLE GetDoneEvent() const
+        { DEBUG_VERIFY_ALLOCATION; return m_DoneEvent; }
 };
 
 #endif // synched_queue_h

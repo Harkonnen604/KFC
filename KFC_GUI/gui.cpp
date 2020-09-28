@@ -4,10 +4,10 @@
 #include "gui_device_globals.h"
 
 // Gradiented progress resolution
-#define GPROGRESS_HORIZONTAL_SEGMENTS_NUM	(3)
-#define GPROGRESS_VERTICAL_SEGMENTS_NUM		(3)
-#define GPROGRESS_FADE_LENGTH				(16)
-#define GPROGRESS_FADE_CENTER_COEF			(0.75)
+#define GPROGRESS_HORIZONTAL_SEGMENTS_NUM   (3)
+#define GPROGRESS_VERTICAL_SEGMENTS_NUM     (3)
+#define GPROGRESS_FADE_LENGTH               (16)
+#define GPROGRESS_FADE_CENTER_COEF          (0.75)
 
 // --------
 // Statics
@@ -19,46 +19,46 @@ static volatile LONG s_CursorVisible = true;
 // -------
 TRegion::TRegion()
 {
-	m_hRegion = NULL;
+    m_hRegion = NULL;
 }
 
 void TRegion::Release()
 {
-	if(m_hRegion)
-		DeleteObject(m_hRegion);
+    if(m_hRegion)
+        DeleteObject(m_hRegion);
 }
 
 void TRegion::Allocate(HRGN hSRegion)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(hSRegion);
+    try
+    {
+        DEBUG_VERIFY(hSRegion);
 
-		m_hRegion = hSRegion;
-	}
+        m_hRegion = hSRegion;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TRegion::AssignToWindow(HWND hWnd, bool bRedraw)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	if(!SetWindowRgn(hWnd, *this, bRedraw ? TRUE : FALSE))
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error setting window region"),
-										GetLastError());
-	}
-	
-	m_hRegion = NULL;
+    if(!SetWindowRgn(hWnd, *this, bRedraw ? TRUE : FALSE))
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error setting window region"),
+                                        GetLastError());
+    }
+
+    m_hRegion = NULL;
 }
 
 // ------
@@ -66,98 +66,98 @@ void TRegion::AssignToWindow(HWND hWnd, bool bRedraw)
 // ------
 TBrush::TBrush()
 {
-	m_hBrush = NULL;
+    m_hBrush = NULL;
 }
 
 TBrush::TBrush(COLORREF crColor)
 {
-	m_hBrush = NULL;
+    m_hBrush = NULL;
 
-	Allocate(crColor);
+    Allocate(crColor);
 }
 
 TBrush::TBrush(HBITMAP hBitmap)
 {
-	m_hBrush = NULL;
+    m_hBrush = NULL;
 
-	Allocate(hBitmap);
+    Allocate(hBitmap);
 }
 
 TBrush::TBrush(HBRUSH hSBrush)
 {
-	m_hBrush = NULL;
+    m_hBrush = NULL;
 
-	Allocate(hSBrush);
+    Allocate(hSBrush);
 }
 
 void TBrush::Release()
 {
-	if(m_hBrush)
-		DeleteObject(m_hBrush), m_hBrush = NULL;
+    if(m_hBrush)
+        DeleteObject(m_hBrush), m_hBrush = NULL;
 }
 
 void TBrush::Allocate(COLORREF crColor)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_hBrush = CreateSolidBrush(crColor);
+    try
+    {
+        m_hBrush = CreateSolidBrush(crColor);
 
-		if(!m_hBrush)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error creating solid brush"),
-											GetLastError());
-		}
-	}
+        if(!m_hBrush)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error creating solid brush"),
+                                            GetLastError());
+        }
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TBrush::Allocate(HBITMAP hBitmap)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(hBitmap);
+    try
+    {
+        DEBUG_VERIFY(hBitmap);
 
-		m_hBrush = CreatePatternBrush(hBitmap);
+        m_hBrush = CreatePatternBrush(hBitmap);
 
-		if(!m_hBrush)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error creating pattern brush"),
-											GetLastError());
-		}
-	}
+        if(!m_hBrush)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error creating pattern brush"),
+                                            GetLastError());
+        }
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TBrush::Allocate(HBRUSH hSBrush)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(hSBrush);
+    try
+    {
+        DEBUG_VERIFY(hSBrush);
 
-		m_hBrush = hSBrush;
-	}
+        m_hBrush = hSBrush;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 // ----
@@ -165,70 +165,70 @@ void TBrush::Allocate(HBRUSH hSBrush)
 // ----
 TPen::TPen()
 {
-	m_hPen = NULL;
+    m_hPen = NULL;
 }
 
-TPen::TPen(	COLORREF	crColor,
-			size_t		szWidth,
-			kmode_t		mdStyle)
+TPen::TPen( COLORREF    crColor,
+            size_t      szWidth,
+            kmode_t     mdStyle)
 {
-	m_hPen = NULL;
+    m_hPen = NULL;
 
-	Allocate(crColor, szWidth, mdStyle);
+    Allocate(crColor, szWidth, mdStyle);
 }
 
 TPen::TPen(HPEN hSPen)
 {
-	m_hPen = NULL;
+    m_hPen = NULL;
 
-	Allocate(hSPen);
+    Allocate(hSPen);
 }
 
 void TPen::Release()
 {
-	if(m_hPen)
-		DeleteObject(m_hPen), m_hPen = NULL;
+    if(m_hPen)
+        DeleteObject(m_hPen), m_hPen = NULL;
 }
 
-void TPen::Allocate(COLORREF	crColor,
-					size_t		szWidth,
-					kmode_t		mdStyle)
+void TPen::Allocate(COLORREF    crColor,
+                    size_t      szWidth,
+                    kmode_t     mdStyle)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_hPen = CreatePen(mdStyle, szWidth, crColor);
-		if(m_hPen == NULL)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error creating pen"),
-											GetLastError());
-		}
-	}
+    try
+    {
+        m_hPen = CreatePen(mdStyle, szWidth, crColor);
+        if(m_hPen == NULL)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error creating pen"),
+                                            GetLastError());
+        }
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TPen::Allocate(HPEN hSPen)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(hSPen);
+    try
+    {
+        DEBUG_VERIFY(hSPen);
 
-		m_hPen = hSPen;
-	}
-	
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+        m_hPen = hSPen;
+    }
+
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 // -------
@@ -236,53 +236,53 @@ void TPen::Allocate(HPEN hSPen)
 // -------
 TBitmap::TBitmap()
 {
-	m_hBitmap = NULL;
+    m_hBitmap = NULL;
 }
 
 TBitmap::TBitmap(HDC hDC, const SZSIZE& Size)
 {
-	m_hBitmap = NULL;
+    m_hBitmap = NULL;
 
-	Allocate(hDC, Size);
+    Allocate(hDC, Size);
 }
 
 TBitmap::TBitmap(HBITMAP hSBitmap)
 {
-	m_hBitmap = NULL;
+    m_hBitmap = NULL;
 
-	Allocate(hSBitmap);
+    Allocate(hSBitmap);
 }
 
 void TBitmap::Release()
 {
-	if(m_hBitmap)
-		DeleteObject(m_hBitmap), m_hBitmap = NULL;
+    if(m_hBitmap)
+        DeleteObject(m_hBitmap), m_hBitmap = NULL;
 }
 
 void TBitmap::Allocate(HDC hDC, const SZSIZE& Size)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(hDC);
 
-	DEBUG_VERIFY(Size.IsValid());
+    DEBUG_VERIFY(Size.IsValid());
 
-	m_hBitmap = CreateCompatibleBitmap(hDC, Size.cx, Size.cy);
+    m_hBitmap = CreateCompatibleBitmap(hDC, Size.cx, Size.cy);
 
-	if(!m_hBitmap)
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error creating compatible bitmap."),
-										GetLastError());
-	}
+    if(!m_hBitmap)
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error creating compatible bitmap."),
+                                        GetLastError());
+    }
 }
 
 void TBitmap::Allocate(HBITMAP hSBitmap)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(hSBitmap);
+    DEBUG_VERIFY(hSBitmap);
 
-	m_hBitmap = hSBitmap;
+    m_hBitmap = hSBitmap;
 
 }
 
@@ -291,76 +291,76 @@ void TBitmap::Allocate(HBITMAP hSBitmap)
 // ---
 TDC::TDC()
 {
-	m_hDC = NULL;
+    m_hDC = NULL;
 }
 
 TDC::TDC(HWND hSWnd)
 {
-	m_hDC = NULL;
+    m_hDC = NULL;
 
-	Allocate(hSWnd);
+    Allocate(hSWnd);
 }
 
 TDC::TDC(HDC hSDC)
 {
-	m_hDC = NULL;
+    m_hDC = NULL;
 
-	Allocate(hSDC);
+    Allocate(hSDC);
 }
 
 void TDC::Release()
 {
-	if(m_hDC)
-	{
-		if(m_bWindowDC)
-			ReleaseDC(m_hWnd, m_hDC);
-		else
-			DeleteDC(m_hDC);
-		
-		m_hDC = NULL;
-	}
+    if(m_hDC)
+    {
+        if(m_bWindowDC)
+            ReleaseDC(m_hWnd, m_hDC);
+        else
+            DeleteDC(m_hDC);
+
+        m_hDC = NULL;
+    }
 }
 
 void TDC::Allocate(HWND hSWnd)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_hWnd = hSWnd, m_bWindowDC = true;
+    try
+    {
+        m_hWnd = hSWnd, m_bWindowDC = true;
 
-		m_hDC = ::GetDC(m_hWnd);
+        m_hDC = ::GetDC(m_hWnd);
 
-		if(m_hDC == NULL)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error getting window device context"),
-											GetLastError());
-		}
-	}
+        if(m_hDC == NULL)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error getting window device context"),
+                                            GetLastError());
+        }
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TDC::Allocate(HDC hSDC)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(hSDC != NULL);
+    try
+    {
+        DEBUG_VERIFY(hSDC != NULL);
 
-		m_hDC = hSDC, m_bWindowDC = false;
-	}
+        m_hDC = hSDC, m_bWindowDC = false;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 // -----------
@@ -368,46 +368,46 @@ void TDC::Allocate(HDC hSDC)
 // -----------
 T_DC_Clipper::T_DC_Clipper(HDC hDC, const IRECT& Rect)
 {
-	DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(hDC);
 
-	m_hDC = hDC;
+    m_hDC = hDC;
 
-	m_hOldRgn = CreateRectRgn(0, 0, 1, 1);
-	DEBUG_VERIFY(m_hOldRgn);
+    m_hOldRgn = CreateRectRgn(0, 0, 1, 1);
+    DEBUG_VERIFY(m_hOldRgn);
 
-	int r = GetClipRgn(hDC, m_hOldRgn);
+    int r = GetClipRgn(hDC, m_hOldRgn);
 
-	if(r <= 0)
-	{
-		DeleteObject(m_hOldRgn), m_hOldRgn = NULL;
+    if(r <= 0)
+    {
+        DeleteObject(m_hOldRgn), m_hOldRgn = NULL;
 
-		if(r < 0)
-		{
-			m_hDC = NULL;
-			return;
-		}
-	}	
+        if(r < 0)
+        {
+            m_hDC = NULL;
+            return;
+        }
+    }
 
-	if(IntersectClipRect(	m_hDC,
-							Rect.m_Left,
-							Rect.m_Top,
-							Rect.m_Right,
-							Rect.m_Bottom) == ERROR)
-	{
-		DeleteObject(m_hOldRgn), m_hOldRgn = NULL;
-		m_hDC = NULL;
-	}
+    if(IntersectClipRect(   m_hDC,
+                            Rect.m_Left,
+                            Rect.m_Top,
+                            Rect.m_Right,
+                            Rect.m_Bottom) == ERROR)
+    {
+        DeleteObject(m_hOldRgn), m_hOldRgn = NULL;
+        m_hDC = NULL;
+    }
 }
 
 T_DC_Clipper::~T_DC_Clipper()
 {
-	if(!m_hDC)
-		return;
+    if(!m_hDC)
+        return;
 
-	SelectClipRgn(m_hDC, m_hOldRgn);
+    SelectClipRgn(m_hDC, m_hOldRgn);
 
-	if(m_hOldRgn)
-		DeleteObject(m_hOldRgn);
+    if(m_hOldRgn)
+        DeleteObject(m_hOldRgn);
 }
 
 // ----------------
@@ -415,649 +415,649 @@ T_DC_Clipper::~T_DC_Clipper()
 // ----------------
 KString GetKWindowTextSafe(HWND hWnd)
 {
-	if(!hWnd || !IsWindow(hWnd))
-		return TEXT("");
+    if(!hWnd || !IsWindow(hWnd))
+        return TEXT("");
 
-	const size_t szLength = GetWindowTextLength(hWnd);
-	
-	KString Text;
-	Text.Allocate(szLength);
+    const size_t szLength = GetWindowTextLength(hWnd);
 
-	GetWindowText(hWnd, Text.GetDataPtr(), szLength + 1);
+    KString Text;
+    Text.Allocate(szLength);
 
-	Text.SetChar(szLength, 0), Text.TrimByZero();
+    GetWindowText(hWnd, Text.GetDataPtr(), szLength + 1);
 
-	return Text;
+    Text.SetChar(szLength, 0), Text.TrimByZero();
+
+    return Text;
 }
 
 KString GetKWindowText(HWND hWnd)
 {
-	DEBUG_VERIFY(hWnd && IsWindow(hWnd));
+    DEBUG_VERIFY(hWnd && IsWindow(hWnd));
 
-	return GetKWindowTextSafe(hWnd);
+    return GetKWindowTextSafe(hWnd);
 }
 
 void SetKWindowTextSafe(HWND hWnd, LPCTSTR pText)
 {
-	if(!IsWindow(hWnd))
-		return;
+    if(!IsWindow(hWnd))
+        return;
 
-	SetWindowText(hWnd, pText);
+    SetWindowText(hWnd, pText);
 }
 
 IRECT GetKClientScreenRect(HWND hWnd)
 {
-	return KClientToScreen(hWnd, GetKClientRect(hWnd));
+    return KClientToScreen(hWnd, GetKClientRect(hWnd));
 }
 
 void SetKClientScreenRect(HWND hWnd, const IRECT& Rect, bool bRedraw)
 {
-	SetKWindowRect(hWnd, Rect + (GetKWindowRect(hWnd) - GetKClientScreenRect(hWnd)), bRedraw);
+    SetKWindowRect(hWnd, Rect + (GetKWindowRect(hWnd) - GetKClientScreenRect(hWnd)), bRedraw);
 }
 
 void SetKWindowText(HWND hWnd, LPCTSTR pText)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	SetKWindowTextSafe(hWnd, pText);
+    SetKWindowTextSafe(hWnd, pText);
 }
 
-static KString GetKCustomListBoxItemText(	HWND	hWnd,
-											size_t	szIndex,
-											ktype_t	tpDataMessage,
-											ktype_t	tpLengthMessage)
+static KString GetKCustomListBoxItemText(   HWND    hWnd,
+                                            size_t  szIndex,
+                                            ktype_t tpDataMessage,
+                                            ktype_t tpLengthMessage)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	const size_t szLength = (size_t)SendMessage(hWnd, tpLengthMessage, szIndex, 0);
+    const size_t szLength = (size_t)SendMessage(hWnd, tpLengthMessage, szIndex, 0);
 
-	if(szLength == (size_t)LB_ERR)
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	"Error retrieving list box item text length",
-										GetLastError());
-	}
+    if(szLength == (size_t)LB_ERR)
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  "Error retrieving list box item text length",
+                                        GetLastError());
+    }
 
-	KString Text;
-	Text.Allocate(szLength);
-	
-	if(	SendMessage(hWnd, tpDataMessage, (WPARAM)szIndex, (LPARAM)Text.GetDataPtr()) ==
-		LB_ERR)
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	"Error retrieving list box item text",
-										GetLastError());
-	}
+    KString Text;
+    Text.Allocate(szLength);
 
-	return Text;
+    if( SendMessage(hWnd, tpDataMessage, (WPARAM)szIndex, (LPARAM)Text.GetDataPtr()) ==
+        LB_ERR)
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  "Error retrieving list box item text",
+                                        GetLastError());
+    }
+
+    return Text;
 }
 
 KString GetKListBoxItemText(HWND hWnd, size_t szIndex)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	return GetKCustomListBoxItemText(hWnd, szIndex, LB_GETTEXT, LB_GETTEXTLEN);
+    return GetKCustomListBoxItemText(hWnd, szIndex, LB_GETTEXT, LB_GETTEXTLEN);
 }
 
 KString GetKComboBoxItemText(HWND hWnd, size_t szIndex)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	return GetKCustomListBoxItemText(hWnd, szIndex, CB_GETLBTEXT, CB_GETLBTEXTLEN);
+    return GetKCustomListBoxItemText(hWnd, szIndex, CB_GETLBTEXT, CB_GETLBTEXTLEN);
 }
 
 size_t GetKListBoxSelection(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	return SendMessage(hWnd, LB_GETCURSEL, 0, 0);
+    return SendMessage(hWnd, LB_GETCURSEL, 0, 0);
 }
 
 KString GetKListControlItemText(HWND hWnd, size_t szIndex, size_t szSubIndex)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	TCHAR Buffer[8192];
-	ListView_GetItemText(hWnd, szIndex, szSubIndex, Buffer, sizeof(Buffer) - 1);
+    TCHAR Buffer[8192];
+    ListView_GetItemText(hWnd, szIndex, szSubIndex, Buffer, sizeof(Buffer) - 1);
 
-	return Buffer;
+    return Buffer;
 }
 
 LPARAM GetKListControlItemParam(HWND hWnd, size_t szIndex)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	LVITEM Item;
-	memset(&Item, 0, sizeof(Item));
+    LVITEM Item;
+    memset(&Item, 0, sizeof(Item));
 
-	Item.mask	= LVIF_PARAM;
-	Item.iItem	= szIndex;
+    Item.mask   = LVIF_PARAM;
+    Item.iItem  = szIndex;
 
-	ListView_GetItem(hWnd, &Item);
+    ListView_GetItem(hWnd, &Item);
 
-	return Item.lParam;
+    return Item.lParam;
 }
 
 IRECT GetKListControlItemRect(HWND hWnd, size_t szIndex)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	RECT Rect;
-	ListView_GetItemRect(hWnd, szIndex, &Rect, LVIR_BOUNDS);
+    RECT Rect;
+    ListView_GetItemRect(hWnd, szIndex, &Rect, LVIR_BOUNDS);
 
-	return Rect;
+    return Rect;
 }
 
 size_t KListControlHitTest(HWND hWnd, const IPOINT& Coords)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	LVHITTESTINFO Info;
-	memset(&Info, 0, sizeof(Info));
+    LVHITTESTINFO Info;
+    memset(&Info, 0, sizeof(Info));
 
-	Info.pt = *Coords;
+    Info.pt = *Coords;
 
-	return SendMessage(hWnd, LVM_HITTEST, 0, (LPARAM)&Info);
+    return SendMessage(hWnd, LVM_HITTEST, 0, (LPARAM)&Info);
 }
 
 size_t GetKListControlItemCount(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	return ListView_GetItemCount(hWnd);
+    return ListView_GetItemCount(hWnd);
 }
 
-void ChangeKWindowLong(	HWND		hWnd,
-						ktype_t		tpType,
-						kflags_t	uiSetFlags,
-						kflags_t	uiDropFlags)
+void ChangeKWindowLong( HWND        hWnd,
+                        ktype_t     tpType,
+                        kflags_t    uiSetFlags,
+                        kflags_t    uiDropFlags)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	SetWindowLong(	hWnd,
-					tpType,
-					GetWindowLong(hWnd, tpType) & ~uiDropFlags | uiSetFlags);
-					
+    SetWindowLong(  hWnd,
+                    tpType,
+                    GetWindowLong(hWnd, tpType) & ~uiDropFlags | uiSetFlags);
+
 }
 
-bool LimitSizingRect(	IRECT&			Rect,
-						const IRECT&	Limits,
-						kmode_t			mdKind)
+bool LimitSizingRect(   IRECT&          Rect,
+                        const IRECT&    Limits,
+                        kmode_t         mdKind)
 {
-	bool bHadEffect = false;
+    bool bHadEffect = false;
 
-	ISIZE Size(Rect);
+    ISIZE Size(Rect);
 
-	// Y
-	if(Size.cy < Limits.m_Top || Size.cy > Limits.m_Bottom)
-	{
-		const size_t szDesired =	Size.cy < Limits.m_Top ?
-										Limits.m_Top :
-										Limits.m_Bottom;
+    // Y
+    if(Size.cy < Limits.m_Top || Size.cy > Limits.m_Bottom)
+    {
+        const size_t szDesired =    Size.cy < Limits.m_Top ?
+                                        Limits.m_Top :
+                                        Limits.m_Bottom;
 
-		if(	mdKind == WMSZ_TOPLEFT	||
-			mdKind == WMSZ_TOP		||
-			mdKind == WMSZ_TOPRIGHT)
-		{
-			Rect.m_Top = Rect.m_Bottom - szDesired;
-		}
-		else
-		{
-			Rect.m_Bottom = Rect.m_Top + szDesired;
-		}
+        if( mdKind == WMSZ_TOPLEFT  ||
+            mdKind == WMSZ_TOP      ||
+            mdKind == WMSZ_TOPRIGHT)
+        {
+            Rect.m_Top = Rect.m_Bottom - szDesired;
+        }
+        else
+        {
+            Rect.m_Bottom = Rect.m_Top + szDesired;
+        }
 
-		bHadEffect = true;
-	}
+        bHadEffect = true;
+    }
 
-	// X
-	if(Size.cx < Limits.m_Left || Size.cx > Limits.m_Right)
-	{
-		const size_t szDesired =	Size.cx < Limits.m_Left ?
-										Limits.m_Left :
-										Limits.m_Right;
+    // X
+    if(Size.cx < Limits.m_Left || Size.cx > Limits.m_Right)
+    {
+        const size_t szDesired =    Size.cx < Limits.m_Left ?
+                                        Limits.m_Left :
+                                        Limits.m_Right;
 
-		if(	mdKind == WMSZ_TOPLEFT	||
-			mdKind == WMSZ_LEFT		||
-			mdKind == WMSZ_BOTTOMLEFT)
-		{
-			Rect.m_Left = Rect.m_Right - szDesired;
-		}
-		else
-		{
-			Rect.m_Right = Rect.m_Left + szDesired;
-		}
+        if( mdKind == WMSZ_TOPLEFT  ||
+            mdKind == WMSZ_LEFT     ||
+            mdKind == WMSZ_BOTTOMLEFT)
+        {
+            Rect.m_Left = Rect.m_Right - szDesired;
+        }
+        else
+        {
+            Rect.m_Right = Rect.m_Left + szDesired;
+        }
 
-		bHadEffect = true;
-	}
+        bHadEffect = true;
+    }
 
-	return bHadEffect;
+    return bHadEffect;
 }
 
 SZSIZE GetTextSize(HDC hDC, LPCTSTR pText)
 {
-	DEBUG_VERIFY(hDC);
-	DEBUG_VERIFY(pText);
+    DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(pText);
 
-	SZSIZE Size;
-	GetTextExtentPoint32(hDC, pText, _tcslen(pText), Size);
+    SZSIZE Size;
+    GetTextExtentPoint32(hDC, pText, _tcslen(pText), Size);
 
-	return Size;
+    return Size;
 }
 
 SZSIZE GetMultiLineTextSize(HDC hDC, LPCTSTR pText)
 {
-	DEBUG_VERIFY(hDC);
-	DEBUG_VERIFY(pText);
+    DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(pText);
 
-	KStrings Rows;
-	Rows.SplitString(pText, TEXT("\n"), SSEM_ALL);
+    KStrings Rows;
+    Rows.SplitString(pText, TEXT("\n"), SSEM_ALL);
 
-	SZSIZE Size(0, 0);	
+    SZSIZE Size(0, 0);
 
-	for(KStrings::TConstIterator Iter = Rows.GetFirst() ; Iter.IsValid() ; ++Iter)
-	{
-		const SZSIZE RowSize = GetTextSize(hDC, *Iter);
+    for(KStrings::TConstIterator Iter = Rows.GetFirst() ; Iter.IsValid() ; ++Iter)
+    {
+        const SZSIZE RowSize = GetTextSize(hDC, *Iter);
 
-		if(RowSize.cx > Size.cx)
-			Size.cx = RowSize.cx;
+        if(RowSize.cx > Size.cx)
+            Size.cx = RowSize.cx;
 
-		Size.cy += RowSize.cy;
-	}
+        Size.cy += RowSize.cy;
+    }
 
-	return Size;
+    return Size;
 }
 
 IRECT GetWindowPlacementRect(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	WINDOWPLACEMENT wp;
-	memset(&wp, 0, sizeof(wp)), wp.length = sizeof(wp);
+    WINDOWPLACEMENT wp;
+    memset(&wp, 0, sizeof(wp)), wp.length = sizeof(wp);
 
-	GetWindowPlacement(hWnd, &wp);
+    GetWindowPlacement(hWnd, &wp);
 
-	return wp.rcNormalPosition;
+    return wp.rcNormalPosition;
 }
 
 IPOINT& KClientToScreen(HWND hWnd, IPOINT& Point)
 {
-	if(hWnd)
-		ClientToScreen(hWnd, Point);
+    if(hWnd)
+        ClientToScreen(hWnd, Point);
 
-	return Point;
+    return Point;
 }
 
 IRECT& KClientToScreen(HWND hWnd, IRECT& Rect)
-{	
-	if(hWnd)
-	{
-		Rect = IRECT(	KClientToScreen(hWnd, IPOINT(Rect.m_Left,	Rect.m_Top)),
-						KClientToScreen(hWnd, IPOINT(Rect.m_Right,	Rect.m_Bottom)));
-	}
+{
+    if(hWnd)
+    {
+        Rect = IRECT(   KClientToScreen(hWnd, IPOINT(Rect.m_Left,   Rect.m_Top)),
+                        KClientToScreen(hWnd, IPOINT(Rect.m_Right,  Rect.m_Bottom)));
+    }
 
-	return Rect;
+    return Rect;
 }
 
 IPOINT& KScreenToClient(HWND hWnd, IPOINT& Point)
 {
-	if(hWnd)
-		ScreenToClient(hWnd, Point);
-	return Point;
+    if(hWnd)
+        ScreenToClient(hWnd, Point);
+    return Point;
 }
 
 IRECT& KScreenToClient(HWND hWnd, IRECT& Rect)
 {
-	if(hWnd)
-	{
-		Rect = IRECT(	KScreenToClient(hWnd, IPOINT(Rect.m_Left,	Rect.m_Top)),
-						KScreenToClient(hWnd, IPOINT(Rect.m_Right,	Rect.m_Bottom)));
-	}
+    if(hWnd)
+    {
+        Rect = IRECT(   KScreenToClient(hWnd, IPOINT(Rect.m_Left,   Rect.m_Top)),
+                        KScreenToClient(hWnd, IPOINT(Rect.m_Right,  Rect.m_Bottom)));
+    }
 
-	return Rect;
+    return Rect;
 }
 
 ISIZE& KScreenToClient(HWND hWnd, ISIZE& Size)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	return Size -= ISIZE(GetKWindowRect(hWnd)) - ISIZE(GetKClientRect(hWnd));
+    return Size -= ISIZE(GetKWindowRect(hWnd)) - ISIZE(GetKClientRect(hWnd));
 }
 
 IPOINT GetKCursorPos()
 {
-	IPOINT Coords;
-	GetCursorPos(Coords);
+    IPOINT Coords;
+    GetCursorPos(Coords);
 
-	return Coords;
+    return Coords;
 }
 
 void SetKCursorPos(const IPOINT& Coords)
 {
-	SetCursorPos(Coords.x, Coords.y);
+    SetCursorPos(Coords.x, Coords.y);
 }
 
 void KEllipse(HDC hDC, const IRECT& Rect)
 {
-	DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(hDC);
 
-	Ellipse(hDC, Rect.m_Left, Rect.m_Top, Rect.m_Right, Rect.m_Bottom);
+    Ellipse(hDC, Rect.m_Left, Rect.m_Top, Rect.m_Right, Rect.m_Bottom);
 }
 
 void KDrawLine(HDC hDC, const IPOINT& p1, const IPOINT &p2)
 {
-	DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(hDC);
 
-	MoveToEx(hDC, p1.x, p1.y, NULL), LineTo(hDC, p2.x, p2.y);
+    MoveToEx(hDC, p1.x, p1.y, NULL), LineTo(hDC, p2.x, p2.y);
 }
 
 IRECT GetKClientRect(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	IRECT Rect;
-	GetClientRect(hWnd, Rect);
-	
-	return Rect;
+    IRECT Rect;
+    GetClientRect(hWnd, Rect);
+
+    return Rect;
 }
 
 IRECT GetKWindowRect(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	IRECT Rect;
-	GetWindowRect(hWnd, Rect);
-	
-	return Rect;
+    IRECT Rect;
+    GetWindowRect(hWnd, Rect);
+
+    return Rect;
 }
 
 void SetKWindowRect(HWND hWnd, const IRECT& Rect, bool bRedraw)
 {
-	SetWindowPos(	hWnd,
-					NULL,
-					Rect.m_Left,
-					Rect.m_Top,
-					Rect.GetWidth (),
-					Rect.GetHeight(),
-					SWP_NOZORDER | (bRedraw ? 0 : SWP_NOREDRAW));
+    SetWindowPos(   hWnd,
+                    NULL,
+                    Rect.m_Left,
+                    Rect.m_Top,
+                    Rect.GetWidth (),
+                    Rect.GetHeight(),
+                    SWP_NOZORDER | (bRedraw ? 0 : SWP_NOREDRAW));
 }
 
-void SetWindowScrollInfo(	HWND			hWnd,
-							const IRECT&	Rect,
-							const ISIZE&	PageSize,
-							const IPOINT*	pCoords)
+void SetWindowScrollInfo(   HWND            hWnd,
+                            const IRECT&    Rect,
+                            const ISIZE&    PageSize,
+                            const IPOINT*   pCoords)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	DEBUG_VERIFY(Rect.IsFlatValid());
+    DEBUG_VERIFY(Rect.IsFlatValid());
 
-	DEBUG_VERIFY(PageSize.IsFlatPositive());
+    DEBUG_VERIFY(PageSize.IsFlatPositive());
 
-	// Horizontal
-	{
-		SCROLLINFO ScrollInfo;
-		memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
+    // Horizontal
+    {
+        SCROLLINFO ScrollInfo;
+        memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
 
-		ScrollInfo.fMask = SIF_ALL;
-		GetScrollInfo(hWnd, SB_HORZ, &ScrollInfo);
+        ScrollInfo.fMask = SIF_ALL;
+        GetScrollInfo(hWnd, SB_HORZ, &ScrollInfo);
 
-		ScrollInfo.nMin		= Rect.m_Left;
-		ScrollInfo.nMax		= Rect.m_Right;
-		ScrollInfo.nPage	= PageSize.cx;
-		ScrollInfo.nPos		= pCoords ? pCoords->x : Rect.m_Left;
+        ScrollInfo.nMin     = Rect.m_Left;
+        ScrollInfo.nMax     = Rect.m_Right;
+        ScrollInfo.nPage    = PageSize.cx;
+        ScrollInfo.nPos     = pCoords ? pCoords->x : Rect.m_Left;
 
-		LimitValue(ScrollInfo.nPos, ISEGMENT(ScrollInfo.nMin, ScrollInfo.nMax));
+        LimitValue(ScrollInfo.nPos, ISEGMENT(ScrollInfo.nMin, ScrollInfo.nMax));
 
-		SetScrollInfo(hWnd, SB_HORZ, &ScrollInfo, TRUE);
-	}
+        SetScrollInfo(hWnd, SB_HORZ, &ScrollInfo, TRUE);
+    }
 
-	// Vertical
-	{
-		SCROLLINFO ScrollInfo;
-		memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
+    // Vertical
+    {
+        SCROLLINFO ScrollInfo;
+        memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
 
-		ScrollInfo.fMask = SIF_ALL;
-		GetScrollInfo(hWnd, SB_VERT, &ScrollInfo);
+        ScrollInfo.fMask = SIF_ALL;
+        GetScrollInfo(hWnd, SB_VERT, &ScrollInfo);
 
-		ScrollInfo.nMin		= Rect.m_Top;
-		ScrollInfo.nMax		= Rect.m_Bottom;
-		ScrollInfo.nPage	= PageSize.cy;
-		ScrollInfo.nPos		= pCoords ? pCoords->y : Rect.m_Top;
+        ScrollInfo.nMin     = Rect.m_Top;
+        ScrollInfo.nMax     = Rect.m_Bottom;
+        ScrollInfo.nPage    = PageSize.cy;
+        ScrollInfo.nPos     = pCoords ? pCoords->y : Rect.m_Top;
 
-		LimitValue(ScrollInfo.nPos, ISEGMENT(ScrollInfo.nMin, ScrollInfo.nMax));
+        LimitValue(ScrollInfo.nPos, ISEGMENT(ScrollInfo.nMin, ScrollInfo.nMax));
 
-		SetScrollInfo(hWnd, SB_VERT, &ScrollInfo, TRUE);
-	}
+        SetScrollInfo(hWnd, SB_VERT, &ScrollInfo, TRUE);
+    }
 }
 
-bool HandleWindowScrolling(	HWND			hWnd,
-							UINT			uiMsg,
-							WPARAM			wParam,
-							LPARAM			lParam,
-							const SZSIZE&	Step,
-							bool			bRedraw)
+bool HandleWindowScrolling( HWND            hWnd,
+                            UINT            uiMsg,
+                            WPARAM          wParam,
+                            LPARAM          lParam,
+                            const SZSIZE&   Step,
+                            bool            bRedraw)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
-	
-	// Getting the bar
-	ktype_t tpBar;
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	size_t szStep;
-	
-	if(uiMsg == WM_HSCROLL)
-	{
-		tpBar = SB_HORZ;
+    // Getting the bar
+    ktype_t tpBar;
 
-		szStep = Step.cx;
-	}
-	else if(uiMsg == WM_VSCROLL)
-	{
-		tpBar = SB_VERT;
+    size_t szStep;
 
-		szStep = Step.cy;
-	}
-	else
-	{
-		return false;
-	}
-	
-	// Getting scroll info
-	SCROLLINFO ScrollInfo;
-	memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
+    if(uiMsg == WM_HSCROLL)
+    {
+        tpBar = SB_HORZ;
 
-	ScrollInfo.fMask = SIF_ALL;
-	GetScrollInfo(hWnd, tpBar, &ScrollInfo);
+        szStep = Step.cx;
+    }
+    else if(uiMsg == WM_VSCROLL)
+    {
+        tpBar = SB_VERT;
 
-	// Mode processing
-	const kmode_t mdMode = LOWORD(wParam);
+        szStep = Step.cy;
+    }
+    else
+    {
+        return false;
+    }
 
-	if(mdMode == SB_THUMBPOSITION || mdMode == SB_THUMBTRACK)
-		ScrollInfo.nPos = HIWORD(wParam);
-	else if(mdMode == SB_LEFT || mdMode == SB_LINELEFT)
-		ScrollInfo.nPos -= szStep;
-	else if(mdMode == SB_RIGHT || mdMode == SB_LINERIGHT)
-		ScrollInfo.nPos += szStep;
-	else if(mdMode == SB_PAGELEFT)
-		ScrollInfo.nPos -= ScrollInfo.nPage;
-	else if(mdMode == SB_PAGERIGHT)
-		ScrollInfo.nPos += ScrollInfo.nPage;
+    // Getting scroll info
+    SCROLLINFO ScrollInfo;
+    memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
 
-	// Bounding scroll pos
-	LimitValue(ScrollInfo.nPos, ISEGMENT(ScrollInfo.nMin, ScrollInfo.nMax));
+    ScrollInfo.fMask = SIF_ALL;
+    GetScrollInfo(hWnd, tpBar, &ScrollInfo);
 
-	// New scroll info
-	ScrollInfo.fMask = SIF_POS;
+    // Mode processing
+    const kmode_t mdMode = LOWORD(wParam);
 
-	SetScrollInfo(hWnd, tpBar, &ScrollInfo, bRedraw ? TRUE : FALSE);
+    if(mdMode == SB_THUMBPOSITION || mdMode == SB_THUMBTRACK)
+        ScrollInfo.nPos = HIWORD(wParam);
+    else if(mdMode == SB_LEFT || mdMode == SB_LINELEFT)
+        ScrollInfo.nPos -= szStep;
+    else if(mdMode == SB_RIGHT || mdMode == SB_LINERIGHT)
+        ScrollInfo.nPos += szStep;
+    else if(mdMode == SB_PAGELEFT)
+        ScrollInfo.nPos -= ScrollInfo.nPage;
+    else if(mdMode == SB_PAGERIGHT)
+        ScrollInfo.nPos += ScrollInfo.nPage;
 
-	return true;
+    // Bounding scroll pos
+    LimitValue(ScrollInfo.nPos, ISEGMENT(ScrollInfo.nMin, ScrollInfo.nMax));
+
+    // New scroll info
+    ScrollInfo.fMask = SIF_POS;
+
+    SetScrollInfo(hWnd, tpBar, &ScrollInfo, bRedraw ? TRUE : FALSE);
+
+    return true;
 }
 
 int GetScrollPos32(HWND hWnd, ktype_t tpType)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	SCROLLINFO ScrollInfo;
-	memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
+    SCROLLINFO ScrollInfo;
+    memset(&ScrollInfo, 0, sizeof(ScrollInfo)), ScrollInfo.cbSize = sizeof(ScrollInfo);
 
-	ScrollInfo.fMask = SIF_POS;
-	GetScrollInfo(hWnd, tpType, &ScrollInfo);
+    ScrollInfo.fMask = SIF_POS;
+    GetScrollInfo(hWnd, tpType, &ScrollInfo);
 
-	return ScrollInfo.nPos;
+    return ScrollInfo.nPos;
 }
 
 ISIZE GetScrollPos32(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	return ISIZE(	GetScrollPos32(hWnd, SB_HORZ),
-					GetScrollPos32(hWnd, SB_VERT));
+    return ISIZE(   GetScrollPos32(hWnd, SB_HORZ),
+                    GetScrollPos32(hWnd, SB_VERT));
 }
 
 size_t GetSelectionAfterDeletion(size_t szNewCount, size_t szOldIndex)
 {
-	return szOldIndex < szNewCount ? szOldIndex : szOldIndex - 1;
+    return szOldIndex < szNewCount ? szOldIndex : szOldIndex - 1;
 }
 
 bool IsKeyDown(int iKey)
 {
-	return (GetKeyState(iKey) & 0x8000) ? true : false;
+    return (GetKeyState(iKey) & 0x8000) ? true : false;
 }
 
 bool GetKCheck(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
-	
-	return SendMessage(hWnd, BM_GETCHECK, 0, 0) == BST_CHECKED;
+    DEBUG_VERIFY(IsWindow(hWnd));
+
+    return SendMessage(hWnd, BM_GETCHECK, 0, 0) == BST_CHECKED;
 }
 
 void SetKCheck(HWND hWnd, bool bCheck)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	SendMessage(hWnd, BM_SETCHECK, bCheck ? BST_CHECKED : BST_UNCHECKED, 0);
+    SendMessage(hWnd, BM_SETCHECK, bCheck ? BST_CHECKED : BST_UNCHECKED, 0);
 }
 
 void ClearIPControlAddress(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	SendMessage(hWnd, IPM_CLEARADDRESS, 0, 0);
+    SendMessage(hWnd, IPM_CLEARADDRESS, 0, 0);
 }
 
 DWORD GetIPControlAddressDirect(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	DWORD dwAddress;
-	SendMessage(hWnd, IPM_GETADDRESS, 0, (LPARAM)&dwAddress);
+    DWORD dwAddress;
+    SendMessage(hWnd, IPM_GETADDRESS, 0, (LPARAM)&dwAddress);
 
-	return dwAddress;
+    return dwAddress;
 }
 
 void SetIPControlAddressDirect(HWND hWnd, DWORD dwAddress)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	SendMessage(hWnd, IPM_SETADDRESS, 0, dwAddress);
+    SendMessage(hWnd, IPM_SETADDRESS, 0, dwAddress);
 }
 
 DWORD GetIPControlAddress(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	DWORD dwAddress = GetIPControlAddressDirect(hWnd);	
+    DWORD dwAddress = GetIPControlAddressDirect(hWnd);
 
-	dwAddress = (((dwAddress)		& 0xFF)	<< 24)	|
-				(((dwAddress >> 8)	& 0xFF)	<< 16)	|
-				(((dwAddress >> 16)	& 0xFF)	<< 8)	|
-				(((dwAddress >> 24)	& 0xFF));
+    dwAddress = (((dwAddress)       & 0xFF) << 24)  |
+                (((dwAddress >> 8)  & 0xFF) << 16)  |
+                (((dwAddress >> 16) & 0xFF) << 8)   |
+                (((dwAddress >> 24) & 0xFF));
 
-	return dwAddress;
+    return dwAddress;
 }
 
 void SetIPControlAddress(HWND hWnd, DWORD dwAddress)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	dwAddress = (((dwAddress)		& 0xFF)	<< 24)	|
-				(((dwAddress >> 8)	& 0xFF)	<< 16)	|
-				(((dwAddress >> 16)	& 0xFF)	<< 8)	|
-				(((dwAddress >> 24)	& 0xFF));
+    dwAddress = (((dwAddress)       & 0xFF) << 24)  |
+                (((dwAddress >> 8)  & 0xFF) << 16)  |
+                (((dwAddress >> 16) & 0xFF) << 8)   |
+                (((dwAddress >> 24) & 0xFF));
 
-	SetIPControlAddressDirect(hWnd, dwAddress);
+    SetIPControlAddressDirect(hWnd, dwAddress);
 }
 
 void ShowCursorNoAcc(bool bShow)
 {
-	if((bool)InterlockedExchange(&s_CursorVisible, bShow) != bShow)
-		ShowCursor(bShow);
+    if((bool)InterlockedExchange(&s_CursorVisible, bShow) != bShow)
+        ShowCursor(bShow);
 }
 
 void TrackMouseLeave(HWND hWnd)
 {
-	DEBUG_VERIFY(IsWindow(hWnd));
+    DEBUG_VERIFY(IsWindow(hWnd));
 
-	TRACKMOUSEEVENT tme;
-	memset(&tme, 0, sizeof(tme)), tme.cbSize = sizeof(tme);
+    TRACKMOUSEEVENT tme;
+    memset(&tme, 0, sizeof(tme)), tme.cbSize = sizeof(tme);
 
-	tme.hwndTrack	= hWnd;
-	tme.dwFlags		= TME_LEAVE;
+    tme.hwndTrack   = hWnd;
+    tme.dwFlags     = TME_LEAVE;
 
-	DEBUG_EVALUATE_VERIFY(_TrackMouseEvent(&tme));
+    DEBUG_EVALUATE_VERIFY(_TrackMouseEvent(&tme));
 }
 
 void InvertCheckerRect(HDC hDC, const IRECT& Rect)
 {
-	DEBUG_VERIFY(hDC);
+    DEBUG_VERIFY(hDC);
 
-	if(!Rect.IsValid())
-		return;
+    if(!Rect.IsValid())
+        return;
 
-	TGDIObjectSelector Selector0(hDC, g_GUI_DeviceGlobals.m_CheckerBrush);
+    TGDIObjectSelector Selector0(hDC, g_GUI_DeviceGlobals.m_CheckerBrush);
 
-	PatBlt(	hDC,
-			Rect.m_Left,
-			Rect.m_Top,
-			Rect.GetWidth (),
-			Rect.GetHeight(),
-			PATINVERT);
+    PatBlt( hDC,
+            Rect.m_Left,
+            Rect.m_Top,
+            Rect.GetWidth (),
+            Rect.GetHeight(),
+            PATINVERT);
 }
 
 void ReleaseCapture(HWND hWnd)
 {
-	if(GetCapture() == hWnd)
-		ReleaseCapture();
+    if(GetCapture() == hWnd)
+        ReleaseCapture();
 }
 
 SZSIZE GetBitmapSize(HBITMAP hBitmap)
 {
-	DEBUG_VERIFY(hBitmap);
+    DEBUG_VERIFY(hBitmap);
 
-	BITMAPINFO bi;
-	memset(&bi, 0, sizeof(bi)), bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
+    BITMAPINFO bi;
+    memset(&bi, 0, sizeof(bi)), bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
 
-	TDC DC((HWND)NULL);
+    TDC DC((HWND)NULL);
 
-	KFC_VERIFY(GetDIBits(DC, hBitmap, 0, 0, NULL, &bi, DIB_RGB_COLORS));
+    KFC_VERIFY(GetDIBits(DC, hBitmap, 0, 0, NULL, &bi, DIB_RGB_COLORS));
 
-	return SZSIZE(abs(bi.bmiHeader.biWidth), abs(bi.bmiHeader.biHeight));
+    return SZSIZE(abs(bi.bmiHeader.biWidth), abs(bi.bmiHeader.biHeight));
 }
 
 bool AreAllParentsEnabled(HWND hWnd, bool bChildOnly)
 {
-	DEBUG_VERIFY(hWnd);
+    DEBUG_VERIFY(hWnd);
 
-	for(;;)
-	{
-		if(bChildOnly && !(GetWindowLong(hWnd, GWL_STYLE) & WS_CHILD))
-			break;
+    for(;;)
+    {
+        if(bChildOnly && !(GetWindowLong(hWnd, GWL_STYLE) & WS_CHILD))
+            break;
 
-		if(!(hWnd = GetParent(hWnd)))
-			break;
+        if(!(hWnd = GetParent(hWnd)))
+            break;
 
-		if(!IsWindowEnabled(hWnd))
-			return false;
-	}
+        if(!IsWindowEnabled(hWnd))
+            return false;
+    }
 
-	return true;
+    return true;
 }
 
 // ------
@@ -1071,42 +1071,42 @@ DXFORM g_DIdentityWorldTransform = {1, 0, 0, 1, 0, 0};
 
 FXFORM InvertWT(const FXFORM& wt)
 {
-	float d = wt.eM11 * wt.eM22 - wt.eM12 * wt.eM21;
+    float d = wt.eM11 * wt.eM22 - wt.eM12 * wt.eM21;
 
-	if(IsZero(d))
-	{
-		FXFORM rwt = {};
-		return rwt;
-	}
+    if(IsZero(d))
+    {
+        FXFORM rwt = {};
+        return rwt;
+    }
 
-	d = 1.0f / d;
+    d = 1.0f / d;
 
-	FXFORM rwt =
-	{	+wt.eM22 * d, -wt.eM12 * d,
-		-wt.eM21 * d, +wt.eM11 * d,
-		(+wt.eM21 * wt.eDy - wt.eM22 * wt.eDx) * d,
-		(-wt.eM11 * wt.eDy + wt.eM12 * wt.eDx) * d};
+    FXFORM rwt =
+    {   +wt.eM22 * d, -wt.eM12 * d,
+        -wt.eM21 * d, +wt.eM11 * d,
+        (+wt.eM21 * wt.eDy - wt.eM22 * wt.eDx) * d,
+        (-wt.eM11 * wt.eDy + wt.eM12 * wt.eDx) * d};
 
-	return rwt;
+    return rwt;
 }
 
 DXFORM InvertWT(const DXFORM& wt)
 {
-	double d = wt.eM11 * wt.eM22 - wt.eM12 * wt.eM21;
+    double d = wt.eM11 * wt.eM22 - wt.eM12 * wt.eM21;
 
-	if(IsZero(d))
-	{
-		DXFORM rwt = {};
-		return rwt;
-	}
+    if(IsZero(d))
+    {
+        DXFORM rwt = {};
+        return rwt;
+    }
 
-	d = 1.0 / d;
+    d = 1.0 / d;
 
-	DXFORM rwt =
-	{	+wt.eM22 * d, -wt.eM12 * d,
-		-wt.eM21 * d, +wt.eM11 * d,
-		+(wt.eM21 * wt.eDy - wt.eM22 * wt.eDx) * d,
-		-(wt.eM11 * wt.eDy - wt.eM12 * wt.eDx) * d};
+    DXFORM rwt =
+    {   +wt.eM22 * d, -wt.eM12 * d,
+        -wt.eM21 * d, +wt.eM11 * d,
+        +(wt.eM21 * wt.eDy - wt.eM22 * wt.eDx) * d,
+        -(wt.eM11 * wt.eDy - wt.eM12 * wt.eDx) * d};
 
-	return rwt;
+    return rwt;
 }

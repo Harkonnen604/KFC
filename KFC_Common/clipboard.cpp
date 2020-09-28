@@ -10,16 +10,16 @@
 // -----------------
 TClipboardOpener::TClipboardOpener(HWND hWnd)
 {
-	if(!OpenClipboard(hWnd))
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error opening clipboard"),
-										GetLastError());
-	}
+    if(!OpenClipboard(hWnd))
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error opening clipboard"),
+                                        GetLastError());
+    }
 }
 
 TClipboardOpener::~TClipboardOpener()
 {
-	CloseClipboard();
+    CloseClipboard();
 }
 
 // ----------------
@@ -27,66 +27,66 @@ TClipboardOpener::~TClipboardOpener()
 // ----------------
 bool GetClipboardText(HWND hWnd, KString& RText)
 {
-	TClipboardOpener Opener0(hWnd);
+    TClipboardOpener Opener0(hWnd);
 
-	HANDLE hData = GetClipboardData(CF_TEXT);
+    HANDLE hData = GetClipboardData(CF_TEXT);
 
-	if(!hData)
-		return false;
+    if(!hData)
+        return false;
 
-	LPCTSTR pText = (LPCTSTR)GlobalLock(hData);
+    LPCTSTR pText = (LPCTSTR)GlobalLock(hData);
 
-	if(!pText || pText[GlobalSize(hData) - 1])
-		return false;
+    if(!pText || pText[GlobalSize(hData) - 1])
+        return false;
 
-	RText = pText;
+    RText = pText;
 
-	GlobalUnlock(hData);
+    GlobalUnlock(hData);
 
-	return true;
+    return true;
 }
 
-void SetClipboardText(	const KString&	Text,
-						HWND			hWnd,
-						bool			bClearFirst)
+void SetClipboardText(  const KString&  Text,
+                        HWND            hWnd,
+                        bool            bClearFirst)
 {
-	// Allocating global memory
-	TGlobalMem Mem(Text.GetStreamTermCharsLength(), GMEM_MOVEABLE);
+    // Allocating global memory
+    TGlobalMem Mem(Text.GetStreamTermCharsLength(), GMEM_MOVEABLE);
 
-	// Copying text into the global memory
-	{
-		void* pData;
-		TGlobalMemLocker Locker0(Mem, pData);
+    // Copying text into the global memory
+    {
+        void* pData;
+        TGlobalMemLocker Locker0(Mem, pData);
 
-		memcpy(pData, (LPCTSTR)Text, Text.GetStreamTermCharsLength());
-	}
-	
-	// Accessing the clipboard
-	{
-		// Opening the clipboard
-		TClipboardOpener Opener0(hWnd);
+        memcpy(pData, (LPCTSTR)Text, Text.GetStreamTermCharsLength());
+    }
 
-		// Clearing the clipboard
-		if(bClearFirst)
-		{
-			if(!EmptyClipboard())
-			{
-				INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error emptying clipboard."),
-												GetLastError());
-			}
-		}
+    // Accessing the clipboard
+    {
+        // Opening the clipboard
+        TClipboardOpener Opener0(hWnd);
 
-		// Setting clipboard data
-		HANDLE hData = SetClipboardData(CF_TEXT, Mem);
+        // Clearing the clipboard
+        if(bClearFirst)
+        {
+            if(!EmptyClipboard())
+            {
+                INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error emptying clipboard."),
+                                                GetLastError());
+            }
+        }
 
-		if(hData == NULL)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error setting clipboard text data."),
-											GetLastError());
-		}
+        // Setting clipboard data
+        HANDLE hData = SetClipboardData(CF_TEXT, Mem);
 
-		Mem.Invalidate();
-	}
+        if(hData == NULL)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error setting clipboard text data."),
+                                            GetLastError());
+        }
+
+        Mem.Invalidate();
+    }
 }
 
 #endif // _MSC_VER

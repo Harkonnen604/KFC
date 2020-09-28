@@ -11,543 +11,543 @@ template <class t>
 class TFileCharsTree
 {
 public:
-	// Iterator
-	struct TIterator
-	{
-	public:
-		size_t x;
-        
-	public:
-		TIterator()
-			{ Invalidate(); }
+    // Iterator
+    struct TIterator
+    {
+    public:
+        size_t x;
 
-		TIterator(size_t sx) : x(sx) {}
+    public:
+        TIterator()
+            { Invalidate(); }
 
-		bool IsValid() const
-			{ return x; }
+        TIterator(size_t sx) : x(sx) {}
 
-		void Invalidate()
-			{ x = 0; }
+        bool IsValid() const
+            { return x; }
 
-		bool IsRoot() const
-			{ return x == -1; }
-	};
+        void Invalidate()
+            { x = 0; }
 
-	// Const iterator
-	struct TConstIterator
-	{
-	public:
-		size_t x;
+        bool IsRoot() const
+            { return x == -1; }
+    };
 
-	public:
-		TConstIterator()
-			{ Invalidate(); }
+    // Const iterator
+    struct TConstIterator
+    {
+    public:
+        size_t x;
 
-		TConstIterator(size_t sx) : x(sx) {}
+    public:
+        TConstIterator()
+            { Invalidate(); }
 
-		TConstIterator(const TIterator &SIter) : x(SIter.x) {}
+        TConstIterator(size_t sx) : x(sx) {}
 
-		bool IsValid() const
-			{ return x; }
+        TConstIterator(const TIterator &SIter) : x(SIter.x) {}
 
-		void Invalidate()
-			{ x = 0; }
+        bool IsValid() const
+            { return x; }
 
-		bool IsRoot() const
-			{ return x == -1; }
-	};
+        void Invalidate()
+            { x = 0; }
 
-private:
-	// Node
-	struct TNode
-	{
-		size_t m_szChar;
-
-		TIterator m_FirstChild;
-		TIterator m_NextSibling;
-
-		t m_Data;
-	};
-
-	// Heap
-	typedef TFixedItemHeapWithAux<TNode, TFileMappingGrowableAllocator, TIterator> THeap;
+        bool IsRoot() const
+            { return x == -1; }
+    };
 
 private:
-	THeap m_Heap;
+    // Node
+    struct TNode
+    {
+        size_t m_szChar;
 
-	bool m_bAllocated;
+        TIterator m_FirstChild;
+        TIterator m_NextSibling;
+
+        t m_Data;
+    };
+
+    // Heap
+    typedef TFixedItemHeapWithAux<TNode, TFileMappingGrowableAllocator, TIterator> THeap;
 
 private:
-	TNode& GetNode(TIterator Iter)
-		{ return m_Heap[Iter.x]; }
+    THeap m_Heap;
 
-	const TNode& GetNode(TConstIterator Iter) const
-		{ return m_Heap[Iter.x]; }
+    bool m_bAllocated;
 
-	TIterator& InternalGetFirstChild(TIterator Iter)
-		{ return Iter.IsRoot() ? m_Heap.GetAuxData() : GetNode(Iter).m_FirstChild; }	
+private:
+    TNode& GetNode(TIterator Iter)
+        { return m_Heap[Iter.x]; }
 
-	TConstIterator InternalGetFirstChild(TConstIterator Iter) const
-		{ return Iter.IsRoot() ? m_Heap.GetAuxData() : GetNode(Iter).m_FirstChild; }	
+    const TNode& GetNode(TConstIterator Iter) const
+        { return m_Heap[Iter.x]; }
 
-	TIterator& InternalGetNextSibling(TIterator Iter)
-		{ return GetNode(Iter).m_NextSibling; }
+    TIterator& InternalGetFirstChild(TIterator Iter)
+        { return Iter.IsRoot() ? m_Heap.GetAuxData() : GetNode(Iter).m_FirstChild; }
 
-	TConstIterator InternalGetNextSibling(TConstIterator Iter) const
-		{ return GetNode(Iter).m_NextSibling; }
+    TConstIterator InternalGetFirstChild(TConstIterator Iter) const
+        { return Iter.IsRoot() ? m_Heap.GetAuxData() : GetNode(Iter).m_FirstChild; }
 
-	TIterator& InternalToFirstChild(TIterator& Iter)
-		{ return Iter = InternalGetFirstChild(Iter); }
+    TIterator& InternalGetNextSibling(TIterator Iter)
+        { return GetNode(Iter).m_NextSibling; }
 
-	TConstIterator& InternalToFirstChild(TConstIterator& Iter) const
-		{ return Iter = InternalGetFirstChild(Iter); }
+    TConstIterator InternalGetNextSibling(TConstIterator Iter) const
+        { return GetNode(Iter).m_NextSibling; }
 
-	TIterator& InternalToNextSibling(TIterator& Iter)
-		{ return Iter = InternalGetNextSibling(Iter); }
+    TIterator& InternalToFirstChild(TIterator& Iter)
+        { return Iter = InternalGetFirstChild(Iter); }
 
-	TConstIterator& InternalToNextSibling(TConstIterator& Iter) const
-		{ return Iter = InternalGetNextSibling(Iter); }
+    TConstIterator& InternalToFirstChild(TConstIterator& Iter) const
+        { return Iter = InternalGetFirstChild(Iter); }
 
-	size_t InternalGetChar(TConstIterator Iter) const
-		{ return GetNode(Iter).m_szChar; }
+    TIterator& InternalToNextSibling(TIterator& Iter)
+        { return Iter = InternalGetNextSibling(Iter); }
 
-	void DelSubTree(TIterator Iter);
+    TConstIterator& InternalToNextSibling(TConstIterator& Iter) const
+        { return Iter = InternalGetNextSibling(Iter); }
+
+    size_t InternalGetChar(TConstIterator Iter) const
+        { return GetNode(Iter).m_szChar; }
+
+    void DelSubTree(TIterator Iter);
 
 public:
-	TFileCharsTree();
+    TFileCharsTree();
 
-	~TFileCharsTree()
-		{ Release(); }
+    ~TFileCharsTree()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Allocate(LPCTSTR pFileName);
+    void Allocate(LPCTSTR pFileName);
 
-	void Create(LPCTSTR pFileName);
+    void Create(LPCTSTR pFileName);
 
-	void Open(LPCTSTR pFileName, bool bReadOnly);
+    void Open(LPCTSTR pFileName, bool bReadOnly);
 
-	void Clear();
+    void Clear();
 
-	static TIterator GetRoot()
-		{ return -1; }
+    static TIterator GetRoot()
+        { return -1; }
 
-	static TIterator& ToRoot(TIterator& Iter)
-		{ return Iter = GetRoot(); }
+    static TIterator& ToRoot(TIterator& Iter)
+        { return Iter = GetRoot(); }
 
-	static TConstIterator& ToRoot(TConstIterator& Iter)
-		{ return Iter = GetRoot(); }
+    static TConstIterator& ToRoot(TConstIterator& Iter)
+        { return Iter = GetRoot(); }
 
-	TIterator GetFirstChild(TIterator Iter)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TIterator GetFirstChild(TIterator Iter)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		return InternalGetFirstChild(Iter);
-	}
+        return InternalGetFirstChild(Iter);
+    }
 
-	TConstIterator GetFirstChild(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TConstIterator GetFirstChild(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		return InternalGetFirstChild(Iter);
-	}
+        return InternalGetFirstChild(Iter);
+    }
 
-	TIterator GetNextSibling(TIterator Iter)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TIterator GetNextSibling(TIterator Iter)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		return Iter.IsRoot() ? 0 : InternalGetNextSibling(Iter);
-	}
+        return Iter.IsRoot() ? 0 : InternalGetNextSibling(Iter);
+    }
 
-	TConstIterator GetNextSibling(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TConstIterator GetNextSibling(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		DEBUG_VERIFY(!Iter.IsRoot());
+        DEBUG_VERIFY(!Iter.IsRoot());
 
-		return Iter.IsRoot() ? 0 : InternalGetNextSibling(Iter);
-	}
-	
-	TIterator& ToFirstChild(TIterator& Iter)
-		{ return Iter = GetFirstChild(Iter); }
+        return Iter.IsRoot() ? 0 : InternalGetNextSibling(Iter);
+    }
 
-	TConstIterator& ToFirstChild(TConstIterator& Iter) const
-		{ return Iter = GetFirstChild(Iter); }
+    TIterator& ToFirstChild(TIterator& Iter)
+        { return Iter = GetFirstChild(Iter); }
 
-	TIterator& ToNextSibling(TIterator& Iter)
-		{ return Iter = GetNextSibling(Iter); }
+    TConstIterator& ToFirstChild(TConstIterator& Iter) const
+        { return Iter = GetFirstChild(Iter); }
 
-	TConstIterator& ToNextSibling(TConstIterator& Iter) const
-		{ return Iter = GetNextSibling(Iter); }
+    TIterator& ToNextSibling(TIterator& Iter)
+        { return Iter = GetNextSibling(Iter); }
 
-	bool IsLeaf(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TConstIterator& ToNextSibling(TConstIterator& Iter) const
+        { return Iter = GetNextSibling(Iter); }
 
-		DEBUG_VERIFY(Iter.IsValid());
+    bool IsLeaf(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return !GetFirstChild(Iter).IsValid();
-	}
+        DEBUG_VERIFY(Iter.IsValid());
 
-	bool IsLastChild(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return !GetFirstChild(Iter).IsValid();
+    }
 
-		DEBUG_VERIFY(Iter.IsValid());
+    bool IsLastChild(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return Iter.IsRoot() || !InternalGetNextSibling(Iter).IsValid();
-	}
+        DEBUG_VERIFY(Iter.IsValid());
 
-	TIterator FindChild(TIterator Iter, size_t szChar);	
+        return Iter.IsRoot() || !InternalGetNextSibling(Iter).IsValid();
+    }
 
-	TConstIterator FindChild(TConstIterator Iter, size_t szChar) const
-		{ return const_cast<TFileCharsTree*>(this)->FindChild(TIterator(Iter.x), szChar); }
+    TIterator FindChild(TIterator Iter, size_t szChar);
 
-	TIterator GetChild(TIterator Iter, size_t szChar)
-	{
-		Iter = FindChild(Iter, szChar);
+    TConstIterator FindChild(TConstIterator Iter, size_t szChar) const
+        { return const_cast<TFileCharsTree*>(this)->FindChild(TIterator(Iter.x), szChar); }
 
-		DEBUG_VERIFY(Iter.IsValid());
-		
-		return Iter;
-	}
+    TIterator GetChild(TIterator Iter, size_t szChar)
+    {
+        Iter = FindChild(Iter, szChar);
 
-	TConstIterator GetChild(TConstIterator Iter, size_t szChar) const
-		{ return const_cast<TFileCharsTree*>(this)->GetChild(TIterator(Iter.x), szChar); }
+        DEBUG_VERIFY(Iter.IsValid());
 
-	bool HasChild(TConstIterator Iter, size_t szChar) const
-		{ return FindChild(Iter, szChar).IsValid(); }
+        return Iter;
+    }
 
-	TIterator InsertFirstChild(TIterator Iter, size_t szChar);
+    TConstIterator GetChild(TConstIterator Iter, size_t szChar) const
+        { return const_cast<TFileCharsTree*>(this)->GetChild(TIterator(Iter.x), szChar); }
 
-	TIterator InsertNextSibling(TIterator Iter, size_t szChar);
+    bool HasChild(TConstIterator Iter, size_t szChar) const
+        { return FindChild(Iter, szChar).IsValid(); }
 
-	TIterator InsertChild(TIterator Iter, size_t szChar);
+    TIterator InsertFirstChild(TIterator Iter, size_t szChar);
 
-	void DelFirstChild(TIterator Iter);
+    TIterator InsertNextSibling(TIterator Iter, size_t szChar);
 
-	void DelNextSibling(TIterator Iter);
+    TIterator InsertChild(TIterator Iter, size_t szChar);
 
-	size_t GetChar(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void DelFirstChild(TIterator Iter);
 
-		DEBUG_VERIFY(Iter.IsValid());
+    void DelNextSibling(TIterator Iter);
 
-		DEBUG_VERIFY(!Iter.IsRoot());
+    size_t GetChar(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return InternalGetChar(Iter);		
-	}
+        DEBUG_VERIFY(Iter.IsValid());
 
-	t* GetDataPtr(TIterator Iter)
-	{
-		DEBUG_VERIFY_ALLOCATION;
-		
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(!Iter.IsRoot());
 
-		DEBUG_VERIFY(!Iter.IsRoot());
+        return InternalGetChar(Iter);
+    }
 
-		return &GetNode(Iter).m_Data;
-	}
+    t* GetDataPtr(TIterator Iter)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const t* GetDataPtr(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
-		
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		DEBUG_VERIFY(!Iter.IsRoot());
+        DEBUG_VERIFY(!Iter.IsRoot());
 
-		return &GetNode(Iter).m_Data;
-	}
+        return &GetNode(Iter).m_Data;
+    }
 
-	t& GetDataRef (TIterator Iter)
-	{
-		DEBUG_VERIFY_ALLOCATION;
-		
-		DEBUG_VERIFY(Iter.IsValid());
+    const t* GetDataPtr(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(!Iter.IsRoot());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		return GetNode(Iter).m_Data;
-	}
+        DEBUG_VERIFY(!Iter.IsRoot());
 
-	const t& GetDataRef(TConstIterator Iter) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
-		
-		DEBUG_VERIFY(Iter.IsValid());
+        return &GetNode(Iter).m_Data;
+    }
 
-		DEBUG_VERIFY(!Iter.IsRoot());
+    t& GetDataRef (TIterator Iter)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return GetNode(Iter).m_Data;
-	}
+        DEBUG_VERIFY(Iter.IsValid());
 
-	t& operator [] (TIterator Iter)
-		{ return GetDataRef(Iter); }
+        DEBUG_VERIFY(!Iter.IsRoot());
 
-	const t& operator [] (TConstIterator Iter) const
-		{ return GetDataRef(Iter); }
+        return GetNode(Iter).m_Data;
+    }
 
-	bool IsReadOnly() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Heap.m_Allocator.IsReadOnly(); }
+    const t& GetDataRef(TConstIterator Iter) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	THeap& GetHeap()
-		{ DEBUG_VERIFY_ALLOCATION; return m_Heap; }
+        DEBUG_VERIFY(Iter.IsValid());
 
-	const THeap& GetHeap() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Heap; }
+        DEBUG_VERIFY(!Iter.IsRoot());
+
+        return GetNode(Iter).m_Data;
+    }
+
+    t& operator [] (TIterator Iter)
+        { return GetDataRef(Iter); }
+
+    const t& operator [] (TConstIterator Iter) const
+        { return GetDataRef(Iter); }
+
+    bool IsReadOnly() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Heap.m_Allocator.IsReadOnly(); }
+
+    THeap& GetHeap()
+        { DEBUG_VERIFY_ALLOCATION; return m_Heap; }
+
+    const THeap& GetHeap() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Heap; }
 };
 
 template <class t>
 TFileCharsTree<t>::TFileCharsTree()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 template <class t>
 void TFileCharsTree<t>::Release()
 {
-	m_Heap.m_Allocator.Release();
+    m_Heap.m_Allocator.Release();
 }
 
 template <class t>
 void TFileCharsTree<t>::Allocate(LPCTSTR pFileName)
 {
-	Release();
+    Release();
 
-	if(FileExists(pFileName))
-		Open(pFileName, false);
-	else
-		Create(pFileName);
+    if(FileExists(pFileName))
+        Open(pFileName, false);
+    else
+        Create(pFileName);
 }
 
 template <class t>
 void TFileCharsTree<t>::Create(LPCTSTR pFileName)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_Heap.m_Allocator.Allocate(pFileName, false, 0);
+    try
+    {
+        m_Heap.m_Allocator.Allocate(pFileName, false, 0);
 
-		m_Heap.AllocateWithAux();
+        m_Heap.AllocateWithAux();
 
-		m_bAllocated = true;
+        m_bAllocated = true;
 
-		Clear();
-	}
+        Clear();
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 template <class t>
 void TFileCharsTree<t>::Open(LPCTSTR pFileName, bool bReadOnly)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_Heap.m_Allocator.Allocate(pFileName, bReadOnly);
+    try
+    {
+        m_Heap.m_Allocator.Allocate(pFileName, bReadOnly);
 
-		m_Heap.AllocateWithAux();
+        m_Heap.AllocateWithAux();
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 template <class t>
 void TFileCharsTree<t>::Clear()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!IsReadOnly());
+    DEBUG_VERIFY(!IsReadOnly());
 
-	m_Heap.ClearWithAux();
+    m_Heap.ClearWithAux();
 }
 
 template <class t>
 typename TFileCharsTree<t>::TIterator TFileCharsTree<t>::FindChild(TIterator Iter, size_t szChar)
 {
-		DEBUG_VERIFY_ALLOCATION;
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(Iter.IsValid());
+        DEBUG_VERIFY(Iter.IsValid());
 
-		int d;
+        int d;
 
-		for(ToFirstChild(Iter) ;
-			Iter.IsValid() && (d = GetChar(Iter) - szChar) <= 0 ;
-			ToNextSibling(Iter))
-		{
-			if(!d)
-				return Iter;
-		}
+        for(ToFirstChild(Iter) ;
+            Iter.IsValid() && (d = GetChar(Iter) - szChar) <= 0 ;
+            ToNextSibling(Iter))
+        {
+            if(!d)
+                return Iter;
+        }
 
-		return 0;
-	}
+        return 0;
+    }
 
 template <class t>
 typename TFileCharsTree<t>::TIterator TFileCharsTree<t>::InsertFirstChild(TIterator Iter, size_t szChar)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!IsReadOnly());
+    DEBUG_VERIFY(!IsReadOnly());
 
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const size_t szOffset = m_Heap.Reserve();
+    const size_t szOffset = m_Heap.Reserve();
 
-	TNode& Node = m_Heap[szOffset];
+    TNode& Node = m_Heap[szOffset];
 
-	TIterator& FirstChild = InternalGetFirstChild(Iter);
+    TIterator& FirstChild = InternalGetFirstChild(Iter);
 
-	DEBUG_VERIFY(!FirstChild.IsValid() || szChar < InternalGetChar(FirstChild));
+    DEBUG_VERIFY(!FirstChild.IsValid() || szChar < InternalGetChar(FirstChild));
 
-	Node.m_szChar = szChar;
+    Node.m_szChar = szChar;
 
-	Node.m_NextSibling = FirstChild, FirstChild = szOffset;
+    Node.m_NextSibling = FirstChild, FirstChild = szOffset;
 
-	return szOffset;
+    return szOffset;
 }
 
 template <class t>
 typename TFileCharsTree<t>::TIterator TFileCharsTree<t>::InsertNextSibling(TIterator Iter, size_t szChar)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!IsReadOnly());
+    DEBUG_VERIFY(!IsReadOnly());
 
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	DEBUG_VERIFY(!Iter.IsRoot());
+    DEBUG_VERIFY(!Iter.IsRoot());
 
-	DEBUG_VERIFY(InternalGetChar(Iter) < szChar);
+    DEBUG_VERIFY(InternalGetChar(Iter) < szChar);
 
-	const size_t szOffset = m_Heap.Reserve();
+    const size_t szOffset = m_Heap.Reserve();
 
-	TNode& Node = GetNode(szOffset);
+    TNode& Node = GetNode(szOffset);
 
-	TIterator& NextSibling = InternalGetNextSibling(Iter);
+    TIterator& NextSibling = InternalGetNextSibling(Iter);
 
-	DEBUG_VERIFY(!NextSibling.IsValid() || szChar < InternalGetChar(NextSibling));
+    DEBUG_VERIFY(!NextSibling.IsValid() || szChar < InternalGetChar(NextSibling));
 
-	Node.m_szChar = szChar;
+    Node.m_szChar = szChar;
 
-	Node.m_NextSibling = NextSibling, NextSibling = szOffset;
+    Node.m_NextSibling = NextSibling, NextSibling = szOffset;
 
-	return szOffset;
+    return szOffset;
 }
 
 template <class t>
 typename TFileCharsTree<t>::TIterator
-	TFileCharsTree<t>::InsertChild(TIterator Iter, size_t szChar)
+    TFileCharsTree<t>::InsertChild(TIterator Iter, size_t szChar)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!IsReadOnly());
+    DEBUG_VERIFY(!IsReadOnly());
 
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	TIterator CIter = Iter;
-	TIterator PIter;
+    TIterator CIter = Iter;
+    TIterator PIter;
 
-	for(CIter = GetFirstChild(PIter = CIter) ;
-		CIter.IsValid() ;
-		CIter = GetNextSibling(PIter = CIter))
-	{
-		const int d = Compare(GetChar(CIter), szChar);
+    for(CIter = GetFirstChild(PIter = CIter) ;
+        CIter.IsValid() ;
+        CIter = GetNextSibling(PIter = CIter))
+    {
+        const int d = Compare(GetChar(CIter), szChar);
 
-		if(!d)
-			return CIter;
+        if(!d)
+            return CIter;
 
-		if(d > 0)
-			break;
-	}
+        if(d > 0)
+            break;
+    }
 
-	return	PIter == Iter ?
-				InsertFirstChild (PIter, szChar) :
-				InsertNextSibling(PIter, szChar);
+    return  PIter == Iter ?
+                InsertFirstChild (PIter, szChar) :
+                InsertNextSibling(PIter, szChar);
 }
 
 template <class t>
 void TFileCharsTree<t>::DelSubTree(TIterator Iter)
 {
-	for(TIterator Iter2 = InternalGetFirstChild(Iter) ;
-		Iter2.IsValid() ;
-		InternalToNextSibling(Iter2))
-	{
-		DelSubTree(Iter2);
-	}
+    for(TIterator Iter2 = InternalGetFirstChild(Iter) ;
+        Iter2.IsValid() ;
+        InternalToNextSibling(Iter2))
+    {
+        DelSubTree(Iter2);
+    }
 
-	m_Heap.Free(Iter.x);
+    m_Heap.Free(Iter.x);
 }
 
 template <class t>
 void TFileCharsTree<t>::DelFirstChild(TIterator Iter)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!IsReadOnly());
+    DEBUG_VERIFY(!IsReadOnly());
 
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	TIterator& FirstChild = InternalGetFirstChild(Iter);
+    TIterator& FirstChild = InternalGetFirstChild(Iter);
 
-	const TIterator DelIter = FirstChild;
+    const TIterator DelIter = FirstChild;
 
-	DEBUG_VERIFY(DelIter.IsValid());
+    DEBUG_VERIFY(DelIter.IsValid());
 
-	FirstChild = InternalGetNextSibling(DelIter);
+    FirstChild = InternalGetNextSibling(DelIter);
 
-	DelSubTree(DelIter);
+    DelSubTree(DelIter);
 }
 
 template <class t>
 void TFileCharsTree<t>::DelNextSibling(TIterator Iter)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!IsReadOnly());
+    DEBUG_VERIFY(!IsReadOnly());
 
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	DEBUG_VERIFY(!Iter.IsRoot());
+    DEBUG_VERIFY(!Iter.IsRoot());
 
-	TIterator& NextSibling = InternalGetNextSibling(Iter);
+    TIterator& NextSibling = InternalGetNextSibling(Iter);
 
-	const TIterator DelIter = NextSibling;
+    const TIterator DelIter = NextSibling;
 
-	DEBUG_VERIFY(DelIter.IsValid());
+    DEBUG_VERIFY(DelIter.IsValid());
 
-	NextSibling = InternalGetNextSibling(DelIter);
+    NextSibling = InternalGetNextSibling(DelIter);
 
-	DelSubTree(DelIter);
+    DelSubTree(DelIter);
 }
 
 template <class t>
 inline int Compare(struct TFileCharsTree<t>::TIterator Iter1, struct TFileCharsTree<t>::TIterator Iter2)
-	{ return Compare(Iter1.x, Iter2.x); }
+    { return Compare(Iter1.x, Iter2.x); }
 
 DECLARE_TEMPLATE_COMPARISON_OPERATORS(class t, struct TFileCharsTree<t>::TIterator, struct TFileCharsTree<t>::TIterator);
 

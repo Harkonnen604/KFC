@@ -7,72 +7,72 @@
 class TMutex
 {
 private:
-	HANDLE m_hMutex;
+    HANDLE m_hMutex;
 
 public:
-	TMutex();
+    TMutex();
 
-	TMutex(bool bInitialOwnership, LPCTSTR pName = NULL);
-	
-	#ifdef _MSC_VER
-		TMutex(LPCTSTR pName);
-	#endif // _MSC_VER
+    TMutex(bool bInitialOwnership, LPCTSTR pName = NULL);
 
-	~TMutex()
-		{ Release(); }
+    #ifdef _MSC_VER
+        TMutex(LPCTSTR pName);
+    #endif // _MSC_VER
 
-	bool IsAllocated() const
-		{ return m_hMutex; }
+    ~TMutex()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_hMutex; }
 
-	bool Create(bool bInitialOwnership, LPCTSTR pName = NULL); // true on new
+    void Release();
 
-	#ifdef _MSC_VER
-		void Open(LPCTSTR pName);
-	#endif // _MSC_VER
+    bool Create(bool bInitialOwnership, LPCTSTR pName = NULL); // true on new
 
-	bool Lock(size_t szTimeout = INFINITE)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    #ifdef _MSC_VER
+        void Open(LPCTSTR pName);
+    #endif // _MSC_VER
 
-		return WaitForSingleObject(m_hMutex, (DWORD)szTimeout) == WAIT_OBJECT_0;
-	}
+    bool Lock(size_t szTimeout = INFINITE)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	bool TerminableLock(HANDLE hTerminator, size_t szTimeout = INFINITE)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return WaitForSingleObject(m_hMutex, (DWORD)szTimeout) == WAIT_OBJECT_0;
+    }
 
-		if(!hTerminator)
-			return Lock(szTimeout);
+    bool TerminableLock(HANDLE hTerminator, size_t szTimeout = INFINITE)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		HANDLE Handles[2] = {hTerminator, m_hMutex};
+        if(!hTerminator)
+            return Lock(szTimeout);
 
-		DWORD r = WaitForMultipleObjects(2, Handles, FALSE, (DWORD)szTimeout);
+        HANDLE Handles[2] = {hTerminator, m_hMutex};
 
-		if(r == WAIT_TIMEOUT)
-			return false;
+        DWORD r = WaitForMultipleObjects(2, Handles, FALSE, (DWORD)szTimeout);
 
-		if(r == WAIT_OBJECT_0 + 0)
-			throw TTerminationException(__FILE__, __LINE__);
+        if(r == WAIT_TIMEOUT)
+            return false;
 
-		DEBUG_VERIFY(r == WAIT_OBJECT_0 + 1);
+        if(r == WAIT_OBJECT_0 + 0)
+            throw TTerminationException(__FILE__, __LINE__);
 
-		return true;
-	}
+        DEBUG_VERIFY(r == WAIT_OBJECT_0 + 1);
 
-	void Unlock()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return true;
+    }
 
-		ReleaseMutex(m_hMutex);
-	}
+    void Unlock()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	HANDLE GetMutex() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hMutex; }
+        ReleaseMutex(m_hMutex);
+    }
 
-	operator HANDLE () const
-		{ return GetMutex(); }
+    HANDLE GetMutex() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hMutex; }
+
+    operator HANDLE () const
+        { return GetMutex(); }
 };
 
 // -------------
@@ -81,19 +81,19 @@ public:
 class TMutexLocker
 {
 private:
-	TMutex* m_pMutex;
+    TMutex* m_pMutex;
 
 private:
-	TMutexLocker(const TMutexLocker&);
+    TMutexLocker(const TMutexLocker&);
 
-	TMutexLocker& operator = (const TMutexLocker&);
+    TMutexLocker& operator = (const TMutexLocker&);
 
 public:
-	TMutexLocker(TMutex& Mutex, size_t szTimeout = INFINITE)
-		{ m_pMutex = Mutex.Lock(szTimeout) ? &Mutex : NULL; }
+    TMutexLocker(TMutex& Mutex, size_t szTimeout = INFINITE)
+        { m_pMutex = Mutex.Lock(szTimeout) ? &Mutex : NULL; }
 
-	~TMutexLocker()
-		{ if(m_pMutex) m_pMutex->Unlock(); }
+    ~TMutexLocker()
+        { if(m_pMutex) m_pMutex->Unlock(); }
 };
 
 // ------------------
@@ -102,19 +102,19 @@ public:
 class TSafeMutexLocker
 {
 private:
-	TMutex* m_pMutex;
+    TMutex* m_pMutex;
 
 private:
-	TSafeMutexLocker(const TSafeMutexLocker&);
+    TSafeMutexLocker(const TSafeMutexLocker&);
 
-	TSafeMutexLocker& operator = (const TSafeMutexLocker&);
+    TSafeMutexLocker& operator = (const TSafeMutexLocker&);
 
 public:
-	TSafeMutexLocker(TMutex* pMutex, size_t szTimeout = INFINITE)
-		{ m_pMutex = pMutex && pMutex->Lock(szTimeout) ? pMutex : NULL; } 
+    TSafeMutexLocker(TMutex* pMutex, size_t szTimeout = INFINITE)
+        { m_pMutex = pMutex && pMutex->Lock(szTimeout) ? pMutex : NULL; }
 
-	~TSafeMutexLocker()
-		{ if(m_pMutex) m_pMutex->Unlock(); }
+    ~TSafeMutexLocker()
+        { if(m_pMutex) m_pMutex->Unlock(); }
 };
 
 // ------------------------
@@ -123,19 +123,19 @@ public:
 class TTerminableMutexLocker
 {
 private:
-	TMutex* m_pMutex;
+    TMutex* m_pMutex;
 
 private:
-	TTerminableMutexLocker(const TTerminableMutexLocker&);
+    TTerminableMutexLocker(const TTerminableMutexLocker&);
 
-	TTerminableMutexLocker& operator = (const TTerminableMutexLocker&);
+    TTerminableMutexLocker& operator = (const TTerminableMutexLocker&);
 
 public:
-	TTerminableMutexLocker(TMutex& Mutex, HANDLE hTerminator, size_t szTimeout = INFINITE)
-		{ m_pMutex = Mutex.TerminableLock(hTerminator, szTimeout) ? &Mutex : NULL; }
+    TTerminableMutexLocker(TMutex& Mutex, HANDLE hTerminator, size_t szTimeout = INFINITE)
+        { m_pMutex = Mutex.TerminableLock(hTerminator, szTimeout) ? &Mutex : NULL; }
 
-	~TTerminableMutexLocker()
-		{ if(m_pMutex) m_pMutex->Unlock(); }
+    ~TTerminableMutexLocker()
+        { if(m_pMutex) m_pMutex->Unlock(); }
 };
 
 // -----------------------------
@@ -144,19 +144,19 @@ public:
 class TSafeTerminableMutexLocker
 {
 private:
-	TMutex* m_pMutex;
+    TMutex* m_pMutex;
 
 private:
-	TSafeTerminableMutexLocker(const TSafeTerminableMutexLocker&);
+    TSafeTerminableMutexLocker(const TSafeTerminableMutexLocker&);
 
-	TSafeTerminableMutexLocker& operator = (const TSafeTerminableMutexLocker&);
+    TSafeTerminableMutexLocker& operator = (const TSafeTerminableMutexLocker&);
 
 public:
-	TSafeTerminableMutexLocker(TMutex* pMutex, HANDLE hTerminator, size_t szTimeout = INFINITE)
-		{ m_pMutex = pMutex && pMutex->TerminableLock(hTerminator, szTimeout) ? pMutex : NULL; }
+    TSafeTerminableMutexLocker(TMutex* pMutex, HANDLE hTerminator, size_t szTimeout = INFINITE)
+        { m_pMutex = pMutex && pMutex->TerminableLock(hTerminator, szTimeout) ? pMutex : NULL; }
 
-	~TSafeTerminableMutexLocker()
-		{ if(m_pMutex) m_pMutex->Unlock(); }
+    ~TSafeTerminableMutexLocker()
+        { if(m_pMutex) m_pMutex->Unlock(); }
 };
 
 #endif // mutex_h

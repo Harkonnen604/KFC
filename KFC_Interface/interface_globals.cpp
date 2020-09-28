@@ -21,16 +21,16 @@ TInterfaceGlobals g_InterfaceGlobals;
 // ------------------
 TInterfaceGlobals::TInterfaceGlobals() : TModuleGlobals(TEXT("Interface globals"))
 {
-	AddSubGlobals(g_KTLGlobals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_GUIGlobals);
-	AddSubGlobals(g_WindowsGlobals);
-	AddSubGlobals(g_GraphicsGlobals);
-	AddSubGlobals(g_SoundGlobals);
-	AddSubGlobals(g_InputGlobals);
-	AddSubGlobals(g_InterfaceCfg);
-	AddSubGlobals(g_InterfaceInitials);
-	AddSubGlobals(g_InterfaceTokens);
-	AddSubGlobals(g_ControlsFactory);
-	AddSubGlobals(g_InterfaceDeviceGlobals);
+    AddSubGlobals(g_KTLGlobals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_GUIGlobals);
+    AddSubGlobals(g_WindowsGlobals);
+    AddSubGlobals(g_GraphicsGlobals);
+    AddSubGlobals(g_SoundGlobals);
+    AddSubGlobals(g_InputGlobals);
+    AddSubGlobals(g_InterfaceCfg);
+    AddSubGlobals(g_InterfaceInitials);
+    AddSubGlobals(g_InterfaceTokens);
+    AddSubGlobals(g_ControlsFactory);
+    AddSubGlobals(g_InterfaceDeviceGlobals);
 }

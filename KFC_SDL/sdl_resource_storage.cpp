@@ -11,159 +11,159 @@
 // -------------------
 void T_SDL_ResourceID_Map::Parse(LPCTSTR pFileName)
 {
-	Clear();
+    Clear();
 
-	TFile File(pFileName, FOF_TEXTREAD);
+    TFile File(pFileName, FOF_TEXTREAD);
 
-	size_t szLine = 0;
-	
-	bool bLast = false;
+    size_t szLine = 0;
 
-	while(!File.IsEndOfFile())
-	{
-		KString Line = File.ReadString();
+    bool bLast = false;
 
-		if(Line.Find("/*") != UINT_MAX || Line.Find("*/") != UINT_MAX)
-			INITIATE_DEFINED_FAILURE("C-styled '/* ... */' comments are not supported in SDL resource ID header files.");
+    while(!File.IsEndOfFile())
+    {
+        KString Line = File.ReadString();
 
-		size_t i;
+        if(Line.Find("/*") != UINT_MAX || Line.Find("*/") != UINT_MAX)
+            INITIATE_DEFINED_FAILURE("C-styled '/* ... */' comments are not supported in SDL resource ID header files.");
 
-		if((i = Line.Find("//")) != UINT_MAX)
-			Line.SetLeft(i);
+        size_t i;
 
-		Line.TrimSingleSpace();
-		
-		if(Line.IsEmpty())
-			continue;
-			
-		if(bLast)
-			INITIATE_DEFINED_FAILURE("'#endif' is assumed to be the last non-empty line of SDL resource ID header file.");
+        if((i = Line.Find("//")) != UINT_MAX)
+            Line.SetLeft(i);
 
-		if(szLine == 0)
-		{
-			if(!Line.DoesStart("#ifndef "))
-				INITIATE_DEFINED_FAILURE("'#ifndef ' assumed in the 1st non-empty line of SDL resource ID header file.");
-		}
-		else if(szLine == 1)
-		{
-			if(!Line.DoesStart("#define "))
-				INITIATE_DEFINED_FAILURE("'#define ' assumed in the 2nd non-empty line of SDL resource ID header file.");
-		}
-		else
-		{
-			if(Line == "#endif")
-			{
-				bLast = true;
-			}
-			else
-			{
-				if(!Line.DoesStart("#define "))
-					INITIATE_DEFINED_FAILURE("'#define' assumed in every internal non-empty line of SDL resource ID header file.");
-					
-				LPCTSTR s = (LPCTSTR)Line;
-				
-				i = 8;
-		
-				KString Name;
-		
-				for( ; _istalnum(s[i]) || s[i] == '_' ; i++)
-					Name += s[i];
-		
-				if(!_istspace(s[i]))
-					INITIATE_DEFINED_FAILURE("Space assumed after SDL resource ID name.");
-		
-				i++;
-		
-				size_t szValue = 0;
-		
-				bool hd = false;
-		
-				for( ; s[i] ; i++)
-				{
-					if(s[i] == '(' || s[i] == ')')
-						continue;
-						
-					if(!isdigit(s[i]) && !isspace(s[i]))
-						INITIATE_DEFINED_FAILURE("Only digits, brackets and spaces are allowed for SDL resource ID value.");
+        Line.TrimSingleSpace();
 
-					if(isdigit(s[i]))
-						szValue *= 10, szValue += s[i] - '0';
+        if(Line.IsEmpty())
+            continue;
 
-					if(szValue > g_SDL_Consts.m_szMaxResourceID)
-						INITIATE_DEFINED_FAILURE((KString)"SDL resource IDs cannot be greater than " + g_SDL_Consts.m_szMaxResourceID + ".");
-		
-					hd = true;
-				}
-		
-				if(!hd)
-					INITIATE_DEFINED_FAILURE("No digits encountered within SDL resource ID value.");
-					
-				Add(Name, szValue);
-			}
-		}
+        if(bLast)
+            INITIATE_DEFINED_FAILURE("'#endif' is assumed to be the last non-empty line of SDL resource ID header file.");
 
-		szLine++;		
-	}
+        if(szLine == 0)
+        {
+            if(!Line.DoesStart("#ifndef "))
+                INITIATE_DEFINED_FAILURE("'#ifndef ' assumed in the 1st non-empty line of SDL resource ID header file.");
+        }
+        else if(szLine == 1)
+        {
+            if(!Line.DoesStart("#define "))
+                INITIATE_DEFINED_FAILURE("'#define ' assumed in the 2nd non-empty line of SDL resource ID header file.");
+        }
+        else
+        {
+            if(Line == "#endif")
+            {
+                bLast = true;
+            }
+            else
+            {
+                if(!Line.DoesStart("#define "))
+                    INITIATE_DEFINED_FAILURE("'#define' assumed in every internal non-empty line of SDL resource ID header file.");
 
-	if(!bLast)
-		INITIATE_DEFINED_FAILURE("'#endif' is assumed to be the last non-empty line of SDL resource ID header file.");
+                LPCTSTR s = (LPCTSTR)Line;
 
-	#ifdef _DEBUG
-		TestDupes();
-	#endif // _DEBUG
+                i = 8;
+
+                KString Name;
+
+                for( ; _istalnum(s[i]) || s[i] == '_' ; i++)
+                    Name += s[i];
+
+                if(!_istspace(s[i]))
+                    INITIATE_DEFINED_FAILURE("Space assumed after SDL resource ID name.");
+
+                i++;
+
+                size_t szValue = 0;
+
+                bool hd = false;
+
+                for( ; s[i] ; i++)
+                {
+                    if(s[i] == '(' || s[i] == ')')
+                        continue;
+
+                    if(!isdigit(s[i]) && !isspace(s[i]))
+                        INITIATE_DEFINED_FAILURE("Only digits, brackets and spaces are allowed for SDL resource ID value.");
+
+                    if(isdigit(s[i]))
+                        szValue *= 10, szValue += s[i] - '0';
+
+                    if(szValue > g_SDL_Consts.m_szMaxResourceID)
+                        INITIATE_DEFINED_FAILURE((KString)"SDL resource IDs cannot be greater than " + g_SDL_Consts.m_szMaxResourceID + ".");
+
+                    hd = true;
+                }
+
+                if(!hd)
+                    INITIATE_DEFINED_FAILURE("No digits encountered within SDL resource ID value.");
+
+                Add(Name, szValue);
+            }
+        }
+
+        szLine++;
+    }
+
+    if(!bLast)
+        INITIATE_DEFINED_FAILURE("'#endif' is assumed to be the last non-empty line of SDL resource ID header file.");
+
+    #ifdef _DEBUG
+        TestDupes();
+    #endif // _DEBUG
 }
 
 struct TResID_Pair
 {
 public:
-	KString	m_Name;
-	KString	m_Prefix;
-	size_t	m_szID;
+    KString m_Name;
+    KString m_Prefix;
+    size_t  m_szID;
 
 public:
-	TResID_Pair& Set(const KString& Name, size_t szID)
-	{
-		m_Name		= Name;
-		m_Prefix	= m_Name.Left(m_Name.Find('_'));
-		m_szID		= szID;
+    TResID_Pair& Set(const KString& Name, size_t szID)
+    {
+        m_Name      = Name;
+        m_Prefix    = m_Name.Left(m_Name.Find('_'));
+        m_szID      = szID;
 
-		return *this;
-	}
+        return *this;
+    }
 };
 
 inline int Compare(const TResID_Pair& Pair1, const TResID_Pair& Pair2)
 {
-	int d;
+    int d;
 
-	if(d = Compare(Pair1.m_Prefix, Pair2.m_Prefix))
-		return d;
+    if(d = Compare(Pair1.m_Prefix, Pair2.m_Prefix))
+        return d;
 
-	if(d = Compare(Pair1.m_szID, Pair2.m_szID))
-		return d;
+    if(d = Compare(Pair1.m_szID, Pair2.m_szID))
+        return d;
 
-	if(d = Compare(Pair1.m_Name, Pair2.m_Name))
-		return d;
+    if(d = Compare(Pair1.m_Name, Pair2.m_Name))
+        return d;
 
-	return 0;
+    return 0;
 }
 
 void T_SDL_ResourceID_Map::TestDupes() const
 {
-	TArray<TResID_Pair> Pairs;
+    TArray<TResID_Pair> Pairs;
 
-	for(TConstTireWalker<size_t> Walker(m_Storage) ; Walker ; ++Walker)
-		Pairs.Add().Set(Walker.GetPath(), *Walker);
+    for(TConstTireWalker<size_t> Walker(m_Storage) ; Walker ; ++Walker)
+        Pairs.Add().Set(Walker.GetPath(), *Walker);
 
-	Pairs.Sort();
+    Pairs.Sort();
 
-	for(size_t i = 1 ; i < Pairs.GetN() ; i++)
-	{
-		if(Pairs[i-1].m_Prefix == Pairs[i].m_Prefix && Pairs[i-1].m_szID == Pairs[i].m_szID)
-		{
-			INITIATE_DEFINED_FAILURE(	(KString)"Duplicate SDL resource ID detected: \"" +
-											Pairs[i-1].m_Name + "\" and \"" + Pairs[i].m_Name + "\".");
-		}
-	}
+    for(size_t i = 1 ; i < Pairs.GetN() ; i++)
+    {
+        if(Pairs[i-1].m_Prefix == Pairs[i].m_Prefix && Pairs[i-1].m_szID == Pairs[i].m_szID)
+        {
+            INITIATE_DEFINED_FAILURE(   (KString)"Duplicate SDL resource ID detected: \"" +
+                                            Pairs[i-1].m_Name + "\" and \"" + Pairs[i].m_Name + "\".");
+        }
+    }
 }
 
 // ---------------------
@@ -173,248 +173,248 @@ T_SDL_InterfaceDefinition T_SDL_ResourceStorage::ms_EmptyInterfaceDef;
 
 void T_SDL_ResourceStorage::Clear()
 {
-	m_ImagesCache.	Clear();
-	m_FontsCache.	Clear();
+    m_ImagesCache.  Clear();
+    m_FontsCache.   Clear();
 
-	m_InterfaceDefs.Clear();
-	m_MultiImages.	Clear();
-	m_Images.		Clear();
-	m_Fonts.		Clear();
-	m_Strings.		Clear();
-	m_Colors.		Clear();
-	m_Values.		Clear();
-	m_StateValues.	Clear();
+    m_InterfaceDefs.Clear();
+    m_MultiImages.  Clear();
+    m_Images.       Clear();
+    m_Fonts.        Clear();
+    m_Strings.      Clear();
+    m_Colors.       Clear();
+    m_Values.       Clear();
+    m_StateValues.  Clear();
 }
 
-const T_SGE_Font* T_SDL_ResourceStorage::LoadFont(	LPCTSTR			pString,
-													const TTokens&	ValueTokens,
-													const TTokens&	ColorTokens,
-													const TTokens&	StringTokens)
+const T_SGE_Font* T_SDL_ResourceStorage::LoadFont(  LPCTSTR         pString,
+                                                    const TTokens&  ValueTokens,
+                                                    const TTokens&  ColorTokens,
+                                                    const TTokens&  StringTokens)
 {
-	KStrings Elements(pString, "|", false);
+    KStrings Elements(pString, "|", false);
 
-	if(Elements.GetN() != 2)
-		INITIATE_DEFINED_FAILURE((KString)"Invalid SDL font definition format: \"" + pString + "\".");
+    if(Elements.GetN() != 2)
+        INITIATE_DEFINED_FAILURE((KString)"Invalid SDL font definition format: \"" + pString + "\".");
 
-	Elements.TrimAll();
+    Elements.TrimAll();
 
-	TCachedFont::TKey Key(StringTokens(Elements[0]), ReadFromString<size_t>(ValueTokens(Elements[1])));
+    TCachedFont::TKey Key(StringTokens(Elements[0]), ReadFromString<size_t>(ValueTokens(Elements[1])));
 
-	T_AVL_Storage<TCachedFont>::TIterator Iter = m_FontsCache.Find(Key);
+    T_AVL_Storage<TCachedFont>::TIterator Iter = m_FontsCache.Find(Key);
 
-	if(!Iter.IsValid())
-		Iter = m_FontsCache.Add(Key);
+    if(!Iter.IsValid())
+        Iter = m_FontsCache.Add(Key);
 
-	return &Iter->m_Font;
+    return &Iter->m_Font;
 }
 
-const T_SDL_Image* T_SDL_ResourceStorage::LoadImage(LPCTSTR			pString,
-													const TTokens&	ValueTokens,
-													const TTokens&	ColorTokens,
-													const TTokens&	StringTokens)
+const T_SDL_Image* T_SDL_ResourceStorage::LoadImage(LPCTSTR         pString,
+                                                    const TTokens&  ValueTokens,
+                                                    const TTokens&  ColorTokens,
+                                                    const TTokens&  StringTokens)
 {
-	KStrings Elements(pString, "|", false);
+    KStrings Elements(pString, "|", false);
 
-	if(Elements.GetN() < 1 || Elements.GetN() > 2)
-		INITIATE_DEFINED_FAILURE((KString)"Invalid SDL image definition format: \"" + pString + "\".");		
+    if(Elements.GetN() < 1 || Elements.GetN() > 2)
+        INITIATE_DEFINED_FAILURE((KString)"Invalid SDL image definition format: \"" + pString + "\".");
 
-	Elements.TrimAll();
+    Elements.TrimAll();
 
-	TCachedImage::TKey Key(StringTokens(Elements[0]), 1 < Elements.GetN() ? ReadRGB(ColorTokens(Elements[1])) : UINT_MAX);
+    TCachedImage::TKey Key(StringTokens(Elements[0]), 1 < Elements.GetN() ? ReadRGB(ColorTokens(Elements[1])) : UINT_MAX);
 
-	T_AVL_Storage<TCachedImage>::TIterator Iter = m_ImagesCache.Find(Key);
+    T_AVL_Storage<TCachedImage>::TIterator Iter = m_ImagesCache.Find(Key);
 
-	if(!Iter.IsValid())
-		Iter = m_ImagesCache.Add(Key);
+    if(!Iter.IsValid())
+        Iter = m_ImagesCache.Add(Key);
 
-	return &Iter->m_Image;
+    return &Iter->m_Image;
 }
 
-const T_SDL_MultiImage* T_SDL_ResourceStorage::LoadMultiImage(	LPCTSTR			pString,
-																const TTokens&	ValueTokens,
-																const TTokens&	ColorTokens,
-																const TTokens&	StringTokens)
+const T_SDL_MultiImage* T_SDL_ResourceStorage::LoadMultiImage(  LPCTSTR         pString,
+                                                                const TTokens&  ValueTokens,
+                                                                const TTokens&  ColorTokens,
+                                                                const TTokens&  StringTokens)
 {
-	KStrings Elements(pString, "|", false);
+    KStrings Elements(pString, "|", false);
 
-	if(Elements.GetN() < 1 || Elements.GetN() > 2)
-		INITIATE_DEFINED_FAILURE((KString)"Invalid SDL image definition format: \"" + pString + "\".");		
+    if(Elements.GetN() < 1 || Elements.GetN() > 2)
+        INITIATE_DEFINED_FAILURE((KString)"Invalid SDL image definition format: \"" + pString + "\".");
 
-	Elements.TrimAll();
+    Elements.TrimAll();
 
-	bool bSingle = false;
+    bool bSingle = false;
 
-	if(1 < Elements.GetN())
-	{
-		KFC_VERIFY(Elements[1] == "single");
-		bSingle = true;
-	}
+    if(1 < Elements.GetN())
+    {
+        KFC_VERIFY(Elements[1] == "single");
+        bSingle = true;
+    }
 
-	TCachedMultiImage::TKey Key(StringTokens(Elements[0]), bSingle);
+    TCachedMultiImage::TKey Key(StringTokens(Elements[0]), bSingle);
 
-	T_AVL_Storage<TCachedMultiImage>::TIterator Iter = m_MultiImagesCache.Find(Key);
+    T_AVL_Storage<TCachedMultiImage>::TIterator Iter = m_MultiImagesCache.Find(Key);
 
-	if(!Iter.IsValid())
-		Iter = m_MultiImagesCache.Add(Key);
+    if(!Iter.IsValid())
+        Iter = m_MultiImagesCache.Add(Key);
 
-	return &Iter->m_Image;
+    return &Iter->m_Image;
 }
 
 void T_SDL_ResourceStorage::Load(LPCTSTR pFileName)
 {
-	Clear();
+    Clear();
 
-	TStructuredInfo Info(pFileName);
+    TStructuredInfo Info(pFileName);
 
-	T_SDL_ResourceID_Map ID_Map(GetFilePath(pFileName) + Info.GetRootNode()->GetParameterValue("ResourceID_Header"));
-	
-	TTokens ValueTokens;
-	TTokens ColorTokens;
-	TTokens StringTokens;
+    T_SDL_ResourceID_Map ID_Map(GetFilePath(pFileName) + Info.GetRootNode()->GetParameterValue("ResourceID_Header"));
 
-	ValueTokens.Add("[ResX]",	g_SDL_Consts.m_Resolution.cx);
-	ValueTokens.Add("[ResY]",	g_SDL_Consts.m_Resolution.cy);
-	ValueTokens.Add("[BPP]",	g_SDL_Consts.m_szBPP);
+    TTokens ValueTokens;
+    TTokens ColorTokens;
+    TTokens StringTokens;
 
-	StringTokens.Add("[ResX]",	g_SDL_Consts.m_Resolution.cx);
-	StringTokens.Add("[ResY]",	g_SDL_Consts.m_Resolution.cy);
-	StringTokens.Add("[BPP]",	g_SDL_Consts.m_szBPP);
+    ValueTokens.Add("[ResX]",   g_SDL_Consts.m_Resolution.cx);
+    ValueTokens.Add("[ResY]",   g_SDL_Consts.m_Resolution.cy);
+    ValueTokens.Add("[BPP]",    g_SDL_Consts.m_szBPP);
 
-	// State values
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "StateValues");
+    StringTokens.Add("[ResX]",  g_SDL_Consts.m_Resolution.cx);
+    StringTokens.Add("[ResY]",  g_SDL_Consts.m_Resolution.cy);
+    StringTokens.Add("[BPP]",   g_SDL_Consts.m_szBPP);
 
-		size_t szMaxID = 0;
+    // State values
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "StateValues");
 
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
+        size_t szMaxID = 0;
 
-		m_StateValues.SetN(szMaxID + 1);
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
 
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			m_StateValues[ID_Map[PIter->m_Name]] = ReadFromString<double>(ValueTokens(PIter->m_Value));
-	}
+        m_StateValues.SetN(szMaxID + 1);
 
-	// Values
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Values");
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            m_StateValues[ID_Map[PIter->m_Name]] = ReadFromString<double>(ValueTokens(PIter->m_Value));
+    }
 
-		size_t szMaxID = 0;
+    // Values
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Values");
 
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
-			
-		m_Values.SetN(szMaxID + 1);
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-		{
-			double dValue = ReadFromString<double>(ValueTokens(PIter->m_Value));
+        size_t szMaxID = 0;
 
-			m_Values[ID_Map[PIter->m_Name]] = dValue;
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
 
-			ValueTokens.Add((KString)'[' + PIter->m_Name + ']', dValue);
-		}
-	}
+        m_Values.SetN(szMaxID + 1);
 
-	// Colors
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Colors");
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+        {
+            double dValue = ReadFromString<double>(ValueTokens(PIter->m_Value));
 
-		size_t szMaxID = 0;
+            m_Values[ID_Map[PIter->m_Name]] = dValue;
 
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
+            ValueTokens.Add((KString)'[' + PIter->m_Name + ']', dValue);
+        }
+    }
 
-		m_Colors.SetN(szMaxID + 1);
+    // Colors
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Colors");
 
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-		{
-			UINT32 uiColor = ReadRGB(ColorTokens(PIter->m_Value));
+        size_t szMaxID = 0;
 
-			m_Colors[ID_Map[PIter->m_Name]] = uiColor;
-			
-			ColorTokens.Add((KString)'[' + PIter->m_Name + ']', WriteRGB(uiColor));
-		}
-	}
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
 
-	// Strings
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Strings");
-		
-		size_t szMaxID = 0;
+        m_Colors.SetN(szMaxID + 1);
 
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
-			
-		m_Strings.SetN(szMaxID + 1);
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-		{
-			const KString& String = StringTokens(ValueTokens(PIter->m_Value));
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+        {
+            UINT32 uiColor = ReadRGB(ColorTokens(PIter->m_Value));
 
-			m_Strings[ID_Map[PIter->m_Name]] = String;
+            m_Colors[ID_Map[PIter->m_Name]] = uiColor;
 
-			StringTokens.Add((KString)'[' + PIter->m_Name + ']', String);
-		}
-	}
+            ColorTokens.Add((KString)'[' + PIter->m_Name + ']', WriteRGB(uiColor));
+        }
+    }
 
-	// Fonts
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Fonts");
-		
-		size_t szMaxID = 0;
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
-			
-		m_Fonts.SetNAndZeroNewData(szMaxID + 1);
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			m_Fonts[ID_Map[PIter->m_Name]] = LoadFont(PIter->m_Value, ValueTokens, ColorTokens, StringTokens);
-	}
+    // Strings
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Strings");
 
-	// Images
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Images");
-		
-		size_t szMaxID = 0;
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
-			
-		m_Images.SetNAndZeroNewData(szMaxID + 1);
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			m_Images[ID_Map[PIter->m_Name]] = LoadImage(PIter->m_Value, ValueTokens, ColorTokens, StringTokens);
-	}
+        size_t szMaxID = 0;
 
-	// Multi-images
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "MultiImages");
-		
-		size_t szMaxID = 0;
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
-			
-		m_MultiImages.SetNAndZeroNewData(szMaxID + 1);
-		
-		FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
-			m_MultiImages[ID_Map[PIter->m_Name]] = LoadMultiImage(PIter->m_Value, ValueTokens, ColorTokens, StringTokens);
-	}
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
 
-	// Interface defs
-	{
-		TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "InterfaceDefs");
+        m_Strings.SetN(szMaxID + 1);
 
-		size_t szMaxID = 0;
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+        {
+            const KString& String = StringTokens(ValueTokens(PIter->m_Value));
 
-		FOR_EACH_TREE_LEVEL(Node, TInfoNodeConstIterator, NIter)
-			UpdateMax(szMaxID, ID_Map[NIter->m_Name]);
+            m_Strings[ID_Map[PIter->m_Name]] = String;
 
-		m_InterfaceDefs.SetN(szMaxID + 1);
+            StringTokens.Add((KString)'[' + PIter->m_Name + ']', String);
+        }
+    }
 
-		FOR_EACH_TREE_LEVEL(Node, TInfoNodeConstIterator, NIter)
-			m_InterfaceDefs[ID_Map[NIter->m_Name]].Load(NIter, *this, ID_Map, ValueTokens, ColorTokens, StringTokens);
-	}
+    // Fonts
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Fonts");
+
+        size_t szMaxID = 0;
+
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
+
+        m_Fonts.SetNAndZeroNewData(szMaxID + 1);
+
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            m_Fonts[ID_Map[PIter->m_Name]] = LoadFont(PIter->m_Value, ValueTokens, ColorTokens, StringTokens);
+    }
+
+    // Images
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "Images");
+
+        size_t szMaxID = 0;
+
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
+
+        m_Images.SetNAndZeroNewData(szMaxID + 1);
+
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            m_Images[ID_Map[PIter->m_Name]] = LoadImage(PIter->m_Value, ValueTokens, ColorTokens, StringTokens);
+    }
+
+    // Multi-images
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "MultiImages");
+
+        size_t szMaxID = 0;
+
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            UpdateMax(szMaxID, ID_Map[PIter->m_Name]);
+
+        m_MultiImages.SetNAndZeroNewData(szMaxID + 1);
+
+        FOR_EACH_LIST(Node->m_Parameters, TInfoParameterConstIterator, PIter)
+            m_MultiImages[ID_Map[PIter->m_Name]] = LoadMultiImage(PIter->m_Value, ValueTokens, ColorTokens, StringTokens);
+    }
+
+    // Interface defs
+    {
+        TInfoNodeConstIterator Node = Info.GetNode(Info.GetRootNode(), "InterfaceDefs");
+
+        size_t szMaxID = 0;
+
+        FOR_EACH_TREE_LEVEL(Node, TInfoNodeConstIterator, NIter)
+            UpdateMax(szMaxID, ID_Map[NIter->m_Name]);
+
+        m_InterfaceDefs.SetN(szMaxID + 1);
+
+        FOR_EACH_TREE_LEVEL(Node, TInfoNodeConstIterator, NIter)
+            m_InterfaceDefs[ID_Map[NIter->m_Name]].Load(NIter, *this, ID_Map, ValueTokens, ColorTokens, StringTokens);
+    }
 }

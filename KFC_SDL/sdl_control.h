@@ -13,175 +13,175 @@
 struct T_SDL_ControlOwnDefinition
 {
 public:
-	size_t m_szID;
+    size_t m_szID;
 
-	IRECT m_Rect;
+    IRECT m_Rect;
 
-	bool m_bVisible;
-	bool m_bEnabled;
+    bool m_bVisible;
+    bool m_bEnabled;
 
 public:
-	T_SDL_ControlOwnDefinition();
+    T_SDL_ControlOwnDefinition();
 };
 
 // SDL control
 class T_SDL_Control : private T_SDL_ControlOwnDefinition
 {
 public:
-	// Definition
-	struct TDefinition : public T_SDL_ControlOwnDefinition
-	{
-		virtual ~TDefinition() {}
+    // Definition
+    struct TDefinition : public T_SDL_ControlOwnDefinition
+    {
+        virtual ~TDefinition() {}
 
-		virtual TDefinition* CreateCopy() const = 0;
+        virtual TDefinition* CreateCopy() const = 0;
 
-		virtual T_SDL_Control* CreateControl() const = 0;
-	};
+        virtual T_SDL_Control* CreateControl() const = 0;
+    };
 
-	// Definitions
-	typedef TList<TPtrHolder<TDefinition> > TDefinitions;
-
-private:
-	T_SDL_Interface* m_pInterface;
-
-	T_SDL_ControlHandle m_Handle;
-
-	size_t m_szBlockRedrawCount;
-
-	mutable bool m_bHasDelayedRedraw;
+    // Definitions
+    typedef TList<TPtrHolder<TDefinition> > TDefinitions;
 
 private:
-	void Attach(T_SDL_Interface& Interface, T_SDL_ControlHandle Handle);
-	
-	IRECT GetFocusRect(const SZSIZE& ExtFocusSize) const;
+    T_SDL_Interface* m_pInterface;
+
+    T_SDL_ControlHandle m_Handle;
+
+    size_t m_szBlockRedrawCount;
+
+    mutable bool m_bHasDelayedRedraw;
+
+private:
+    void Attach(T_SDL_Interface& Interface, T_SDL_ControlHandle Handle);
+
+    IRECT GetFocusRect(const SZSIZE& ExtFocusSize) const;
 
 protected:
-	bool CanDraw() const;
+    bool CanDraw() const;
 
-	virtual void OnAttach() {}
+    virtual void OnAttach() {}
 
-	virtual bool OnNeedExtFocus() const
-		{ return false; }
+    virtual bool OnNeedExtFocus() const
+        { return false; }
 
-	virtual void OnDraw(bool bFocusChange) const = 0;
+    virtual void OnDraw(bool bFocusChange) const = 0;
 
-	virtual void OnKNOB(size_t szKey) {}
+    virtual void OnKNOB(size_t szKey) {}
 
-	virtual void OnControlTimer(size_t szID) {}
+    virtual void OnControlTimer(size_t szID) {}
 
 public:
-	T_SDL_Control(const TDefinition& Definition);
+    T_SDL_Control(const TDefinition& Definition);
 
-	virtual ~T_SDL_Control() {}
-	
-	bool IsAttached() const
-		{ return m_pInterface && m_Handle.IsValid(); }
+    virtual ~T_SDL_Control() {}
 
-	size_t GetID() const
-		{ return m_szID; }
+    bool IsAttached() const
+        { return m_pInterface && m_Handle.IsValid(); }
 
-	void SetID(size_t szID)
-		{ m_szID = szID; }
+    size_t GetID() const
+        { return m_szID; }
 
-	const IRECT& GetRect() const
-		{ DEBUG_VERIFY(m_Rect.IsFlatValid()); return m_Rect; }
-	
-	void SetRect(const IRECT& Rect);
+    void SetID(size_t szID)
+        { m_szID = szID; }
 
-	void SetCoords(const IPOINT& Coords)
-		{ SetRect(RectFromCS(Coords, (ISIZE)GetRect())); }
+    const IRECT& GetRect() const
+        { DEBUG_VERIFY(m_Rect.IsFlatValid()); return m_Rect; }
 
-	void Show(bool bShow = true);
+    void SetRect(const IRECT& Rect);
 
-	void Hide()
-		{ Show(false); }
+    void SetCoords(const IPOINT& Coords)
+        { SetRect(RectFromCS(Coords, (ISIZE)GetRect())); }
 
-	void ShowOverlaid(bool bSetFocus);
+    void Show(bool bShow = true);
 
-	void HideOverlaid();
+    void Hide()
+        { Show(false); }
 
-	void Enable(bool bEnable = true);
+    void ShowOverlaid(bool bSetFocus);
 
-	void Disable()
-		{ Enable(false); }
+    void HideOverlaid();
 
-	void SetFocus();
+    void Enable(bool bEnable = true);
 
-	void RemoveFocus();
+    void Disable()
+        { Enable(false); }
 
-	void Redraw(bool bFocusChange = false) const;
+    void SetFocus();
 
-	bool IsRedrawBlocked() const
-		{ return m_szBlockRedrawCount; }
+    void RemoveFocus();
 
-	bool HasDelayedRedraw() const
-		{ return m_bHasDelayedRedraw; }
+    void Redraw(bool bFocusChange = false) const;
 
-	void BlockRedraw()
-		{ m_szBlockRedrawCount++; }
+    bool IsRedrawBlocked() const
+        { return m_szBlockRedrawCount; }
 
-	void UnblockRedraw()
-	{
-		DEBUG_VERIFY(m_szBlockRedrawCount > 0);
+    bool HasDelayedRedraw() const
+        { return m_bHasDelayedRedraw; }
 
-		if(!--m_szBlockRedrawCount && m_bHasDelayedRedraw)
-			m_bHasDelayedRedraw = false, Redraw();
-	}
+    void BlockRedraw()
+        { m_szBlockRedrawCount++; }
 
-	void AddTimer(size_t szID, size_t szPeriod);
+    void UnblockRedraw()
+    {
+        DEBUG_VERIFY(m_szBlockRedrawCount > 0);
 
-	bool RemoveTimer(size_t szID);
+        if(!--m_szBlockRedrawCount && m_bHasDelayedRedraw)
+            m_bHasDelayedRedraw = false, Redraw();
+    }
 
-	void RemoveAllTimers();
+    void AddTimer(size_t szID, size_t szPeriod);
 
-	size_t SuspendTimer(size_t szID);
+    bool RemoveTimer(size_t szID);
 
-	size_t ResumeTimer(size_t szID);
+    void RemoveAllTimers();
 
-	void ResetTimer(size_t szID);
+    size_t SuspendTimer(size_t szID);
 
-	KString GetText() const
-	{
-		const TTextContainer* pTextContainer = dynamic_cast<const TTextContainer*>(this);
-		KFC_VERIFY_WITH_SOURCE(pTextContainer);
+    size_t ResumeTimer(size_t szID);
 
-		return pTextContainer->GetText();
-	}
+    void ResetTimer(size_t szID);
 
-	void SetText(const KString& Text)
-	{
-		TTextContainer* pTextContainer = dynamic_cast<TTextContainer*>(this);
-		KFC_VERIFY_WITH_SOURCE(pTextContainer);
+    KString GetText() const
+    {
+        const TTextContainer* pTextContainer = dynamic_cast<const TTextContainer*>(this);
+        KFC_VERIFY_WITH_SOURCE(pTextContainer);
 
-		pTextContainer->SetText(Text);
-	}
+        return pTextContainer->GetText();
+    }
 
-	bool DoesNeedExtFocus() const
-		{ return OnNeedExtFocus(); }
+    void SetText(const KString& Text)
+    {
+        TTextContainer* pTextContainer = dynamic_cast<TTextContainer*>(this);
+        KFC_VERIFY_WITH_SOURCE(pTextContainer);
 
-	T_SDL_Interface& GetInterface() const
-		{ DEBUG_VERIFY(IsAttached()); return *m_pInterface; }
+        pTextContainer->SetText(Text);
+    }
 
-	T_SDL_ControlHandle GetHandle() const
-		{ DEBUG_VERIFY(m_Handle.IsValid()); return m_Handle; }
+    bool DoesNeedExtFocus() const
+        { return OnNeedExtFocus(); }
 
-	bool IsFocused() const;
+    T_SDL_Interface& GetInterface() const
+        { DEBUG_VERIFY(IsAttached()); return *m_pInterface; }
 
-	bool IsVisible() const
-		{ return m_bVisible; }
+    T_SDL_ControlHandle GetHandle() const
+        { DEBUG_VERIFY(m_Handle.IsValid()); return m_Handle; }
 
-	bool IsHidden() const
-		{ return !IsVisible(); }
+    bool IsFocused() const;
 
-	bool IsEnabled() const
-		{ return IsVisible() && m_bEnabled; }
+    bool IsVisible() const
+        { return m_bVisible; }
 
-	bool IsDisabled() const
-		{ return !IsEnabled(); }
+    bool IsHidden() const
+        { return !IsVisible(); }
 
-	friend class T_SDL_Interface;
+    bool IsEnabled() const
+        { return IsVisible() && m_bEnabled; }
 
-	friend void InvokeSDL_ControlTimer(T_SDL_Control* pControl, size_t szID);
+    bool IsDisabled() const
+        { return !IsEnabled(); }
+
+    friend class T_SDL_Interface;
+
+    friend void InvokeSDL_ControlTimer(T_SDL_Control* pControl, size_t szID);
 };
 
 // ---------------------------
@@ -190,24 +190,24 @@ public:
 class T_SDL_ControlRedrawBlocker
 {
 private:
-	T_SDL_Control* m_pControl;
+    T_SDL_Control* m_pControl;
 
 public:
-	T_SDL_ControlRedrawBlocker(T_SDL_Control* pControl) : m_pControl(pControl)
-		{ DEBUG_VERIFY(m_pControl); m_pControl->BlockRedraw(); }
+    T_SDL_ControlRedrawBlocker(T_SDL_Control* pControl) : m_pControl(pControl)
+        { DEBUG_VERIFY(m_pControl); m_pControl->BlockRedraw(); }
 
-	~T_SDL_ControlRedrawBlocker()
-		{ m_pControl->UnblockRedraw(); }
+    ~T_SDL_ControlRedrawBlocker()
+        { m_pControl->UnblockRedraw(); }
 };
 
 // -------------------
 // SDL control loader
 // -------------------
-typedef T_SDL_Control::TDefinition*	T_SDL_ControlLoader(TInfoNodeConstIterator			Node,
-														const T_SDL_ResourceStorage&	Storage,
-														const T_SDL_ResourceID_Map&		ID_Map,
-														const TTokens&					ValueTokens,
-														const TTokens&					ColorTokens,
-														const TTokens&					StringTokens);
+typedef T_SDL_Control::TDefinition* T_SDL_ControlLoader(TInfoNodeConstIterator          Node,
+                                                        const T_SDL_ResourceStorage&    Storage,
+                                                        const T_SDL_ResourceID_Map&     ID_Map,
+                                                        const TTokens&                  ValueTokens,
+                                                        const TTokens&                  ColorTokens,
+                                                        const TTokens&                  StringTokens);
 
 #endif // sdl_control_h

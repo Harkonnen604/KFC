@@ -4,8 +4,8 @@
 // ----------------
 // Global routines
 // ----------------
-void TestArrayFixedItemHeapList			();
-void TestDancerFixedItemHeapList		();
-void TestFileMappingFixedItemHeapList	();
+void TestArrayFixedItemHeapList         ();
+void TestDancerFixedItemHeapList        ();
+void TestFileMappingFixedItemHeapList   ();
 
 #endif // fixed_item_heap_list_test_h

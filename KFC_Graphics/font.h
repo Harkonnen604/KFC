@@ -11,14 +11,14 @@
 // ---------------------
 struct TFontCreationStruct
 {
-	TD3DColor m_Color;
+    TD3DColor m_Color;
 
-	FSIZE m_CharSpacing;
+    FSIZE m_CharSpacing;
 
 
-	TFontCreationStruct();
+    TFontCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -----
@@ -27,47 +27,47 @@ struct TFontCreationStruct
 class TFont
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	FSIZE m_CharSpacing;
-	FSIZE m_CharSizes[256];
-	FSIZE m_MaxCharSize;
+    FSIZE m_CharSpacing;
+    FSIZE m_CharSizes[256];
+    FSIZE m_MaxCharSize;
 
 public:
-	TD3DColor m_Color;
+    TD3DColor m_Color;
 
-	TFont();
+    TFont();
 
-	virtual ~TFont()
-		{ Release(); }		
+    virtual ~TFont()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(	const TFontCreationStruct&	CreationStruct,
-					const FSIZE*				SCharSizes,
-					const FSIZE&				SMaxCharSize);
+    void Allocate(  const TFontCreationStruct&  CreationStruct,
+                    const FSIZE*                SCharSizes,
+                    const FSIZE&                SMaxCharSize);
 
-	virtual void Load(TInfoNodeConstIterator InfoNode) = 0;
+    virtual void Load(TInfoNodeConstIterator InfoNode) = 0;
 
-	virtual void DrawChar(	TCHAR				cChar,
-							FPOINT				DstCoords, // can be ealtered inside
-							const TD3DColor&	Color = WhiteColor()) const = 0;
+    virtual void DrawChar(  TCHAR               cChar,
+                            FPOINT              DstCoords, // can be ealtered inside
+                            const TD3DColor&    Color = WhiteColor()) const = 0;
 
-	virtual void DrawText(	const KString&		Text,
-							FPOINT				DstCoords, // can be altered inside
-							const TD3DColor&	Color = WhiteColor()) const = 0;
+    virtual void DrawText(  const KString&      Text,
+                            FPOINT              DstCoords, // can be altered inside
+                            const TD3DColor&    Color = WhiteColor()) const = 0;
 
-	void GetTextSize(const KString& Text, FSIZE& RSize) const;
+    void GetTextSize(const KString& Text, FSIZE& RSize) const;
 
-	FSIZE GetTextSize(const KString& Text) const;
+    FSIZE GetTextSize(const KString& Text) const;
 
-	// ---------------- TRIVIALS ----------------
-	const FSIZE* GetCharSizes	() const { return m_CharSizes;		}
-	const FSIZE& GetMaxCharSize	() const { return m_MaxCharSize;	}
-	const FSIZE& GetCharSpacing	() const { return m_CharSpacing;	}
+    // ---------------- TRIVIALS ----------------
+    const FSIZE* GetCharSizes   () const { return m_CharSizes;      }
+    const FSIZE& GetMaxCharSize () const { return m_MaxCharSize;    }
+    const FSIZE& GetCharSpacing () const { return m_CharSpacing;    }
 };
 
 #endif // font_h

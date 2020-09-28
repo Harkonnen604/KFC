@@ -9,7 +9,7 @@
 class T_SDL_Globals : public TModuleGlobals
 {
 public:
-	T_SDL_Globals();
+    T_SDL_Globals();
 };
 
 extern T_SDL_Globals g_SDL_Globals;

@@ -7,89 +7,89 @@
 // Global mem
 // -----------
 TGlobalMem::TGlobalMem()
-{	
-	Invalidate();
+{
+    Invalidate();
 }
 
 TGlobalMem::TGlobalMem(size_t szSize, kflags_t flFlags)
 {
-	Invalidate();
+    Invalidate();
 
-	Allocate(szSize, flFlags);
+    Allocate(szSize, flFlags);
 }
 
 void TGlobalMem::Invalidate()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_hMem = NULL;
+    m_hMem = NULL;
 }
 
 void TGlobalMem::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		if(m_hMem)
-			GlobalFree(m_hMem), m_hMem = NULL;
-	}
+        if(m_hMem)
+            GlobalFree(m_hMem), m_hMem = NULL;
+    }
 }
 
 void TGlobalMem::Allocate(size_t szSize, kflags_t flFlags)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_hMem = GlobalAlloc(flFlags, szSize);
-		if(m_hMem == NULL)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error allocating global mem"),
-											GetLastError());
-		}
+    try
+    {
+        m_hMem = GlobalAlloc(flFlags, szSize);
+        if(m_hMem == NULL)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error allocating global mem"),
+                                            GetLastError());
+        }
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 void TGlobalMem::ReOwn(TGlobalMem& SGlobalMem)
 {
-	Release();
+    Release();
 
-	if(!SGlobalMem.IsAllocated())
-		return;
+    if(!SGlobalMem.IsAllocated())
+        return;
 
-	m_hMem = SGlobalMem.m_hMem;
+    m_hMem = SGlobalMem.m_hMem;
 
-	SGlobalMem.Invalidate();
+    SGlobalMem.Invalidate();
 
-	m_bAllocated = true;
+    m_bAllocated = true;
 }
 
 void TGlobalMem::Lock(void*& pRData)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	pRData = GlobalLock(m_hMem);
-	if(pRData == NULL)
-	{
-		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error locking global mem"),
-										GetLastError());
-	}
+    pRData = GlobalLock(m_hMem);
+    if(pRData == NULL)
+    {
+        INITIATE_DEFINED_CODE_FAILURE(  TEXT("Error locking global mem"),
+                                        GetLastError());
+    }
 }
 
 void TGlobalMem::Unlock()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	GlobalUnlock(m_hMem);
+    GlobalUnlock(m_hMem);
 }
 
 // ------------------
@@ -97,15 +97,15 @@ void TGlobalMem::Unlock()
 // ------------------
 TGlobalMemLocker::TGlobalMemLocker(TGlobalMem& SGlobalMem, void*& pRData)
 {
-	DEBUG_VERIFY(SGlobalMem.IsAllocated());
+    DEBUG_VERIFY(SGlobalMem.IsAllocated());
 
-	(m_pGlobalMem = &SGlobalMem)->Lock(pRData);
+    (m_pGlobalMem = &SGlobalMem)->Lock(pRData);
 }
 
 TGlobalMemLocker::~TGlobalMemLocker()
 {
-	if(m_pGlobalMem && m_pGlobalMem->IsAllocated())
-		m_pGlobalMem->Unlock();
+    if(m_pGlobalMem && m_pGlobalMem->IsAllocated())
+        m_pGlobalMem->Unlock();
 }
 
 #endif // _MSC_VER

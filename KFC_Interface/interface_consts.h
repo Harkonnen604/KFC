@@ -14,29 +14,29 @@
 class TInterfaceConsts : public TConsts
 {
 public:
-	// Filenames
-	KString m_InterfacesFolderName;
+    // Filenames
+    KString m_InterfacesFolderName;
 
-	// Hotkeys
-	size_t m_szPerformanceHotKey;
-	size_t m_szScreenShotHotKey;
+    // Hotkeys
+    size_t m_szPerformanceHotKey;
+    size_t m_szScreenShotHotKey;
 
-	// Hot message
-	float m_fHotMessageAppearanceDelay;
-	float m_fHotMessageShowSpeedCoef;
-	float m_fHotMessageHideSpeedCoef;
-	FSIZE m_HotPointerSpacing;
+    // Hot message
+    float m_fHotMessageAppearanceDelay;
+    float m_fHotMessageShowSpeedCoef;
+    float m_fHotMessageHideSpeedCoef;
+    FSIZE m_HotPointerSpacing;
 
-	// Colors
-	TD3DColor m_PerformanceColor;
+    // Colors
+    TD3DColor m_PerformanceColor;
 
-	// Controls
-	float m_DefaultInteractiveControlTransitionDelays[3];
+    // Controls
+    float m_DefaultInteractiveControlTransitionDelays[3];
 
-	float m_fDefaultCheckBoxControlCheckTransitionDelay;
+    float m_fDefaultCheckBoxControlCheckTransitionDelay;
 
 
-	TInterfaceConsts();
+    TInterfaceConsts();
 };
 
 extern TInterfaceConsts g_InterfaceConsts;

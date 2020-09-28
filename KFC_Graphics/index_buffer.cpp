@@ -8,24 +8,24 @@
 // ------------------
 TIndexBufferBase::TIndexBufferBase()
 {
-	m_pIndexBuffer = NULL;
+    m_pIndexBuffer = NULL;
 }
 
 void TIndexBufferBase::Release()
 {
-	if(m_pIndexBuffer)
-	{
-		g_GraphicsStateManager.InvalidateIndices(m_pIndexBuffer);
+    if(m_pIndexBuffer)
+    {
+        g_GraphicsStateManager.InvalidateIndices(m_pIndexBuffer);
 
-		m_pIndexBuffer->Release(), m_pIndexBuffer = NULL;
-	}
+        m_pIndexBuffer->Release(), m_pIndexBuffer = NULL;
+    }
 }
 
 void TIndexBufferBase::Allocate(IDirect3DIndexBuffer9* pSIndexBuffer)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(pSIndexBuffer);
+    DEBUG_VERIFY(pSIndexBuffer);
 
-	m_pIndexBuffer = pSIndexBuffer;
+    m_pIndexBuffer = pSIndexBuffer;
 }

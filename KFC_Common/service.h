@@ -9,32 +9,32 @@
 class TServiceManager
 {
 private:
-	SC_HANDLE m_hManager;
-	
+    SC_HANDLE m_hManager;
+
 public:
-	TServiceManager(kflags_t flAutoOpenAccess = 0); // 0 avoids auto-allocation
+    TServiceManager(kflags_t flAutoOpenAccess = 0); // 0 avoids auto-allocation
 
-	~TServiceManager() { Release(); }
+    ~TServiceManager() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hManager; }
+    bool IsAllocated() const
+        { return m_hManager; }
 
-	void Release();
+    void Release();
 
-	void Allocate(kflags_t flAccess);
+    void Allocate(kflags_t flAccess);
 
-	SC_HANDLE CreateService(LPCTSTR pServiceName,
-							LPCTSTR pDisplayName,
-							LPCTSTR pFileName);
+    SC_HANDLE CreateService(LPCTSTR pServiceName,
+                            LPCTSTR pDisplayName,
+                            LPCTSTR pFileName);
 
-	SC_HANDLE OpenService(	LPCTSTR		pServiceName,
-							kflags_t	flAccess);
+    SC_HANDLE OpenService(  LPCTSTR     pServiceName,
+                            kflags_t    flAccess);
 
-	void DeleteService(SC_HANDLE hService, bool bSafe);
+    void DeleteService(SC_HANDLE hService, bool bSafe);
 
-	SC_HANDLE GetManager() const;
+    SC_HANDLE GetManager() const;
 
-	operator SC_HANDLE () const { return GetManager(); }
+    operator SC_HANDLE () const { return GetManager(); }
 };
 
 // --------
@@ -43,31 +43,31 @@ public:
 class TService
 {
 private:
-	SC_HANDLE m_hService;
-	
+    SC_HANDLE m_hService;
+
 public:
-	TService();
+    TService();
 
-	TService(SC_HANDLE hSService);
+    TService(SC_HANDLE hSService);
 
-	~TService() { Release(); }	
+    ~TService() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hService; }
+    bool IsAllocated() const
+        { return m_hService; }
 
-	void Invalidate();
+    void Invalidate();
 
-	void Release();
+    void Release();
 
-	void Allocate(SC_HANDLE hSService);
+    void Allocate(SC_HANDLE hSService);
 
-	void Start();
+    void Start();
 
-	void Stop(bool bSafe);
+    void Stop(bool bSafe);
 
-	SC_HANDLE GetService() const;
+    SC_HANDLE GetService() const;
 
-	operator SC_HANDLE () const { return GetService(); }
+    operator SC_HANDLE () const { return GetService(); }
 };
 
 #endif // _MSC_VER

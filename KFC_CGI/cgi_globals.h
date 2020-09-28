@@ -9,7 +9,7 @@
 class T_CGI_Globals : public TModuleGlobals
 {
 public:
-	T_CGI_Globals();
+    T_CGI_Globals();
 };
 
 extern T_CGI_Globals g_CGI_Globals;

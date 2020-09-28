@@ -13,45 +13,45 @@
 class TScene : public TSuspendable
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
 
-	bool OnSuspend();
-	
-	bool OnResume();
+    bool OnSuspend();
+
+    bool OnResume();
 
 public:
-	typedef TList<TSceneObject> TObjects;
+    typedef TList<TSceneObject> TObjects;
 
-	typedef TList<TD3DLight> TLights;
-
-
-	TPhysicalWorld m_PhysicalWorld;
-
-	TObjects m_Objects;	
-
-	TD3DColor m_AmbientLight;
-
-	TLights m_Lights;
-
-	TCamera m_Camera;
+    typedef TList<TD3DLight> TLights;
 
 
-	TScene();
+    TPhysicalWorld m_PhysicalWorld;
 
-	~TScene()
-		{ Release(); }
+    TObjects m_Objects;
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    TD3DColor m_AmbientLight;
 
-	void Release();
+    TLights m_Lights;
 
-	void Allocate();
+    TCamera m_Camera;
 
-	void Update();
 
-	void Render() const;
+    TScene();
+
+    ~TScene()
+        { Release(); }
+
+    bool IsAllocated() const
+        { return m_bAllocated; }
+
+    void Release();
+
+    void Allocate();
+
+    void Update();
+
+    void Render() const;
 };
 
 #endif // scene_h

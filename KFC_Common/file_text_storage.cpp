@@ -10,62 +10,62 @@
 // ------------------
 void TFileTextStorage::Release()
 {
-	m_Storage.Release();
+    m_Storage.Release();
 }
 
 void TFileTextStorage::Allocate(LPCTSTR pFileNamePrefix)
 {
-	Release();
+    Release();
 
-	try
-	{
-		const KString HeadersFileName	= (KString)pFileNamePrefix + TEXT(".hdr");
-		const KString DataFileName		= (KString)pFileNamePrefix + TEXT(".dat");
+    try
+    {
+        const KString HeadersFileName   = (KString)pFileNamePrefix + TEXT(".hdr");
+        const KString DataFileName      = (KString)pFileNamePrefix + TEXT(".dat");
 
-		bool bClear = false;
+        bool bClear = false;
 
-		if(	!FileExists(HeadersFileName) ||
-			!FileExists(DataFileName))
-		{
-			CreateEmptyFile(HeadersFileName);
-			CreateEmptyFile(DataFileName);
+        if( !FileExists(HeadersFileName) ||
+            !FileExists(DataFileName))
+        {
+            CreateEmptyFile(HeadersFileName);
+            CreateEmptyFile(DataFileName);
 
-			bClear = true;
-		}
+            bClear = true;
+        }
 
-		m_Storage.GetHeadersAllocator().Allocate(HeadersFileName,	false);
-		m_Storage.GetDataAllocator   ().Allocate(DataFileName,		false);
-		m_Storage.Allocate();
+        m_Storage.GetHeadersAllocator().Allocate(HeadersFileName,   false);
+        m_Storage.GetDataAllocator   ().Allocate(DataFileName,      false);
+        m_Storage.Allocate();
 
-		if(bClear)
-			Clear();
-	}
+        if(bClear)
+            Clear();
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TFileTextStorage::Clear()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Storage.Clear();
+    m_Storage.Clear();
 }
 
 TFileTextStorage::TIterator TFileTextStorage::AddText(LPCTSTR pText, size_t szLength)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	const size_t szSize = (szLength + 1) * sizeof(TCHAR);
+    const size_t szSize = (szLength + 1) * sizeof(TCHAR);
 
-	const TIterator Iter = m_Storage.Reserve(szSize);
+    const TIterator Iter = m_Storage.Reserve(szSize);
 
-	memcpy(m_Storage[Iter], pText, szSize);
+    memcpy(m_Storage[Iter], pText, szSize);
 
-	return Iter;
+    return Iter;
 }
 
 #endif // _MSC_VER

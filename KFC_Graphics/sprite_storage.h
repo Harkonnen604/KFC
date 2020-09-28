@@ -6,28 +6,28 @@
 #include <KFC_Common\storage.h>
 #include "sprite.h"
 
-#define SPRITES_FACTORY					(g_SpriteStorage.m_Factory)
-#define SPRITES_REGISTRATION_MANAGER	(g_SpriteStorage.m_RegistrationManager)
+#define SPRITES_FACTORY                 (g_SpriteStorage.m_Factory)
+#define SPRITES_REGISTRATION_MANAGER    (g_SpriteStorage.m_RegistrationManager)
 
 // ---------------
 // Sprite storage
 // ---------------
-class TSpriteStorage :	public TGlobals,
-						public TStorage<TSprite>
+class TSpriteStorage :  public TGlobals,
+                        public TStorage<TSprite>
 {
 private:
-	TFactoryTypesRegisterer<TSprite> m_SystemSpriteTypesRegisterer;
+    TFactoryTypesRegisterer<TSprite> m_SystemSpriteTypesRegisterer;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	void LoadByDirectValue(	const KString&				FileName,
-							TObjectPointer<TSprite>&	RObject,
-							bool						bOmittable);
+    void LoadByDirectValue( const KString&              FileName,
+                            TObjectPointer<TSprite>&    RObject,
+                            bool                        bOmittable);
 
 public:
-	TSpriteStorage();
+    TSpriteStorage();
 };
 
 extern TSpriteStorage g_SpriteStorage;

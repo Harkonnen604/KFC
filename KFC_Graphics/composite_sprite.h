@@ -8,9 +8,9 @@
 // ---------------------------------
 struct TCompositeSpriteCreationStruct : public TCompoundSpriteCreationStruct
 {
-	TCompositeSpriteCreationStruct();
+    TCompositeSpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ----------------------------------
@@ -18,10 +18,10 @@ struct TCompositeSpriteCreationStruct : public TCompoundSpriteCreationStruct
 // ----------------------------------
 struct TCompositeSpriteSpritesProvider : public TCompoundSpriteSpritesProvider
 {
-	TCompositeSpriteSpritesProvider();
+    TCompositeSpriteSpritesProvider();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				size_t					szNItems);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                size_t                  szNItems);
 };
 
 // -----------------
@@ -30,33 +30,33 @@ struct TCompositeSpriteSpritesProvider : public TCompoundSpriteSpritesProvider
 class TCompositeSprite : public TCompoundSprite
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
 public:
-	static TSprite* Create(type_t tpType);
+    static TSprite* Create(type_t tpType);
 
-	TCompositeSprite();
+    TCompositeSprite();
 
-	~TCompositeSprite()
-		{ Release(); }
+    ~TCompositeSprite()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TCompoundSprite::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TCompoundSprite::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
-	
-	void Allocate(	const TCompositeSpriteCreationStruct&	CreationStruct,
-					TCompositeSpriteSpritesProvider&		SpritesProvider);
+    void Release(bool bFromAllocatorException = false);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Allocate(  const TCompositeSpriteCreationStruct&   CreationStruct,
+                    TCompositeSpriteSpritesProvider&        SpritesProvider);
 
-	void DrawNonScaled(	const FPOINT&			DstCoords,
-						const TD3DColor&		Color	= WhiteColor(),
-						const TSpriteStates&	States	= TSpriteStates()) const;
-	
-	void DrawRect(	const FRECT&			DstRect,
-					const TD3DColor&		Color	= WhiteColor(),
-					const TSpriteStates&	States	= TSpriteStates()) const;
+    void Load(TInfoNodeConstIterator InfoNode);
+
+    void DrawNonScaled( const FPOINT&           DstCoords,
+                        const TD3DColor&        Color   = WhiteColor(),
+                        const TSpriteStates&    States  = TSpriteStates()) const;
+
+    void DrawRect(  const FRECT&            DstRect,
+                    const TD3DColor&        Color   = WhiteColor(),
+                    const TSpriteStates&    States  = TSpriteStates()) const;
 };
 
 #endif // composite_sprite_h

@@ -10,26 +10,26 @@
 class TVertexBufferBase
 {
 private:
-	IDirect3DVertexBuffer9* m_pVertexBuffer;
+    IDirect3DVertexBuffer9* m_pVertexBuffer;
 
 public:
-	TVertexBufferBase();
+    TVertexBufferBase();
 
-	~TVertexBufferBase()
-		{ Release(); }
+    ~TVertexBufferBase()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_pVertexBuffer; }
+    bool IsAllocated() const
+        { return m_pVertexBuffer; }
 
-	void Release();
+    void Release();
 
-	void Allocate(IDirect3DVertexBuffer9* pSVertexBuffer);
+    void Allocate(IDirect3DVertexBuffer9* pSVertexBuffer);
 
-	IDirect3DVertexBuffer9* GetVertexBuffer() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pVertexBuffer; }
+    IDirect3DVertexBuffer9* GetVertexBuffer() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pVertexBuffer; }
 
-	operator IDirect3DVertexBuffer9* () const
-		{ return GetVertexBuffer(); }
+    operator IDirect3DVertexBuffer9* () const
+        { return GetVertexBuffer(); }
 };
 
 // ------------------
@@ -39,108 +39,108 @@ template <class t>
 class TFVFVertexBuffer : public TVertexBufferBase
 {
 private:
-	size_t m_szNVertices;
+    size_t m_szNVertices;
 
 public:
-	typedef t TVertex;
+    typedef t TVertex;
 
 
-	void Allocate(	size_t	szSNVertices,
-					flags_t	flUsage	= D3DUSAGE_WRITEONLY,
-					D3DPOOL	Pool	= D3DPOOL_MANAGED);
+    void Allocate(  size_t  szSNVertices,
+                    flags_t flUsage = D3DUSAGE_WRITEONLY,
+                    D3DPOOL Pool    = D3DPOOL_MANAGED);
 
-	void Lock(	t*&					pRData,
-				flags_t				flFlags		= 0,
-				const SZSEGMENT*	pSegment	= NULL);
+    void Lock(  t*&                 pRData,
+                flags_t             flFlags     = 0,
+                const SZSEGMENT*    pSegment    = NULL);
 
-	void Unlock();
+    void Unlock();
 
-	void Install() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void Install() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		g_GraphicsStateManager.SetStreamSource(0, GetVertexBuffer(), 0, sizeof(t));
+        g_GraphicsStateManager.SetStreamSource(0, GetVertexBuffer(), 0, sizeof(t));
 
-		g_GraphicsStateManager.SetVertexShader(NULL);
+        g_GraphicsStateManager.SetVertexShader(NULL);
 
-		g_GraphicsStateManager.SetFVF(t::s_flFVF);
-	}
+        g_GraphicsStateManager.SetFVF(t::s_flFVF);
+    }
 
-	// ---------------- TRIVIALS ----------------
-	size_t GetNVertices() const { return m_szNVertices; }
+    // ---------------- TRIVIALS ----------------
+    size_t GetNVertices() const { return m_szNVertices; }
 };
 
 template <class t>
-void TFVFVertexBuffer<t>::Allocate(	size_t	szSNVertices,
-									flags_t	flUsage,
-									D3DPOOL	Pool)
+void TFVFVertexBuffer<t>::Allocate( size_t  szSNVertices,
+                                    flags_t flUsage,
+                                    D3DPOOL Pool)
 {
-	Release();
+    Release();
 
-	try
-	{
-		HRESULT r;
+    try
+    {
+        HRESULT r;
 
-		DEBUG_VERIFY(szSNVertices);
+        DEBUG_VERIFY(szSNVertices);
 
-		m_szNVertices = szSNVertices;
+        m_szNVertices = szSNVertices;
 
-		IDirect3DVertexBuffer9* pVertexBuffer = NULL;
-		
-		if(r = g_GraphicsDeviceGlobals.m_pD3DDevice->CreateVertexBuffer(m_szNVertices * sizeof(t),
-																		flUsage,
-																		t::s_flFVF,
-																		Pool,
-																		&pVertexBuffer,
-																		NULL))
-		{
-			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error creating Direct3D FVF vertex buffer"), r);
-		}
+        IDirect3DVertexBuffer9* pVertexBuffer = NULL;
 
-		TVertexBufferBase::Allocate(pVertexBuffer);
-	}
+        if(r = g_GraphicsDeviceGlobals.m_pD3DDevice->CreateVertexBuffer(m_szNVertices * sizeof(t),
+                                                                        flUsage,
+                                                                        t::s_flFVF,
+                                                                        Pool,
+                                                                        &pVertexBuffer,
+                                                                        NULL))
+        {
+            INITIATE_DEFINED_CODE_FAILURE(TEXT("Error creating Direct3D FVF vertex buffer"), r);
+        }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+        TVertexBufferBase::Allocate(pVertexBuffer);
+    }
+
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 template <class t>
-void TFVFVertexBuffer<t>::Lock(	t*&					pRData,
-								flags_t				flFlags,
-								const SZSEGMENT*	pSegment)
+void TFVFVertexBuffer<t>::Lock( t*&                 pRData,
+                                flags_t             flFlags,
+                                const SZSEGMENT*    pSegment)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	HRESULT r;
+    HRESULT r;
 
-	if(pSegment)
-	{
-		DEBUG_VERIFY(pSegment->IsValid() && pSegment->m_Last <= m_szNVertices);
+    if(pSegment)
+    {
+        DEBUG_VERIFY(pSegment->IsValid() && pSegment->m_Last <= m_szNVertices);
 
-		if(r = GetVertexBuffer()->Lock(	pSegment->m_First		* sizeof(t),
-										pSegment->GetLength()	* sizeof(t),
-										(void**)&pRData,
-										flFlags))
-		{
-			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error locking Direct3D FVF vertex buffer segment"), r);
-		}
-	}
-	else
-	{
-		if(r = GetVertexBuffer()->Lock(0, 0, (void**)&pRData, flFlags))
-			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error locking Direct3D FVF vertex buffer"), r);
-	}
+        if(r = GetVertexBuffer()->Lock( pSegment->m_First       * sizeof(t),
+                                        pSegment->GetLength()   * sizeof(t),
+                                        (void**)&pRData,
+                                        flFlags))
+        {
+            INITIATE_DEFINED_CODE_FAILURE(TEXT("Error locking Direct3D FVF vertex buffer segment"), r);
+        }
+    }
+    else
+    {
+        if(r = GetVertexBuffer()->Lock(0, 0, (void**)&pRData, flFlags))
+            INITIATE_DEFINED_CODE_FAILURE(TEXT("Error locking Direct3D FVF vertex buffer"), r);
+    }
 }
 
 template <class t>
 void TFVFVertexBuffer<t>::Unlock()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_EVALUATE_VERIFY(!GetVertexBuffer()->Unlock());
+    DEBUG_EVALUATE_VERIFY(!GetVertexBuffer()->Unlock());
 }
 
 // -------------------------
@@ -150,33 +150,33 @@ template <class t>
 class TFVFVertexBufferLocker
 {
 private:
-	TFVFVertexBuffer<t>& m_VertexBuffer;
+    TFVFVertexBuffer<t>& m_VertexBuffer;
 
 public:
-	TFVFVertexBufferLocker(	TFVFVertexBuffer<t>&	SVertexBuffer,
-							t*&						pRData,
-							flags_t					flFlags		= 0,
-							const SZSEGMENT*		pSegment	= NULL);
+    TFVFVertexBufferLocker( TFVFVertexBuffer<t>&    SVertexBuffer,
+                            t*&                     pRData,
+                            flags_t                 flFlags     = 0,
+                            const SZSEGMENT*        pSegment    = NULL);
 
-	~TFVFVertexBufferLocker();
+    ~TFVFVertexBufferLocker();
 
-	// ---------------- TRIVIALS ----------------
-	TFVFVertexBuffer& GetVertexBuffer() { return m_VertexBuffer; }
+    // ---------------- TRIVIALS ----------------
+    TFVFVertexBuffer& GetVertexBuffer() { return m_VertexBuffer; }
 };
 
 template <class t>
-TFVFVertexBufferLocker<t>::TFVFVertexBufferLocker(	TFVFVertexBuffer<t>&	SVertexBuffer,
-													t*&						pRData,
-													flags_t					flFlags,
-													const SZSEGMENT*		pSegment) : m_VertexBuffer(SVertexBuffer)
+TFVFVertexBufferLocker<t>::TFVFVertexBufferLocker(  TFVFVertexBuffer<t>&    SVertexBuffer,
+                                                    t*&                     pRData,
+                                                    flags_t                 flFlags,
+                                                    const SZSEGMENT*        pSegment) : m_VertexBuffer(SVertexBuffer)
 {
-	m_VertexBuffer.Lock(pRData, flFlags, pSegment);
+    m_VertexBuffer.Lock(pRData, flFlags, pSegment);
 }
 
 template <class t>
 TFVFVertexBufferLocker<t>::~TFVFVertexBufferLocker()
 {
-	m_VertexBuffer.Unlock();
+    m_VertexBuffer.Unlock();
 }
 
 #endif // vertex_buffer_h

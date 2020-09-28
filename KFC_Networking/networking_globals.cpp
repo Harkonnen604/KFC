@@ -12,7 +12,7 @@ TNetworkingGlobals g_NetworkingGlobals;
 // -------------------
 TNetworkingGlobals::TNetworkingGlobals() : TModuleGlobals(TEXT("Networking globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_NetworkingDeviceGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_NetworkingDeviceGlobals);
 }

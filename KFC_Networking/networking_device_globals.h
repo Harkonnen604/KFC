@@ -9,28 +9,28 @@
 class TNetworkingDeviceGlobals : public TGlobals
 {
 private:
-	#ifdef _MSC_VER
-		bool m_bStarted;
+    #ifdef _MSC_VER
+        bool m_bStarted;
 
-		// WSA
-		WSADATA m_WSAData;
-	#endif // _MSC_VER
+        // WSA
+        WSADATA m_WSAData;
+    #endif // _MSC_VER
 
 public:
-	volatile LONG m_lNResolveThreads;
+    volatile LONG m_lNResolveThreads;
 
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TNetworkingDeviceGlobals();
+    TNetworkingDeviceGlobals();
 
-	// ---------------- TRIVIALS ----------------
-	#ifdef _MSC_VER
-		const WSADATA& GetWSAData() const
-			{ return m_WSAData; }
-	#endif // _MSC_VER
+    // ---------------- TRIVIALS ----------------
+    #ifdef _MSC_VER
+        const WSADATA& GetWSAData() const
+            { return m_WSAData; }
+    #endif // _MSC_VER
 };
 
 extern TNetworkingDeviceGlobals g_NetworkingDeviceGlobals;

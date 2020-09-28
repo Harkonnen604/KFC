@@ -8,21 +8,21 @@
 // GUI cfg
 // --------
 class T_GUI_Cfg :
-	public TGlobals,
-	public TAssignmentsList
+    public TGlobals,
+    public TAssignmentsList
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	void LoadItems(KRegistryKey& Key);
-	void SaveItems(KRegistryKey& Key) const;
+    void LoadItems(KRegistryKey& Key);
+    void SaveItems(KRegistryKey& Key) const;
 
 public:
-	T_GUI_Cfg();
+    T_GUI_Cfg();
 
-	void Load();
-	void Save() const;
+    void Load();
+    void Save() const;
 };
 
 extern T_GUI_Cfg g_GUI_Cfg;

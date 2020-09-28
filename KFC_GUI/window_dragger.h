@@ -7,46 +7,46 @@
 class TWindowDragger
 {
 private:
-	HWND m_hWnd;
+    HWND m_hWnd;
 
-	bool m_bDragged;
+    bool m_bDragged;
 
-	ISIZE m_MouseCoordsOffset;
+    ISIZE m_MouseCoordsOffset;
 
-	IRECT m_DragRect;
+    IRECT m_DragRect;
 
-	IRECT m_LimitRect;
+    IRECT m_LimitRect;
 
 private:
-	void ResetWindowCoords();
+    void ResetWindowCoords();
 
-	void SetWindowCoords(IPOINT Coords);
+    void SetWindowCoords(IPOINT Coords);
 
-	void UpdateWindowPos();
-	
+    void UpdateWindowPos();
+
 public:
-	TWindowDragger();
+    TWindowDragger();
 
-	~TWindowDragger()
-		{ Release(); }
+    ~TWindowDragger()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hWnd; }
-	
-	void Release();
+    bool IsAllocated() const
+        { return m_hWnd; }
 
-	void Allocate(	HWND			hWnd,
-					const IRECT&	DragRect	= IRECT(),
-					const IRECT&	LimitRect	= IRECT());
+    void Release();
 
-	void SetDragRect(const IRECT& DragRect);
+    void Allocate(  HWND            hWnd,
+                    const IRECT&    DragRect    = IRECT(),
+                    const IRECT&    LimitRect   = IRECT());
 
-	void SetLimitRect(const IRECT& LimitRect);
+    void SetDragRect(const IRECT& DragRect);
 
-	bool ProcessMessage(UINT uiMsg);
+    void SetLimitRect(const IRECT& LimitRect);
 
-	bool IsDragged() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_bDragged; }
+    bool ProcessMessage(UINT uiMsg);
+
+    bool IsDragged() const
+        { DEBUG_VERIFY_ALLOCATION; return m_bDragged; }
 };
 
 #endif // window_dragger_h

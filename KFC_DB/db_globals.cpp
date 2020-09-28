@@ -12,7 +12,7 @@ T_DB_Globals g_DB_Globals;
 // -----------
 T_DB_Globals::T_DB_Globals() : TModuleGlobals(TEXT("DB globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_DB_DeviceGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_DB_DeviceGlobals);
 }

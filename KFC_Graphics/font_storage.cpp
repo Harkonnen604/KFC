@@ -16,94 +16,94 @@ TFontStorage g_FontStorage;
 // -------------
 TFontStorage::TFontStorage() : TGlobals(TEXT("Font storage"))
 {
-	AddSubGlobals(g_GraphicsCfg);
-	AddSubGlobals(g_GraphicsInitials);
-	AddSubGlobals(g_GraphicsTokens);
-	AddSubGlobals(g_GraphicsDeviceGlobals);
+    AddSubGlobals(g_GraphicsCfg);
+    AddSubGlobals(g_GraphicsInitials);
+    AddSubGlobals(g_GraphicsTokens);
+    AddSubGlobals(g_GraphicsDeviceGlobals);
 }
 
 void TFontStorage::OnUninitialize()
 {
-	m_DefaultFontRegisterer.Release();
+    m_DefaultFontRegisterer.Release();
 
-	m_SystemFontTypesRegisterer.Release();
+    m_SystemFontTypesRegisterer.Release();
 
-	TStorage<TFont>::Release();
+    TStorage<TFont>::Release();
 }
 
 void TFontStorage::OnInitialize()
 {
-	// Storage
-	try
-	{
-		TStorage<TFont>::Allocate(	FONT_TYPE_TOKENS,
-									g_GraphicsConsts.m_szNFontsRegistrationManagerFixedEntries,
-									FONT_INDEX_TOKENS);
-	}
+    // Storage
+    try
+    {
+        TStorage<TFont>::Allocate(  FONT_TYPE_TOKENS,
+                                    g_GraphicsConsts.m_szNFontsRegistrationManagerFixedEntries,
+                                    FONT_INDEX_TOKENS);
+    }
 
-	catch(...)
-	{
-		INITIATE_DEFINED_FAILURE(TEXT("Error allocating fonts storage."));
-	}
+    catch(...)
+    {
+        INITIATE_DEFINED_FAILURE(TEXT("Error allocating fonts storage."));
+    }
 
-	// System font types
-	try
-	{
-		m_SystemFontTypesRegisterer.Allocate(FONTS_FACTORY);
-		
-		m_SystemFontTypesRegisterer.Add(TTextureFont::			Create, FONT_TYPE_FLAT);
-		m_SystemFontTypesRegisterer.Add(TTextureShadowFont::	Create, FONT_TYPE_FLAT_SHADOW);
-	}
+    // System font types
+    try
+    {
+        m_SystemFontTypesRegisterer.Allocate(FONTS_FACTORY);
 
-	catch(...)
-	{
-		INITIATE_DEFINED_FAILURE(TEXT("Error registering system font types."));
-	}
+        m_SystemFontTypesRegisterer.Add(TTextureFont::          Create, FONT_TYPE_FLAT);
+        m_SystemFontTypesRegisterer.Add(TTextureShadowFont::    Create, FONT_TYPE_FLAT_SHADOW);
+    }
 
-	// System fonts
-	try
-	{
-		TStructuredInfo Info(FILENAME_TOKENS.
-			Process(TEXT("[StartFolder][DefinitionsFolder]System.Definition")));
+    catch(...)
+    {
+        INITIATE_DEFINED_FAILURE(TEXT("Error registering system font types."));
+    }
 
-		TInfoNodeConstIterator InfoNode =
-			Info.GetNode(Info.GetRootNode(), TEXT("Fonts"));
+    // System fonts
+    try
+    {
+        TStructuredInfo Info(FILENAME_TOKENS.
+            Process(TEXT("[StartFolder][DefinitionsFolder]System.Definition")));
 
-		TObjectPointer<TFont> Font;
+        TInfoNodeConstIterator InfoNode =
+            Info.GetNode(Info.GetRootNode(), TEXT("Fonts"));
 
-		// Default
-		LoadObject(InfoNode, TEXT("Default"), Font, false);
+        TObjectPointer<TFont> Font;
 
-		m_DefaultFontRegisterer.Allocate(	FONTS_REGISTRATION_MANAGER,
-											Font,
-											DEFAULT_FONT_INDEX);
-	}
+        // Default
+        LoadObject(InfoNode, TEXT("Default"), Font, false);
 
-	catch(...)
-	{
-		INITIATE_DEFINED_FAILURE(TEXT("Error loading system fonts."));
-	}
+        m_DefaultFontRegisterer.Allocate(   FONTS_REGISTRATION_MANAGER,
+                                            Font,
+                                            DEFAULT_FONT_INDEX);
+    }
+
+    catch(...)
+    {
+        INITIATE_DEFINED_FAILURE(TEXT("Error loading system fonts."));
+    }
 }
 
-void TFontStorage::LoadByDirectValue(	const KString&			FileName,
-										TObjectPointer<TFont>&	RObject,
-										bool					bOmittable)
+void TFontStorage::LoadByDirectValue(   const KString&          FileName,
+                                        TObjectPointer<TFont>&  RObject,
+                                        bool                    bOmittable)
 {
-	TTextureFontCreationStruct CreationStruct;
+    TTextureFontCreationStruct CreationStruct;
 
-	if(!CreationStruct.m_Source.SetFileName(FileName))
-	{
-		if(!bOmittable)
-		{
-			INITIATE_DEFINED_FAILURE(	(KString)TEXT("Invalid direct value font filename \"") +
-											FileName +
-											TEXT("\"."));
-		}
-	}
-	else
-	{
-		((TTextureFont*)RObject.
-			Allocate(new TTextureFont, false))->
-				Allocate(CreationStruct);
-	}
+    if(!CreationStruct.m_Source.SetFileName(FileName))
+    {
+        if(!bOmittable)
+        {
+            INITIATE_DEFINED_FAILURE(   (KString)TEXT("Invalid direct value font filename \"") +
+                                            FileName +
+                                            TEXT("\"."));
+        }
+    }
+    else
+    {
+        ((TTextureFont*)RObject.
+            Allocate(new TTextureFont, false))->
+                Allocate(CreationStruct);
+    }
 }

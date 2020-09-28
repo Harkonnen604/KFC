@@ -7,61 +7,61 @@
 class TSemaphore
 {
 private:
-	HANDLE m_hSemaphore;
+    HANDLE m_hSemaphore;
 
 public:
-	TSemaphore();
+    TSemaphore();
 
-	TSemaphore(size_t szInitialCount, size_t szMaximumCount);
+    TSemaphore(size_t szInitialCount, size_t szMaximumCount);
 
-	TSemaphore(LPCTSTR pName, size_t szInitialCount, size_t szMaximumCount);
+    TSemaphore(LPCTSTR pName, size_t szInitialCount, size_t szMaximumCount);
 
-	#ifdef _MSC_VER
-		TSemaphore(LPCTSTR pName);
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+        TSemaphore(LPCTSTR pName);
+    #endif // _MSC_VER
 
-	~TSemaphore()
-		{ Release(); }
+    ~TSemaphore()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hSemaphore; }
+    bool IsAllocated() const
+        { return m_hSemaphore; }
 
-	void Release();
+    void Release();
 
-	void Allocate(size_t szInitialCount, size_t szMaximumCount);
+    void Allocate(size_t szInitialCount, size_t szMaximumCount);
 
-	bool Create(LPCTSTR pName, size_t szInitialCount, size_t szMaximumCount); // true on new
-	
-	#ifdef _MSC_VER
-		void Open(LPCTSTR pName);
-	#endif // _MSC_VER
+    bool Create(LPCTSTR pName, size_t szInitialCount, size_t szMaximumCount); // true on new
 
-	bool Wait(size_t szTimeout = INFINITE)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    #ifdef _MSC_VER
+        void Open(LPCTSTR pName);
+    #endif // _MSC_VER
 
-		return WaitForSingleObject(m_hSemaphore, (DWORD)szTimeout) == WAIT_OBJECT_0;
-	}
+    bool Wait(size_t szTimeout = INFINITE)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	bool WaitWithTermination(HANDLE hTerminator, size_t szTimeout = INFINITE);
+        return WaitForSingleObject(m_hSemaphore, (DWORD)szTimeout) == WAIT_OBJECT_0;
+    }
 
-	void Unlock(size_t szCount = 1)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    bool WaitWithTermination(HANDLE hTerminator, size_t szTimeout = INFINITE);
 
-		if(!szCount)
-			return;
+    void Unlock(size_t szCount = 1)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY((LONG)szCount > 0);
+        if(!szCount)
+            return;
 
-		DEBUG_EVERIFY(ReleaseSemaphore(m_hSemaphore, (DWORD)szCount, NULL));
-	}
+        DEBUG_VERIFY((LONG)szCount > 0);
 
-	HANDLE GetSemaphore() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hSemaphore; }
+        DEBUG_EVERIFY(ReleaseSemaphore(m_hSemaphore, (DWORD)szCount, NULL));
+    }
 
-	operator HANDLE () const
-		{ return GetSemaphore(); }
+    HANDLE GetSemaphore() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hSemaphore; }
+
+    operator HANDLE () const
+        { return GetSemaphore(); }
 };
 
 // -----------------
@@ -70,14 +70,14 @@ public:
 class TSemaphoreLocker
 {
 private:
-	TSemaphore& m_Semaphore;
+    TSemaphore& m_Semaphore;
 
 public:
-	TSemaphoreLocker(TSemaphore& Semaphore) : m_Semaphore(Semaphore)
-		{ m_Semaphore.Wait(); }
+    TSemaphoreLocker(TSemaphore& Semaphore) : m_Semaphore(Semaphore)
+        { m_Semaphore.Wait(); }
 
-	~TSemaphoreLocker()
-		{ m_Semaphore.Unlock(); }
+    ~TSemaphoreLocker()
+        { m_Semaphore.Unlock(); }
 };
 
 // -------------------
@@ -86,13 +86,13 @@ public:
 class TSemaphoreUnlocker
 {
 private:
-	TSemaphore& m_Semaphore;
+    TSemaphore& m_Semaphore;
 
 public:
-	TSemaphoreUnlocker(TSemaphore& Semaphore) : m_Semaphore(Semaphore) {}
+    TSemaphoreUnlocker(TSemaphore& Semaphore) : m_Semaphore(Semaphore) {}
 
-	~TSemaphoreUnlocker()
-		{ m_Semaphore.Unlock(); }
+    ~TSemaphoreUnlocker()
+        { m_Semaphore.Unlock(); }
 };
 
 #endif // semaphore_h

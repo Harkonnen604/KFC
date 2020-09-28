@@ -13,8 +13,8 @@ T_SSL_Globals g_SSL_Globals;
 // ------------
 T_SSL_Globals::T_SSL_Globals() : TModuleGlobals(TEXT("SSL globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_NetworkingGlobals);
-	AddSubGlobals(g_SSL_DeviceGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_NetworkingGlobals);
+    AddSubGlobals(g_SSL_DeviceGlobals);
 }

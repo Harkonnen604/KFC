@@ -9,15 +9,15 @@
 class TEditFilterGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	ATOM m_aAllowPropName;
-	ATOM m_aDenyPropName;
+    ATOM m_aAllowPropName;
+    ATOM m_aDenyPropName;
 
 public:
-	TEditFilterGlobals();
+    TEditFilterGlobals();
 };
 
 extern TEditFilterGlobals g_EditFilterGlobals;
@@ -28,6 +28,6 @@ extern TEditFilterGlobals g_EditFilterGlobals;
 void FilterEditControl(HWND hWnd, LPCTSTR pAllow, LPCTSTR pDeny = NULL);
 
 inline void UnfilterEditControl(HWND hWnd)
-	{ FilterEditControl(hWnd, NULL); }
+    { FilterEditControl(hWnd, NULL); }
 
 #endif // edit_filter_h

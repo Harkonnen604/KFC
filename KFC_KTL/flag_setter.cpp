@@ -6,10 +6,10 @@
 // ------------
 TFlagSetter::TFlagSetter(bool& bSFlag)
 {
-	*(m_pFlag = &bSFlag) = true;
+    *(m_pFlag = &bSFlag) = true;
 }
 
 TFlagSetter::~TFlagSetter()
 {
-	*m_pFlag = false;
+    *m_pFlag = false;
 }

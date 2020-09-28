@@ -10,199 +10,199 @@ template <class ObjectType, class AllocatorType>
 class TFixedItemHeap
 {
 public:
-	typedef AllocatorType TAllocator;
+    typedef AllocatorType TAllocator;
 
 private:
-	// Header
-	struct THeader
-	{
-	public:
-		size_t m_szFirstEmpty;
+    // Header
+    struct THeader
+    {
+    public:
+        size_t m_szFirstEmpty;
 
-	public:
-		THeader() : m_szFirstEmpty(0) {}
-	};
+    public:
+        THeader() : m_szFirstEmpty(0) {}
+    };
 
 private:
-	THeader& GetHeader()
-		{ return *(THeader*)m_Allocator.GetDataPtr(); }
+    THeader& GetHeader()
+        { return *(THeader*)m_Allocator.GetDataPtr(); }
 
-	const THeader& GetHeader() const
-		{ return (const_cast<TFixedItemHeap*>(this))->GetHeader(); }
+    const THeader& GetHeader() const
+        { return (const_cast<TFixedItemHeap*>(this))->GetHeader(); }
 
-	size_t& GetFirstEmpty()
-		{ return GetHeader().m_szFirstEmpty; }
+    size_t& GetFirstEmpty()
+        { return GetHeader().m_szFirstEmpty; }
 
-	const size_t GetFirstEmpty() const
-		{ return (const_cast<TFixedItemHeap*>(this))->GetFirstEmpty(); }
+    const size_t GetFirstEmpty() const
+        { return (const_cast<TFixedItemHeap*>(this))->GetFirstEmpty(); }
 
-	size_t& GetNextEmpty(size_t szOffset)
-		{ return *(size_t*)(m_Allocator.GetDataPtr() + szOffset); }
+    size_t& GetNextEmpty(size_t szOffset)
+        { return *(size_t*)(m_Allocator.GetDataPtr() + szOffset); }
 
-	size_t GetNextEmpty(size_t szOffset) const
-		{ return (const_cast<TFixedItemHeap*>(this))->GetNextEmpty(szOffset); }
+    size_t GetNextEmpty(size_t szOffset) const
+        { return (const_cast<TFixedItemHeap*>(this))->GetNextEmpty(szOffset); }
 
-	size_t InternalReserve();
+    size_t InternalReserve();
 
-	void InternalFree(size_t szOffset);
-
-public:
-	TAllocator m_Allocator;
-
-	TFixedItemHeap(const TFixedItemHeap&);
-
-	TFixedItemHeap& operator = (const TFixedItemHeap&);
+    void InternalFree(size_t szOffset);
 
 public:
-	TFixedItemHeap();
+    TAllocator m_Allocator;
 
-	~TFixedItemHeap()
-		{ Release(); }
+    TFixedItemHeap(const TFixedItemHeap&);
 
-	bool IsAllocated() const
-		{ return m_Allocator.IsAllocated(); }
+    TFixedItemHeap& operator = (const TFixedItemHeap&);
 
-	void Release();
+public:
+    TFixedItemHeap();
 
-	void Allocate() {}
+    ~TFixedItemHeap()
+        { Release(); }
 
-	void Clear();
+    bool IsAllocated() const
+        { return m_Allocator.IsAllocated(); }
 
-	// Means allocator is minimized
-	bool IsTotallyClean() const;
+    void Release();
 
-	size_t GetFirstCleanOffset() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void Allocate() {}
 
-		return sizeof(THeader);
-	}
+    void Clear();
 
-	size_t Reserve()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    // Means allocator is minimized
+    bool IsTotallyClean() const;
 
-		const size_t szOffset = InternalReserve();
+    size_t GetFirstCleanOffset() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		new(GetDataPtr(szOffset)) ObjectType();
+        return sizeof(THeader);
+    }
 
-		return szOffset;
-	}
+    size_t Reserve()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	template <class CreatorType>
-	size_t Reserve(const CreatorType& Data)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        const size_t szOffset = InternalReserve();
 
-		const size_t szOffset = InternalReserve();
+        new(GetDataPtr(szOffset)) ObjectType();
 
-		new(GetDataPtr(szOffset)) ObjectType(Data);
+        return szOffset;
+    }
 
-		return szOffset;
-	}
+    template <class CreatorType>
+    size_t Reserve(const CreatorType& Data)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	template <class CreatorType1, class CreatorType2>
-	size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        const size_t szOffset = InternalReserve();
 
-		const size_t szOffset = InternalReserve();
+        new(GetDataPtr(szOffset)) ObjectType(Data);
 
-		new(GetDataPtr(szOffset)) ObjectType(Data1, Data2);
+        return szOffset;
+    }
 
-		return szOffset;
-	}
+    template <class CreatorType1, class CreatorType2>
+    size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	template <class CreatorType1, class CreatorType2, class CreatorType3>
-	size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2, const CreatorType3& Data3)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        const size_t szOffset = InternalReserve();
 
-		const size_t szOffset = InternalReserve();
+        new(GetDataPtr(szOffset)) ObjectType(Data1, Data2);
 
-		new(GetDataPtr(szOffset)) ObjectType(Data1, Data2, Data3);
+        return szOffset;
+    }
 
-		return szOffset;
-	}
+    template <class CreatorType1, class CreatorType2, class CreatorType3>
+    size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2, const CreatorType3& Data3)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	bool IsValidOffset(size_t szOffset) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        const size_t szOffset = InternalReserve();
 
-		return	szOffset >= GetFirstCleanOffset() &&
-				szOffset + sizeof(ObjectType) <= m_Allocator.GetN() &&
-				!(	(szOffset - GetFirstCleanOffset()) %
-						ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t));
-	}
+        new(GetDataPtr(szOffset)) ObjectType(Data1, Data2, Data3);
 
-	void Free(size_t szOffset)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return szOffset;
+    }
 
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+    bool IsValidOffset(size_t szOffset) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		InternalFree(szOffset);
-	}
+        return  szOffset >= GetFirstCleanOffset() &&
+                szOffset + sizeof(ObjectType) <= m_Allocator.GetN() &&
+                !(  (szOffset - GetFirstCleanOffset()) %
+                        ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t));
+    }
 
-	void FreeWithDestruction(size_t szOffset)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void Free(size_t szOffset)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		GetDataPtr(szOffset)->~ObjectType();
+        InternalFree(szOffset);
+    }
 
-		InternalFree(szOffset);
-	}
+    void FreeWithDestruction(size_t szOffset)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	ObjectType* GetDataPtr(size_t szOffset)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		DEBUG_VERIFY(szOffset);
+        GetDataPtr(szOffset)->~ObjectType();
 
-		return (ObjectType*)(m_Allocator.GetDataPtr() + szOffset);
-	}
+        InternalFree(szOffset);
+    }
 
-	const ObjectType* GetDataPtr(size_t szOffset) const
-		{ return (const_cast<TFixedItemHeap*>(this))->GetDataPtr(szOffset); }
+    ObjectType* GetDataPtr(size_t szOffset)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	size_t GetOffset(const ObjectType* pData) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        DEBUG_VERIFY(szOffset);
 
-		DEBUG_VERIFY(pData);
+        return (ObjectType*)(m_Allocator.GetDataPtr() + szOffset);
+    }
 
-		return (BYTE*)pData - m_Allocator.GetDataPtr();
-	}
+    const ObjectType* GetDataPtr(size_t szOffset) const
+        { return (const_cast<TFixedItemHeap*>(this))->GetDataPtr(szOffset); }
 
-	ObjectType& operator [] (size_t szOffset)
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+    size_t GetOffset(const ObjectType* pData) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return *GetDataPtr(szOffset);
-	}
+        DEBUG_VERIFY(pData);
 
-	const ObjectType& operator [] (size_t szOffset) const
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+        return (BYTE*)pData - m_Allocator.GetDataPtr();
+    }
 
-		return *GetDataPtr(szOffset);
-	}
+    ObjectType& operator [] (size_t szOffset)
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-	ObjectType* operator + (size_t szOffset)
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+        return *GetDataPtr(szOffset);
+    }
 
-		return GetDataPtr(szOffset);
-	}
+    const ObjectType& operator [] (size_t szOffset) const
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-	const ObjectType* operator + (size_t szOffset) const
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+        return *GetDataPtr(szOffset);
+    }
 
-		return GetDataPtr(szOffset);
-	}
+    ObjectType* operator + (size_t szOffset)
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
+
+        return GetDataPtr(szOffset);
+    }
+
+    const ObjectType* operator + (size_t szOffset) const
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
+
+        return GetDataPtr(szOffset);
+    }
 };
 
 template <class ObjectType, class AllocatorType>
@@ -213,54 +213,54 @@ TFixedItemHeap<ObjectType, AllocatorType>::TFixedItemHeap()
 template <class ObjectType, class AllocatorType>
 void TFixedItemHeap<ObjectType, AllocatorType>::Release()
 {
-	m_Allocator.Release();
+    m_Allocator.Release();
 }
 
 template <class ObjectType, class AllocatorType>
 void TFixedItemHeap<ObjectType, AllocatorType>::Clear()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Allocator.SetN(GetFirstCleanOffset());
+    m_Allocator.SetN(GetFirstCleanOffset());
 
-	new(&GetHeader()) THeader();
+    new(&GetHeader()) THeader();
 }
 
 template <class ObjectType, class AllocatorType>
 bool TFixedItemHeap<ObjectType, AllocatorType>::IsTotallyClean() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_Allocator.GetN() == GetFirstCleanOffset();
+    return m_Allocator.GetN() == GetFirstCleanOffset();
 }
 
 template <class ObjectType, class AllocatorType>
 size_t TFixedItemHeap<ObjectType, AllocatorType>::InternalReserve()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	size_t szOffset;
+    size_t szOffset;
 
-	size_t& szFirstEmpty = GetFirstEmpty();
+    size_t& szFirstEmpty = GetFirstEmpty();
 
-	if(szFirstEmpty)
-		szOffset = szFirstEmpty, szFirstEmpty = GetNextEmpty(szFirstEmpty);
-	else
-		szOffset = m_Allocator.Add(Max(sizeof(size_t), ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t)));
+    if(szFirstEmpty)
+        szOffset = szFirstEmpty, szFirstEmpty = GetNextEmpty(szFirstEmpty);
+    else
+        szOffset = m_Allocator.Add(Max(sizeof(size_t), ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t)));
 
-	return szOffset;
+    return szOffset;
 }
 
 template <class ObjectType, class AllocatorType>
 void TFixedItemHeap<ObjectType, AllocatorType>::InternalFree(size_t szOffset)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(szOffset);
+    DEBUG_VERIFY(szOffset);
 
-	size_t& szFirstEmpty = GetFirstEmpty();
+    size_t& szFirstEmpty = GetFirstEmpty();
 
-	GetNextEmpty(szOffset) = szFirstEmpty, szFirstEmpty = szOffset;
+    GetNextEmpty(szOffset) = szFirstEmpty, szFirstEmpty = szOffset;
 }
 
 // -------------------------
@@ -270,305 +270,305 @@ template <class ObjectType, class AllocatorType, class AuxType>
 class TFixedItemHeapWithAux
 {
 public:
-	typedef AllocatorType TAllocator;
+    typedef AllocatorType TAllocator;
 
 private:
-	// Header
-	struct THeader
-	{
-	public:
-		size_t m_szFirstEmpty;
+    // Header
+    struct THeader
+    {
+    public:
+        size_t m_szFirstEmpty;
 
-	public:
-		THeader() : m_szFirstEmpty(0) {}
-	};
-
-private:
-	THeader& GetHeader()
-		{ return *(THeader*)m_Allocator.GetDataPtr(); }
-
-	const THeader& GetHeader() const
-		{ return (const_cast<TFixedItemHeapWithAux*>(this))->GetHeader(); }
-
-	size_t& GetFirstEmpty()
-		{ return GetHeader().m_szFirstEmpty; }
-
-	const size_t GetFirstEmpty() const
-		{ return (const_cast<TFixedItemHeapWithAux*>(this))->GetFirstEmpty(); }
-
-	size_t& GetNextEmpty(size_t szOffset)
-		{ return *(size_t*)(m_Allocator.GetDataPtr() + szOffset); }
-
-	size_t GetNextEmpty(size_t szOffset) const
-		{ return (const_cast<TFixedItemHeapWithAux*>(this))->GetNextEmpty(szOffset); }
-
-	size_t InternalReserve();
-
-	void InternalFree(size_t szOffset);
+    public:
+        THeader() : m_szFirstEmpty(0) {}
+    };
 
 private:
-	size_t m_szAuxDataSize;
+    THeader& GetHeader()
+        { return *(THeader*)m_Allocator.GetDataPtr(); }
+
+    const THeader& GetHeader() const
+        { return (const_cast<TFixedItemHeapWithAux*>(this))->GetHeader(); }
+
+    size_t& GetFirstEmpty()
+        { return GetHeader().m_szFirstEmpty; }
+
+    const size_t GetFirstEmpty() const
+        { return (const_cast<TFixedItemHeapWithAux*>(this))->GetFirstEmpty(); }
+
+    size_t& GetNextEmpty(size_t szOffset)
+        { return *(size_t*)(m_Allocator.GetDataPtr() + szOffset); }
+
+    size_t GetNextEmpty(size_t szOffset) const
+        { return (const_cast<TFixedItemHeapWithAux*>(this))->GetNextEmpty(szOffset); }
+
+    size_t InternalReserve();
+
+    void InternalFree(size_t szOffset);
+
+private:
+    size_t m_szAuxDataSize;
 
 public:
-	TAllocator m_Allocator;
+    TAllocator m_Allocator;
 
 public:
-	TFixedItemHeapWithAux();
+    TFixedItemHeapWithAux();
 
-	~TFixedItemHeapWithAux()
-		{ Release(); }
+    ~TFixedItemHeapWithAux()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_Allocator.IsAllocated(); }
+    bool IsAllocated() const
+        { return m_Allocator.IsAllocated(); }
 
-	void Release();
+    void Release();
 
-	void Allocate() {}
+    void Allocate() {}
 
-	void AllocateWithAux() {}
+    void AllocateWithAux() {}
 
-	void Clear();
+    void Clear();
 
-	void ClearWithAux();
+    void ClearWithAux();
 
-	// Means allocator is minimized
-	bool IsTotallyClean() const;
+    // Means allocator is minimized
+    bool IsTotallyClean() const;
 
-	// Means allocator is minimized, and 'bool t::IsClean() const' returns 'true'
-	bool IsTotallyCleanWithAux() const;
+    // Means allocator is minimized, and 'bool t::IsClean() const' returns 'true'
+    bool IsTotallyCleanWithAux() const;
 
-	// Means allocator is minimized and aux data equals 't()'
-	bool IsTotallyCleanWithAuxDefaultCmp() const;
+    // Means allocator is minimized and aux data equals 't()'
+    bool IsTotallyCleanWithAuxDefaultCmp() const;
 
-	AuxType& GetAuxData()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    AuxType& GetAuxData()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return *reinterpret_cast<AuxType*>(&GetHeader() + 1);
-	}
+        return *reinterpret_cast<AuxType*>(&GetHeader() + 1);
+    }
 
-	const AuxType& GetAuxData() const
-		{ return (const_cast<TFixedItemHeapWithAux*>(this))->GetAuxData(); }
+    const AuxType& GetAuxData() const
+        { return (const_cast<TFixedItemHeapWithAux*>(this))->GetAuxData(); }
 
-	size_t GetFirstCleanOffset() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    size_t GetFirstCleanOffset() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return sizeof(THeader) + ALIGNED_DATA_SIZE(sizeof(AuxType), size_t);
-	}
+        return sizeof(THeader) + ALIGNED_DATA_SIZE(sizeof(AuxType), size_t);
+    }
 
-	size_t Reserve()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    size_t Reserve()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		const size_t szOffset = InternalReserve();
+        const size_t szOffset = InternalReserve();
 
-		new(GetDataPtr(szOffset)) ObjectType();
+        new(GetDataPtr(szOffset)) ObjectType();
 
-		return szOffset;
-	}
+        return szOffset;
+    }
 
-	template <class CreatorType>
-	size_t Reserve(const CreatorType& Data)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    template <class CreatorType>
+    size_t Reserve(const CreatorType& Data)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		const size_t szOffset = InternalReserve();
+        const size_t szOffset = InternalReserve();
 
-		new(GetDataPtr(szOffset)) ObjectType(Data);
+        new(GetDataPtr(szOffset)) ObjectType(Data);
 
-		return szOffset;
-	}
+        return szOffset;
+    }
 
-	template <class CreatorType1, class CreatorType2>
-	size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    template <class CreatorType1, class CreatorType2>
+    size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		const size_t szOffset = InternalReserve();
+        const size_t szOffset = InternalReserve();
 
-		new(GetDataPtr(szOffset)) ObjectType(Data1, Data2);
+        new(GetDataPtr(szOffset)) ObjectType(Data1, Data2);
 
-		return szOffset;
-	}
+        return szOffset;
+    }
 
-	template <class CreatorType1, class CreatorType2, class CreatorType3>
-	size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2, const CreatorType3& Data3)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    template <class CreatorType1, class CreatorType2, class CreatorType3>
+    size_t Reserve(const CreatorType1& Data1, const CreatorType2& Data2, const CreatorType3& Data3)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		const size_t szOffset = InternalReserve();
+        const size_t szOffset = InternalReserve();
 
-		new(GetDataPtr(szOffset)) ObjectType(Data1, Data2, Data3);
+        new(GetDataPtr(szOffset)) ObjectType(Data1, Data2, Data3);
 
-		return szOffset;
-	}
+        return szOffset;
+    }
 
-	bool IsValidOffset(size_t szOffset) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    bool IsValidOffset(size_t szOffset) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return	szOffset >= GetFirstCleanOffset() &&
-				szOffset + sizeof(ObjectType) <= m_Allocator.GetN() &&
-				!(	(szOffset - GetFirstCleanOffset()) %
-						ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t));
-	}
+        return  szOffset >= GetFirstCleanOffset() &&
+                szOffset + sizeof(ObjectType) <= m_Allocator.GetN() &&
+                !(  (szOffset - GetFirstCleanOffset()) %
+                        ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t));
+    }
 
-	void Free(size_t szOffset)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void Free(size_t szOffset)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		InternalFree(szOffset);
-	}
+        InternalFree(szOffset);
+    }
 
-	void FreeWithDestruction(size_t szOffset)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void FreeWithDestruction(size_t szOffset)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		GetDataPtr(szOffset)->~ObjectType();
+        GetDataPtr(szOffset)->~ObjectType();
 
-		InternalFree(szOffset);
-	}
+        InternalFree(szOffset);
+    }
 
-	ObjectType* GetDataPtr(size_t szOffset)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    ObjectType* GetDataPtr(size_t szOffset)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(szOffset);
+        DEBUG_VERIFY(szOffset);
 
-		return (ObjectType*)(m_Allocator.GetDataPtr() + szOffset);
-	}
+        return (ObjectType*)(m_Allocator.GetDataPtr() + szOffset);
+    }
 
-	const ObjectType* GetDataPtr(size_t szOffset) const
-		{ return (const_cast<TFixedItemHeapWithAux*>(this))->GetDataPtr(szOffset); }
+    const ObjectType* GetDataPtr(size_t szOffset) const
+        { return (const_cast<TFixedItemHeapWithAux*>(this))->GetDataPtr(szOffset); }
 
-	size_t GetOffset(const ObjectType* pData) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    size_t GetOffset(const ObjectType* pData) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(pData);
+        DEBUG_VERIFY(pData);
 
-		return (BYTE*)pData - m_Allocator.GetDataPtr();
-	}
+        return (BYTE*)pData - m_Allocator.GetDataPtr();
+    }
 
-	ObjectType& operator [] (size_t szOffset)
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+    ObjectType& operator [] (size_t szOffset)
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		return *GetDataPtr(szOffset);
-	}
+        return *GetDataPtr(szOffset);
+    }
 
-	const ObjectType& operator [] (size_t szOffset) const
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+    const ObjectType& operator [] (size_t szOffset) const
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		return *GetDataPtr(szOffset);
-	}
+        return *GetDataPtr(szOffset);
+    }
 
-	ObjectType* operator + (size_t szOffset)
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+    ObjectType* operator + (size_t szOffset)
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		return GetDataPtr(szOffset);
-	}
+        return GetDataPtr(szOffset);
+    }
 
-	const ObjectType* operator + (size_t szOffset) const
-	{
-		DEBUG_VERIFY(IsValidOffset(szOffset));
+    const ObjectType* operator + (size_t szOffset) const
+    {
+        DEBUG_VERIFY(IsValidOffset(szOffset));
 
-		return GetDataPtr(szOffset);
-	}
+        return GetDataPtr(szOffset);
+    }
 };
 
 template <class ObjectType, class AllocatorType, class AuxType>
 TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::TFixedItemHeapWithAux()
 {
-	m_szAuxDataSize = -1;
+    m_szAuxDataSize = -1;
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 void TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::Release()
 {
-	m_szAuxDataSize = -1;
+    m_szAuxDataSize = -1;
 
-	m_Allocator.Release();
+    m_Allocator.Release();
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 void TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::Clear()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Allocator.SetN(GetFirstCleanOffset());
+    m_Allocator.SetN(GetFirstCleanOffset());
 
-	new(&GetHeader()) THeader();
+    new(&GetHeader()) THeader();
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 void TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::ClearWithAux()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	Clear();
+    Clear();
 
-	new(&GetAuxData()) AuxType();
+    new(&GetAuxData()) AuxType();
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 bool TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::IsTotallyClean() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_Allocator.GetN() == GetFirstCleanOffset();
+    return m_Allocator.GetN() == GetFirstCleanOffset();
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 bool TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::IsTotallyCleanWithAux() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return IsTotallyClean() && GetAuxData().IsClean();
+    return IsTotallyClean() && GetAuxData().IsClean();
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 bool TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::IsTotallyCleanWithAuxDefaultCmp() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return IsTotallyClean() && GetAuxData() == AuxType();
+    return IsTotallyClean() && GetAuxData() == AuxType();
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 size_t TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::InternalReserve()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	size_t szOffset;
+    size_t szOffset;
 
-	size_t& szFirstEmpty = GetFirstEmpty();
+    size_t& szFirstEmpty = GetFirstEmpty();
 
-	if(szFirstEmpty)
-		szOffset = szFirstEmpty, szFirstEmpty = GetNextEmpty(szFirstEmpty);
-	else
-		szOffset = m_Allocator.Add(Max(sizeof(size_t), ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t)));
+    if(szFirstEmpty)
+        szOffset = szFirstEmpty, szFirstEmpty = GetNextEmpty(szFirstEmpty);
+    else
+        szOffset = m_Allocator.Add(Max(sizeof(size_t), ALIGNED_DATA_SIZE(sizeof(ObjectType), size_t)));
 
-	return szOffset;
+    return szOffset;
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 void TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::InternalFree(size_t szOffset)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(szOffset);
+    DEBUG_VERIFY(szOffset);
 
-	size_t& szFirstEmpty = GetFirstEmpty();
+    size_t& szFirstEmpty = GetFirstEmpty();
 
-	GetNextEmpty(szOffset) = szFirstEmpty, szFirstEmpty = szOffset;
+    GetNextEmpty(szOffset) = szFirstEmpty, szFirstEmpty = szOffset;
 }
 
 #endif // fixed_item_heap_h

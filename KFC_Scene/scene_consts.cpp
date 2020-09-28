@@ -8,6 +8,6 @@ TSceneConsts g_SceneConsts;
 // -------------
 TSceneConsts::TSceneConsts()
 {
-	// Registry
-	m_RegistryKeyName = TEXT("Scene\\");
+    // Registry
+    m_RegistryKeyName = TEXT("Scene\\");
 }

@@ -13,35 +13,35 @@ TCommonTokens g_CommonTokens;
 // --------------
 TCommonTokens::TCommonTokens() : TGlobals(TEXT("Common tokens"))
 {
-	#ifdef _MSC_VER
-		AddSubGlobals(g_CommonCfg);
-		AddSubGlobals(g_CommonInitials);
-	#endif // MSC_VER
+    #ifdef _MSC_VER
+        AddSubGlobals(g_CommonCfg);
+        AddSubGlobals(g_CommonInitials);
+    #endif // MSC_VER
 
-	AddSubGlobals(g_StartupGlobals);
+    AddSubGlobals(g_StartupGlobals);
 }
 
 void TCommonTokens::OnUninitialize()
 {
-	m_FileNameTokensRegisterer.Release();
+    m_FileNameTokensRegisterer.Release();
 
-	m_FileNameTokens.Clear();
+    m_FileNameTokens.Clear();
 }
 
 void TCommonTokens::OnInitialize()
 {
-	// --- Filename tokens ---
-	m_FileNameTokensRegisterer.Allocate(FILENAME_TOKENS);
+    // --- Filename tokens ---
+    m_FileNameTokensRegisterer.Allocate(FILENAME_TOKENS);
 
-	m_FileNameTokensRegisterer.Add(TEXT("[TempFileNamePrefix]"),	g_CommonConsts.m_TempFileNamePrefix);
-	m_FileNameTokensRegisterer.Add(TEXT("[DefinitionsFolder]"),		g_CommonConsts.m_DefinitionsFolderName);
-	m_FileNameTokensRegisterer.Add(TEXT("[StartFolder]"),			g_StartupGlobals.m_StartFolder);
+    m_FileNameTokensRegisterer.Add(TEXT("[TempFileNamePrefix]"),    g_CommonConsts.m_TempFileNamePrefix);
+    m_FileNameTokensRegisterer.Add(TEXT("[DefinitionsFolder]"),     g_CommonConsts.m_DefinitionsFolderName);
+    m_FileNameTokensRegisterer.Add(TEXT("[StartFolder]"),           g_StartupGlobals.m_StartFolder);
 
-	#ifdef _MSC_VER
-	{
-		m_FileNameTokensRegisterer.Add(TEXT("[WindowsFolder]"),			g_StartupGlobals.m_WindowsFolder);
-		m_FileNameTokensRegisterer.Add(TEXT("[SystemFolder]"),			g_StartupGlobals.m_SystemFolder);
-		m_FileNameTokensRegisterer.Add(TEXT("[TempFolder]"),			g_StartupGlobals.m_TempFolder);
-	}
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+    {
+        m_FileNameTokensRegisterer.Add(TEXT("[WindowsFolder]"),         g_StartupGlobals.m_WindowsFolder);
+        m_FileNameTokensRegisterer.Add(TEXT("[SystemFolder]"),          g_StartupGlobals.m_SystemFolder);
+        m_FileNameTokensRegisterer.Add(TEXT("[TempFolder]"),            g_StartupGlobals.m_TempFolder);
+    }
+    #endif // _MSC_VER
 }

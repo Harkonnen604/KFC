@@ -9,7 +9,7 @@
 class TInterfaceGlobals : public TModuleGlobals
 {
 public:
-	TInterfaceGlobals();
+    TInterfaceGlobals();
 };
 
 extern TInterfaceGlobals g_InterfaceGlobals;

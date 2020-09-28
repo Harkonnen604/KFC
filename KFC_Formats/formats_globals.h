@@ -9,7 +9,7 @@
 class TFormatsGlobals : public TModuleGlobals
 {
 public:
-	TFormatsGlobals();
+    TFormatsGlobals();
 };
 
 extern TFormatsGlobals g_FormatsGlobals;

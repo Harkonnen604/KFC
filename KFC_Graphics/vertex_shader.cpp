@@ -8,29 +8,29 @@
 // --------------
 TVertexShader::TVertexShader()
 {
-	m_pVertexShader = NULL;
+    m_pVertexShader = NULL;
 }
 
 void TVertexShader::Release()
 {
-	if(m_pVertexShader)
-	{
-		g_GraphicsStateManager.InvalidateVertexShader(m_pVertexShader);
+    if(m_pVertexShader)
+    {
+        g_GraphicsStateManager.InvalidateVertexShader(m_pVertexShader);
 
-		m_pVertexShader->Release(), m_pVertexShader = NULL;
-	}
+        m_pVertexShader->Release(), m_pVertexShader = NULL;
+    }
 }
 
 void TVertexShader::Allocate(IDirect3DVertexShader9* pSVertexShader)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(pSVertexShader);
+    DEBUG_VERIFY(pSVertexShader);
 
-	m_pVertexShader = pSVertexShader;
+    m_pVertexShader = pSVertexShader;
 }
 
 void TVertexShader::Install() const
 {
-	g_GraphicsStateManager.SetVertexShader(m_pVertexShader);
+    g_GraphicsStateManager.SetVertexShader(m_pVertexShader);
 }

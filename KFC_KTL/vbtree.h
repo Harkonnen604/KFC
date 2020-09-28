@@ -9,22 +9,22 @@
 template <class ObjectType>
 struct TValueBTreeItem : public TBTreeItem
 {
-	ObjectType m_Data;
+    ObjectType m_Data;
 
 
-	TValueBTreeItem(TBTreeItem* pSParent) : TBTreeItem(pSParent) {}
+    TValueBTreeItem(TBTreeItem* pSParent) : TBTreeItem(pSParent) {}
 
-	ObjectType&			GetDataRef()		{ return m_Data; }
-	const ObjectType&	GetDataRef() const	{ return m_Data; }
+    ObjectType&         GetDataRef()        { return m_Data; }
+    const ObjectType&   GetDataRef() const  { return m_Data; }
 
-	ObjectType*			GetDataPtr()		{ return &m_Data; }
-	const ObjectType*	GetDataPtr() const	{ return &m_Data; }
+    ObjectType*         GetDataPtr()        { return &m_Data; }
+    const ObjectType*   GetDataPtr() const  { return &m_Data; }
 };
 
 template <class ObjectType, class RefType>
 inline int Compare(const TValueBTreeItem<ObjectType>& Item, RefType RefV)
 {
-	return Compare(Item.m_Data, RefV);
+    return Compare(Item.m_Data, RefV);
 }
 
 // ------
@@ -34,9 +34,9 @@ template <class ObjectType, class RefType = ObjectType&>
 class TValueBTree : public TBTree<TValueBTreeItem<ObjectType>, ObjectType, RefType>
 {
 public:
-	TValueBTree() {}
+    TValueBTree() {}
 
-	TBTreeIterator Add(RefType RefV) { return AddItem(RefV); }
+    TBTreeIterator Add(RefType RefV) { return AddItem(RefV); }
 };
 
 #endif // vbtree_h

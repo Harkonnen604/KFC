@@ -12,7 +12,7 @@ TCompositeSpriteCreationStruct::TCompositeSpriteCreationStruct()
 
 void TCompositeSpriteCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 {
-	TCompoundSpriteCreationStruct::Load(InfoNode);
+    TCompoundSpriteCreationStruct::Load(InfoNode);
 }
 
 // ----------------------------------
@@ -22,10 +22,10 @@ TCompositeSpriteSpritesProvider::TCompositeSpriteSpritesProvider()
 {
 }
 
-void TCompositeSpriteSpritesProvider::Load(	TInfoNodeConstIterator	InfoNode,
-											size_t					szNItems)
+void TCompositeSpriteSpritesProvider::Load( TInfoNodeConstIterator  InfoNode,
+                                            size_t                  szNItems)
 {
-	TCompoundSpriteSpritesProvider::Load(InfoNode, szNItems, CSOM_NONE);
+    TCompoundSpriteSpritesProvider::Load(InfoNode, szNItems, CSOM_NONE);
 }
 
 // -----------------
@@ -33,94 +33,94 @@ void TCompositeSpriteSpritesProvider::Load(	TInfoNodeConstIterator	InfoNode,
 // -----------------
 TSprite* TCompositeSprite::Create(type_t tpType)
 {
-	DEBUG_VERIFY(tpType == SPRITE_TYPE_COMPOSITE);
+    DEBUG_VERIFY(tpType == SPRITE_TYPE_COMPOSITE);
 
-	return new TCompositeSprite;
+    return new TCompositeSprite;
 }
 
 TCompositeSprite::TCompositeSprite()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TCompositeSprite::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		TCompoundSprite::Release();
-	}
+        TCompoundSprite::Release();
+    }
 }
-	
-void TCompositeSprite::Allocate(const TCompositeSpriteCreationStruct&	CreationStruct,
-								TCompositeSpriteSpritesProvider&		SpritesProvider)
+
+void TCompositeSprite::Allocate(const TCompositeSpriteCreationStruct&   CreationStruct,
+                                TCompositeSpriteSpritesProvider&        SpritesProvider)
 {
-	Release();
-	
-	try
-	{
-		TCompoundSprite::Allocate(CreationStruct, SpritesProvider, CSOM_NONE);
+    Release();
 
-		m_bAllocated = true;
-	}
+    try
+    {
+        TCompoundSprite::Allocate(CreationStruct, SpritesProvider, CSOM_NONE);
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+        m_bAllocated = true;
+    }
+
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 void TCompositeSprite::Load(TInfoNodeConstIterator InfoNode)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(InfoNode.IsValid());
+    DEBUG_VERIFY(InfoNode.IsValid());
 
-	TCompositeSpriteCreationStruct CreationStruct;
-	CreationStruct.Load(InfoNode);
+    TCompositeSpriteCreationStruct CreationStruct;
+    CreationStruct.Load(InfoNode);
 
-	TCompositeSpriteSpritesProvider SpritesProvider;
-	SpritesProvider.Load(InfoNode, CreationStruct.m_szNItems);
+    TCompositeSpriteSpritesProvider SpritesProvider;
+    SpritesProvider.Load(InfoNode, CreationStruct.m_szNItems);
 
-	Allocate(CreationStruct, SpritesProvider);
+    Allocate(CreationStruct, SpritesProvider);
 }
 
-void TCompositeSprite::DrawNonScaled(	const FPOINT&			DstCoords,
-										const TD3DColor&		Color,
-										const TSpriteStates&	States) const
+void TCompositeSprite::DrawNonScaled(   const FPOINT&           DstCoords,
+                                        const TD3DColor&        Color,
+                                        const TSpriteStates&    States) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	const TD3DColor DstColor = Color * m_Color;
+    const TD3DColor DstColor = Color * m_Color;
 
-	size_t i;
+    size_t i;
 
-	for(i = 0 ; i < GetItems().GetN() ; i++)
-	{
-		GetItems()[i].m_Sprite->DrawNonScaled(	ShiftPoint(	FPOINT(DstCoords),
-															GetItems()[i].m_Parameters.m_Offset),
-												DstColor,
-												States);
-	}
+    for(i = 0 ; i < GetItems().GetN() ; i++)
+    {
+        GetItems()[i].m_Sprite->DrawNonScaled(  ShiftPoint( FPOINT(DstCoords),
+                                                            GetItems()[i].m_Parameters.m_Offset),
+                                                DstColor,
+                                                States);
+    }
 }
 
-void TCompositeSprite::DrawRect(const FRECT&			DstRect,
-								const TD3DColor&		Color,
-								const TSpriteStates&	States) const
+void TCompositeSprite::DrawRect(const FRECT&            DstRect,
+                                const TD3DColor&        Color,
+                                const TSpriteStates&    States) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	const TD3DColor DstColor = Color * m_Color;
+    const TD3DColor DstColor = Color * m_Color;
 
-	size_t i;
-	
-	for(i = 0 ; i < GetItems().GetN() ; i++)
-	{
-		GetItems()[i].m_Sprite->DrawRect(	ShiftRect(	FRECT(DstRect),
-														GetItems()[i].m_Parameters.m_Offset),
-														DstColor,
-														States);
-	}
+    size_t i;
+
+    for(i = 0 ; i < GetItems().GetN() ; i++)
+    {
+        GetItems()[i].m_Sprite->DrawRect(   ShiftRect(  FRECT(DstRect),
+                                                        GetItems()[i].m_Parameters.m_Offset),
+                                                        DstColor,
+                                                        States);
+    }
 }

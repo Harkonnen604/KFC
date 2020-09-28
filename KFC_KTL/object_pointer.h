@@ -11,191 +11,191 @@ template <class ObjectType>
 class TObjectPointer
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	ObjectType*	m_pObject;
+    ObjectType* m_pObject;
 
-	bool m_bExternal;
+    bool m_bExternal;
 
 public:
-	TObjectPointer();
+    TObjectPointer();
 
-	TObjectPointer(const TObjectPointer& SPointer);
+    TObjectPointer(const TObjectPointer& SPointer);
 
-	TObjectPointer(ObjectType* pSObject, bool bSExternal);
+    TObjectPointer(ObjectType* pSObject, bool bSExternal);
 
-	~TObjectPointer() { Release(); }
-	
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    ~TObjectPointer() { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	ObjectType* Allocate(ObjectType* pSObject, bool bSExternal);
+    void Release();
 
-	TObjectPointer& operator = (const TObjectPointer& SPointer);
+    ObjectType* Allocate(ObjectType* pSObject, bool bSExternal);
 
-	ObjectType* ReOwn(TObjectPointer<ObjectType>& SPointer);
+    TObjectPointer& operator = (const TObjectPointer& SPointer);
 
-	ObjectType* MakeInternal();
-	ObjectType* MakeExternal();
+    ObjectType* ReOwn(TObjectPointer<ObjectType>& SPointer);
 
-	ObjectType*			GetDataPtr()		{ return m_pObject; }
-	const ObjectType*	GetDataPtr() const	{ return m_pObject; }
+    ObjectType* MakeInternal();
+    ObjectType* MakeExternal();
 
-	ObjectType&			GetDataRef()		{ return *GetDataPtr(); }
-	const ObjectType&	GetDataRef() const	{ return *GetDataPtr(); }
+    ObjectType*         GetDataPtr()        { return m_pObject; }
+    const ObjectType*   GetDataPtr() const  { return m_pObject; }
 
-	ObjectType* operator -> ()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    ObjectType&         GetDataRef()        { return *GetDataPtr(); }
+    const ObjectType&   GetDataRef() const  { return *GetDataPtr(); }
 
-		return GetDataPtr();
-	}
+    ObjectType* operator -> ()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const ObjectType* operator -> () const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return GetDataPtr();
+    }
 
-		return GetDataPtr();
-	}
+    const ObjectType* operator -> () const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	ObjectType& operator * ()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return GetDataPtr();
+    }
 
-		return GetDataRef();
-	}
+    ObjectType& operator * ()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const ObjectType& operator * () const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return GetDataRef();
+    }
 
-		return GetDataRef();
-	}
+    const ObjectType& operator * () const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	// -------------------- TRIVIALS -----------------------
-	bool IsInternal() const { return !m_bExternal;	}
-	bool IsExternal() const { return m_bExternal;	}
+        return GetDataRef();
+    }
+
+    // -------------------- TRIVIALS -----------------------
+    bool IsInternal() const { return !m_bExternal;  }
+    bool IsExternal() const { return m_bExternal;   }
 };
 
 template <class ObjectType>
 TObjectPointer<ObjectType>::TObjectPointer()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_pObject = NULL;
+    m_pObject = NULL;
 
-	m_bExternal = true;
+    m_bExternal = true;
 }
 
 template <class ObjectType>
 TObjectPointer<ObjectType>::TObjectPointer(const TObjectPointer& SPointer)
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_pObject = NULL;
+    m_pObject = NULL;
 
-	m_bExternal = true;
+    m_bExternal = true;
 
-	*this = SPointer;
+    *this = SPointer;
 }
 
 template <class ObjectType>
 TObjectPointer<ObjectType>::TObjectPointer(ObjectType* pSObject, bool bSExternal)
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_pObject = NULL;
+    m_pObject = NULL;
 
-	m_bExternal = true;
+    m_bExternal = true;
 
-	Allocate(pSObject, bSExternal);
+    Allocate(pSObject, bSExternal);
 }
 
 template <class ObjectType>
 void TObjectPointer<ObjectType>::Release()
 {
-	if(m_bAllocated)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated)
+    {
+        m_bAllocated = false;
 
-		if(IsInternal())
-			delete m_pObject;
+        if(IsInternal())
+            delete m_pObject;
 
-		m_pObject = NULL;
+        m_pObject = NULL;
 
-		m_bExternal = true;		
-	}
+        m_bExternal = true;
+    }
 }
 
 template <class ObjectType>
 ObjectType* TObjectPointer<ObjectType>::Allocate(ObjectType* pSObject, bool bSExternal)
 {
-	Release();
+    Release();
 
-	if(pSObject == NULL)
-		return GetDataPtr();
+    if(pSObject == NULL)
+        return GetDataPtr();
 
-	m_pObject = pSObject;
+    m_pObject = pSObject;
 
-	m_bExternal = bSExternal;
+    m_bExternal = bSExternal;
 
-	m_bAllocated = true;
+    m_bAllocated = true;
 
-	return GetDataPtr();
+    return GetDataPtr();
 }
 
 template <class ObjectType>
 TObjectPointer<ObjectType>& TObjectPointer<ObjectType>::operator = (const TObjectPointer& SPointer)
 {
-	if(&SPointer == this)
-		return *this;
+    if(&SPointer == this)
+        return *this;
 
-	Release();
+    Release();
 
-	if(!SPointer.IsAllocated())
-		return *this;
+    if(!SPointer.IsAllocated())
+        return *this;
 
-	Allocate(const_cast<ObjectType*>(SPointer.GetDataPtr()), true);
+    Allocate(const_cast<ObjectType*>(SPointer.GetDataPtr()), true);
 
-	return *this;
+    return *this;
 }
 
 template <class ObjectType>
 ObjectType* TObjectPointer<ObjectType>::ReOwn(TObjectPointer<ObjectType>& SPointer)
 {
-	Release();
+    Release();
 
-	if(!SPointer.IsAllocated())
-		return GetDataPtr();
+    if(!SPointer.IsAllocated())
+        return GetDataPtr();
 
-	if(SPointer.IsInternal())
-		Allocate(SPointer.GetDataPtr(), false), SPointer.MakeExternal();
-	else
-		Allocate(SPointer.GetDataPtr(), true);
+    if(SPointer.IsInternal())
+        Allocate(SPointer.GetDataPtr(), false), SPointer.MakeExternal();
+    else
+        Allocate(SPointer.GetDataPtr(), true);
 
-	return GetDataPtr();
+    return GetDataPtr();
 }
 
 template <class ObjectType>
 ObjectType* TObjectPointer<ObjectType>::MakeInternal()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_bExternal = false;
+    m_bExternal = false;
 
-	return GetDataPtr();
+    return GetDataPtr();
 }
 
 template <class ObjectType>
 ObjectType* TObjectPointer<ObjectType>::MakeExternal()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_bExternal = true;
+    m_bExternal = true;
 
-	return GetDataPtr();
+    return GetDataPtr();
 }
 
 #endif // object_pointer_h

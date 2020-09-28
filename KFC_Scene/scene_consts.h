@@ -9,7 +9,7 @@
 class TSceneConsts : public TConsts
 {
 public:
-	TSceneConsts();
+    TSceneConsts();
 };
 
 extern TSceneConsts g_SceneConsts;

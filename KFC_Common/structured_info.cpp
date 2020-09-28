@@ -9,599 +9,599 @@
 
 // Node
 TStructuredInfo::TNode::TParameters::TConstIterator
-	TStructuredInfo::TNode::FindParameter(	const KString&				Name,
-											TParameters::TConstIterator	After) const
+    TStructuredInfo::TNode::FindParameter(  const KString&              Name,
+                                            TParameters::TConstIterator After) const
 {
-	for(TParameters::TConstIterator Iter =	After.IsValid() ?
-												After.GetNext() :
-												m_Parameters.GetFirst() ;
-		Iter.IsValid() ;
-		++Iter)
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(TParameters::TConstIterator Iter =  After.IsValid() ?
+                                                After.GetNext() :
+                                                m_Parameters.GetFirst() ;
+        Iter.IsValid() ;
+        ++Iter)
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return TParameters::TConstIterator();
+    return TParameters::TConstIterator();
 }
 
 TStructuredInfo::TNode::TParameters::TConstIterator
-	TStructuredInfo::TNode::GetParameter(	const KString&				Name,
-											TParameters::TConstIterator	After) const
+    TStructuredInfo::TNode::GetParameter(   const KString&              Name,
+                                            TParameters::TConstIterator After) const
 {
-	const TParameters::TConstIterator Iter = FindParameter(Name, After);
+    const TParameters::TConstIterator Iter = FindParameter(Name, After);
 
-	if(!Iter.IsValid())
-		INITIATE_DEFINED_FAILURE((KString)TEXT("Parameter \"") + Name + TEXT("\" not found."));
+    if(!Iter.IsValid())
+        INITIATE_DEFINED_FAILURE((KString)TEXT("Parameter \"") + Name + TEXT("\" not found."));
 
-	return Iter;
+    return Iter;
 }
 
-const KString& TStructuredInfo::TNode::GetParameterValue(const KString&					Name,
-														 TParameters::TConstIterator	After) const
+const KString& TStructuredInfo::TNode::GetParameterValue(const KString&                 Name,
+                                                         TParameters::TConstIterator    After) const
 {
-	return GetParameter(Name, After)->m_Value;
+    return GetParameter(Name, After)->m_Value;
 }
 
-const KString TStructuredInfo::TNode::GetParameterValue(const KString&				Name,
-														const KString&				DefaultValue,
-														TParameters::TConstIterator	After) const
+const KString TStructuredInfo::TNode::GetParameterValue(const KString&              Name,
+                                                        const KString&              DefaultValue,
+                                                        TParameters::TConstIterator After) const
 {
-	const TParameters::TConstIterator PIter = FindParameter(Name, After);
+    const TParameters::TConstIterator PIter = FindParameter(Name, After);
 
-	return PIter.IsValid() ? PIter->m_Value : DefaultValue;
+    return PIter.IsValid() ? PIter->m_Value : DefaultValue;
 }
 
-bool TStructuredInfo::TNode::HasParameter(	const KString&				Name,
-											TParameters::TConstIterator	After) const
+bool TStructuredInfo::TNode::HasParameter(  const KString&              Name,
+                                            TParameters::TConstIterator After) const
 {
-	return FindParameter(Name, After).IsValid();
+    return FindParameter(Name, After).IsValid();
 }
 
-bool TStructuredInfo::TNode::HasTrueParameter(	const KString&				Name,
-												TParameters::TConstIterator	After) const
+bool TStructuredInfo::TNode::HasTrueParameter(  const KString&              Name,
+                                                TParameters::TConstIterator After) const
 {
-	const TParameters::TConstIterator PIter = FindParameter(Name, After);
+    const TParameters::TConstIterator PIter = FindParameter(Name, After);
 
-	bool bValue;
+    bool bValue;
 
-	return PIter.IsValid() && FromString(PIter->m_Value, bValue) && bValue;
-}
-
-TStructuredInfo::TNode::TParameters::TIterator
-	TStructuredInfo::TNode::AddParameter(	const KString& Name,
-											const KString& Value)
-{
-	const TParameters::TIterator PIter = m_Parameters.AddLast();
-
-	PIter->Set(Name, Value);
-
-	return PIter;
+    return PIter.IsValid() && FromString(PIter->m_Value, bValue) && bValue;
 }
 
 TStructuredInfo::TNode::TParameters::TIterator
-	TStructuredInfo::TNode::GetPrevSame(TParameters::TIterator Iter)
+    TStructuredInfo::TNode::AddParameter(   const KString& Name,
+                                            const KString& Value)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    const TParameters::TIterator PIter = m_Parameters.AddLast();
 
-	const KString& Name = Iter->m_Name;
+    PIter->Set(Name, Value);
 
-	for(Iter.ToPrev() ; Iter.IsValid() ; Iter.ToPrev())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
-
-	return NULL;
+    return PIter;
 }
 
 TStructuredInfo::TNode::TParameters::TIterator
-	TStructuredInfo::TNode::GetNextSame(TParameters::TIterator Iter)
+    TStructuredInfo::TNode::GetPrevSame(TParameters::TIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToNext() ; Iter.IsValid() ; Iter.ToNext())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToPrev() ; Iter.IsValid() ; Iter.ToPrev())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
+}
+
+TStructuredInfo::TNode::TParameters::TIterator
+    TStructuredInfo::TNode::GetNextSame(TParameters::TIterator Iter)
+{
+    DEBUG_VERIFY(Iter.IsValid());
+
+    const KString& Name = Iter->m_Name;
+
+    for(Iter.ToNext() ; Iter.IsValid() ; Iter.ToNext())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
+
+    return NULL;
 }
 
 TStructuredInfo::TNode::TParameters::TConstIterator
-	TStructuredInfo::TNode::GetPrevSame(TParameters::TConstIterator Iter)
+    TStructuredInfo::TNode::GetPrevSame(TParameters::TConstIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToPrev() ; Iter.IsValid() ; Iter.ToPrev())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToPrev() ; Iter.IsValid() ; Iter.ToPrev())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 TStructuredInfo::TNode::TParameters::TConstIterator
-	TStructuredInfo::TNode::GetNextSame(TParameters::TConstIterator Iter)
+    TStructuredInfo::TNode::GetNextSame(TParameters::TConstIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToNext() ; Iter.IsValid() ; Iter.ToNext())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToNext() ; Iter.IsValid() ; Iter.ToNext())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 // Structured info
 void TStructuredInfo::Clear()
 {
-	m_Nodes.Clear(), m_Nodes.AddRoot();
+    m_Nodes.Clear(), m_Nodes.AddRoot();
 }
 
 void TStructuredInfo::SkipNode(KStrings::TConstIterator& StringIter)
 {
-	while(StringIter.IsValid())
-	{
-		const KString& String = *StringIter++;
+    while(StringIter.IsValid())
+    {
+        const KString& String = *StringIter++;
 
-		if(String.GetLength() == 1)
-		{
-			if(String[0] == TEXT('{'))
-				SkipNode(StringIter);
-			else if(String[0] == TEXT('}'))
-				return;
-		}
-	}
+        if(String.GetLength() == 1)
+        {
+            if(String[0] == TEXT('{'))
+                SkipNode(StringIter);
+            else if(String[0] == TEXT('}'))
+                return;
+        }
+    }
 
-	INITIATE_DEFINED_FAILURE(TEXT("Unexpected end of structured info file."));
+    INITIATE_DEFINED_FAILURE(TEXT("Unexpected end of structured info file."));
 }
 
-bool TStructuredInfo::LoadNode(	TNodes::TIterator			Parent,
-								LPCTSTR						pName,
-								KStrings::TConstIterator&	StringIter,
-								size_t						szDepth)
+bool TStructuredInfo::LoadNode( TNodes::TIterator           Parent,
+                                LPCTSTR                     pName,
+                                KStrings::TConstIterator&   StringIter,
+                                size_t                      szDepth)
 {
-	TNodes::TIterator Iter;
+    TNodes::TIterator Iter;
 
-	enum
-	{
-		STATE_START,
-		STATE_INSIDE,
-		STATE_END
+    enum
+    {
+        STATE_START,
+        STATE_INSIDE,
+        STATE_END
 
-	}State;
+    }State;
 
-	if(szDepth == 0)
-	{
-		State = STATE_INSIDE;
-		
-		Iter = Parent;
-	}
-	else
-	{
-		State = STATE_START;
-	}
+    if(szDepth == 0)
+    {
+        State = STATE_INSIDE;
 
-	while(StringIter.IsValid() && State != STATE_END)
-	{
-		KStrings::TConstIterator PrevStringIter = StringIter;
+        Iter = Parent;
+    }
+    else
+    {
+        State = STATE_START;
+    }
 
-		const KString& String = *StringIter++;
+    while(StringIter.IsValid() && State != STATE_END)
+    {
+        KStrings::TConstIterator PrevStringIter = StringIter;
 
-		if(State == STATE_START)
-		{
-			if(String != TEXT("{"))
-			{
-				StringIter = PrevStringIter;
-				return false;
-			}
+        const KString& String = *StringIter++;
 
-			Iter = AddNode(Parent, pName);
+        if(State == STATE_START)
+        {
+            if(String != TEXT("{"))
+            {
+                StringIter = PrevStringIter;
+                return false;
+            }
 
-			State = STATE_INSIDE;
-		}
-		else // STATE_INSIDE
-		{
-			// Checking for '}'
-			if(String == TEXT("}"))
-			{
-				if(!szDepth)
-					INITIATE_DEFINED_FAILURE(TEXT("Unexpected '}' at root level of structured info file."));
+            Iter = AddNode(Parent, pName);
 
-				State = STATE_END;
-			}
-			else if(String == TEXT("{")) // unnamed node
-			{
-				SkipNode(StringIter);
-			}
-			else if(!String.IsEmpty())
-			{
-				size_t szNameLength;
-				const KString Name = DecodeFromSingleString(String, TEXT('='), &szNameLength);
+            State = STATE_INSIDE;
+        }
+        else // STATE_INSIDE
+        {
+            // Checking for '}'
+            if(String == TEXT("}"))
+            {
+                if(!szDepth)
+                    INITIATE_DEFINED_FAILURE(TEXT("Unexpected '}' at root level of structured info file."));
 
-				if(	szNameLength != String.GetLength() || // has '='
-					!LoadNode(Iter, Name, StringIter, szDepth + 1)) // name not followed by '{'
-				{
-					Iter->AddParameter(Name, DecodeFromSingleString(String.Mid(Min(szNameLength + 1, String.GetLength()))));
-				}
-			}
-		}
-	}
+                State = STATE_END;
+            }
+            else if(String == TEXT("{")) // unnamed node
+            {
+                SkipNode(StringIter);
+            }
+            else if(!String.IsEmpty())
+            {
+                size_t szNameLength;
+                const KString Name = DecodeFromSingleString(String, TEXT('='), &szNameLength);
 
-	if(szDepth > 0 && State != STATE_END)
-		INITIATE_DEFINED_FAILURE(TEXT("Unexpected end of structured info file."));
+                if( szNameLength != String.GetLength() || // has '='
+                    !LoadNode(Iter, Name, StringIter, szDepth + 1)) // name not followed by '{'
+                {
+                    Iter->AddParameter(Name, DecodeFromSingleString(String.Mid(Min(szNameLength + 1, String.GetLength()))));
+                }
+            }
+        }
+    }
 
-	return true;
+    if(szDepth > 0 && State != STATE_END)
+        INITIATE_DEFINED_FAILURE(TEXT("Unexpected end of structured info file."));
+
+    return true;
 }
 
-void TStructuredInfo::LoadRec(	LPCTSTR pFileName,
-								KStrings& RStrings,
-								KStrings::TIterator InsertAfter,
-								const TTokens& ParentTokens,
-								size_t szInclusionDepth)
+void TStructuredInfo::LoadRec(  LPCTSTR pFileName,
+                                KStrings& RStrings,
+                                KStrings::TIterator InsertAfter,
+                                const TTokens& ParentTokens,
+                                size_t szInclusionDepth)
 {
-	if(szInclusionDepth > g_CommonConsts.m_szMaxStructuredInfoInclusionDepth)
-		INITIATE_DEFINED_FAILURE((KString)TEXT("Structured info maximum inclusion depth overrun by including \"") + pFileName + TEXT("\"."));
+    if(szInclusionDepth > g_CommonConsts.m_szMaxStructuredInfoInclusionDepth)
+        INITIATE_DEFINED_FAILURE((KString)TEXT("Structured info maximum inclusion depth overrun by including \"") + pFileName + TEXT("\"."));
 
-	KStrings::TIterator FirstIter = InsertAfter;
+    KStrings::TIterator FirstIter = InsertAfter;
 
-	{
-		TFile File(pFileName, FOF_READ | FOF_TEXT);
-	
-		while(!File.IsEndOfFile())
-			InsertAfter = RStrings.AddAfter(InsertAfter, File.ReadString());
-	}
+    {
+        TFile File(pFileName, FOF_READ | FOF_TEXT);
 
-	KStrings::TIterator LastIter = InsertAfter;
+        while(!File.IsEndOfFile())
+            InsertAfter = RStrings.AddAfter(InsertAfter, File.ReadString());
+    }
 
-	FirstIter = FirstIter.IsValid() ? FirstIter.GetNext() : RStrings.GetFirst();
-	LastIter  = LastIter. IsValid() ? LastIter. GetNext() : RStrings.GetFirst();
+    KStrings::TIterator LastIter = InsertAfter;
 
-	// Removing comments and trimming
-	for(KStrings::TIterator Iter = FirstIter ; Iter != LastIter ; ++Iter)
-		(*Iter = CutSingleStringComments(*Iter)).Trim();
+    FirstIter = FirstIter.IsValid() ? FirstIter.GetNext() : RStrings.GetFirst();
+    LastIter  = LastIter. IsValid() ? LastIter. GetNext() : RStrings.GetFirst();
 
-	// Merging strings through trailing '\'
-	for(KStrings::TIterator Iter = FirstIter ; Iter != LastIter ; ++Iter)
-	{
-		for(LPCTSTR s = *Iter ; *s ; s++)
-		{
-			if(*s == TEXT('\\') && !*++s)
-			{
-				Iter->SetLeft(Iter->GetLength() - 1);
+    // Removing comments and trimming
+    for(KStrings::TIterator Iter = FirstIter ; Iter != LastIter ; ++Iter)
+        (*Iter = CutSingleStringComments(*Iter)).Trim();
 
-				if(Iter.GetNext() != LastIter)
-					*Iter += *Iter.GetNext(), RStrings.Del(Iter.GetNext());
+    // Merging strings through trailing '\'
+    for(KStrings::TIterator Iter = FirstIter ; Iter != LastIter ; ++Iter)
+    {
+        for(LPCTSTR s = *Iter ; *s ; s++)
+        {
+            if(*s == TEXT('\\') && !*++s)
+            {
+                Iter->SetLeft(Iter->GetLength() - 1);
 
-				break;
-			}
-		}
-	}
+                if(Iter.GetNext() != LastIter)
+                    *Iter += *Iter.GetNext(), RStrings.Del(Iter.GetNext());
 
-	// Preprocessing
-	TTokens LocalTokens;
+                break;
+            }
+        }
+    }
 
-	KStrings::TIterator NIter;
+    // Preprocessing
+    TTokens LocalTokens;
 
-	for(KStrings::TIterator Iter = FirstIter ; Iter != LastIter ; Iter = NIter)
-	{
-		NIter = Iter.GetNext();
+    KStrings::TIterator NIter;
 
-		if((*Iter)[0] == TEXT('#'))
-		{
-			KString Tag;
+    for(KStrings::TIterator Iter = FirstIter ; Iter != LastIter ; Iter = NIter)
+    {
+        NIter = Iter.GetNext();
 
-			size_t i = 1;
+        if((*Iter)[0] == TEXT('#'))
+        {
+            KString Tag;
 
-			for( ; (*Iter)[i] && !_istspace((*Iter)[i]) ; i++)
-				Tag += (*Iter)[i];
+            size_t i = 1;
 
-			if(Tag == TEXT("define"))
-			{
-				KString Name, Value;
+            for( ; (*Iter)[i] && !_istspace((*Iter)[i]) ; i++)
+                Tag += (*Iter)[i];
 
-				for( ; _istspace((*Iter)[i]) ; i++);
+            if(Tag == TEXT("define"))
+            {
+                KString Name, Value;
 
-				for( ; (*Iter)[i] && !_istspace((*Iter)[i]) ; i++)
-					Name += (*Iter)[i];
+                for( ; _istspace((*Iter)[i]) ; i++);
 
-				Name.Trim();
+                for( ; (*Iter)[i] && !_istspace((*Iter)[i]) ; i++)
+                    Name += (*Iter)[i];
 
-				KFC_VERIFY("structured info #define" && !Name.IsEmpty());
+                Name.Trim();
 
-				Value = ParentTokens(Iter->Mid(i)).Trim();
+                KFC_VERIFY("structured info #define" && !Name.IsEmpty());
 
-				LocalTokens(Name, Value);
-			}
-			else if(Tag == TEXT("include"))
-			{
-				KString FileName = DecodeFromSingleString(ParentTokens(Iter->Mid(1 + Tag.GetLength())));
+                Value = ParentTokens(Iter->Mid(i)).Trim();
 
-				KFC_VERIFY("structured info #include" && !FileName.IsEmpty());
+                LocalTokens(Name, Value);
+            }
+            else if(Tag == TEXT("include"))
+            {
+                KString FileName = DecodeFromSingleString(ParentTokens(Iter->Mid(1 + Tag.GetLength())));
 
-				FileName = FollowPath(GetFilePath(pFileName), GetFilePath(FileName)) + GetFileName(FileName);
+                KFC_VERIFY("structured info #include" && !FileName.IsEmpty());
 
-				LoadRec(FileName, RStrings, Iter, LocalTokens, szInclusionDepth + 1);
+                FileName = FollowPath(GetFilePath(pFileName), GetFilePath(FileName)) + GetFileName(FileName);
 
-				LocalTokens.Clear();
-			}
-			else
-			{
-				INITIATE_DEFINED_FAILURE((KString)TEXT("Unknown preprocessor tag \"#") + Tag + TEXT("\" inside structured info file."));
-			}
+                LoadRec(FileName, RStrings, Iter, LocalTokens, szInclusionDepth + 1);
 
-			RStrings.Del(Iter);
-		}
-		else
-		{
-			*Iter = ParentTokens(*Iter);
-		}
-	}
+                LocalTokens.Clear();
+            }
+            else
+            {
+                INITIATE_DEFINED_FAILURE((KString)TEXT("Unknown preprocessor tag \"#") + Tag + TEXT("\" inside structured info file."));
+            }
+
+            RStrings.Del(Iter);
+        }
+        else
+        {
+            *Iter = ParentTokens(*Iter);
+        }
+    }
 }
 
 void TStructuredInfo::Load(LPCTSTR pFileName)
 {
-	Clear();
+    Clear();
 
-	KStrings Strings;
+    KStrings Strings;
 
-	LoadRec(pFileName, Strings, NULL, TTokens(), 1);
+    LoadRec(pFileName, Strings, NULL, TTokens(), 1);
 
-	KStrings::TConstIterator StringIter = Strings.GetFirst();
+    KStrings::TConstIterator StringIter = Strings.GetFirst();
 
-	DEBUG_EVERIFY(LoadNode(m_Nodes.GetRoot(), TEXT(""), StringIter, 0));
+    DEBUG_EVERIFY(LoadNode(m_Nodes.GetRoot(), TEXT(""), StringIter, 0));
 }
 
 void TStructuredInfo::SaveNode(TNodes::TConstIterator Iter, TFile& File) const
 {
-	KStrings::TConstIterator PNIter;
-	KStrings::TConstIterator PVIter;
+    KStrings::TConstIterator PNIter;
+    KStrings::TConstIterator PVIter;
 
-	TNode::TParameters::TConstIterator PIter;
+    TNode::TParameters::TConstIterator PIter;
 
-	// Parameters
-	KStrings ParameterNames;
-	KStrings ParameterValues;
+    // Parameters
+    KStrings ParameterNames;
+    KStrings ParameterValues;
 
-	size_t szMaxNameLength = 0;
+    size_t szMaxNameLength = 0;
 
-	for(PIter = Iter->m_Parameters.GetFirst() ; PIter.IsValid() ; ++PIter)
-	{
-		*ParameterNames.	AddLast() = EncodeToSingleString(PIter->m_Name, TEXT('='));
-		*ParameterValues.	AddLast() = EncodeToSingleString(PIter->m_Value);
+    for(PIter = Iter->m_Parameters.GetFirst() ; PIter.IsValid() ; ++PIter)
+    {
+        *ParameterNames.    AddLast() = EncodeToSingleString(PIter->m_Name, TEXT('='));
+        *ParameterValues.   AddLast() = EncodeToSingleString(PIter->m_Value);
 
-		if(!PIter->m_Value.IsEmpty())
-			szMaxNameLength = Max(szMaxNameLength, ParameterNames.GetLast()->GetLength());
-	}
+        if(!PIter->m_Value.IsEmpty())
+            szMaxNameLength = Max(szMaxNameLength, ParameterNames.GetLast()->GetLength());
+    }
 
-	DEBUG_VERIFY(ParameterNames.GetN() == ParameterValues.GetN());
+    DEBUG_VERIFY(ParameterNames.GetN() == ParameterValues.GetN());
 
-	for(PIter = Iter->m_Parameters.GetFirst(),
-			PNIter = ParameterNames.GetFirst(),
-			PVIter = ParameterValues.GetFirst() ;
-		PIter.IsValid() ;
-		++PIter, ++PNIter, ++PVIter)
-	{
-		File.IndentString(Iter.GetDepth());
+    for(PIter = Iter->m_Parameters.GetFirst(),
+            PNIter = ParameterNames.GetFirst(),
+            PVIter = ParameterValues.GetFirst() ;
+        PIter.IsValid() ;
+        ++PIter, ++PNIter, ++PVIter)
+    {
+        File.IndentString(Iter.GetDepth());
 
-		if(PIter->m_Value.IsEmpty())
-		{
-			File.WriteString(*PNIter);
-		}
-		else
-		{
-			File.WriteString(*PNIter, FWSM_ORIGINAL);
+        if(PIter->m_Value.IsEmpty())
+        {
+            File.WriteString(*PNIter);
+        }
+        else
+        {
+            File.WriteString(*PNIter, FWSM_ORIGINAL);
 
-			File.IndentString(szMaxNameLength - PNIter->GetLength(), TEXT(' '));
+            File.IndentString(szMaxNameLength - PNIter->GetLength(), TEXT(' '));
 
-			File.WriteString(TEXT(" = "), FWSM_ORIGINAL);
+            File.WriteString(TEXT(" = "), FWSM_ORIGINAL);
 
-			File.WriteString(*PVIter);
-		}
-	}
+            File.WriteString(*PVIter);
+        }
+    }
 
-	// Separator
-	if(!Iter->m_Parameters.IsEmpty() && !Iter.IsLeaf())
-		File.WriteEOL();
+    // Separator
+    if(!Iter->m_Parameters.IsEmpty() && !Iter.IsLeaf())
+        File.WriteEOL();
 
-	// Sub-nodes
-	for(TNodes::TConstIterator Iter2 = Iter.GetFirstChild() ;
-		Iter2.IsValid() ;
-		Iter2.ToNextSibling())
-	{
-		File.IndentString(Iter.GetDepth());
-		File.WriteString(EncodeToSingleString(Iter2->m_Name, TCHAR('=')));
+    // Sub-nodes
+    for(TNodes::TConstIterator Iter2 = Iter.GetFirstChild() ;
+        Iter2.IsValid() ;
+        Iter2.ToNextSibling())
+    {
+        File.IndentString(Iter.GetDepth());
+        File.WriteString(EncodeToSingleString(Iter2->m_Name, TCHAR('=')));
 
-		File.IndentString(Iter.GetDepth());
-		File.WriteString(TEXT("{"));
+        File.IndentString(Iter.GetDepth());
+        File.WriteString(TEXT("{"));
 
-		SaveNode(Iter2, File);
+        SaveNode(Iter2, File);
 
-		File.IndentString(Iter.GetDepth());
-		File.WriteString(TEXT("}"));
+        File.IndentString(Iter.GetDepth());
+        File.WriteString(TEXT("}"));
 
-		// Separator
-		if(Iter2 != Iter.GetLastChild())
-			File.WriteEOL();
-	}
+        // Separator
+        if(Iter2 != Iter.GetLastChild())
+            File.WriteEOL();
+    }
 }
 
 void TStructuredInfo::Save(LPCTSTR pFileName) const
 {
-	TFile File(pFileName, FOF_WRITE | FOF_CREATE | FOF_NEWFILE | FOF_TEXT);
+    TFile File(pFileName, FOF_WRITE | FOF_CREATE | FOF_NEWFILE | FOF_TEXT);
 
-	SaveNode(m_Nodes.GetRoot(), File);
+    SaveNode(m_Nodes.GetRoot(), File);
 }
 
 TStructuredInfo::TNodes::TIterator TStructuredInfo::GetRootNode()
 {
-	return m_Nodes.GetRoot();
+    return m_Nodes.GetRoot();
 }
 
 TStructuredInfo::TNodes::TConstIterator TStructuredInfo::GetRootNode() const
 {
-	return m_Nodes.GetRoot();
+    return m_Nodes.GetRoot();
 }
 
 TStructuredInfo::TNodes::TConstIterator
-	TStructuredInfo::FindNode(	TNodes::TConstIterator	Parent,
-								const KString&			Name,
-								TNodes::TConstIterator	After)
+    TStructuredInfo::FindNode(  TNodes::TConstIterator  Parent,
+                                const KString&          Name,
+                                TNodes::TConstIterator  After)
 {
-	DEBUG_VERIFY(Parent.IsValid());
+    DEBUG_VERIFY(Parent.IsValid());
 
-	DEBUG_VERIFY(!After.IsValid() || After.GetParent() == Parent);
+    DEBUG_VERIFY(!After.IsValid() || After.GetParent() == Parent);
 
-	for(TNodes::TConstIterator Iter =	After.IsValid() ?
-											After.GetNextSibling() :
-											Parent.GetFirstChild() ;
-		Iter.IsValid() ;
-		Iter.ToNextSibling())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(TNodes::TConstIterator Iter =   After.IsValid() ?
+                                            After.GetNextSibling() :
+                                            Parent.GetFirstChild() ;
+        Iter.IsValid() ;
+        Iter.ToNextSibling())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return TNodes::TConstIterator();
+    return TNodes::TConstIterator();
 }
 
 TStructuredInfo::TNodes::TConstIterator
-	TStructuredInfo::FindNodeSafe(	TNodes::TConstIterator	Parent,
-									const KString&			Name,
-									TNodes::TConstIterator	After)
+    TStructuredInfo::FindNodeSafe(  TNodes::TConstIterator  Parent,
+                                    const KString&          Name,
+                                    TNodes::TConstIterator  After)
 {
-	return Parent.IsValid() ? FindNode(Parent, Name, After) : TNodes::TConstIterator();
+    return Parent.IsValid() ? FindNode(Parent, Name, After) : TNodes::TConstIterator();
 }
 
 TStructuredInfo::TNodes::TConstIterator
-	TStructuredInfo::GetNode(	TNodes::TConstIterator	Parent,
-								const KString&			Name,
-								TNodes::TConstIterator	After)
+    TStructuredInfo::GetNode(   TNodes::TConstIterator  Parent,
+                                const KString&          Name,
+                                TNodes::TConstIterator  After)
 {
-	TNodes::TConstIterator Iter = FindNode(Parent, Name, After);
+    TNodes::TConstIterator Iter = FindNode(Parent, Name, After);
 
-	if(!Iter.IsValid())
-		INITIATE_DEFINED_FAILURE((KString)TEXT("Info node \"") + Name + TEXT("\" not found."));
+    if(!Iter.IsValid())
+        INITIATE_DEFINED_FAILURE((KString)TEXT("Info node \"") + Name + TEXT("\" not found."));
 
-	return Iter;
+    return Iter;
 }
 
-const KString& TStructuredInfo::GetSubNodeParameterValue(	TStructuredInfo::TNodes::TConstIterator	Parent,
-															const KString&							SubNodeName,
-															const KString&							ParameterName,															
-															TStructuredInfo::TNodes::TConstIterator	SubNodeAfter)
+const KString& TStructuredInfo::GetSubNodeParameterValue(   TStructuredInfo::TNodes::TConstIterator Parent,
+                                                            const KString&                          SubNodeName,
+                                                            const KString&                          ParameterName,
+                                                            TStructuredInfo::TNodes::TConstIterator SubNodeAfter)
 {
-	return GetNode(Parent, SubNodeName, SubNodeAfter)->GetParameterValue(ParameterName);
+    return GetNode(Parent, SubNodeName, SubNodeAfter)->GetParameterValue(ParameterName);
 }
 
-KString TStructuredInfo::GetSubNodeParameterValue(	TStructuredInfo::TNodes::TConstIterator	Parent,
-													const KString&							SubNodeName,
-													const KString&							ParameterName,
-													const KString&							DefaultValue,													
-													TStructuredInfo::TNodes::TConstIterator	SubNodeAfter)
+KString TStructuredInfo::GetSubNodeParameterValue(  TStructuredInfo::TNodes::TConstIterator Parent,
+                                                    const KString&                          SubNodeName,
+                                                    const KString&                          ParameterName,
+                                                    const KString&                          DefaultValue,
+                                                    TStructuredInfo::TNodes::TConstIterator SubNodeAfter)
 {
-	const TStructuredInfo::TNodes::TConstIterator NIter =
-		FindNode(Parent, SubNodeName, SubNodeAfter);
-	
-	return NIter.IsValid() ? NIter->GetParameterValue(ParameterName, DefaultValue) : DefaultValue;
+    const TStructuredInfo::TNodes::TConstIterator NIter =
+        FindNode(Parent, SubNodeName, SubNodeAfter);
+
+    return NIter.IsValid() ? NIter->GetParameterValue(ParameterName, DefaultValue) : DefaultValue;
 }
 
 TStructuredInfo::TNodes::TIterator
-	TStructuredInfo::AddNode(	TStructuredInfo::TNodes::TIterator	Parent,
-								const KString&						Name)
+    TStructuredInfo::AddNode(   TStructuredInfo::TNodes::TIterator  Parent,
+                                const KString&                      Name)
 {
-	DEBUG_VERIFY(Parent.IsValid());
+    DEBUG_VERIFY(Parent.IsValid());
 
-	const TNodes::TIterator NIter = TNodes::AddLastChild(Parent);
+    const TNodes::TIterator NIter = TNodes::AddLastChild(Parent);
 
-	NIter->Set(Name);
+    NIter->Set(Name);
 
-	return NIter;
+    return NIter;
 }
 
 void TStructuredInfo::DelNode(TNodes::TIterator Node)
 {
-	TNodes::Del(Node);
+    TNodes::Del(Node);
 }
 
 TStructuredInfo::TNode::TParameters::TIterator
-	TStructuredInfo::AddSubNodeParameter(	TStructuredInfo::TNodes::TIterator	Parent,
-											const KString&						SubNodeName,
-											const KString&						ParameterName,
-											const KString&						ParameterValue)
+    TStructuredInfo::AddSubNodeParameter(   TStructuredInfo::TNodes::TIterator  Parent,
+                                            const KString&                      SubNodeName,
+                                            const KString&                      ParameterName,
+                                            const KString&                      ParameterValue)
 {
-	return AddNode(Parent, SubNodeName)->AddParameter(ParameterName, ParameterValue);
+    return AddNode(Parent, SubNodeName)->AddParameter(ParameterName, ParameterValue);
 }
 
 TStructuredInfo::TNodes::TIterator TStructuredInfo::GetPrevSame(TNodes::TIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToPrevSibling() ; Iter.IsValid() ; Iter.ToPrevSibling())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToPrevSibling() ; Iter.IsValid() ; Iter.ToPrevSibling())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 TStructuredInfo::TNodes::TIterator TStructuredInfo::GetNextSame(TNodes::TIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToNextSibling() ; Iter.IsValid() ; Iter.ToNextSibling())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToNextSibling() ; Iter.IsValid() ; Iter.ToNextSibling())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 TStructuredInfo::TNodes::TConstIterator TStructuredInfo::GetPrevSame(TNodes::TConstIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToPrevSibling() ; Iter.IsValid() ; Iter.ToPrevSibling())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToPrevSibling() ; Iter.IsValid() ; Iter.ToPrevSibling())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 TStructuredInfo::TNodes::TConstIterator TStructuredInfo::GetNextSame(TNodes::TConstIterator Iter)
 {
-	DEBUG_VERIFY(Iter.IsValid());
+    DEBUG_VERIFY(Iter.IsValid());
 
-	const KString& Name = Iter->m_Name;
+    const KString& Name = Iter->m_Name;
 
-	for(Iter.ToNextSibling() ; Iter.IsValid() ; Iter.ToNextSibling())
-	{
-		if(Iter->m_Name == Name)
-			return Iter;
-	}
+    for(Iter.ToNextSibling() ; Iter.IsValid() ; Iter.ToNextSibling())
+    {
+        if(Iter->m_Name == Name)
+            return Iter;
+    }
 
-	return NULL;
+    return NULL;
 }
 
 // ----------------
@@ -609,251 +609,251 @@ TStructuredInfo::TNodes::TConstIterator TStructuredInfo::GetNextSame(TNodes::TCo
 // ----------------
 KString CutSingleStringComments(const KString& SingleString)
 {
-	size_t i;
+    size_t i;
 
-	if(SingleString.GetLength() < 2)
-		return SingleString;
+    if(SingleString.GetLength() < 2)
+        return SingleString;
 
-	bool bQuoted = false;
+    bool bQuoted = false;
 
-	for(i = 0 ; i < SingleString.GetLength() - 1 ; i++)
-	{
-		if(SingleString[i] == TEXT('\\'))
-		{
-			i++;
-		}
-		else if(SingleString[i] == TEXT('"'))
-		{
-			bQuoted = !bQuoted;
-		}
-		else
-		{
-			// checking for unquoted comment prefix
-			if(!bQuoted && SingleString[i] == TEXT('/') && SingleString[i+1] == TEXT('/'))
-				return SingleString.Left(i);
-		}
-	}
+    for(i = 0 ; i < SingleString.GetLength() - 1 ; i++)
+    {
+        if(SingleString[i] == TEXT('\\'))
+        {
+            i++;
+        }
+        else if(SingleString[i] == TEXT('"'))
+        {
+            bQuoted = !bQuoted;
+        }
+        else
+        {
+            // checking for unquoted comment prefix
+            if(!bQuoted && SingleString[i] == TEXT('/') && SingleString[i+1] == TEXT('/'))
+                return SingleString.Left(i);
+        }
+    }
 
-	return SingleString; // no comment detected
+    return SingleString; // no comment detected
 }
 
-KString EncodeToSingleString(	const KString&	String,
-								TCHAR			cTerminator)
+KString EncodeToSingleString(   const KString&  String,
+                                TCHAR           cTerminator)
 {
-	DEBUG_VERIFY(	cTerminator != TEXT(' ')	&&
-					cTerminator != TEXT('\\')	&&
-					cTerminator != TEXT('"'));
+    DEBUG_VERIFY(   cTerminator != TEXT(' ')    &&
+                    cTerminator != TEXT('\\')   &&
+                    cTerminator != TEXT('"'));
 
-	size_t i;
+    size_t i;
 
-	const bool bNeedQuotes =
-		String.IsEmpty()							||	// empty
-		_istspace(String[0])						||	// has leading  space(s)
-		_istspace(String[String.GetLength() - 1])	||	// has trailing space(s)
-		cTerminator && _tcschr(String, cTerminator)	||	// has terminator character
-		String.Find(TEXT("//")) != -1			    ||	// has single line comment start
-		String.Find(TEXT("/*")) != -1			    ||	// has long comment start
-		String.Find(TEXT("*/")) != -1;			        // has long commend end
+    const bool bNeedQuotes =
+        String.IsEmpty()                            ||  // empty
+        _istspace(String[0])                        ||  // has leading  space(s)
+        _istspace(String[String.GetLength() - 1])   ||  // has trailing space(s)
+        cTerminator && _tcschr(String, cTerminator) ||  // has terminator character
+        String.Find(TEXT("//")) != -1               ||  // has single line comment start
+        String.Find(TEXT("/*")) != -1               ||  // has long comment start
+        String.Find(TEXT("*/")) != -1;                  // has long commend end
 
-	KString SingleString;
-	
-	if(bNeedQuotes)
-		SingleString += TEXT('"');
+    KString SingleString;
 
-	for(i = 0 ; i < String.GetLength() ; i++)
-	{
-		if(!i && String[i] == TEXT('#'))
-			SingleString += TEXT("\\#");
-		else if(String[i] == TEXT('\t'))
-			SingleString += TEXT("\\t");
-		else if(String[i] == TEXT('\r'))
-			SingleString += TEXT("\\r");
-		else if(String[i] == TEXT('\n'))
-			SingleString += TEXT("\\n");
-		else if(String[i] == TEXT('\\'))
-			SingleString += TEXT("\\\\");
-		else if(String[i] == TEXT('"'))
-			SingleString += TEXT("\\\"");
-		else
-			SingleString += String[i];
-	}
+    if(bNeedQuotes)
+        SingleString += TEXT('"');
 
-	if(bNeedQuotes)
-		SingleString += TEXT('"');
+    for(i = 0 ; i < String.GetLength() ; i++)
+    {
+        if(!i && String[i] == TEXT('#'))
+            SingleString += TEXT("\\#");
+        else if(String[i] == TEXT('\t'))
+            SingleString += TEXT("\\t");
+        else if(String[i] == TEXT('\r'))
+            SingleString += TEXT("\\r");
+        else if(String[i] == TEXT('\n'))
+            SingleString += TEXT("\\n");
+        else if(String[i] == TEXT('\\'))
+            SingleString += TEXT("\\\\");
+        else if(String[i] == TEXT('"'))
+            SingleString += TEXT("\\\"");
+        else
+            SingleString += String[i];
+    }
 
-	return SingleString;
+    if(bNeedQuotes)
+        SingleString += TEXT('"');
+
+    return SingleString;
 }
 
-KString DecodeFromSingleString(	const KString&	SingleString,
-								TCHAR			cTerminator,
-								size_t*			pRLengthDecoded)
+KString DecodeFromSingleString( const KString&  SingleString,
+                                TCHAR           cTerminator,
+                                size_t*         pRLengthDecoded)
 {
-	DEBUG_VERIFY(	cTerminator != TEXT(' ')	&&
-					cTerminator != TEXT('\\')	&&
-					cTerminator != TEXT('"'));
+    DEBUG_VERIFY(   cTerminator != TEXT(' ')    &&
+                    cTerminator != TEXT('\\')   &&
+                    cTerminator != TEXT('"'));
 
-	size_t i;
+    size_t i;
 
-	KString String;
+    KString String;
 
-	bool bQuoted = false;
+    bool bQuoted = false;
 
-	size_t szTrailingSpacesStart = 0;
-	
-	for(i = 0 ; i < SingleString.GetLength() ; i++)
-	{
-		// Checking for unquoted terminator character
-		if(!bQuoted && SingleString[i] == cTerminator)
-			break;
+    size_t szTrailingSpacesStart = 0;
 
-		if(SingleString[i] == TEXT('"')) // quote state change
-		{
-			bQuoted = !bQuoted;
-		}
-		else
-		{
-			if(SingleString[i] == TEXT('\\')) // escape sequence
-			{
-				if(++i == SingleString.GetLength())
-					INITIATE_DEFINED_FAILURE((KString)TEXT("Unfinished escape sequence inside encoded single string:\r\n\"") + SingleString + TEXT("\"."));
+    for(i = 0 ; i < SingleString.GetLength() ; i++)
+    {
+        // Checking for unquoted terminator character
+        if(!bQuoted && SingleString[i] == cTerminator)
+            break;
 
-				szTrailingSpacesStart = String.GetLength() + 1;
+        if(SingleString[i] == TEXT('"')) // quote state change
+        {
+            bQuoted = !bQuoted;
+        }
+        else
+        {
+            if(SingleString[i] == TEXT('\\')) // escape sequence
+            {
+                if(++i == SingleString.GetLength())
+                    INITIATE_DEFINED_FAILURE((KString)TEXT("Unfinished escape sequence inside encoded single string:\r\n\"") + SingleString + TEXT("\"."));
 
-				if(SingleString[i] == TEXT('t'))
-					String += TEXT('\t');
-				else if(SingleString[i] == TEXT('r'))
-					String += TEXT('\r');
-				else if(SingleString[i] == TEXT('n'))
-					String += TEXT('\n');
-				else
-					String += SingleString[i];				
-			}
-			else // plain character
-			{
-				if(bQuoted || !_istspace(SingleString[i])) // non-trimmable character
-				{
-					szTrailingSpacesStart = String.GetLength() + 1;
-				}
-				else // trimmable space
-				{
-					if(szTrailingSpacesStart == 0) // leading space
-						continue;
-				}
+                szTrailingSpacesStart = String.GetLength() + 1;
 
-				String += SingleString[i];
-			}
-		}
-	}
+                if(SingleString[i] == TEXT('t'))
+                    String += TEXT('\t');
+                else if(SingleString[i] == TEXT('r'))
+                    String += TEXT('\r');
+                else if(SingleString[i] == TEXT('n'))
+                    String += TEXT('\n');
+                else
+                    String += SingleString[i];
+            }
+            else // plain character
+            {
+                if(bQuoted || !_istspace(SingleString[i])) // non-trimmable character
+                {
+                    szTrailingSpacesStart = String.GetLength() + 1;
+                }
+                else // trimmable space
+                {
+                    if(szTrailingSpacesStart == 0) // leading space
+                        continue;
+                }
 
-	if(bQuoted)
-		INITIATE_DEFINED_FAILURE((KString)TEXT("Encoded single string has missing closing \":\r\n\"") + SingleString + TEXT("\"."));
+                String += SingleString[i];
+            }
+        }
+    }
 
-	// Cutting trailing spaces
-	String.SetLeft(szTrailingSpacesStart);
+    if(bQuoted)
+        INITIATE_DEFINED_FAILURE((KString)TEXT("Encoded single string has missing closing \":\r\n\"") + SingleString + TEXT("\"."));
 
-	if(pRLengthDecoded)
-		*pRLengthDecoded = i;
+    // Cutting trailing spaces
+    String.SetLeft(szTrailingSpacesStart);
 
-	return String;
+    if(pRLengthDecoded)
+        *pRLengthDecoded = i;
+
+    return String;
 }
 
-int& ReadInt(	const KString&	String,
-				int&			iRValue,
-				LPCTSTR			pValueName)
+int& ReadInt(   const KString&  String,
+                int&            iRValue,
+                LPCTSTR         pValueName)
 {
-	if(!FromString(String, iRValue))
-		REPORT_INCORRECT_VALUE_FORMAT(String, pValueName);
+    if(!FromString(String, iRValue))
+        REPORT_INCORRECT_VALUE_FORMAT(String, pValueName);
 
-	return iRValue;
+    return iRValue;
 }
 
-int& ReadNormalizedInt(	const KString&	String,
-						int&			iRValue,
-						LPCTSTR			pValueName,
-						const ISEGMENT&	Limits)
+int& ReadNormalizedInt( const KString&  String,
+                        int&            iRValue,
+                        LPCTSTR         pValueName,
+                        const ISEGMENT& Limits)
 {
-	ReadInt(String, iRValue, pValueName);
+    ReadInt(String, iRValue, pValueName);
 
-	if(!HitsSegmentBounds(iRValue, Limits))
-		REPORT_INVALID_VALUE(String, pValueName);
+    if(!HitsSegmentBounds(iRValue, Limits))
+        REPORT_INVALID_VALUE(String, pValueName);
 
-	return iRValue;
+    return iRValue;
 }
 
-UINT& ReadUINT(	const KString&	String,
-				UINT&			uiRValue,
-				LPCTSTR			pValueName)
+UINT& ReadUINT( const KString&  String,
+                UINT&           uiRValue,
+                LPCTSTR         pValueName)
 {
-	if(!FromString(String, uiRValue))
-		REPORT_INCORRECT_VALUE_FORMAT(String, pValueName);
+    if(!FromString(String, uiRValue))
+        REPORT_INCORRECT_VALUE_FORMAT(String, pValueName);
 
-	return uiRValue;
+    return uiRValue;
 }
 
-UINT& ReadNormalizedUINT(   const KString&		String,
-						    UINT&				uiRValue,
-						    LPCTSTR				pValueName,
-						    const UISEGMENT&	Limits)
+UINT& ReadNormalizedUINT(   const KString&      String,
+                            UINT&               uiRValue,
+                            LPCTSTR             pValueName,
+                            const UISEGMENT&    Limits)
 {
-	ReadUINT(String, uiRValue, pValueName);
+    ReadUINT(String, uiRValue, pValueName);
 
-	if(!HitsSegmentBounds(uiRValue, Limits))
-		REPORT_INVALID_VALUE(String, pValueName);
+    if(!HitsSegmentBounds(uiRValue, Limits))
+        REPORT_INVALID_VALUE(String, pValueName);
 
-	return uiRValue;
+    return uiRValue;
 }
 
-float& ReadFloat(	const KString&	String,
-					float&			fRValue,
-					LPCTSTR			pValueName)
+float& ReadFloat(   const KString&  String,
+                    float&          fRValue,
+                    LPCTSTR         pValueName)
 {
-	if(!FromString(String, fRValue))
-		REPORT_INVALID_VALUE(String, pValueName);
+    if(!FromString(String, fRValue))
+        REPORT_INVALID_VALUE(String, pValueName);
 
-	return fRValue;
+    return fRValue;
 }
 
-float& ReadNormalizedFloat(	const KString&	String,
-							float&			fRValue,
-							LPCTSTR			pValueName,
-							const FSEGMENT&	Limits)
+float& ReadNormalizedFloat( const KString&  String,
+                            float&          fRValue,
+                            LPCTSTR         pValueName,
+                            const FSEGMENT& Limits)
 {
-	ReadFloat(String, fRValue, pValueName);
+    ReadFloat(String, fRValue, pValueName);
 
-	if(!HitsSegmentBounds(fRValue, Limits))
-		REPORT_INVALID_VALUE(String, pValueName);
+    if(!HitsSegmentBounds(fRValue, Limits))
+        REPORT_INVALID_VALUE(String, pValueName);
 
-	return fRValue;
+    return fRValue;
 }
 
-bool& ReadBool(	const KString&	String,
-				bool&			bRValue,
-				LPCTSTR			pValueName)
+bool& ReadBool( const KString&  String,
+                bool&           bRValue,
+                LPCTSTR         pValueName)
 {
-	if(!FromString(String, bRValue))
-		REPORT_INCORRECT_VALUE_FORMAT(String, pValueName);
+    if(!FromString(String, bRValue))
+        REPORT_INCORRECT_VALUE_FORMAT(String, pValueName);
 
-	return bRValue;
+    return bRValue;
 }
 
-KString& ReadText(	TInfoNodeConstIterator	InfoNode,
-					LPCTSTR					pParameterName,
-					KString&				RText)
+KString& ReadText(  TInfoNodeConstIterator  InfoNode,
+                    LPCTSTR                 pParameterName,
+                    KString&                RText)
 {
-	TInfoParameterConstIterator PIter;
+    TInfoParameterConstIterator PIter;
 
-	bool bFirstRow = true;
+    bool bFirstRow = true;
 
-	PIter.Invalidate();
-	while((PIter = InfoNode->FindParameter(pParameterName, PIter)).IsValid())
-	{
-		if(bFirstRow)
-			bFirstRow = false;
-		else
-			RText += TEXT('\n');
+    PIter.Invalidate();
+    while((PIter = InfoNode->FindParameter(pParameterName, PIter)).IsValid())
+    {
+        if(bFirstRow)
+            bFirstRow = false;
+        else
+            RText += TEXT('\n');
 
-		RText += PIter->m_Value;
-	}
+        RText += PIter->m_Value;
+    }
 
-	return RText;
+    return RText;
 }

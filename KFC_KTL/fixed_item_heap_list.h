@@ -13,19 +13,19 @@ template <class ObjectType>
 struct TFixedItemHeapListIterator
 {
 public:
-	size_t x;
+    size_t x;
 
 public:
-	TFixedItemHeapListIterator()
-		{ Invalidate(); }
+    TFixedItemHeapListIterator()
+        { Invalidate(); }
 
-	TFixedItemHeapListIterator(size_t sx) : x(sx) {}
+    TFixedItemHeapListIterator(size_t sx) : x(sx) {}
 
-	bool IsValid() const
-		{ return x; }
+    bool IsValid() const
+        { return x; }
 
-	void Invalidate()
-		{ x = 0; }
+    void Invalidate()
+        { x = 0; }
 };
 
 // Const iterator
@@ -33,76 +33,76 @@ template <class ObjectType>
 struct TFixedItemHeapListConstIterator
 {
 public:
-	size_t x;
+    size_t x;
 
 public:
-	TFixedItemHeapListConstIterator()
-		{ Invalidate(); }
+    TFixedItemHeapListConstIterator()
+        { Invalidate(); }
 
-	TFixedItemHeapListConstIterator(size_t sx) : x(sx) {}
+    TFixedItemHeapListConstIterator(size_t sx) : x(sx) {}
 
-	TFixedItemHeapListConstIterator(TFixedItemHeapListIterator<ObjectType> i) : x(i.x) {}
+    TFixedItemHeapListConstIterator(TFixedItemHeapListIterator<ObjectType> i) : x(i.x) {}
 
-	bool IsValid() const
-		{ return x; }
+    bool IsValid() const
+        { return x; }
 
-	void Invalidate()
-		{ x = 0; }
+    void Invalidate()
+        { x = 0; }
 };
 
 template <class ObjectType>
-inline int Compare(	TFixedItemHeapListIterator<ObjectType> Iter1,
-					TFixedItemHeapListIterator<ObjectType> Iter2)
+inline int Compare( TFixedItemHeapListIterator<ObjectType> Iter1,
+                    TFixedItemHeapListIterator<ObjectType> Iter2)
 {
-	return Compare(Iter1.x, Iter2.x);
+    return Compare(Iter1.x, Iter2.x);
 }
 
 template <class ObjectType>
-inline int Compare(	TFixedItemHeapListIterator		<ObjectType> Iter1,
-					TFixedItemHeapListConstIterator	<ObjectType> Iter2)
+inline int Compare( TFixedItemHeapListIterator      <ObjectType> Iter1,
+                    TFixedItemHeapListConstIterator <ObjectType> Iter2)
 {
-	return Compare(Iter1.x, Iter2.x);
+    return Compare(Iter1.x, Iter2.x);
 }
 
 template <class ObjectType>
-inline int Compare(	TFixedItemHeapListConstIterator	<ObjectType> Iter1,
-					TFixedItemHeapListIterator		<ObjectType> Iter2)
+inline int Compare( TFixedItemHeapListConstIterator <ObjectType> Iter1,
+                    TFixedItemHeapListIterator      <ObjectType> Iter2)
 {
-	return Compare(Iter1.x, Iter2.x);
+    return Compare(Iter1.x, Iter2.x);
 }
 
 template <class ObjectType>
-inline int Compare(	TFixedItemHeapListConstIterator<ObjectType> Iter1,
-					TFixedItemHeapListConstIterator<ObjectType> Iter2)
+inline int Compare( TFixedItemHeapListConstIterator<ObjectType> Iter1,
+                    TFixedItemHeapListConstIterator<ObjectType> Iter2)
 {
-	return Compare(Iter1.x, Iter2.x);
+    return Compare(Iter1.x, Iter2.x);
 }
 
-DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListIterator		<ObjectType>, TFixedItemHeapListIterator		<ObjectType>)
-DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListIterator		<ObjectType>, TFixedItemHeapListConstIterator	<ObjectType>)
-DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListConstIterator	<ObjectType>, TFixedItemHeapListIterator		<ObjectType>)
-DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListConstIterator	<ObjectType>, TFixedItemHeapListConstIterator	<ObjectType>)
+DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListIterator      <ObjectType>, TFixedItemHeapListIterator        <ObjectType>)
+DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListIterator      <ObjectType>, TFixedItemHeapListConstIterator   <ObjectType>)
+DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListConstIterator <ObjectType>, TFixedItemHeapListIterator        <ObjectType>)
+DECLARE_TEMPLATE_COMPARISON_OPERATORS(class ObjectType, TFixedItemHeapListConstIterator <ObjectType>, TFixedItemHeapListConstIterator   <ObjectType>)
 
 // Header
 template <class ObjectType>
 struct TFixedItemHeapListHeader
 {
 public:
-	TFixedItemHeapListIterator<ObjectType> m_First, m_Last;
+    TFixedItemHeapListIterator<ObjectType> m_First, m_Last;
 
-	size_t m_szN;
+    size_t m_szN;
 
 public:
-	TFixedItemHeapListHeader()
-		{ m_First.Invalidate(), m_Last.Invalidate(), m_szN = 0; }
+    TFixedItemHeapListHeader()
+        { m_First.Invalidate(), m_Last.Invalidate(), m_szN = 0; }
 
-	// (for testing purposes)
-	bool IsClean() const
-		{ return !m_First.IsValid() && !m_Last.IsValid() && !m_szN; }
+    // (for testing purposes)
+    bool IsClean() const
+        { return !m_First.IsValid() && !m_Last.IsValid() && !m_szN; }
 
-	// (for testing purposes)
-	bool operator == (const TFixedItemHeapListHeader& Header) const
-		{ return m_First == Header.m_First && m_Last == Header.m_Last && m_szN == Header.m_szN; }
+    // (for testing purposes)
+    bool operator == (const TFixedItemHeapListHeader& Header) const
+        { return m_First == Header.m_First && m_Last == Header.m_Last && m_szN == Header.m_szN; }
 };
 
 // (base required to avoid template tempalte argument with iterator comparisons)
@@ -111,258 +111,258 @@ template <class ObjectType>
 class TFixedItemHeapListBase
 {
 public:
-	// Iterator
-	typedef TFixedItemHeapListIterator<ObjectType> TIterator;
+    // Iterator
+    typedef TFixedItemHeapListIterator<ObjectType> TIterator;
 
-	// Const iterator
-	typedef TFixedItemHeapListConstIterator<ObjectType> TConstIterator;
+    // Const iterator
+    typedef TFixedItemHeapListConstIterator<ObjectType> TConstIterator;
 
-	// Header
-	typedef TFixedItemHeapListHeader<ObjectType> THeader;
-	
-	// Item
-	struct TItem
-	{
-	public:
-		ObjectType data;
+    // Header
+    typedef TFixedItemHeapListHeader<ObjectType> THeader;
 
-		size_t pr, nx;
+    // Item
+    struct TItem
+    {
+    public:
+        ObjectType data;
 
-	public:
-		TItem() : pr(0), nx(0) {}
-	};
+        size_t pr, nx;
+
+    public:
+        TItem() : pr(0), nx(0) {}
+    };
 };
 
 // ---------------------
 // Fixed item heap list
 // ---------------------
 #define FIXED_ITEM_HEAP_LIST(ObjectType, HeapAllocatorType, AccessorTemplate) \
-	TFixedItemHeapList \
-	<	ObjectType, \
-		HeapAllocatorType, \
-		AccessorTemplate \
-		<	TFixedItemHeapWithAux \
-			<	TFixedItemHeapListBase< ObjectType >::TItem, \
-				HeapAllocatorType, \
-				TFixedItemHeapListBase< ObjectType >::THeader>, \
-			TFixedItemHeapListBase< ObjectType >::THeader> > \
+    TFixedItemHeapList \
+    <   ObjectType, \
+        HeapAllocatorType, \
+        AccessorTemplate \
+        <   TFixedItemHeapWithAux \
+            <   TFixedItemHeapListBase< ObjectType >::TItem, \
+                HeapAllocatorType, \
+                TFixedItemHeapListBase< ObjectType >::THeader>, \
+            TFixedItemHeapListBase< ObjectType >::THeader> > \
 
 #define FIXED_ITEM_HEAP_LIST_WITH_TYPENAME(ObjectType, HeapAllocatorType, AccessorTemplate) \
-	TFixedItemHeapList \
-	<	ObjectType, \
-		HeapAllocatorType, \
-		AccessorTemplate \
-		<	TFixedItemHeapWithAux \
-			<	typename TFixedItemHeapListBase< ObjectType >::TItem, \
-				HeapAllocatorType, \
-				typename TFixedItemHeapListBase< ObjectType >::THeader>, \
-			typename TFixedItemHeapListBase< ObjectType >::THeader> > \
+    TFixedItemHeapList \
+    <   ObjectType, \
+        HeapAllocatorType, \
+        AccessorTemplate \
+        <   TFixedItemHeapWithAux \
+            <   typename TFixedItemHeapListBase< ObjectType >::TItem, \
+                HeapAllocatorType, \
+                typename TFixedItemHeapListBase< ObjectType >::THeader>, \
+            typename TFixedItemHeapListBase< ObjectType >::THeader> > \
 
 template <class ObjectType, class HeapAllocatorType, class AccessorType>
 class TFixedItemHeapList : public TFixedItemHeapListBase<ObjectType>
 {
 public:
-	// Item
-	typedef typename TFixedItemHeapListBase<ObjectType>::TItem TItem;
+    // Item
+    typedef typename TFixedItemHeapListBase<ObjectType>::TItem TItem;
 
-	// Header
-	typedef typename TFixedItemHeapListBase<ObjectType>::THeader THeader;
+    // Header
+    typedef typename TFixedItemHeapListBase<ObjectType>::THeader THeader;
 
-	// Iterator
-	typedef typename TFixedItemHeapListBase<ObjectType>::TIterator TIterator;
+    // Iterator
+    typedef typename TFixedItemHeapListBase<ObjectType>::TIterator TIterator;
 
-	// Const iterator
-	typedef typename TFixedItemHeapListBase<ObjectType>::TConstIterator TConstIterator;
-	
-	// Heap
-	typedef TFixedItemHeapWithAux<TItem, HeapAllocatorType, THeader> THeap;
+    // Const iterator
+    typedef typename TFixedItemHeapListBase<ObjectType>::TConstIterator TConstIterator;
 
-	// Accessor
-	typedef AccessorType TAccessor;
+    // Heap
+    typedef TFixedItemHeapWithAux<TItem, HeapAllocatorType, THeader> THeap;
+
+    // Accessor
+    typedef AccessorType TAccessor;
 
 private:
-	size_t CreateItem()
-		{ return m_Accessor.GetHeap().Reserve(); }
+    size_t CreateItem()
+        { return m_Accessor.GetHeap().Reserve(); }
 
-	void DestroyItem(size_t x)
-		{ m_Accessor.GetHeap().Free(x); }
+    void DestroyItem(size_t x)
+        { m_Accessor.GetHeap().Free(x); }
 
-	TItem& GetItem(size_t x)
-		{ return m_Accessor.GetHeap()[x]; }
+    TItem& GetItem(size_t x)
+        { return m_Accessor.GetHeap()[x]; }
 
-	const TItem& GetItem(size_t x) const
-		{ return (const_cast<TFixedItemHeapList*>(this))->GetItem(x); }
+    const TItem& GetItem(size_t x) const
+        { return (const_cast<TFixedItemHeapList*>(this))->GetItem(x); }
 
-	void Attach(size_t x, size_t pr, size_t nx);
+    void Attach(size_t x, size_t pr, size_t nx);
 
-	void Detach(size_t x);
-
-public:
-	TAccessor m_Accessor;	
+    void Detach(size_t x);
 
 public:
-	bool IsAllocated() const
-		{ return m_Accessor.IsAllocated(); }
+    TAccessor m_Accessor;
 
-	void Release()
-		{ m_Accessor.Release(); }
+public:
+    bool IsAllocated() const
+        { return m_Accessor.IsAllocated(); }
 
-	size_t GetN() const
-		{ return m_Accessor.GetHeader().m_szN; }
+    void Release()
+        { m_Accessor.Release(); }
 
-	bool IsEmpty() const
-		{ return !GetN(); }
+    size_t GetN() const
+        { return m_Accessor.GetHeader().m_szN; }
 
-	void Clear();
+    bool IsEmpty() const
+        { return !GetN(); }
 
-	TIterator Add(TIterator Prev, TIterator Next)
-	{
-		DEBUG_VERIFY((Prev.IsValid() ? GetNext(Prev) : GetFirst()) == Next);
-		DEBUG_VERIFY((Next.IsValid() ? GetPrev(Next) : GetLast ()) == Prev);
+    void Clear();
 
-		size_t x = CreateItem();
+    TIterator Add(TIterator Prev, TIterator Next)
+    {
+        DEBUG_VERIFY((Prev.IsValid() ? GetNext(Prev) : GetFirst()) == Next);
+        DEBUG_VERIFY((Next.IsValid() ? GetPrev(Next) : GetLast ()) == Prev);
 
-		m_Accessor.GetHeader().m_szN++;
+        size_t x = CreateItem();
 
-		Attach(x, Prev.x, Next.x);
+        m_Accessor.GetHeader().m_szN++;
 
-		return x;
-	}
+        Attach(x, Prev.x, Next.x);
 
-	TIterator AddBefore(TIterator Iter)
-		{ return Add(Iter.IsValid() ? GetPrev(Iter) : 0, Iter); }
+        return x;
+    }
 
-	TIterator AddAfter(TIterator Iter)
-		{ return Add(Iter, GetNext(Iter)); }
+    TIterator AddBefore(TIterator Iter)
+        { return Add(Iter.IsValid() ? GetPrev(Iter) : 0, Iter); }
 
-	TIterator AddFirst()
-		{ return Add(0, GetFirst()); }
+    TIterator AddAfter(TIterator Iter)
+        { return Add(Iter, GetNext(Iter)); }
 
-	TIterator AddLast()
-		{ return Add(GetLast(), 0); }	
+    TIterator AddFirst()
+        { return Add(0, GetFirst()); }
 
-	void Del(TIterator i)
-	{
-		DEBUG_VERIFY(i.IsValid());
+    TIterator AddLast()
+        { return Add(GetLast(), 0); }
 
-		m_Accessor.GetHeader().m_szN--;
+    void Del(TIterator i)
+    {
+        DEBUG_VERIFY(i.IsValid());
 
-		Detach(i.x);
-		
-		DestroyItem(i.x);
-	}
+        m_Accessor.GetHeader().m_szN--;
 
-	void DelFirst()
-	{
-		DEBUG_VERIFY(!IsEmpty());
+        Detach(i.x);
 
-		Del(GetFirst());
-	}
+        DestroyItem(i.x);
+    }
 
-	void DelLast()
-	{
-		DEBUG_VERIFY(!IsEmpty());
+    void DelFirst()
+    {
+        DEBUG_VERIFY(!IsEmpty());
 
-		Del(GetLast());
-	}
+        Del(GetFirst());
+    }
 
-	// Iterator ops
-	ObjectType* GetDataPtr(TIterator i)
-		{ DEBUG_VERIFY(i.IsValid()); return &GetItem(i.x).data; }
+    void DelLast()
+    {
+        DEBUG_VERIFY(!IsEmpty());
 
-	ObjectType& GetDataRef(TIterator i)
-		{ DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).data; }
+        Del(GetLast());
+    }
 
-	ObjectType& operator [] (TIterator i)
-		{ return GetDataRef(i); }
+    // Iterator ops
+    ObjectType* GetDataPtr(TIterator i)
+        { DEBUG_VERIFY(i.IsValid()); return &GetItem(i.x).data; }
 
-	TIterator GetFirst()
-		{ return m_Accessor.GetHeader().m_First; }
+    ObjectType& GetDataRef(TIterator i)
+        { DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).data; }
 
-	TIterator GetLast()
-		{ return m_Accessor.GetHeader().m_Last; }	
+    ObjectType& operator [] (TIterator i)
+        { return GetDataRef(i); }
 
-	TIterator GetPrev(TIterator i)
-		{ DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).pr; }
+    TIterator GetFirst()
+        { return m_Accessor.GetHeader().m_First; }
 
-	TIterator GetNext(TIterator i)
-		{ DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).nx; }
+    TIterator GetLast()
+        { return m_Accessor.GetHeader().m_Last; }
 
-	TIterator& ToFirst(TIterator& i)
-		{ return i = GetFirst(); }
+    TIterator GetPrev(TIterator i)
+        { DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).pr; }
 
-	TIterator& ToLast(TIterator& i)
-		{ return i = GetLast(); }
+    TIterator GetNext(TIterator i)
+        { DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).nx; }
 
-	TIterator& ToPrev(TIterator& i)
-		{ return i = GetPrev(i); }
+    TIterator& ToFirst(TIterator& i)
+        { return i = GetFirst(); }
 
-	TIterator& ToNext(TIterator& i)
-		{ return i = GetNext(i); }
+    TIterator& ToLast(TIterator& i)
+        { return i = GetLast(); }
 
-	// Const iterator ops
-	const ObjectType* GetDataPtr(TConstIterator i) const
-		{ DEBUG_VERIFY(i.IsValid()); return &GetItem(i.x).data; }
+    TIterator& ToPrev(TIterator& i)
+        { return i = GetPrev(i); }
 
-	const ObjectType& GetDataRef(TConstIterator i) const
-		{ DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).data; }
+    TIterator& ToNext(TIterator& i)
+        { return i = GetNext(i); }
 
-	const ObjectType& operator [] (TConstIterator i) const
-		{ return GetDataRef(i); }
+    // Const iterator ops
+    const ObjectType* GetDataPtr(TConstIterator i) const
+        { DEBUG_VERIFY(i.IsValid()); return &GetItem(i.x).data; }
 
-	TConstIterator GetFirst() const
-		{ return m_Accessor.GetHeader().m_First; }
+    const ObjectType& GetDataRef(TConstIterator i) const
+        { DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).data; }
 
-	TConstIterator GetLast() const
-		{ return m_Accessor.GetHeader().m_Last; }	
+    const ObjectType& operator [] (TConstIterator i) const
+        { return GetDataRef(i); }
 
-	TConstIterator GetPrev(TConstIterator i) const
-		{ DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).pr; }
+    TConstIterator GetFirst() const
+        { return m_Accessor.GetHeader().m_First; }
 
-	TConstIterator GetNext(TConstIterator i) const
-		{ DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).nx; }
+    TConstIterator GetLast() const
+        { return m_Accessor.GetHeader().m_Last; }
 
-	TConstIterator& ToFirst(TConstIterator& i) const
-		{ return i = GetFirst(); }
+    TConstIterator GetPrev(TConstIterator i) const
+        { DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).pr; }
 
-	TConstIterator& ToLast(TConstIterator& i) const
-		{ return i = GetLast(); }
+    TConstIterator GetNext(TConstIterator i) const
+        { DEBUG_VERIFY(i.IsValid()); return GetItem(i.x).nx; }
 
-	TConstIterator& ToPrev(TConstIterator& i) const
-		{ return i = GetPrev(i); }
+    TConstIterator& ToFirst(TConstIterator& i) const
+        { return i = GetFirst(); }
 
-	TConstIterator& ToNext(TConstIterator& i) const
-		{ return i = GetNext(i); }
+    TConstIterator& ToLast(TConstIterator& i) const
+        { return i = GetLast(); }
+
+    TConstIterator& ToPrev(TConstIterator& i) const
+        { return i = GetPrev(i); }
+
+    TConstIterator& ToNext(TConstIterator& i) const
+        { return i = GetNext(i); }
 };
 
 template <class ObjectType, class HeapAllocatorType, class AccessorType>
 void TFixedItemHeapList<ObjectType, HeapAllocatorType, AccessorType>::Clear()
 {
-	if(!m_Accessor.FastClear())
-	{
-		while(!IsEmpty())
-			DelLast();
-	}
+    if(!m_Accessor.FastClear())
+    {
+        while(!IsEmpty())
+            DelLast();
+    }
 }
 
 template <class ObjectType, class HeapAllocatorType, class AccessorType>
 void TFixedItemHeapList<ObjectType, HeapAllocatorType, AccessorType>::Attach(size_t x, size_t pr, size_t nx)
 {
-	TItem& xi = GetItem(x);
+    TItem& xi = GetItem(x);
 
-	xi.pr = pr, xi.nx = nx;
+    xi.pr = pr, xi.nx = nx;
 
-	(pr ? GetItem(pr).nx : m_Accessor.GetHeader().m_First.x) = x;
-	(nx ? GetItem(nx).pr : m_Accessor.GetHeader().m_Last. x) = x;
+    (pr ? GetItem(pr).nx : m_Accessor.GetHeader().m_First.x) = x;
+    (nx ? GetItem(nx).pr : m_Accessor.GetHeader().m_Last. x) = x;
 }
 
 template <class ObjectType, class HeapAllocatorType, class AccessorType>
 void TFixedItemHeapList<ObjectType, HeapAllocatorType, AccessorType>::Detach(size_t x)
 {
-	TItem& xi = GetItem(x);
+    TItem& xi = GetItem(x);
 
-	(xi.pr ? GetItem(xi.pr).nx : m_Accessor.GetHeader().m_First.x) = xi.nx;
-	(xi.nx ? GetItem(xi.nx).pr : m_Accessor.GetHeader().m_Last. x) = xi.pr;
+    (xi.pr ? GetItem(xi.pr).nx : m_Accessor.GetHeader().m_First.x) = xi.nx;
+    (xi.nx ? GetItem(xi.nx).pr : m_Accessor.GetHeader().m_Last. x) = xi.pr;
 }
 
 #endif // fixed_item_heap_list_h

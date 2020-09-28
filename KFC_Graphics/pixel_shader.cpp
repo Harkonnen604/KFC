@@ -8,31 +8,31 @@
 // -------------
 TPixelShader::TPixelShader()
 {
-	m_pPixelShader = NULL;
+    m_pPixelShader = NULL;
 }
 
 void TPixelShader::Release()
 {
-	if(m_pPixelShader)
-	{
-		g_GraphicsStateManager.InvalidatePixelShader(m_pPixelShader);
+    if(m_pPixelShader)
+    {
+        g_GraphicsStateManager.InvalidatePixelShader(m_pPixelShader);
 
-		m_pPixelShader->Release(), m_pPixelShader = NULL;
-	}
+        m_pPixelShader->Release(), m_pPixelShader = NULL;
+    }
 }
 
 void TPixelShader::Allocate(IDirect3DPixelShader9* pSPixelShader)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(pSPixelShader);
+    DEBUG_VERIFY(pSPixelShader);
 
-	m_pPixelShader = pSPixelShader;
+    m_pPixelShader = pSPixelShader;
 }
 
 void TPixelShader::Install() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	g_GraphicsStateManager.SetPixelShader(m_pPixelShader);
+    g_GraphicsStateManager.SetPixelShader(m_pPixelShader);
 }

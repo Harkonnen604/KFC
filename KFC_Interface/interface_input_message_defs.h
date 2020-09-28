@@ -8,15 +8,15 @@
 // -------------------------------------
 struct TInterfaceInputKeyboardKeyMessage : public TMessage
 {
-	size_t	m_szKey;
-	bool	m_bNewState;
+    size_t  m_szKey;
+    bool    m_bNewState;
 
 
-	TInterfaceInputKeyboardKeyMessage(	size_t	szSKey,
-										bool	bSNewState) :
+    TInterfaceInputKeyboardKeyMessage(  size_t  szSKey,
+                                        bool    bSNewState) :
 
-		m_szKey		(szSKey),
-		m_bNewState	(bSNewState) {}	
+        m_szKey     (szSKey),
+        m_bNewState (bSNewState) {}
 };
 
 // -------------------------------------
@@ -24,18 +24,18 @@ struct TInterfaceInputKeyboardKeyMessage : public TMessage
 // -------------------------------------
 struct TInterfaceInputMouseButtonMessage : public TMessage
 {
-	size_t	m_szButton;
-	bool	m_bNewState;
-	FPOINT	m_Coords;
+    size_t  m_szButton;
+    bool    m_bNewState;
+    FPOINT  m_Coords;
 
 
-	TInterfaceInputMouseButtonMessage(	size_t			szSButton,
-										bool			bSNewState,
-										const FPOINT&	SCoords) :
+    TInterfaceInputMouseButtonMessage(  size_t          szSButton,
+                                        bool            bSNewState,
+                                        const FPOINT&   SCoords) :
 
-		m_szButton	(szSButton),
-		m_bNewState	(bSNewState),
-		m_Coords	(SCoords) {}
+        m_szButton  (szSButton),
+        m_bNewState (bSNewState),
+        m_Coords    (SCoords) {}
 };
 
 // ---------------------------------------
@@ -43,11 +43,11 @@ struct TInterfaceInputMouseButtonMessage : public TMessage
 // ---------------------------------------
 struct TInterfaceInputMouseMovementMessage : public TMessage
 {
-	FSIZE m_Delta;
+    FSIZE m_Delta;
 
 
-	TInterfaceInputMouseMovementMessage(const FSIZE& SDelta) :
-		m_Delta	(SDelta) {}
+    TInterfaceInputMouseMovementMessage(const FSIZE& SDelta) :
+        m_Delta (SDelta) {}
 };
 
 // --------------------------------------------
@@ -55,15 +55,15 @@ struct TInterfaceInputMouseMovementMessage : public TMessage
 // --------------------------------------------
 struct TInterfaceInputMouseCoordsChangeMessage : public TMessage
 {
-	FPOINT	m_DstCoords;
-	FSIZE	m_Delta;
+    FPOINT  m_DstCoords;
+    FSIZE   m_Delta;
 
 
-	TInterfaceInputMouseCoordsChangeMessage(const FPOINT&	SDstCoords,
-											const FSIZE&	SDelta) :
+    TInterfaceInputMouseCoordsChangeMessage(const FPOINT&   SDstCoords,
+                                            const FSIZE&    SDelta) :
 
-		m_DstCoords	(SDstCoords),
-		m_Delta		(SDelta) {}
+        m_DstCoords (SDstCoords),
+        m_Delta     (SDelta) {}
 };
 
 #endif // interface_input_message_defs_h

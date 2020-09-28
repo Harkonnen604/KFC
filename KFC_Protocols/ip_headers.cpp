@@ -6,21 +6,21 @@
 // ----------------
 LPCTSTR GetIPProtocolName(BYTE bProtocol)
 {
-	switch(bProtocol)
-	{
-		case IPPROTO_IP:
-			return TEXT("ip");
+    switch(bProtocol)
+    {
+        case IPPROTO_IP:
+            return TEXT("ip");
 
-		case IPPROTO_ICMP:
-			return TEXT("icmp");
-		
-		case IPPROTO_TCP:
-			return TEXT("tcp");
-		
-		case IPPROTO_UDP:
-			return TEXT("udp");
+        case IPPROTO_ICMP:
+            return TEXT("icmp");
 
-		default:
-			return TEXT("unknown");
-	}
+        case IPPROTO_TCP:
+            return TEXT("tcp");
+
+        case IPPROTO_UDP:
+            return TEXT("udp");
+
+        default:
+            return TEXT("unknown");
+    }
 }

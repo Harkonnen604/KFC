@@ -12,16 +12,16 @@ T_DB_DeviceGlobals::T_DB_DeviceGlobals() : TGlobals(TEXT("DB device globals"))
 
 void T_DB_DeviceGlobals::OnUninitialize()
 {
-	m_Environment.Release();
+    m_Environment.Release();
 }
 
 void T_DB_DeviceGlobals::OnInitialize()
 {
-	m_Environment.Allocate();
+    m_Environment.Allocate();
 
-	m_Environment.SetIntAttr(SQL_ATTR_ODBC_VERSION, SQL_OV_ODBC3);
+    m_Environment.SetIntAttr(SQL_ATTR_ODBC_VERSION, SQL_OV_ODBC3);
 
-	m_Environment.SetIntAttr(SQL_ATTR_OUTPUT_NTS, SQL_TRUE);
+    m_Environment.SetIntAttr(SQL_ATTR_OUTPUT_NTS, SQL_TRUE);
 }
 
 // ----------------
@@ -29,14 +29,14 @@ void T_DB_DeviceGlobals::OnInitialize()
 // ----------------
 KString GetSQLErrorText(SQLHENV hEnv, SQLHDBC hCon, SQLHSTMT hStmt)
 {
-	char buf[512] = "";
+    char buf[512] = "";
 
-	SQLINTEGER err;
-	SQLSMALLINT sz = 0;
+    SQLINTEGER err;
+    SQLSMALLINT sz = 0;
 
-	SQLError(hEnv, hCon, hStmt, NULL, &err, (SQLCHAR*)buf, sizeof(buf), &sz);
+    SQLError(hEnv, hCon, hStmt, NULL, &err, (SQLCHAR*)buf, sizeof(buf), &sz);
 
-	buf[sz] = 0;
+    buf[sz] = 0;
 
-	return buf;
+    return buf;
 }

@@ -9,7 +9,7 @@
 class TGraphicsGlobals : public TModuleGlobals
 {
 public:
-	TGraphicsGlobals();
+    TGraphicsGlobals();
 };
 
 extern TGraphicsGlobals g_GraphicsGlobals;

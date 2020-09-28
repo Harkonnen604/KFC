@@ -4,8 +4,8 @@
 #include <KFC_KTL\globals.h>
 #include <KFC_KTL\token.h>
 
-#define SOUND_TYPE_TOKENS	(g_SoundTokens.m_SoundTypeTokens)
-#define SOUND_INDEX_TOKENS	(g_SoundTokens.m_SoundIndexTokens)
+#define SOUND_TYPE_TOKENS   (g_SoundTokens.m_SoundTypeTokens)
+#define SOUND_INDEX_TOKENS  (g_SoundTokens.m_SoundIndexTokens)
 
 // -------------
 // Sound tokens
@@ -13,20 +13,20 @@
 class TSoundTokens : public TGlobals
 {
 private:
-	TTokensRegisterer m_FileNameTokensRegisterer;
-	TTokensRegisterer m_SoundTypeTokensRegisterer;
-	TTokensRegisterer m_SoundIndexTokensRegisterer;
+    TTokensRegisterer m_FileNameTokensRegisterer;
+    TTokensRegisterer m_SoundTypeTokensRegisterer;
+    TTokensRegisterer m_SoundIndexTokensRegisterer;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
-	
+    void OnUninitialize ();
+    void OnInitialize   ();
+
 public:
-	TTokens m_SoundTypeTokens;
-	TTokens m_SoundIndexTokens;
+    TTokens m_SoundTypeTokens;
+    TTokens m_SoundIndexTokens;
 
 
-	TSoundTokens();
+    TSoundTokens();
 };
 
 extern TSoundTokens g_SoundTokens;

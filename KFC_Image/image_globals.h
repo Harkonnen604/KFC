@@ -9,7 +9,7 @@
 class TImageGlobals : public TModuleGlobals
 {
 public:
-	TImageGlobals();
+    TImageGlobals();
 };
 
 extern TImageGlobals g_ImageGlobals;

@@ -7,37 +7,37 @@
 class TAcceleratorsTable
 {
 private:
-	HACCEL m_hAccel;
+    HACCEL m_hAccel;
 
 public:
-	TAcceleratorsTable();
+    TAcceleratorsTable();
 
-	TAcceleratorsTable(HACCEL hAccel);
+    TAcceleratorsTable(HACCEL hAccel);
 
-	TAcceleratorsTable(HINSTANCE hInstance, LPCTSTR pName);
+    TAcceleratorsTable(HINSTANCE hInstance, LPCTSTR pName);
 
-	TAcceleratorsTable(int iID);
+    TAcceleratorsTable(int iID);
 
-	~TAcceleratorsTable()
-		{ Release(); }
+    ~TAcceleratorsTable()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hAccel; }
+    bool IsAllocated() const
+        { return m_hAccel; }
 
-	void Release();
+    void Release();
 
-	void Allocate(HACCEL hAccel);
+    void Allocate(HACCEL hAccel);
 
-	void Allocate(HINSTANCE hInstance, LPCTSTR pName);
+    void Allocate(HINSTANCE hInstance, LPCTSTR pName);
 
-	void Allocate(int iID)
-		{ Allocate(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
+    void Allocate(int iID)
+        { Allocate(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
 
-	bool Translate(HWND hWnd, LPMSG pMsg) const;
+    bool Translate(HWND hWnd, LPMSG pMsg) const;
 
-	HACCEL GetAccel() const;
+    HACCEL GetAccel() const;
 
-	operator HACCEL () const { return GetAccel(); }
+    operator HACCEL () const { return GetAccel(); }
 };
 
 #endif // accelerators_table_h

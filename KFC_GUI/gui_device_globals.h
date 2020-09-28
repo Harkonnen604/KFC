@@ -11,16 +11,16 @@
 class T_GUI_DeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TIcon m_CheckIcons[2][2];
+    TIcon m_CheckIcons[2][2];
 
-	TBrush m_CheckerBrush;
+    TBrush m_CheckerBrush;
 
 public:
-	T_GUI_DeviceGlobals();
+    T_GUI_DeviceGlobals();
 };
 
 extern T_GUI_DeviceGlobals g_GUI_DeviceGlobals;

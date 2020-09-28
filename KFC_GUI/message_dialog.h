@@ -10,54 +10,54 @@
 class TMessageDialog : public TDialog
 {
 private:
-	static size_t s_szNMessageDialogsRunning;
+    static size_t s_szNMessageDialogsRunning;
 
-	static const UINT s_uiTerminateMsg;
+    static const UINT s_uiTerminateMsg;
 
-	HANDLE m_hStartEvent;
+    HANDLE m_hStartEvent;
 
-	mutable TCriticalSection m_MessageCriticalSection;
+    mutable TCriticalSection m_MessageCriticalSection;
 
-	KString m_Message;
+    KString m_Message;
 
-	SZSIZE m_MessageSize;
+    SZSIZE m_MessageSize;
 
-	ISIZE m_OldSize;
+    ISIZE m_OldSize;
 
-	const bool m_bOnlyEnlarge;
+    const bool m_bOnlyEnlarge;
 
 
-	TDialog::DoModal;
+    TDialog::DoModal;
 
-	HINSTANCE GetInstance() const;
+    HINSTANCE GetInstance() const;
 
-	int GetTemplateID() const;
+    int GetTemplateID() const;
 
-	bool OnMessage(UINT uiMsg, WPARAM wParam, LPARAM lParam);
+    bool OnMessage(UINT uiMsg, WPARAM wParam, LPARAM lParam);
 
-	bool OnDestroy();
+    bool OnDestroy();
 
-	bool OnInitDialog();
+    bool OnInitDialog();
 
-	bool OnPaint();
+    bool OnPaint();
 
-	void SetSize();		
+    void SetSize();
 
 public:
-	TMessageDialog(LPCTSTR pSMessaage, bool bOnlyEnlarge);
+    TMessageDialog(LPCTSTR pSMessaage, bool bOnlyEnlarge);
 
-	int DoModal(HWND hParentWnd, HANDLE hSStartEvent);
+    int DoModal(HWND hParentWnd, HANDLE hSStartEvent);
 
-	void Terminate(int iResult);
+    void Terminate(int iResult);
 
-	// Thread-safe message access
-	KString GetMessage() const;
+    // Thread-safe message access
+    KString GetMessage() const;
 
-	void SetMessage(LPCTSTR pSMessage, bool bForceRepaint = false);
+    void SetMessage(LPCTSTR pSMessage, bool bForceRepaint = false);
 
-	// ---------------- TRIVIALS ----------------
-	static size_t IsMessageDialogRunning()
-		{ return s_szNMessageDialogsRunning > 0; }
+    // ---------------- TRIVIALS ----------------
+    static size_t IsMessageDialogRunning()
+        { return s_szNMessageDialogsRunning > 0; }
 };
 
 #endif // message_dialog_h

@@ -9,7 +9,7 @@
 class TPhysicsConsts : public TConsts
 {
 public:
-	TPhysicsConsts();
+    TPhysicsConsts();
 };
 
 extern TPhysicsConsts g_PhysicsConsts;

@@ -13,14 +13,14 @@
 // -----------------------------------
 // Rects strip vertex buffer typedefs
 // -----------------------------------
-typedef TFVFVertexBuffer		< TTLVertex<1> > TRectsStripVertexBuffer;
-typedef TFVFVertexBufferLocker	< TTLVertex<1> > TRectsStripVertexBufferLocker;
+typedef TFVFVertexBuffer        < TTLVertex<1> > TRectsStripVertexBuffer;
+typedef TFVFVertexBufferLocker  < TTLVertex<1> > TRectsStripVertexBufferLocker;
 
 // ----------------------------------
 // Rects strip index buffer typedefs
 // ----------------------------------
-typedef TIndexBuffer		<WORD> TRectsStripIndexBuffer;
-typedef TIndexBufferLocker	<WORD> TRectsStripIndexBufferLocker;
+typedef TIndexBuffer        <WORD> TRectsStripIndexBuffer;
+typedef TIndexBufferLocker  <WORD> TRectsStripIndexBufferLocker;
 
 // ------------------------
 // Graphics device globals
@@ -28,93 +28,93 @@ typedef TIndexBufferLocker	<WORD> TRectsStripIndexBufferLocker;
 class TGraphicsDeviceGlobals : public TGlobals
 {
 private:
-	bool m_bScreenShotInitiated;
+    bool m_bScreenShotInitiated;
 
-	bool m_bRecordingStateBlock;
+    bool m_bRecordingStateBlock;
 
-	TSurface m_ScreenshotSurface;
+    TSurface m_ScreenshotSurface;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	bool OnPreUpdate();
+    bool OnPreUpdate();
 
-	bool OnPreRender() const;
+    bool OnPreRender() const;
 
-	void OnPostRender(bool bFailureRollBack) const;
+    void OnPostRender(bool bFailureRollBack) const;
 
-	void OnChangeMode();
+    void OnChangeMode();
 
-	void RetrieveBackBuffer() const;
+    void RetrieveBackBuffer() const;
 
-	bool StartFrame() const;
+    bool StartFrame() const;
 
-	void ScreenShot() const;
+    void ScreenShot() const;
 
 public:
-	// Interfaces
-	LPDIRECT3D9			m_pD3D;
-	LPDIRECT3DDEVICE9	m_pD3DDevice;
+    // Interfaces
+    LPDIRECT3D9         m_pD3D;
+    LPDIRECT3DDEVICE9   m_pD3DDevice;
 
-	// D3D caps
-	D3DCAPS9 m_D3DCaps;
+    // D3D caps
+    D3DCAPS9 m_D3DCaps;
 
-	// Presentation parameters
-	mutable D3DPRESENT_PARAMETERS m_PresentationParameters;
+    // Presentation parameters
+    mutable D3DPRESENT_PARAMETERS m_PresentationParameters;
 
-	// Screen dimensions
-	FRECT	m_ScreenRect;
-	FSIZE	m_ScreenSize;
-	FPOINT	m_ScreenCenter;
+    // Screen dimensions
+    FRECT   m_ScreenRect;
+    FSIZE   m_ScreenSize;
+    FPOINT  m_ScreenCenter;
 
-	float m_fXYAspectRatio;
-	float m_fYXAspectRatio;
+    float m_fXYAspectRatio;
+    float m_fYXAspectRatio;
 
-	// Formats
-	D3DFORMAT m_ImageFormat;
+    // Formats
+    D3DFORMAT m_ImageFormat;
 
-	D3DFORMAT m_16BPPTextureFormat;
-	D3DFORMAT m_32BPPTextureFormat;
-	D3DFORMAT m_DefaultTextureFormat;
+    D3DFORMAT m_16BPPTextureFormat;
+    D3DFORMAT m_32BPPTextureFormat;
+    D3DFORMAT m_DefaultTextureFormat;
 
-	D3DFORMAT m_16BPPAlphaTextureFormat;
-	D3DFORMAT m_32BPPAlphaTextureFormat;
-	D3DFORMAT m_DefaultAlphaTextureFormat;
+    D3DFORMAT m_16BPPAlphaTextureFormat;
+    D3DFORMAT m_32BPPAlphaTextureFormat;
+    D3DFORMAT m_DefaultAlphaTextureFormat;
 
-	// Limits
-	size_t m_szMaxActiveLights;
+    // Limits
+    size_t m_szMaxActiveLights;
 
-	// Texture caps
-	SZRECT	m_TextureSizeLimits;
-	bool	m_bPow2OnlyTextures;
-	bool	m_bSquareOnlyTextures;
+    // Texture caps
+    SZRECT  m_TextureSizeLimits;
+    bool    m_bPow2OnlyTextures;
+    bool    m_bSquareOnlyTextures;
 
-	// Back buffer
-	mutable TSurface m_BackBuffer;
+    // Back buffer
+    mutable TSurface m_BackBuffer;
 
-	// Rects strip buffers
-	mutable TRectsStripVertexBuffer	m_RectsStripVertexBuffer;
-	mutable TRectsStripIndexBuffer	m_RectsStripIndexBuffer;
+    // Rects strip buffers
+    mutable TRectsStripVertexBuffer m_RectsStripVertexBuffer;
+    mutable TRectsStripIndexBuffer  m_RectsStripIndexBuffer;
 
-	// Clearing states
-	flags_t		m_flClearingFlags;
-	D3DCOLOR	m_ClearingColor;
-	float		m_fClearingDepth;
-	size_t		m_szClearingStencilValue;	
+    // Clearing states
+    flags_t     m_flClearingFlags;
+    D3DCOLOR    m_ClearingColor;
+    float       m_fClearingDepth;
+    size_t      m_szClearingStencilValue;
 
 
-	TGraphicsDeviceGlobals();
+    TGraphicsDeviceGlobals();
 
-	void InitiateScreenShot();
+    void InitiateScreenShot();
 
-	void BeginStateBlock();	
+    void BeginStateBlock();
 
-	// Returns NULL in case of failure (including initialization/recursion failures)
-	IDirect3DStateBlock9* EndStateBlock();
+    // Returns NULL in case of failure (including initialization/recursion failures)
+    IDirect3DStateBlock9* EndStateBlock();
 
-	// ---------------- TRIVIALS ----------------
-	bool IsScreenshotInitiated() const { return m_bScreenShotInitiated; }
+    // ---------------- TRIVIALS ----------------
+    bool IsScreenshotInitiated() const { return m_bScreenShotInitiated; }
 };
 
 extern TGraphicsDeviceGlobals g_GraphicsDeviceGlobals;

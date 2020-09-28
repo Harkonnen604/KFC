@@ -9,7 +9,7 @@
 class TSceneGlobals : public TModuleGlobals
 {
 public:
-	TSceneGlobals();
+    TSceneGlobals();
 };
 
 extern TSceneGlobals g_SceneGlobals;

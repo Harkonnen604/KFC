@@ -11,8 +11,8 @@ TPhysicsDeviceGlobals g_PhysicsDeviceGlobals;
 // -----------------------
 TPhysicsDeviceGlobals::TPhysicsDeviceGlobals() : TGlobals(TEXT("Physics device globals"))
 {
-	AddSubGlobals(g_PhysicsCfg);
-	AddSubGlobals(g_PhysicsInitials);
+    AddSubGlobals(g_PhysicsCfg);
+    AddSubGlobals(g_PhysicsInitials);
 }
 
 void TPhysicsDeviceGlobals::OnUninitialize()

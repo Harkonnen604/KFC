@@ -8,48 +8,48 @@
 // -------------
 TWindowTimer::TWindowTimer()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TWindowTimer::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		KillTimer(m_hWnd, m_hWnd ? m_szEventID : m_szTimerID);
-	}
+        KillTimer(m_hWnd, m_hWnd ? m_szEventID : m_szTimerID);
+    }
 }
 
-void TWindowTimer::Allocate(HWND		hSWnd,
-							size_t		szTimeout,
-							size_t		szSEventID,
-							TIMERPROC	pTimerProc)
+void TWindowTimer::Allocate(HWND        hSWnd,
+                            size_t      szTimeout,
+                            size_t      szSEventID,
+                            TIMERPROC   pTimerProc)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_hWnd		= hSWnd;
-		m_szEventID	= szSEventID;
+    try
+    {
+        m_hWnd      = hSWnd;
+        m_szEventID = szSEventID;
 
-		m_szTimerID = SetTimer(m_hWnd, m_szEventID, (UINT)szTimeout, pTimerProc);
+        m_szTimerID = SetTimer(m_hWnd, m_szEventID, (UINT)szTimeout, pTimerProc);
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 size_t TWindowTimer::GetTimerID() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_szTimerID;
+    return m_szTimerID;
 }
 
 #endif // _MSC_VER

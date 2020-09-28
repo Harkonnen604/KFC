@@ -8,197 +8,197 @@
 // ----------------
 // Global routines
 // ----------------
-bool GetDialogOpenFileName(	HWND		hParentWnd,
-							LPCTSTR		pTitle,
-							LPCTSTR		pFilter,
-							LPCTSTR		pInitialFileName,
-							KString&	RFileName,
-							LPCTSTR		pDefExt,
-							size_t		szFilterIndex)
+bool GetDialogOpenFileName( HWND        hParentWnd,
+                            LPCTSTR     pTitle,
+                            LPCTSTR     pFilter,
+                            LPCTSTR     pInitialFileName,
+                            KString&    RFileName,
+                            LPCTSTR     pDefExt,
+                            size_t      szFilterIndex)
 {
-	DEBUG_VERIFY(pInitialFileName && pFilter);
+    DEBUG_VERIFY(pInitialFileName && pFilter);
 
-	TCurrentDirectoryPreserver Preserver0;
+    TCurrentDirectoryPreserver Preserver0;
 
-	OPENFILENAME ofn;
-	memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
+    OPENFILENAME ofn;
+    memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
 
-	TCHAR Buffer[MAX_PATH];
-	_tcscpy(Buffer, pInitialFileName);
+    TCHAR Buffer[MAX_PATH];
+    _tcscpy(Buffer, pInitialFileName);
 
-	ofn.hwndOwner		= hParentWnd;
-	ofn.lpstrFile		= Buffer;
-	ofn.nMaxFile		= ARRAY_SIZE(Buffer);
-	ofn.lpstrFilter		= pFilter;
-	ofn.nFilterIndex	= szFilterIndex;
-	ofn.lpstrTitle		= pTitle;
-	ofn.lpstrDefExt		= pDefExt;
-	ofn.Flags			= OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY;
+    ofn.hwndOwner       = hParentWnd;
+    ofn.lpstrFile       = Buffer;
+    ofn.nMaxFile        = ARRAY_SIZE(Buffer);
+    ofn.lpstrFilter     = pFilter;
+    ofn.nFilterIndex    = szFilterIndex;
+    ofn.lpstrTitle      = pTitle;
+    ofn.lpstrDefExt     = pDefExt;
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY;
 
-	if(!GetOpenFileName(&ofn))
-		return false;
+    if(!GetOpenFileName(&ofn))
+        return false;
 
-	RFileName = Buffer;
+    RFileName = Buffer;
 
-	return true;
+    return true;
 }
 
-bool GetDialogOpenFileNames(HWND		hParentWnd,
-							LPCTSTR		pTitle,
-							LPCTSTR		pFilter,
-							KStrings&	RFileNames,
-							LPCTSTR		pDefExt,
-							size_t		szFilterIndex)
+bool GetDialogOpenFileNames(HWND        hParentWnd,
+                            LPCTSTR     pTitle,
+                            LPCTSTR     pFilter,
+                            KStrings&   RFileNames,
+                            LPCTSTR     pDefExt,
+                            size_t      szFilterIndex)
 {
-	DEBUG_VERIFY(pFilter);
+    DEBUG_VERIFY(pFilter);
 
-	TCurrentDirectoryPreserver Preserver0;
+    TCurrentDirectoryPreserver Preserver0;
 
-	OPENFILENAME ofn;
-	memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
+    OPENFILENAME ofn;
+    memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
 
-	TArray<TCHAR, true> Buffer;
-	Buffer.Add(65535) = 0;
+    TArray<TCHAR, true> Buffer;
+    Buffer.Add(65535) = 0;
 
-	ofn.hwndOwner		= hParentWnd;
-	ofn.lpstrFile		= Buffer.GetDataPtr();
-	ofn.nMaxFile		= Buffer.GetN();
-	ofn.lpstrFilter		= pFilter;
-	ofn.nFilterIndex	= szFilterIndex;
-	ofn.lpstrTitle		= pTitle;
-	ofn.lpstrDefExt		= pDefExt;
+    ofn.hwndOwner       = hParentWnd;
+    ofn.lpstrFile       = Buffer.GetDataPtr();
+    ofn.nMaxFile        = Buffer.GetN();
+    ofn.lpstrFilter     = pFilter;
+    ofn.nFilterIndex    = szFilterIndex;
+    ofn.lpstrTitle      = pTitle;
+    ofn.lpstrDefExt     = pDefExt;
 
-	ofn.Flags =	OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |
-					OFN_ALLOWMULTISELECT |
-					OFN_EXPLORER | OFN_HIDEREADONLY;
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST |
+                    OFN_ALLOWMULTISELECT |
+                    OFN_EXPLORER | OFN_HIDEREADONLY;
 
-	if(!GetOpenFileName(&ofn))
-		return false;
+    if(!GetOpenFileName(&ofn))
+        return false;
 
-	// Extracting files names
-	{
-		KStrings Tokens;
+    // Extracting files names
+    {
+        KStrings Tokens;
 
-		KString cur;
+        KString cur;
 
-		size_t i;
-		for(i = 0 ; ; i++)
-		{
-			if(ofn.lpstrFile[i] == 0)
-			{
-				if(cur.IsEmpty())
-					break;
+        size_t i;
+        for(i = 0 ; ; i++)
+        {
+            if(ofn.lpstrFile[i] == 0)
+            {
+                if(cur.IsEmpty())
+                    break;
 
-				*Tokens.AddLast() = cur, cur.Empty();
-			}
-			else
-			{
-				cur += ofn.lpstrFile[i];
-			}
-		}
+                *Tokens.AddLast() = cur, cur.Empty();
+            }
+            else
+            {
+                cur += ofn.lpstrFile[i];
+            }
+        }
 
-		DEBUG_VERIFY(Tokens.GetN() > 0);
+        DEBUG_VERIFY(Tokens.GetN() > 0);
 
-		RFileNames.Clear();
+        RFileNames.Clear();
 
-		if(Tokens.GetN() == 1)
-		{
-			*RFileNames.AddLast() = *Tokens.GetFirst();
-		}
-		else
-		{
-			const KString FolderName = SlashedFolderName(*Tokens.GetFirst());
+        if(Tokens.GetN() == 1)
+        {
+            *RFileNames.AddLast() = *Tokens.GetFirst();
+        }
+        else
+        {
+            const KString FolderName = SlashedFolderName(*Tokens.GetFirst());
 
-			for(KStrings::TConstIterator Iter = Tokens.GetFirst().GetNext() ;
-				Iter.IsValid() ;
-				++Iter)
-			{
-				*RFileNames.AddLast() = FolderName + *Iter;
-			}
-		}
-	}
+            for(KStrings::TConstIterator Iter = Tokens.GetFirst().GetNext() ;
+                Iter.IsValid() ;
+                ++Iter)
+            {
+                *RFileNames.AddLast() = FolderName + *Iter;
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
-bool GetDialogSaveFileName(	HWND		hParentWnd,
-							LPCTSTR		pTitle,
-							LPCTSTR		pFilter,
-							LPCTSTR		pInitialFileName,
-							KString&	RFileName,
-							LPCTSTR		pDefExt,
-							size_t		szFilterIndex)
+bool GetDialogSaveFileName( HWND        hParentWnd,
+                            LPCTSTR     pTitle,
+                            LPCTSTR     pFilter,
+                            LPCTSTR     pInitialFileName,
+                            KString&    RFileName,
+                            LPCTSTR     pDefExt,
+                            size_t      szFilterIndex)
 {
-	DEBUG_VERIFY(pInitialFileName && pFilter);
+    DEBUG_VERIFY(pInitialFileName && pFilter);
 
-	TCurrentDirectoryPreserver Preserver0;
+    TCurrentDirectoryPreserver Preserver0;
 
-	OPENFILENAME ofn;
-	memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
+    OPENFILENAME ofn;
+    memset(&ofn, 0, sizeof(ofn)), ofn.lStructSize = sizeof(ofn);
 
-	TCHAR Buffer[MAX_PATH];
-	_tcscpy(Buffer, pInitialFileName);
+    TCHAR Buffer[MAX_PATH];
+    _tcscpy(Buffer, pInitialFileName);
 
-	ofn.hwndOwner		= hParentWnd;
-	ofn.lpstrFile		= Buffer;
-	ofn.nMaxFile		= ARRAY_SIZE(Buffer);
-	ofn.lpstrFilter		= pFilter;
-	ofn.nFilterIndex	= szFilterIndex;
-	ofn.lpstrTitle		= pTitle;
-	ofn.lpstrDefExt		= pDefExt;
-	ofn.Flags			= OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
+    ofn.hwndOwner       = hParentWnd;
+    ofn.lpstrFile       = Buffer;
+    ofn.nMaxFile        = ARRAY_SIZE(Buffer);
+    ofn.lpstrFilter     = pFilter;
+    ofn.nFilterIndex    = szFilterIndex;
+    ofn.lpstrTitle      = pTitle;
+    ofn.lpstrDefExt     = pDefExt;
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_EXPLORER;
 
-	if(!GetSaveFileName(&ofn))
-		return false;
+    if(!GetSaveFileName(&ofn))
+        return false;
 
-	RFileName = Buffer;
+    RFileName = Buffer;
 
-	return true;
+    return true;
 }
 
-bool ChooseFont(HWND		hParentWnd,
-				bool		bUsePassed,
-				LOGFONT&	lfRFont,
-				bool		bAllowEffects)
+bool ChooseFont(HWND        hParentWnd,
+                bool        bUsePassed,
+                LOGFONT&    lfRFont,
+                bool        bAllowEffects)
 {
-	CHOOSEFONT cf;
-	memset(&cf, 0, sizeof(cf)), cf.lStructSize = sizeof(cf);
+    CHOOSEFONT cf;
+    memset(&cf, 0, sizeof(cf)), cf.lStructSize = sizeof(cf);
 
-	LOGFONT lfFont = lfRFont;
+    LOGFONT lfFont = lfRFont;
 
-	cf.hwndOwner = hParentWnd;
+    cf.hwndOwner = hParentWnd;
 
-	cf.lpLogFont = &lfFont;
+    cf.lpLogFont = &lfFont;
 
-	cf.Flags = CF_SCREENFONTS | (bAllowEffects ? CF_EFFECTS : 0) | (bUsePassed ? CF_INITTOLOGFONTSTRUCT : 0);
+    cf.Flags = CF_SCREENFONTS | (bAllowEffects ? CF_EFFECTS : 0) | (bUsePassed ? CF_INITTOLOGFONTSTRUCT : 0);
 
-	cf.nFontType = SCREEN_FONTTYPE;
+    cf.nFontType = SCREEN_FONTTYPE;
 
-	if(!ChooseFont(&cf))
-		return false;
+    if(!ChooseFont(&cf))
+        return false;
 
-	lfRFont = lfFont;
+    lfRFont = lfFont;
 
-	return true;
+    return true;
 }
 
-bool ChooseColor(	HWND		hParentWnd,
-					COLORREF	CustomColors[16],
-					bool		bUsePassed,
-					COLORREF&	crRColor)
+bool ChooseColor(   HWND        hParentWnd,
+                    COLORREF    CustomColors[16],
+                    bool        bUsePassed,
+                    COLORREF&   crRColor)
 {
-	CHOOSECOLOR cc;
-	memset(&cc, 0, sizeof(cc)), cc.lStructSize = sizeof(cc);
+    CHOOSECOLOR cc;
+    memset(&cc, 0, sizeof(cc)), cc.lStructSize = sizeof(cc);
 
-	cc.hwndOwner	= hParentWnd;
-	cc.rgbResult	= crRColor;
-	cc.lpCustColors	= CustomColors;
-	cc.Flags		= CC_ANYCOLOR | CC_FULLOPEN | (bUsePassed ? CC_RGBINIT : 0);
+    cc.hwndOwner    = hParentWnd;
+    cc.rgbResult    = crRColor;
+    cc.lpCustColors = CustomColors;
+    cc.Flags        = CC_ANYCOLOR | CC_FULLOPEN | (bUsePassed ? CC_RGBINIT : 0);
 
-	if(!ChooseColor(&cc))
-		return false;
+    if(!ChooseColor(&cc))
+        return false;
 
-	crRColor = cc.rgbResult;
+    crRColor = cc.rgbResult;
 
-	return true;
+    return true;
 }

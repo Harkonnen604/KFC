@@ -9,40 +9,40 @@
 class TGlobalMem
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	HGLOBAL m_hMem;
-	
+    HGLOBAL m_hMem;
+
 public:
-	TGlobalMem();
+    TGlobalMem();
 
-	TGlobalMem(size_t szSize, kflags_t flFlags);
+    TGlobalMem(size_t szSize, kflags_t flFlags);
 
-	~TGlobalMem() { Release(); }
+    ~TGlobalMem() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Invalidate();
+    void Invalidate();
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(size_t szSize, kflags_t flFlags);
+    void Allocate(size_t szSize, kflags_t flFlags);
 
-	void ReOwn(TGlobalMem& SGlobalMem);
-	
-	void Lock(void*& pRData);
+    void ReOwn(TGlobalMem& SGlobalMem);
 
-	void Unlock();
+    void Lock(void*& pRData);
 
-	HGLOBAL GetMem() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    void Unlock();
 
-		return m_hMem;
-	}
+    HGLOBAL GetMem() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	operator HGLOBAL () const { return GetMem(); }
+        return m_hMem;
+    }
+
+    operator HGLOBAL () const { return GetMem(); }
 };
 
 // ------------------
@@ -51,15 +51,15 @@ public:
 class TGlobalMemLocker
 {
 private:
-	TGlobalMem* m_pGlobalMem;
+    TGlobalMem* m_pGlobalMem;
 
 public:
-	TGlobalMemLocker(TGlobalMem& SGlobalMem, void*& pRData);
+    TGlobalMemLocker(TGlobalMem& SGlobalMem, void*& pRData);
 
-	~TGlobalMemLocker();
+    ~TGlobalMemLocker();
 
-	// ---------------- TRIVIALS ----------------
-	TGlobalMem& GetGlobalMem() const { return *m_pGlobalMem; }
+    // ---------------- TRIVIALS ----------------
+    TGlobalMem& GetGlobalMem() const { return *m_pGlobalMem; }
 };
 
 #endif // _MSC_VER

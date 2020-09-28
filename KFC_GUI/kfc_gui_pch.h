@@ -10,6 +10,6 @@
 #include <prsht.h>
 
 #define GET_LPARAM_COORDS(lParam) \
-	(IPOINT((int)(short)LOWORD(lParam), (int)(short)HIWORD(lParam)))
+    (IPOINT((int)(short)LOWORD(lParam), (int)(short)HIWORD(lParam)))
 
 #endif // kfc_gui_pch_h

@@ -9,11 +9,11 @@
 class TMathDeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();	
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TMathDeviceGlobals();
+    TMathDeviceGlobals();
 };
 
 extern TMathDeviceGlobals g_MathDeviceGlobals;

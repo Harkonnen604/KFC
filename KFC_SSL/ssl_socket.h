@@ -10,68 +10,68 @@
 class T_SSL_Socket : public TSocketBase
 {
 public:
-	// Mode
-	enum TMode { MODE_CLIENT, MODE_SERVER };
+    // Mode
+    enum TMode { MODE_CLIENT, MODE_SERVER };
 
 private:
-	SSL* m_pSSL;
+    SSL* m_pSSL;
 
-	TMode m_Mode;
+    TMode m_Mode;
 
-	SOCKET m_Socket;
+    SOCKET m_Socket;
 
-	HANDLE m_hTerminator;
+    HANDLE m_hTerminator;
 
 
-	static void SetNonBlocking(SOCKET Socket);
+    static void SetNonBlocking(SOCKET Socket);
 
-	void WaitPending(int r, SOCKET Socket, LPCTSTR pErrorText);
+    void WaitPending(int r, SOCKET Socket, LPCTSTR pErrorText);
 
 public:
-	T_SSL_Socket(bool bAllocateClient = false);
+    T_SSL_Socket(bool bAllocateClient = false);
 
-	~T_SSL_Socket()
-		{ Release(); }
+    ~T_SSL_Socket()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_pSSL; }
+    bool IsAllocated() const
+        { return m_pSSL; }
 
-	void Release();
+    void Release();
 
-	void AllocateClient();
+    void AllocateClient();
 
-	void AllocateServer(const T_RSA_Key&			RSA_Key,
-						const T_X509_Certificate&	X509_Certificate);
+    void AllocateServer(const T_RSA_Key&            RSA_Key,
+                        const T_X509_Certificate&   X509_Certificate);
 
-	HANDLE GetTerminator() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hTerminator; }
+    HANDLE GetTerminator() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hTerminator; }
 
-	void SetTerminator(HANDLE hTerminator)
-		{ DEBUG_VERIFY_ALLOCATION; m_hTerminator = hTerminator; }
+    void SetTerminator(HANDLE hTerminator)
+        { DEBUG_VERIFY_ALLOCATION; m_hTerminator = hTerminator; }
 
-	void Connect(SOCKET Socket);
+    void Connect(SOCKET Socket);
 
-	void Accept(SOCKET Socket);
-	
-	void InitiateShutdown();
+    void Accept(SOCKET Socket);
 
-	void ReceiveShutdown();
+    void InitiateShutdown();
 
-	size_t ReceiveAvailable(void* pRData, size_t szLength);
+    void ReceiveShutdown();
 
-	size_t SendAvailable(const void* pData, size_t szLength);
+    size_t ReceiveAvailable(void* pRData, size_t szLength);
 
-	SSL* GetSSL() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pSSL; }
+    size_t SendAvailable(const void* pData, size_t szLength);
 
-	operator SSL* () const
-		{ return GetSSL(); }
+    SSL* GetSSL() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pSSL; }
 
-	TMode GetMode() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Mode; }	
+    operator SSL* () const
+        { return GetSSL(); }
 
-	bool IsConnected() const
-		{ DEBUG_VERIFY_ALLOCATION; return VALID_SOCKET(m_Socket); }
+    TMode GetMode() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Mode; }
+
+    bool IsConnected() const
+        { DEBUG_VERIFY_ALLOCATION; return VALID_SOCKET(m_Socket); }
 };
 
 #endif // ssl_socket_h

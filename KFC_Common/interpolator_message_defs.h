@@ -9,11 +9,11 @@
 // ------------------------------
 struct TInterpolatorFinishedMessage : public TMessage
 {
-	TInterpolatorHandle m_InterpolatorHandle;
+    TInterpolatorHandle m_InterpolatorHandle;
 
 
-	TInterpolatorFinishedMessage(TInterpolatorHandle SInterpolatorHandle) :
-		m_InterpolatorHandle(SInterpolatorHandle) {}	
+    TInterpolatorFinishedMessage(TInterpolatorHandle SInterpolatorHandle) :
+        m_InterpolatorHandle(SInterpolatorHandle) {}
 };
 */
 #endif // interpolator_message_defs_h

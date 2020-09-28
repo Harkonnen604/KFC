@@ -6,35 +6,35 @@
 // -----------------------------------
 TSoftPhysicalObjectVisualBinder::TSoftPhysicalObjectVisualBinder()
 {
-	m_pObject = NULL;
+    m_pObject = NULL;
 
-	m_pModel = NULL;
+    m_pModel = NULL;
 }
 
 void TSoftPhysicalObjectVisualBinder::Release()
 {
-	m_pObject = NULL;
+    m_pObject = NULL;
 
-	m_pModel = NULL;
+    m_pModel = NULL;
 }
 
-void TSoftPhysicalObjectVisualBinder::Allocate(	const TSoftPhysicalObject&	SObject,
-												TVisualModelBase&			SModel)
+void TSoftPhysicalObjectVisualBinder::Allocate( const TSoftPhysicalObject&  SObject,
+                                                TVisualModelBase&           SModel)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(SModel.IsAllocated());
+    DEBUG_VERIFY(SModel.IsAllocated());
 
-	DEBUG_VERIFY(SModel.IsDynamic());
+    DEBUG_VERIFY(SModel.IsDynamic());
 
-	m_pObject = &SObject;
+    m_pObject = &SObject;
 
-	m_pModel = &SModel;
+    m_pModel = &SModel;
 }
 
 void TSoftPhysicalObjectVisualBinder::Bind() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_pModel->SetVertices(m_pObject->GetMesh());
+    m_pModel->SetVertices(m_pObject->GetMesh());
 }

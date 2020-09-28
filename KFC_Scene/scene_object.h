@@ -11,16 +11,16 @@
 class TSceneObjectRepresenter
 {
 public:
-	TObjectPointer<TVisualPart> m_VisualPart;
+    TObjectPointer<TVisualPart> m_VisualPart;
 
-	TD3DMatrix m_WorldMatrix;
+    TD3DMatrix m_WorldMatrix;
 
-	TArray< TPtrHolder<TVisualBinder> > m_VisualBinders;
+    TArray< TPtrHolder<TVisualBinder> > m_VisualBinders;
 
 
-	TSceneObjectRepresenter();
+    TSceneObjectRepresenter();
 
-	void Render() const;
+    void Render() const;
 };
 
 // -------------
@@ -29,37 +29,37 @@ public:
 class TSceneObject : public TSuspendable
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
 
-	bool OnSuspend();
+    bool OnSuspend();
 
-	bool OnResume();
+    bool OnResume();
 
 public:
-	typedef TList<TSceneObjectRepresenter> TRepresenters;
+    typedef TList<TSceneObjectRepresenter> TRepresenters;
 
 
-	TRepresenters m_Representers;
+    TRepresenters m_Representers;
 
 
-	TSceneObject();
+    TSceneObject();
 
-	~TSceneObject()
-		{ Release(); }
+    ~TSceneObject()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Allocate();
+    void Allocate();
 
-	void PreUpdate();
+    void PreUpdate();
 
-	void PostUpdate();
+    void PostUpdate();
 
-	void Render() const;
+    void Render() const;
 };
 
 #endif // scene_object_h

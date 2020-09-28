@@ -8,12 +8,12 @@ TSoundConsts g_SoundConsts;
 // -------------
 TSoundConsts::TSoundConsts()
 {
-	// Registry
-	m_RegistryKeyName = TEXT("Sound\\");
+    // Registry
+    m_RegistryKeyName = TEXT("Sound\\");
 
-	// Filenames
-	m_SoundsFolderName = TEXT("Sounds\\");
+    // Filenames
+    m_SoundsFolderName = TEXT("Sounds\\");
 
-	// Storages
- 	m_szNSoundsRegistrationManagerFixedEntries = 1024;
+    // Storages
+    m_szNSoundsRegistrationManagerFixedEntries = 1024;
 }

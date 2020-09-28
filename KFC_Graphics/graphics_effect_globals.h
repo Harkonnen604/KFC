@@ -11,8 +11,8 @@
 // ------------------------------
 // Effect vertex buffer typedefs
 // ------------------------------
-typedef TFVFVertexBuffer		<T2DEffectVertex> TEffectVertexBuffer;
-typedef TFVFVertexBufferLocker	<T2DEffectVertex> TEffectVertexBufferLocker;
+typedef TFVFVertexBuffer        <T2DEffectVertex> TEffectVertexBuffer;
+typedef TFVFVertexBufferLocker  <T2DEffectVertex> TEffectVertexBufferLocker;
 
 // ------------------------
 // Graphics effect globals
@@ -20,15 +20,15 @@ typedef TFVFVertexBufferLocker	<T2DEffectVertex> TEffectVertexBufferLocker;
 class TGraphicsEffectGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	// Effects vertex buffer
-	mutable TEffectVertexBuffer m_EffectVertexBuffer;
+    // Effects vertex buffer
+    mutable TEffectVertexBuffer m_EffectVertexBuffer;
 
 
-	TGraphicsEffectGlobals();
+    TGraphicsEffectGlobals();
 };
 
 extern TGraphicsEffectGlobals g_GraphicsEffectGlobals;

@@ -8,50 +8,50 @@
 // ----------------
 bool IsPEImageFile(const KString& FileName)
 {
-	TEST_BLOCK_BEGIN
-	{
-		TFile File(FileName, FOF_BINARYREAD);
+    TEST_BLOCK_BEGIN
+    {
+        TFile File(FileName, FOF_BINARYREAD);
 
-		File.Seek(0x3C);
+        File.Seek(0x3C);
 
-		size_t szOffset;
-		File >> szOffset;
-		
-		File.Seek(szOffset);
+        size_t szOffset;
+        File >> szOffset;
 
-		char Signature[4];
-		File.Read(Signature, sizeof(Signature));
+        File.Seek(szOffset);
 
-		if(memcmp(Signature, "PE\0\0", 4))
-			return false;
+        char Signature[4];
+        File.Read(Signature, sizeof(Signature));
 
-		return true;
-	}
-	TEST_BLOCK_KFC_EXCEPTION_HANDLER
-	{
-		return false;
-	}
-	TEST_BLOCK_END
+        if(memcmp(Signature, "PE\0\0", 4))
+            return false;
+
+        return true;
+    }
+    TEST_BLOCK_KFC_EXCEPTION_HANDLER
+    {
+        return false;
+    }
+    TEST_BLOCK_END
 }
 
 bool IsJPEGFile(const KString& FileName)
 {
-	TEST_BLOCK_BEGIN
-	{
-		BYTE bValue;
-		
-		TFile File(FileName, FOF_BINARYREAD);
-		
-		File >> bValue;
+    TEST_BLOCK_BEGIN
+    {
+        BYTE bValue;
 
-		if(bValue != 0xFF)
-			return false;
+        TFile File(FileName, FOF_BINARYREAD);
 
-		return true;
-	}
-	TEST_BLOCK_KFC_EXCEPTION_HANDLER
-	{
-		return false;
-	}
-	TEST_BLOCK_END
+        File >> bValue;
+
+        if(bValue != 0xFF)
+            return false;
+
+        return true;
+    }
+    TEST_BLOCK_KFC_EXCEPTION_HANDLER
+    {
+        return false;
+    }
+    TEST_BLOCK_END
 }

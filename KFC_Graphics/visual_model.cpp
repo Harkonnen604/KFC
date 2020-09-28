@@ -6,17 +6,17 @@
 // ------------------
 TVisualModelBase::TVisualModelBase()
 {
-	m_bAllocated = true;
+    m_bAllocated = true;
 }
 
 void TVisualModelBase::Release()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TVisualModelBase::Allocate(bool bSDynamic)
 {
-	Release();
+    Release();
 
-	m_bDynamic = bSDynamic;
+    m_bDynamic = bSDynamic;
 }

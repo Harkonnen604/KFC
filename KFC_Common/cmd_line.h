@@ -4,8 +4,8 @@
 // ----------------
 // Global routines
 // ----------------
-KStrings::TIterator ParseCmdLine(	LPCTSTR		pCmdLine,
-									KStrings&	RTokens,
-									bool		bClearFirst = true);
+KStrings::TIterator ParseCmdLine(   LPCTSTR     pCmdLine,
+                                    KStrings&   RTokens,
+                                    bool        bClearFirst = true);
 
 #endif //cmd_line_h

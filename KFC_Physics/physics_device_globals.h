@@ -9,11 +9,11 @@
 class TPhysicsDeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();	
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TPhysicsDeviceGlobals();
+    TPhysicsDeviceGlobals();
 };
 
 extern TPhysicsDeviceGlobals g_PhysicsDeviceGlobals;

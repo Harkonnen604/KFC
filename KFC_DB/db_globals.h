@@ -9,7 +9,7 @@
 class T_DB_Globals : public TModuleGlobals
 {
 public:
-	T_DB_Globals();
+    T_DB_Globals();
 };
 
 extern T_DB_Globals g_DB_Globals;

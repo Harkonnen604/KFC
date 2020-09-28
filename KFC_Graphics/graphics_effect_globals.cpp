@@ -13,28 +13,28 @@ TGraphicsEffectGlobals g_GraphicsEffectGlobals;
 // ------------------------
 TGraphicsEffectGlobals::TGraphicsEffectGlobals() : TGlobals(TEXT("Graphics effects globals"))
 {
-	AddSubGlobals(g_GraphicsCfg);
-	AddSubGlobals(g_GraphicsInitials);
-	AddSubGlobals(g_GraphicsDeviceGlobals);
+    AddSubGlobals(g_GraphicsCfg);
+    AddSubGlobals(g_GraphicsInitials);
+    AddSubGlobals(g_GraphicsDeviceGlobals);
 }
 
 void TGraphicsEffectGlobals::OnUninitialize()
 {
-	m_EffectVertexBuffer.Release();
+    m_EffectVertexBuffer.Release();
 }
 
 void TGraphicsEffectGlobals::OnInitialize()
 {
-	// Effects vertex buffer
-	try
-	{
-		m_EffectVertexBuffer.Allocate(	g_GraphicsConsts.m_szMaxGraphicsEffectVertices,
-										D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY,
-										D3DPOOL_SYSTEMMEM);
-	}
+    // Effects vertex buffer
+    try
+    {
+        m_EffectVertexBuffer.Allocate(  g_GraphicsConsts.m_szMaxGraphicsEffectVertices,
+                                        D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY,
+                                        D3DPOOL_SYSTEMMEM);
+    }
 
-	catch(...)
-	{
-		INITIATE_DEFINED_FAILURE(TEXT("Error allocating 2D effects vertex buffer."));
-	}
+    catch(...)
+    {
+        INITIATE_DEFINED_FAILURE(TEXT("Error allocating 2D effects vertex buffer."));
+    }
 }

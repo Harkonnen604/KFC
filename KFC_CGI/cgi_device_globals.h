@@ -10,18 +10,18 @@
 class T_CGI_DeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TTokens m_HTML_Tokens;
-	TTokens m_HTML_SpaceTokens;
-	TTokens m_HTML_NoSpaceTokens;
-	TTokens m_HTML_EOL_Tokens;
-	TTokens m_HTML_TextAreaTokens;
+    TTokens m_HTML_Tokens;
+    TTokens m_HTML_SpaceTokens;
+    TTokens m_HTML_NoSpaceTokens;
+    TTokens m_HTML_EOL_Tokens;
+    TTokens m_HTML_TextAreaTokens;
 
 
-	T_CGI_DeviceGlobals();
+    T_CGI_DeviceGlobals();
 };
 
 extern T_CGI_DeviceGlobals g_CGI_DeviceGlobals;

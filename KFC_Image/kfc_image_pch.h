@@ -5,15 +5,15 @@
 #include <KFC_Common/kfc_common_pch.h>
 
 #ifdef _MSC_VER
-	#define XMD_H
-	#undef  FAR
-	#include <jpeglib.h>
+    #define XMD_H
+    #undef  FAR
+    #include <jpeglib.h>
 #else // _MSC_VER
-	#define XMD_H
-	extern "C"
-	{
-		#include <jpeglib.h>
-	}
+    #define XMD_H
+    extern "C"
+    {
+        #include <jpeglib.h>
+    }
 #endif // _MSC_VER
 
 #include <png.h>

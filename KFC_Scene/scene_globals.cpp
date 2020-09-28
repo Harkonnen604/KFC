@@ -19,15 +19,15 @@ TSceneGlobals g_SceneGlobals;
 // ----------------
 TSceneGlobals::TSceneGlobals() : TModuleGlobals(TEXT("Scene globals"))
 {
-	AddSubGlobals(g_KTLGlobals);
-	AddSubGlobals(g_MathGlobals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_InputGlobals);
-	AddSubGlobals(g_GraphicsGlobals);
-	AddSubGlobals(g_SoundGlobals);
-	AddSubGlobals(g_PhysicsGlobals);
-	
-	AddSubGlobals(g_SceneCfg);
-	AddSubGlobals(g_SceneInitials);
-	AddSubGlobals(g_SceneDeviceGlobals);
+    AddSubGlobals(g_KTLGlobals);
+    AddSubGlobals(g_MathGlobals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_InputGlobals);
+    AddSubGlobals(g_GraphicsGlobals);
+    AddSubGlobals(g_SoundGlobals);
+    AddSubGlobals(g_PhysicsGlobals);
+
+    AddSubGlobals(g_SceneCfg);
+    AddSubGlobals(g_SceneInitials);
+    AddSubGlobals(g_SceneDeviceGlobals);
 }

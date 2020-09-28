@@ -12,19 +12,19 @@
 template <class ObjectType>
 struct TFactoryEntry
 {
-	typedef ObjectType* TCreator(ktype_t tpType);
+    typedef ObjectType* TCreator(ktype_t tpType);
 
 
-	TPSEGMENT m_Types;
-	TCreator* m_pCreator;
+    TPSEGMENT m_Types;
+    TCreator* m_pCreator;
 
 
-	void Set(	const TPSEGMENT&	STypes,
-				TCreator*			pSCreator)
-	{
-		m_Types		= STypes;
-		m_pCreator	= pSCreator;
-	}
+    void Set(   const TPSEGMENT&    STypes,
+                TCreator*           pSCreator)
+    {
+        m_Types     = STypes;
+        m_pCreator  = pSCreator;
+    }
 };
 
 // --------
@@ -34,116 +34,116 @@ template <class ObjectType>
 class TFactory
 {
 public:
-	typedef TFactoryEntry<ObjectType> TEntry;
-	
+    typedef TFactoryEntry<ObjectType> TEntry;
+
 private:
-	typedef TArray<TEntry, true> TEntries;
+    typedef TArray<TEntry, true> TEntries;
 
 
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TEntries m_Entries;
+    TEntries m_Entries;
 
 public:
-	TFactory();
+    TFactory();
 
-	~TFactory() { Release(); }
+    ~TFactory() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate();
+    void Allocate();
 
-	void Unregister(size_t szN = 1);
+    void Unregister(size_t szN = 1);
 
-	void Register(	typename TEntry::TCreator*	pCreator,
-					ktype_t						tpType,
-					size_t						szAmt = 1);
+    void Register(  typename TEntry::TCreator*  pCreator,
+                    ktype_t                     tpType,
+                    size_t                      szAmt = 1);
 
-	ObjectType* Create(ktype_t tpType) const;
+    ObjectType* Create(ktype_t tpType) const;
 };
 
 template <class ObjectType>
 TFactory<ObjectType>::TFactory()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 template <class ObjectType>
 void TFactory<ObjectType>::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		m_Entries.Clear();
-	}
+        m_Entries.Clear();
+    }
 }
 
 template <class ObjectType>
 void TFactory<ObjectType>::Allocate()
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_bAllocated = true;
-	}
+    try
+    {
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 template <class ObjectType>
 void TFactory<ObjectType>::Unregister(size_t szN)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(szN > m_Entries.GetN())
-	{
-		INITIATE_DEFINED_FAILURE(KString::Formatted(TEXT("Attempt to remove %u records while there exists only %u in the factory."),
-														szN,
-														m_Entries.GetN()));
-	}
+    if(szN > m_Entries.GetN())
+    {
+        INITIATE_DEFINED_FAILURE(KString::Formatted(TEXT("Attempt to remove %u records while there exists only %u in the factory."),
+                                                        szN,
+                                                        m_Entries.GetN()));
+    }
 
-	m_Entries.Del(m_Entries.GetN() - szN, m_Entries.GetN());
+    m_Entries.Del(m_Entries.GetN() - szN, m_Entries.GetN());
 }
 
 template <class ObjectType>
-void TFactory<ObjectType>::Register(typename TEntry::TCreator*	pCreator,
-									ktype_t						tpType,
-									size_t						szAmt)
+void TFactory<ObjectType>::Register(typename TEntry::TCreator*  pCreator,
+                                    ktype_t                     tpType,
+                                    size_t                      szAmt)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(pCreator);
+    DEBUG_VERIFY(pCreator);
 
-	m_Entries.Add().Set(TPSEGMENT(tpType, tpType + szAmt), pCreator);
+    m_Entries.Add().Set(TPSEGMENT(tpType, tpType + szAmt), pCreator);
 }
 
 template <class ObjectType>
 ObjectType* TFactory<ObjectType>::Create(ktype_t tpType) const
 {
-	size_t i;
+    size_t i;
 
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(tpType == OBJECT_TYPE_BASIC)
-		INITIATE_DEFINED_FAILURE(TEXT("Attempt to create basic object type via the factory."));
+    if(tpType == OBJECT_TYPE_BASIC)
+        INITIATE_DEFINED_FAILURE(TEXT("Attempt to create basic object type via the factory."));
 
-	for(i = 0 ; i < m_Entries.GetN() ; i++)
-	{
-		if(HitsSegment(tpType, m_Entries[i].m_Types))
-			return m_Entries[i].m_pCreator(tpType);
-	}
+    for(i = 0 ; i < m_Entries.GetN() ; i++)
+    {
+        if(HitsSegment(tpType, m_Entries[i].m_Types))
+            return m_Entries[i].m_pCreator(tpType);
+    }
 
-	INITIATE_DEFINED_FAILURE(	KString::Formatted(	TEXT("Unregistered object type %u in request to the factory."),
-														tpType));
+    INITIATE_DEFINED_FAILURE(   KString::Formatted( TEXT("Unregistered object type %u in request to the factory."),
+                                                        tpType));
 }
 
 // -------------------------
@@ -153,105 +153,105 @@ template <class ObjectType>
 class TFactoryTypesRegisterer
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TFactory<ObjectType>* m_pFactory;
+    TFactory<ObjectType>* m_pFactory;
 
-	size_t m_szN;
+    size_t m_szN;
 
 public:
-	TFactoryTypesRegisterer();
+    TFactoryTypesRegisterer();
 
-	TFactoryTypesRegisterer(TFactory<ObjectType>& SFactory);
+    TFactoryTypesRegisterer(TFactory<ObjectType>& SFactory);
 
-	~TFactoryTypesRegisterer() { Release(); }
+    ~TFactoryTypesRegisterer() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
-	
-	void Allocate(TFactory<ObjectType>& SFactory);
+    void Release(bool bFromAllocatorException = false);
 
-	void Add(	typename TFactory<ObjectType>::TEntry::TCreator*	pCreator,
-				ktype_t												tpType,
-				size_t												szAmt = 1);
+    void Allocate(TFactory<ObjectType>& SFactory);
 
-	// ---------------- TRIVIALS ----------------
-	TFactory<ObjectType>& GetFactory() { return *m_pFactory; }
+    void Add(   typename TFactory<ObjectType>::TEntry::TCreator*    pCreator,
+                ktype_t                                             tpType,
+                size_t                                              szAmt = 1);
 
-	const TFactory<ObjectType>& GetFactory() const { return *m_pFactory; }
+    // ---------------- TRIVIALS ----------------
+    TFactory<ObjectType>& GetFactory() { return *m_pFactory; }
 
-	size_t GetN() const { return m_szN; }
+    const TFactory<ObjectType>& GetFactory() const { return *m_pFactory; }
+
+    size_t GetN() const { return m_szN; }
 };
 
 template <class ObjectType>
 TFactoryTypesRegisterer<ObjectType>::TFactoryTypesRegisterer()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_szN = 0;
+    m_szN = 0;
 }
 
 template <class ObjectType>
 TFactoryTypesRegisterer<ObjectType>::TFactoryTypesRegisterer(TFactory<ObjectType>& SFactory)
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_szN = 0;
+    m_szN = 0;
 
-	Allocate(SFactory);
+    Allocate(SFactory);
 }
 
 template <class ObjectType>
 void TFactoryTypesRegisterer<ObjectType>::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		if(m_pFactory && m_pFactory->IsAllocated())
-			m_pFactory->Unregister(m_szN);
-		
-		m_pFactory = NULL;
+        if(m_pFactory && m_pFactory->IsAllocated())
+            m_pFactory->Unregister(m_szN);
 
-		m_szN = 0;
-	}
+        m_pFactory = NULL;
+
+        m_szN = 0;
+    }
 }
 
 template <class ObjectType>
 void TFactoryTypesRegisterer<ObjectType>::Allocate(TFactory<ObjectType>& SFactory)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(SFactory.IsAllocated());
+    try
+    {
+        DEBUG_VERIFY(SFactory.IsAllocated());
 
-		m_pFactory = &SFactory;
+        m_pFactory = &SFactory;
 
-		m_szN = 0;
+        m_szN = 0;
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 template <class ObjectType>
-void TFactoryTypesRegisterer<ObjectType>::Add(	typename TFactory<ObjectType>::TEntry::TCreator*	pCreator,
-												ktype_t												tpType,
-												size_t												szAmt)
+void TFactoryTypesRegisterer<ObjectType>::Add(  typename TFactory<ObjectType>::TEntry::TCreator*    pCreator,
+                                                ktype_t                                             tpType,
+                                                size_t                                              szAmt)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_pFactory->Register(pCreator, tpType, szAmt);
+    m_pFactory->Register(pCreator, tpType, szAmt);
 
-	m_szN++;
+    m_szN++;
 }
 
 #endif // factory_h

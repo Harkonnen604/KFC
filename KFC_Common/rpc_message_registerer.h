@@ -9,21 +9,21 @@
 class TRPCMessageRegisterer
 {
 private:
-	KString m_Name;
+    KString m_Name;
 
-	size_t m_szMessage;
+    size_t m_szMessage;
 
 public:
-	TRPCMessageRegisterer();
+    TRPCMessageRegisterer();
 
-	bool IsAllocated() const
-		{ return m_szMessage != -1; }
+    bool IsAllocated() const
+        { return m_szMessage != -1; }
 
-	void Allocate(LPCTSTR pName);
-	
-	size_t GetMessage() const;
+    void Allocate(LPCTSTR pName);
 
-	operator size_t () const { return GetMessage(); }
+    size_t GetMessage() const;
+
+    operator size_t () const { return GetMessage(); }
 };
 
 #endif // _MSC_VER

@@ -8,13 +8,13 @@
 // ------------
 struct TWaveFormat : public WAVEFORMATEX
 {
-	TWaveFormat()
-		{ cbSize = sizeof(*this); }
+    TWaveFormat()
+        { cbSize = sizeof(*this); }
 
-	TWaveFormat(const WAVEFORMATEX& SFormat) : WAVEFORMATEX(SFormat) {}
+    TWaveFormat(const WAVEFORMATEX& SFormat) : WAVEFORMATEX(SFormat) {}
 
-	TWaveFormat& operator = (const WAVEFORMATEX& SFormat)
-		{ static_cast<WAVEFORMATEX&>(*this) = SFormat; return *this; }
+    TWaveFormat& operator = (const WAVEFORMATEX& SFormat)
+        { static_cast<WAVEFORMATEX&>(*this) = SFormat; return *this; }
 };
 
 // -------------
@@ -23,31 +23,31 @@ struct TWaveFormat : public WAVEFORMATEX
 class TSoundBuffer
 {
 private:
-	IDirectSoundBuffer* m_pBuffer;
+    IDirectSoundBuffer* m_pBuffer;
 
 public:
-	TSoundBuffer();
-	
-	~TSoundBuffer()
-		{ Release(); }
+    TSoundBuffer();
 
-	bool IsAllocated() const
-		{ return m_pBuffer; }
+    ~TSoundBuffer()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_pBuffer; }
 
-	void Allocate(	const WAVEFORMATEX& WaveFormat,
-					size_t				szLengthSamples);
+    void Release();
 
-	void AllocatePrimary();
+    void Allocate(  const WAVEFORMATEX& WaveFormat,
+                    size_t              szLengthSamples);
 
-	void GetFormat(TWaveFormat& RFormat) const;
+    void AllocatePrimary();
 
-	void SetFormat(const TWaveFormat& Format);
+    void GetFormat(TWaveFormat& RFormat) const;
 
-	LPDIRECTSOUNDBUFFER GetBuffer() const;
+    void SetFormat(const TWaveFormat& Format);
 
-	operator LPDIRECTSOUNDBUFFER () const { return GetBuffer(); }
+    LPDIRECTSOUNDBUFFER GetBuffer() const;
+
+    operator LPDIRECTSOUNDBUFFER () const { return GetBuffer(); }
 };
 
 #endif // sound_buffer_h

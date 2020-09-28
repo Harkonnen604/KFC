@@ -9,7 +9,7 @@
 #include "sprite_helpers.h"
 
 // Default sprite state
-#define DEFAULT_SPRITE_STATE	(0.0f)
+#define DEFAULT_SPRITE_STATE    (0.0f)
 
 // --------------
 // Sprite states
@@ -17,45 +17,45 @@
 struct TSpriteStates
 {
 private:
-	union
-	{
-		const float*	m_pStates;
-		float			m_fState;
-	};
+    union
+    {
+        const float*    m_pStates;
+        float           m_fState;
+    };
 
-	size_t m_szN;
+    size_t m_szN;
 
 public:
-	TSpriteStates();
+    TSpriteStates();
 
-	TSpriteStates(const float* pSStates, size_t szSN);
+    TSpriteStates(const float* pSStates, size_t szSN);
 
-	TSpriteStates(float fSState);
+    TSpriteStates(float fSState);
 
-	~TSpriteStates()
-		{ Release(); }
+    ~TSpriteStates()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_szN > 0; }
+    bool IsAllocated() const
+        { return m_szN > 0; }
 
-	void Release();
+    void Release();
 
-	void Allocate(const float* pSStates, size_t szSN);
+    void Allocate(const float* pSStates, size_t szSN);
 
-	void Allocate(float fSState);
+    void Allocate(float fSState);
 
-	float GetCurrent() const;
+    float GetCurrent() const;
 
-	float operator * () const { return GetCurrent(); }
+    float operator * () const { return GetCurrent(); }
 
-	TSpriteStates& operator ++ ();	
+    TSpriteStates& operator ++ ();
 
-	TSpriteStates operator + (size_t szStep) const;
+    TSpriteStates operator + (size_t szStep) const;
 
-	TSpriteStates Inced() const { return ++TSpriteStates(*this); }
-	
-	// ---------------- TRIVIALS ----------------
-	size_t GetN() const { return m_szN; }
+    TSpriteStates Inced() const { return ++TSpriteStates(*this); }
+
+    // ---------------- TRIVIALS ----------------
+    size_t GetN() const { return m_szN; }
 };
 
 // -----------------------
@@ -63,12 +63,12 @@ public:
 // -----------------------
 struct TSpriteCreationStruct
 {
-	TD3DColor m_Color;
+    TD3DColor m_Color;
 
 
-	TSpriteCreationStruct();
+    TSpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -------
@@ -77,40 +77,40 @@ struct TSpriteCreationStruct
 class TSprite : public TSubObjectLister<TSprite>
 {
 private:
-	bool m_bAllocated;
-	
+    bool m_bAllocated;
+
 protected:
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const TSpriteCreationStruct& CreationStruct);
+    void Allocate(const TSpriteCreationStruct& CreationStruct);
 
 public:
-	TD3DColor m_Color;
+    TD3DColor m_Color;
 
 
-	TSprite();
+    TSprite();
 
-	virtual ~TSprite()
-		{ Release(); }
+    virtual ~TSprite()
+        { Release(); }
 
-	virtual void Load(TInfoNodeConstIterator InfoNode) = 0;
+    virtual void Load(TInfoNodeConstIterator InfoNode) = 0;
 
-	virtual void DrawNonScaled(	const FPOINT&			DstCoords,
-								const TD3DColor&		Color	= WhiteColor(),
-								const TSpriteStates&	States	= TSpriteStates()) const = 0;
+    virtual void DrawNonScaled( const FPOINT&           DstCoords,
+                                const TD3DColor&        Color   = WhiteColor(),
+                                const TSpriteStates&    States  = TSpriteStates()) const = 0;
 
-	virtual void DrawRect(	const FRECT&			DstRect,
-							const TD3DColor&		Color	= WhiteColor(),
-							const TSpriteStates&	States	= TSpriteStates()) const = 0;
+    virtual void DrawRect(  const FRECT&            DstRect,
+                            const TD3DColor&        Color   = WhiteColor(),
+                            const TSpriteStates&    States  = TSpriteStates()) const = 0;
 
-	virtual bool HasDefaultSize() const = 0;
+    virtual bool HasDefaultSize() const = 0;
 
-	virtual void GetDefaultSize(FSIZE& RSize) const = 0;
+    virtual void GetDefaultSize(FSIZE& RSize) const = 0;
 
-	FSIZE GetDefaultSize() const;
+    FSIZE GetDefaultSize() const;
 };
 
 // ----------------
@@ -118,24 +118,24 @@ public:
 // ----------------
 
 // Point helpers
-FPOINT& ReadPointResized(	const KString&	String,
-							FPOINT&			RPoint,
-							LPCTSTR			pValueName,
-							const FRECT&	ParentRect,
-							const FRECT&	Resolution);
+FPOINT& ReadPointResized(   const KString&  String,
+                            FPOINT&         RPoint,
+                            LPCTSTR         pValueName,
+                            const FRECT&    ParentRect,
+                            const FRECT&    Resolution);
 
 // Rect heplers
-FRECT& ReadRectResized(	const KString&	String,
-						FRECT&			RRect,
-						LPCTSTR			pValueName,
-						const FRECT&	ParentRect,
-						const FRECT&	Resolution);
+FRECT& ReadRectResized( const KString&  String,
+                        FRECT&          RRect,
+                        LPCTSTR         pValueName,
+                        const FRECT&    ParentRect,
+                        const FRECT&    Resolution);
 
 // Size helpers
-FSIZE& ReadSizeResized(	const KString&	String,
-						FSIZE&			RSize,
-						LPCTSTR			pValueName,
-						const FRECT&	ParentRect,
-						const FRECT&	Resolution);
+FSIZE& ReadSizeResized( const KString&  String,
+                        FSIZE&          RSize,
+                        LPCTSTR         pValueName,
+                        const FRECT&    ParentRect,
+                        const FRECT&    Resolution);
 
 #endif // sprite_h

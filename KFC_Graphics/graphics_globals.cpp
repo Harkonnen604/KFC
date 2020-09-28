@@ -22,18 +22,18 @@ TGraphicsGlobals g_GraphicsGlobals;
 // -----------------
 TGraphicsGlobals::TGraphicsGlobals() : TModuleGlobals(TEXT("Graphics globals"))
 {
-	AddSubGlobals(g_KTLGlobals);
-	AddSubGlobals(g_MathGlobals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_GUIGlobals);
-	AddSubGlobals(g_WindowsGlobals);
+    AddSubGlobals(g_KTLGlobals);
+    AddSubGlobals(g_MathGlobals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_GUIGlobals);
+    AddSubGlobals(g_WindowsGlobals);
 
-	AddSubGlobals(g_GraphicsCfg);
-	AddSubGlobals(g_GraphicsInitials);
-	AddSubGlobals(g_GraphicsTokens);
-	AddSubGlobals(g_GraphicsDeviceGlobals);
-	AddSubGlobals(g_GraphicsStateManager);
-	AddSubGlobals(g_GraphicsEffectGlobals);
-	AddSubGlobals(g_FontStorage);
-	AddSubGlobals(g_SpriteStorage);
+    AddSubGlobals(g_GraphicsCfg);
+    AddSubGlobals(g_GraphicsInitials);
+    AddSubGlobals(g_GraphicsTokens);
+    AddSubGlobals(g_GraphicsDeviceGlobals);
+    AddSubGlobals(g_GraphicsStateManager);
+    AddSubGlobals(g_GraphicsEffectGlobals);
+    AddSubGlobals(g_FontStorage);
+    AddSubGlobals(g_SpriteStorage);
 }

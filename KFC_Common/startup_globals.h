@@ -9,30 +9,30 @@
 class TStartupGlobals : public TGlobals
 {
 private:
-	void OnInitialize	();
-	void OnUninitialize	();
+    void OnInitialize   ();
+    void OnUninitialize ();
 
 public:
-	// Files
-	KString m_StartFile;
+    // Files
+    KString m_StartFile;
 
-	// Folders
-	KString m_StartFolder;
-	KString m_TempFolder;
-	
-	#ifdef _MSC_VER
-		KString m_WindowsFolder;
-		KString m_SystemFolder;		
-		KString m_ProgramFilesFolder;
-		KString m_StartMenuProgramsFolder;
-		KString m_DesktopFolder;
-	#endif // _MSC_VER
+    // Folders
+    KString m_StartFolder;
+    KString m_TempFolder;
 
-	// Parameters
-	KStrings m_Parameters;
-	
+    #ifdef _MSC_VER
+        KString m_WindowsFolder;
+        KString m_SystemFolder;
+        KString m_ProgramFilesFolder;
+        KString m_StartMenuProgramsFolder;
+        KString m_DesktopFolder;
+    #endif // _MSC_VER
+
+    // Parameters
+    KStrings m_Parameters;
+
 public:
-	TStartupGlobals();
+    TStartupGlobals();
 };
 
 extern TStartupGlobals g_StartupGlobals;

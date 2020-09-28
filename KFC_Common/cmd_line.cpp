@@ -4,20 +4,20 @@
 // ----------------
 // Global routines
 // ----------------
-KStrings::TIterator ParseCmdLine(	LPCTSTR		pCmdLine,
-									KStrings&	RTokens,
-									bool		bClearFirst)
+KStrings::TIterator ParseCmdLine(   LPCTSTR     pCmdLine,
+                                    KStrings&   RTokens,
+                                    bool        bClearFirst)
 {
-	KStrings::TIterator Ret = RTokens.SplitQuotedString(pCmdLine, bClearFirst);
+    KStrings::TIterator Ret = RTokens.SplitQuotedString(pCmdLine, bClearFirst);
 
-	// Deleting filename
-	if(bClearFirst && !RTokens.IsEmpty())
-	{
-		DEBUG_VERIFY(Ret.IsValid());
-		++Ret;
+    // Deleting filename
+    if(bClearFirst && !RTokens.IsEmpty())
+    {
+        DEBUG_VERIFY(Ret.IsValid());
+        ++Ret;
 
-		RTokens.DelFirst();
-	}
+        RTokens.DelFirst();
+    }
 
-	return Ret;
+    return Ret;
 }

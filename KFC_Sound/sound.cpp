@@ -17,29 +17,29 @@ void TSoundCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 // ------
 TSound::TSound()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TSound::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
-	}
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
+    }
 }
 
 void TSound::Allocate(const TSoundCreationStruct& CreationStruct)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_bAllocated = true;
-	}
+    try
+    {
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }

@@ -9,26 +9,26 @@
 // Sound cfg
 // ----------
 class TSoundCfg :
-	public TGlobals,
-	public TAssignmentsList
+    public TGlobals,
+    public TAssignmentsList
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	void LoadItems(KRegistryKey& Key);
-	void SaveItems(KRegistryKey& Key) const;
+    void LoadItems(KRegistryKey& Key);
+    void SaveItems(KRegistryKey& Key) const;
 
 public:
-	size_t m_szNChannels;
-	size_t m_szFrequency;
-	size_t m_szBPS;
+    size_t m_szNChannels;
+    size_t m_szFrequency;
+    size_t m_szBPS;
 
 
-	TSoundCfg();
+    TSoundCfg();
 
-	void Load();
-	void Save() const;
+    void Load();
+    void Save() const;
 };
 
 extern TSoundCfg g_SoundCfg;

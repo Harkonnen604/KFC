@@ -8,14 +8,14 @@ T_GUI_Consts g_GUI_Consts;
 // -----------
 T_GUI_Consts::T_GUI_Consts()
 {
-	// Registry
-	m_RegistryKeyName = TEXT("GUI\\");
+    // Registry
+    m_RegistryKeyName = TEXT("GUI\\");
 
-	// Storages
- 	m_szNGUIFontsRegistrationManagerFixedEntries = 128;
+    // Storages
+    m_szNGUIFontsRegistrationManagerFixedEntries = 128;
 
-	// Initialization flags
-	m_bInitializeGUIFontStorage = false;
+    // Initialization flags
+    m_bInitializeGUIFontStorage = false;
 
-	m_bWithCheckIcons = false;
+    m_bWithCheckIcons = false;
 }

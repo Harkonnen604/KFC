@@ -12,35 +12,35 @@ void TAssignmentsList::Release()
 
 void TAssignmentsList::Allocate(HWND hWnd)
 {
-	TAssignmentsList::Release();
+    TAssignmentsList::Release();
 
-	try
-	{
-	}
+    try
+    {
+    }
 
-	catch(...)
-	{
-		TAssignmentsList::Release();
-		throw;
-	}
+    catch(...)
+    {
+        TAssignmentsList::Release();
+        throw;
+    }
 }
 
 void TAssignmentsList::Load(const KString& KeyName)
 {
-	KRegistryKey Key(HKEY_LOCAL_MACHINE, KeyName);
+    KRegistryKey Key(HKEY_LOCAL_MACHINE, KeyName);
 
-	Key.Create(KEY_READ, 0, true);
+    Key.Create(KEY_READ, 0, true);
 
-	LoadItems(Key);
+    LoadItems(Key);
 }
 
 void TAssignmentsList::Save(const KString& KeyName) const
 {
-	KRegistryKey Key(HKEY_LOCAL_MACHINE, KeyName);
+    KRegistryKey Key(HKEY_LOCAL_MACHINE, KeyName);
 
-	Key.Create(KEY_WRITE, 0, true);
+    Key.Create(KEY_WRITE, 0, true);
 
-	SaveItems(Key);
+    SaveItems(Key);
 }
 
 #endif // _MSC_VER

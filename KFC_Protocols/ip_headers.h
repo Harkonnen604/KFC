@@ -8,16 +8,16 @@
 // ----------
 struct TIPHeader
 {
-	BYTE	m_bVIHL;		// Version and IHL
-	BYTE	m_bTOS;			// Type of service
-	WORD	m_wTotLen;		// Total length
-	WORD	m_wID;			// Identification
-	WORD	m_wFlagOff;		// Flags and fragment offset
-	BYTE	m_bTTL;			// Time to live
-	BYTE	m_bProtocol;	// Protocol
-	WORD	m_wChecksum;	// Checksum
-	DWORD	m_dwSrcIP;		// Source IP
-	DWORD	m_dwDstIP;		// Destination IP
+    BYTE    m_bVIHL;        // Version and IHL
+    BYTE    m_bTOS;         // Type of service
+    WORD    m_wTotLen;      // Total length
+    WORD    m_wID;          // Identification
+    WORD    m_wFlagOff;     // Flags and fragment offset
+    BYTE    m_bTTL;         // Time to live
+    BYTE    m_bProtocol;    // Protocol
+    WORD    m_wChecksum;    // Checksum
+    DWORD   m_dwSrcIP;      // Source IP
+    DWORD   m_dwDstIP;      // Destination IP
 };
 
 // -----------
@@ -25,15 +25,15 @@ struct TIPHeader
 // -----------
 struct TTCPHeader
 {
-	WORD	m_wSrcPort;		// Source port
-	WORD	m_wDstPort;		// Destination port
-	DWORD	m_dwSeq;		// Sequence number
-	DWORD	m_dwAck;		// Acknowledgement number
-	WORD	m_wDORF;		// Data offset, reserved bits and flags
-	WORD	m_wWindow;		// Window
-	WORD	m_wChecksum;	// Checksum
-	WORD	m_wUPTR;		// Urgent pointer
-	DWORD	m_dwOptions;	// Options and padding
+    WORD    m_wSrcPort;     // Source port
+    WORD    m_wDstPort;     // Destination port
+    DWORD   m_dwSeq;        // Sequence number
+    DWORD   m_dwAck;        // Acknowledgement number
+    WORD    m_wDORF;        // Data offset, reserved bits and flags
+    WORD    m_wWindow;      // Window
+    WORD    m_wChecksum;    // Checksum
+    WORD    m_wUPTR;        // Urgent pointer
+    DWORD   m_dwOptions;    // Options and padding
 };
 
 // -----------
@@ -41,10 +41,10 @@ struct TTCPHeader
 // -----------
 struct TUDPHeader
 {
-	WORD m_wSrcPort;	// Source port
-	WORD m_wDstPort;	// Destination port
-	WORD m_wLength;		// Length
-	WORD m_wChecksum;	// Checksum
+    WORD m_wSrcPort;    // Source port
+    WORD m_wDstPort;    // Destination port
+    WORD m_wLength;     // Length
+    WORD m_wChecksum;   // Checksum
 };
 
 #pragma pack()

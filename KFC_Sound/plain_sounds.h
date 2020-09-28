@@ -9,18 +9,18 @@
 // ------------------------------------
 struct TMusicSegmentSoundCreationStruct : TSoundCreationStruct
 {
-	KString	m_FileName;
-	size_t	m_szNRepeats;
-	bool	m_bAllowOnlyOneInstance;
-	bool	m_bPrimary;
-	bool	m_bFailOnNoPort;
+    KString m_FileName;
+    size_t  m_szNRepeats;
+    bool    m_bAllowOnlyOneInstance;
+    bool    m_bPrimary;
+    bool    m_bFailOnNoPort;
 
 
-	TMusicSegmentSoundCreationStruct();
+    TMusicSegmentSoundCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	bool SetFileName(const KString& SFileName);
+    bool SetFileName(const KString& SFileName);
 };
 
 // --------------------
@@ -29,50 +29,50 @@ struct TMusicSegmentSoundCreationStruct : TSoundCreationStruct
 class TMusicSegmentSound : public TSound
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	IDirectMusicSegment8* m_pSegment;
+    IDirectMusicSegment8* m_pSegment;
 
-	bool	m_bSynthezied;
-	size_t	m_szNRepeats;
-	bool	m_bAllowOnlyOneInstance;	
-	bool	m_bPrimary;
-	bool	m_bFailOnNoPort;
+    bool    m_bSynthezied;
+    size_t  m_szNRepeats;
+    bool    m_bAllowOnlyOneInstance;
+    bool    m_bPrimary;
+    bool    m_bFailOnNoPort;
 
-	mutable bool m_bPlaying;
+    mutable bool m_bPlaying;
 
 public:
-	static TSound* Create(type_t tpType);
+    static TSound* Create(type_t tpType);
 
-	TMusicSegmentSound();
+    TMusicSegmentSound();
 
-	~TMusicSegmentSound()
-		{ Release(); }
+    ~TMusicSegmentSound()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TSound::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TSound::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
-	
-	void Allocate(const TMusicSegmentSoundCreationStruct& CreationStruct);
+    void Release(bool bFromAllocatorException = false);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Allocate(const TMusicSegmentSoundCreationStruct& CreationStruct);
 
-	void Play() const;
-	void Stop() const;
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	bool IsPlaying() const;
+    void Play() const;
+    void Stop() const;
 
-	IDirectMusicSegment8* GetSegment();
+    bool IsPlaying() const;
 
-	size_t GetNRepeats() const;
+    IDirectMusicSegment8* GetSegment();
 
-	void SetNRepeats(size_t szSNRepeats);	
+    size_t GetNRepeats() const;
 
-	// ---------------- TRIVIALS ----------------
-	bool IsSynthezied() const { return m_bSynthezied; }
+    void SetNRepeats(size_t szSNRepeats);
 
-	bool DoesAllowOnlyOneInstance() const { return m_bAllowOnlyOneInstance; }
+    // ---------------- TRIVIALS ----------------
+    bool IsSynthezied() const { return m_bSynthezied; }
+
+    bool DoesAllowOnlyOneInstance() const { return m_bAllowOnlyOneInstance; }
 };
 
 #endif // plain_sounds_h

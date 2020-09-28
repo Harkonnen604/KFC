@@ -6,30 +6,30 @@
 // ----------------
 KString HexEncode(const void* pData, size_t szLength)
 {
-	DEBUG_VERIFY(!szLength || pData);
+    DEBUG_VERIFY(!szLength || pData);
 
-	const BYTE* p = (const BYTE*)pData;
+    const BYTE* p = (const BYTE*)pData;
 
-	KString s;
-	s.Allocate(szLength * 2);
+    KString s;
+    s.Allocate(szLength * 2);
 
-	size_t i = 0;
+    size_t i = 0;
 
-	for( ; szLength ; szLength--, p++)
-	{
-		s.SetChar(i++, HexToChar(*p >> 4));
-		s.SetChar(i++, HexToChar(*p & 0xF));
-	}
+    for( ; szLength ; szLength--, p++)
+    {
+        s.SetChar(i++, HexToChar(*p >> 4));
+        s.SetChar(i++, HexToChar(*p & 0xF));
+    }
 
-	return s;
+    return s;
 }
 
 void HexDecode(LPCTSTR s, void* pRData)
 {
-	DEBUG_VERIFY(s);
+    DEBUG_VERIFY(s);
 
-	BYTE* p = (BYTE*)pRData;
+    BYTE* p = (BYTE*)pRData;
 
-	for( ; s[0] && s[1] ; s += 2)
-		*p++ = (CharToHex(s[0]) << 4) | CharToHex(s[1]);
+    for( ; s[0] && s[1] ; s += 2)
+        *p++ = (CharToHex(s[0]) << 4) | CharToHex(s[1]);
 }

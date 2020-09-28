@@ -9,27 +9,27 @@
 class TSocketBase : public TStream
 {
 public:
-	virtual ~TSocketBase() {}
+    virtual ~TSocketBase() {}
 
-	virtual void InitiateShutdown(bool bSafe) = 0;
+    virtual void InitiateShutdown(bool bSafe) = 0;
 
-	virtual void ReceiveShutdown() = 0;
+    virtual void ReceiveShutdown() = 0;
 
-	virtual size_t ReceiveAvailable(void* pRData, size_t szLength) = 0;
+    virtual size_t ReceiveAvailable(void* pRData, size_t szLength) = 0;
 
-	virtual size_t SendAvailable(const void* pRData, size_t szLength) = 0;
+    virtual size_t SendAvailable(const void* pRData, size_t szLength) = 0;
 
-	bool Receive(void* pRData, size_t szLength, bool bAllowSD = false);
+    bool Receive(void* pRData, size_t szLength, bool bAllowSD = false);
 
-	void Send(const void* pData, size_t szLength);
+    void Send(const void* pData, size_t szLength);
 
-	void StreamRead(void* pRData, size_t szLength)
-		{ Receive(pRData, szLength); }
+    void StreamRead(void* pRData, size_t szLength)
+        { Receive(pRData, szLength); }
 
-	void StreamWrite(const void* pData, size_t szLength)
-		{ Send(pData, szLength); }
+    void StreamWrite(const void* pData, size_t szLength)
+        { Send(pData, szLength); }
 
-	virtual bool IsConnected() const = 0;
+    virtual bool IsConnected() const = 0;
 };
 
 // -------
@@ -38,248 +38,248 @@ public:
 class TSocket : public TSocketBase
 {
 public:
-	// Terminator setter
-	class TTerminatorSetter
-	{
-	private:
-		TSocket& m_Socket;
+    // Terminator setter
+    class TTerminatorSetter
+    {
+    private:
+        TSocket& m_Socket;
 
-		HANDLE m_hOldTerminator;
+        HANDLE m_hOldTerminator;
 
-	public:
-		TTerminatorSetter(TSocket& Socket, HANDLE hTermianator) :
-			m_Socket(Socket)
-		{
-			m_hOldTerminator = m_Socket.GetTerminator();
+    public:
+        TTerminatorSetter(TSocket& Socket, HANDLE hTermianator) :
+            m_Socket(Socket)
+        {
+            m_hOldTerminator = m_Socket.GetTerminator();
 
-			m_Socket.SetTerminator(hTermianator);
-		}
+            m_Socket.SetTerminator(hTermianator);
+        }
 
-		~TTerminatorSetter()
-		{
-			m_Socket.SetTerminator(m_hOldTerminator);
-		}
-	};
+        ~TTerminatorSetter()
+        {
+            m_Socket.SetTerminator(m_hOldTerminator);
+        }
+    };
 
-	// Timeout setter
-	class TTimeoutSetter
-	{
-	private:
-		TSocket& m_Socket;
+    // Timeout setter
+    class TTimeoutSetter
+    {
+    private:
+        TSocket& m_Socket;
 
-		size_t m_szOldTimeout;
+        size_t m_szOldTimeout;
 
-	public:
-		TTimeoutSetter(TSocket& Socket, size_t szTimeout) :
-			m_Socket(Socket)
-		{
-			m_szOldTimeout = m_Socket.GetTimeout();
+    public:
+        TTimeoutSetter(TSocket& Socket, size_t szTimeout) :
+            m_Socket(Socket)
+        {
+            m_szOldTimeout = m_Socket.GetTimeout();
 
-			m_Socket.SetTimeout(szTimeout);
-		}
+            m_Socket.SetTimeout(szTimeout);
+        }
 
-		~TTimeoutSetter()
-		{
-			m_Socket.SetTimeout(m_szOldTimeout);
-		}
-	};
+        ~TTimeoutSetter()
+        {
+            m_Socket.SetTimeout(m_szOldTimeout);
+        }
+    };
 
-	// Poll delay setter
-	class TPollDelaySetter
-	{
-	private:
-		TSocket& m_Socket;
+    // Poll delay setter
+    class TPollDelaySetter
+    {
+    private:
+        TSocket& m_Socket;
 
-		size_t m_szOldPollDelay;
+        size_t m_szOldPollDelay;
 
-	public:
-		TPollDelaySetter(TSocket& Socket, size_t szPollDelay) :
-			m_Socket(Socket)
-		{
-			m_szOldPollDelay = m_Socket.GetPollDelay();
+    public:
+        TPollDelaySetter(TSocket& Socket, size_t szPollDelay) :
+            m_Socket(Socket)
+        {
+            m_szOldPollDelay = m_Socket.GetPollDelay();
 
-			m_Socket.SetPollDelay(szPollDelay);
-		}
+            m_Socket.SetPollDelay(szPollDelay);
+        }
 
-		~TPollDelaySetter()
-		{
-			m_Socket.SetPollDelay(m_szOldPollDelay);
-		}
-	};
-
-private:
-	SOCKET m_Socket;
-
-	bool m_bBound;
-	bool m_bListening;
-	bool m_bConnected;
-	bool m_bUDP;
-	HANDLE m_hTerminator;
-	size_t m_szTimeout;
-	size_t m_szPollDelay;
+        ~TPollDelaySetter()
+        {
+            m_Socket.SetPollDelay(m_szOldPollDelay);
+        }
+    };
 
 private:
-	friend class TNonBlocker;
+    SOCKET m_Socket;
 
-	class TNonBlocker
-	{
-	private:
-		TSocket& m_Socket;
+    bool m_bBound;
+    bool m_bListening;
+    bool m_bConnected;
+    bool m_bUDP;
+    HANDLE m_hTerminator;
+    size_t m_szTimeout;
+    size_t m_szPollDelay;
 
-	public:
-		TNonBlocker(TSocket& Socket) : m_Socket(Socket)
-			{ m_Socket.SetNonBlocking(true); }
+private:
+    friend class TNonBlocker;
 
-		~TNonBlocker()
-			{ m_Socket.SetNonBlocking(false); }
-	};
+    class TNonBlocker
+    {
+    private:
+        TSocket& m_Socket;
 
-	void SetNonBlocking(bool bNonBlocking);
+    public:
+        TNonBlocker(TSocket& Socket) : m_Socket(Socket)
+            { m_Socket.SetNonBlocking(true); }
+
+        ~TNonBlocker()
+            { m_Socket.SetNonBlocking(false); }
+    };
+
+    void SetNonBlocking(bool bNonBlocking);
 
 public:
-	TSocket();
+    TSocket();
 
-	TSocket(SOCKET Socket);
+    TSocket(SOCKET Socket);
 
-	TSocket(DWORD dwIP, WORD wPort);
+    TSocket(DWORD dwIP, WORD wPort);
 
-	~TSocket()
-		{ Release(); }
+    ~TSocket()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return VALID_SOCKET(m_Socket); }
+    bool IsAllocated() const
+        { return VALID_SOCKET(m_Socket); }
 
-	void Release();
+    void Release();
 
-	void Invalidate();
+    void Invalidate();
 
-	TSocket& ReOwn(TSocket& Socket);
+    TSocket& ReOwn(TSocket& Socket);
 
-	void Allocate();
+    void Allocate();
 
-	void Allocate(SOCKET Socket);
+    void Allocate(SOCKET Socket);
 
-	void Allocate(DWORD dwIP, WORD wPort);
+    void Allocate(DWORD dwIP, WORD wPort);
 
-	void AllocateUDP();
+    void AllocateUDP();
 
-	HANDLE GetTerminator() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_hTerminator; }
+    HANDLE GetTerminator() const
+        { DEBUG_VERIFY_ALLOCATION; return m_hTerminator; }
 
-	size_t GetTimeout() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_szTimeout; }
+    size_t GetTimeout() const
+        { DEBUG_VERIFY_ALLOCATION; return m_szTimeout; }
 
-	size_t GetPollDelay() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_szPollDelay; }
+    size_t GetPollDelay() const
+        { DEBUG_VERIFY_ALLOCATION; return m_szPollDelay; }
 
-	void SetTerminator(HANDLE hTerminator)
-		{ DEBUG_VERIFY_ALLOCATION; m_hTerminator = hTerminator; }
+    void SetTerminator(HANDLE hTerminator)
+        { DEBUG_VERIFY_ALLOCATION; m_hTerminator = hTerminator; }
 
-	void SetTimeout(size_t szTimeout)
-		{ DEBUG_VERIFY_ALLOCATION; m_szTimeout = szTimeout; }
+    void SetTimeout(size_t szTimeout)
+        { DEBUG_VERIFY_ALLOCATION; m_szTimeout = szTimeout; }
 
-	void SetPollDelay(size_t szPollDelay)
-		{ DEBUG_VERIFY_ALLOCATION; m_szPollDelay = szPollDelay; }
+    void SetPollDelay(size_t szPollDelay)
+        { DEBUG_VERIFY_ALLOCATION; m_szPollDelay = szPollDelay; }
 
-	void WaitReading();
+    void WaitReading();
 
-	void WaitWriting();
+    void WaitWriting();
 
-	void AllowBroadcast(bool bAllow = true);
+    void AllowBroadcast(bool bAllow = true);
 
-	void Bind(DWORD dwIP, WORD wPort);
+    void Bind(DWORD dwIP, WORD wPort);
 
-	void Listen(size_t szMaxConnections = SOMAXCONN);
+    void Listen(size_t szMaxConnections = SOMAXCONN);
 
-	void Listen(DWORD dwIP, WORD wPort, size_t szMaxConnections = SOMAXCONN);
+    void Listen(DWORD dwIP, WORD wPort, size_t szMaxConnections = SOMAXCONN);
 
-	SOCKET Accept();
+    SOCKET Accept();
 
-	void Connect(DWORD dwIP, WORD wPort);
+    void Connect(DWORD dwIP, WORD wPort);
 
-	bool ConnectNonBlocking(DWORD dwIP, WORD wPort);
+    bool ConnectNonBlocking(DWORD dwIP, WORD wPort);
 
-	void InitiateShutdown(bool bSafe = false);
+    void InitiateShutdown(bool bSafe = false);
 
-	void ReceiveShutdown();
+    void ReceiveShutdown();
 
-	size_t ReceiveAvailable(void* pRData, size_t szLength);
+    size_t ReceiveAvailable(void* pRData, size_t szLength);
 
-	size_t SendAvailable(const void* pData, size_t szLength);
+    size_t SendAvailable(const void* pData, size_t szLength);
 
-	size_t ReceiveFrom(	void*	pRData,
-						size_t	szLength,
-						DWORD&	dwR_IP	= temp<DWORD>	(),
-						WORD&	wRPort	= temp<WORD>	());
+    size_t ReceiveFrom( void*   pRData,
+                        size_t  szLength,
+                        DWORD&  dwR_IP  = temp<DWORD>   (),
+                        WORD&   wRPort  = temp<WORD>    ());
 
-	size_t SendTo(const void* pData, size_t szLength, DWORD dwIP, WORD wPort);
+    size_t SendTo(const void* pData, size_t szLength, DWORD dwIP, WORD wPort);
 
-	SOCKET GetSocket() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Socket; }
+    SOCKET GetSocket() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Socket; }
 
-	operator SOCKET () const
-		{ return GetSocket(); }
+    operator SOCKET () const
+        { return GetSocket(); }
 
-	void GetLocalIP_Port(DWORD& dwR_IP, WORD& dwR_Port = temp<WORD>()) const;
+    void GetLocalIP_Port(DWORD& dwR_IP, WORD& dwR_Port = temp<WORD>()) const;
 
-	DWORD GetLocalIP() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    DWORD GetLocalIP() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DWORD dwIP;
-		GetLocalIP_Port(dwIP);
+        DWORD dwIP;
+        GetLocalIP_Port(dwIP);
 
-		return dwIP;
-	}
+        return dwIP;
+    }
 
-	WORD GetLocalPort() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    WORD GetLocalPort() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		WORD wPort;
-		GetLocalIP_Port(temp<DWORD>(), wPort);
+        WORD wPort;
+        GetLocalIP_Port(temp<DWORD>(), wPort);
 
-		return wPort;
-	}
+        return wPort;
+    }
 
-	void GetRemoteIP_Port(DWORD& dwR_IP, WORD& wRPort = temp<WORD>()) const;
+    void GetRemoteIP_Port(DWORD& dwR_IP, WORD& wRPort = temp<WORD>()) const;
 
-	DWORD GetRemoteIP() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    DWORD GetRemoteIP() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DWORD dwIP;
-		GetRemoteIP_Port(dwIP);
+        DWORD dwIP;
+        GetRemoteIP_Port(dwIP);
 
-		return dwIP;
-	}
+        return dwIP;
+    }
 
-	WORD GetRemotePort() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    WORD GetRemotePort() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		WORD wPort;
-		GetRemoteIP_Port(temp<DWORD>(), wPort);
+        WORD wPort;
+        GetRemoteIP_Port(temp<DWORD>(), wPort);
 
-		return wPort;
-	}
+        return wPort;
+    }
 
-	#ifdef _MSC_VER
-		void BindEvent(HANDLE hEvent, int iTypes);
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+        void BindEvent(HANDLE hEvent, int iTypes);
+    #endif // _MSC_VER
 
-	// ---------------- TRIVIALS ----------------
-	bool IsUDP() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_bUDP; }
+    // ---------------- TRIVIALS ----------------
+    bool IsUDP() const
+        { DEBUG_VERIFY_ALLOCATION; return m_bUDP; }
 
-	bool IsBound() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_bBound;	}
+    bool IsBound() const
+        { DEBUG_VERIFY_ALLOCATION; return m_bBound; }
 
-	bool IsListening() const
-		{ DEBUG_VERIFY_ALLOCATION; DEBUG_VERIFY(!IsUDP()); return m_bListening; }
+    bool IsListening() const
+        { DEBUG_VERIFY_ALLOCATION; DEBUG_VERIFY(!IsUDP()); return m_bListening; }
 
-	bool IsConnected() const
-		{ DEBUG_VERIFY_ALLOCATION; DEBUG_VERIFY(!IsUDP()); return m_bConnected; }
+    bool IsConnected() const
+        { DEBUG_VERIFY_ALLOCATION; DEBUG_VERIFY(!IsUDP()); return m_bConnected; }
 };
 
 // ----------------
@@ -309,22 +309,22 @@ KString WriteAddressPort(LPCTSTR pAddress, WORD wPort, LPCTSTR pSeparator = TEXT
 
 KString WriteAddressPorts(LPCTSTR pAddress, WORD wPort1, WORD wPort2, LPCTSTR pSeparator = TEXT(":"));
 
-bool WaitForSockets(SOCKET* pReceive,	size_t szNReceive,
-					SOCKET* pSend,		size_t szNSend,
-					SOCKET* pError,		size_t szNError,
-					size_t	szTimeout	= UINT_MAX,
-					HANDLE	hTerminator	= NULL,
-					size_t	szPollDelay	= DEFAULT_POLL_DELAY);
+bool WaitForSockets(SOCKET* pReceive,   size_t szNReceive,
+                    SOCKET* pSend,      size_t szNSend,
+                    SOCKET* pError,     size_t szNError,
+                    size_t  szTimeout   = UINT_MAX,
+                    HANDLE  hTerminator = NULL,
+                    size_t  szPollDelay = DEFAULT_POLL_DELAY);
 
-DWORD ResolveIP(LPCTSTR	pAddress,
-				HANDLE	hTerminator	= NULL,
-				DWORD	dwTimeout	= INFINITE);
+DWORD ResolveIP(LPCTSTR pAddress,
+                HANDLE  hTerminator = NULL,
+                DWORD   dwTimeout   = INFINITE);
 
-size_t ResolveIPs(	LPCTSTR					pAddress,
-					TArray<DWORD, true>&	R_IPs,
-					bool					bClearFirst = true,
-					HANDLE					hTerminator	= NULL,
-					DWORD					dwTimeout	= INFINITE);
+size_t ResolveIPs(  LPCTSTR                 pAddress,
+                    TArray<DWORD, true>&    R_IPs,
+                    bool                    bClearFirst = true,
+                    HANDLE                  hTerminator = NULL,
+                    DWORD                   dwTimeout   = INFINITE);
 
 // -------
 // Subnet
@@ -332,46 +332,46 @@ size_t ResolveIPs(	LPCTSTR					pAddress,
 struct TSubnet
 {
 public:
-	DWORD	m_dwIP;
-	size_t	m_szNet;
+    DWORD   m_dwIP;
+    size_t  m_szNet;
 
 public:
-	TSubnet()
-		{ m_dwIP = INADDR_NONE, m_szNet = 0; }
+    TSubnet()
+        { m_dwIP = INADDR_NONE, m_szNet = 0; }
 
-	TSubnet(DWORD dwIP, size_t szNet = 32)
-		{ m_dwIP = dwIP, m_szNet = szNet; }
+    TSubnet(DWORD dwIP, size_t szNet = 32)
+        { m_dwIP = dwIP, m_szNet = szNet; }
 
-	TSubnet& Set(DWORD dwIP, size_t szNet = 32)
-	{
-		m_dwIP = dwIP, m_szNet = szNet;
+    TSubnet& Set(DWORD dwIP, size_t szNet = 32)
+    {
+        m_dwIP = dwIP, m_szNet = szNet;
 
-		return *this;
-	}
+        return *this;
+    }
 
-	bool IsValid() const
-		{ return m_dwIP != INADDR_NONE && m_szNet <= 32; }
+    bool IsValid() const
+        { return m_dwIP != INADDR_NONE && m_szNet <= 32; }
 
-	bool TestIP(DWORD dwIP) const
-		{ return IsValid() && (!m_szNet || !((dwIP ^ m_dwIP) & (DWORD_MAX << (32u - m_szNet)))); }
+    bool TestIP(DWORD dwIP) const
+        { return IsValid() && (!m_szNet || !((dwIP ^ m_dwIP) & (DWORD_MAX << (32u - m_szNet)))); }
 
-	operator KString () const
-	{
-		if(!IsValid())
-			return WriteIP(INADDR_NONE);
+    operator KString () const
+    {
+        if(!IsValid())
+            return WriteIP(INADDR_NONE);
 
-		switch(m_szNet)
-		{
-		case 0:
-			return "*";
+        switch(m_szNet)
+        {
+        case 0:
+            return "*";
 
-		case 32:
-			return WriteIP(m_dwIP);
+        case 32:
+            return WriteIP(m_dwIP);
 
-		default:
-			return WriteIP(m_dwIP) + '/' + m_szNet;
-		}
-	}
+        default:
+            return WriteIP(m_dwIP) + '/' + m_szNet;
+        }
+    }
 };
 
 DECLARE_BASIC_STREAMING(TSubnet)

@@ -7,28 +7,28 @@
 class TPixelShader
 {
 private:
-	IDirect3DPixelShader9* m_pPixelShader;
-	
+    IDirect3DPixelShader9* m_pPixelShader;
+
 public:
-	TPixelShader();
+    TPixelShader();
 
-	~TPixelShader()
-		{ Release(); }
-	
-	bool IsAllocated() const
-		{ return m_pPixelShader; }
+    ~TPixelShader()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_pPixelShader; }
 
-	void Allocate(IDirect3DPixelShader9* pSPixelShader);
+    void Release();
 
-	IDirect3DPixelShader9* GetPixelShader() const
-		{ return m_pPixelShader; }
+    void Allocate(IDirect3DPixelShader9* pSPixelShader);
 
-	operator IDirect3DPixelShader9* () const
-		{ return GetPixelShader(); }
+    IDirect3DPixelShader9* GetPixelShader() const
+        { return m_pPixelShader; }
 
-	void Install() const;
+    operator IDirect3DPixelShader9* () const
+        { return GetPixelShader(); }
+
+    void Install() const;
 };
 
 #endif // pixel_shader_h

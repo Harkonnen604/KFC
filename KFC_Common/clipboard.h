@@ -9,9 +9,9 @@
 class TClipboardOpener
 {
 public:
-	TClipboardOpener(HWND hWnd);
+    TClipboardOpener(HWND hWnd);
 
-	~TClipboardOpener();
+    ~TClipboardOpener();
 };
 
 // ----------------
@@ -19,10 +19,10 @@ public:
 // ----------------
 bool GetClipboardText(HWND hWnd, KString& RText);
 
-void SetClipboardText(	const KString&	Text,
-						HWND			hWnd,
-						bool			bClearFirst = true);
-						
+void SetClipboardText(  const KString&  Text,
+                        HWND            hWnd,
+                        bool            bClearFirst = true);
+
 #endif // _MSC_VER
 
 #endif // clipboard_h

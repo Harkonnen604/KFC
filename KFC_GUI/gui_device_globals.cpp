@@ -17,80 +17,80 @@ T_GUI_DeviceGlobals g_GUI_DeviceGlobals;
 // -------------------
 T_GUI_DeviceGlobals::T_GUI_DeviceGlobals() : TGlobals(TEXT("GUI device globals"))
 {
-	AddSubGlobals(g_GUI_Cfg);
-	AddSubGlobals(g_GUI_Initials);
-	AddSubGlobals(g_GUI_Tokens);
+    AddSubGlobals(g_GUI_Cfg);
+    AddSubGlobals(g_GUI_Initials);
+    AddSubGlobals(g_GUI_Tokens);
 
-	memset(m_CheckIcons, 0, sizeof(m_CheckIcons));
+    memset(m_CheckIcons, 0, sizeof(m_CheckIcons));
 }
 
 void T_GUI_DeviceGlobals::OnUninitialize()
 {
-	// Custom controls
-	TSplitterControl::Unregister();
+    // Custom controls
+    TSplitterControl::Unregister();
 
-	TColorLabelControl::UnregisterClass();
+    TColorLabelControl::UnregisterClass();
 
-	// Internal GDI objects
-	m_CheckerBrush.Release();
+    // Internal GDI objects
+    m_CheckerBrush.Release();
 
-	m_CheckIcons[1][1].Release();
-	m_CheckIcons[1][0].Release();
-	m_CheckIcons[0][1].Release();
-	m_CheckIcons[0][0].Release();
+    m_CheckIcons[1][1].Release();
+    m_CheckIcons[1][0].Release();
+    m_CheckIcons[0][1].Release();
+    m_CheckIcons[0][0].Release();
 }
 
 void T_GUI_DeviceGlobals::OnInitialize()
 {
-	const HINSTANCE hInstance = GetKModuleHandle();
+    const HINSTANCE hInstance = GetKModuleHandle();
 
-	// Loading internal GDI objects
-	{
-		if(g_GUI_Consts.m_bWithCheckIcons)
-		{
-			m_CheckIcons[0][0].Allocate(hInstance, IDI_CHECK00_ICON);
-			m_CheckIcons[0][1].Allocate(hInstance, IDI_CHECK01_ICON);
-			m_CheckIcons[1][0].Allocate(hInstance, IDI_CHECK10_ICON);
-			m_CheckIcons[1][1].Allocate(hInstance, IDI_CHECK11_ICON);
-		}
+    // Loading internal GDI objects
+    {
+        if(g_GUI_Consts.m_bWithCheckIcons)
+        {
+            m_CheckIcons[0][0].Allocate(hInstance, IDI_CHECK00_ICON);
+            m_CheckIcons[0][1].Allocate(hInstance, IDI_CHECK01_ICON);
+            m_CheckIcons[1][0].Allocate(hInstance, IDI_CHECK10_ICON);
+            m_CheckIcons[1][1].Allocate(hInstance, IDI_CHECK11_ICON);
+        }
 
-		{
-			WORD v[8];
+        {
+            WORD v[8];
 
-			for(size_t i = 0 ; i < 8 ; i++)
-				v[i] = 0x55 << (i & 1);
+            for(size_t i = 0 ; i < 8 ; i++)
+                v[i] = 0x55 << (i & 1);
 
-			HBITMAP hBitmap = CreateBitmap(8, 8, 1, 1, v);
-			KFC_VERIFY(hBitmap);
+            HBITMAP hBitmap = CreateBitmap(8, 8, 1, 1, v);
+            KFC_VERIFY(hBitmap);
 
-			m_CheckerBrush.Allocate(hBitmap);
+            m_CheckerBrush.Allocate(hBitmap);
 
-			DeleteObject(hBitmap);
-		}
-	}
+            DeleteObject(hBitmap);
+        }
+    }
 
-	// Initializing common controls
-	{
-		INITCOMMONCONTROLSEX Init;
-		memset(&Init, 0, sizeof(Init)), Init.dwSize = sizeof(Init);
+    // Initializing common controls
+    {
+        INITCOMMONCONTROLSEX Init;
+        memset(&Init, 0, sizeof(Init)), Init.dwSize = sizeof(Init);
 
-		Init.dwICC =
-			ICC_PROGRESS_CLASS		|
-			ICC_LISTVIEW_CLASSES	|
-			ICC_TREEVIEW_CLASSES	|
-			ICC_TAB_CLASSES			|
-			ICC_BAR_CLASSES			|
-			ICC_WIN95_CLASSES		|
-			ICC_INTERNET_CLASSES	|
-			ICC_DATE_CLASSES		|
-			ICC_COOL_CLASSES;
+        Init.dwICC =
+            ICC_PROGRESS_CLASS      |
+            ICC_LISTVIEW_CLASSES    |
+            ICC_TREEVIEW_CLASSES    |
+            ICC_TAB_CLASSES         |
+            ICC_BAR_CLASSES         |
+            ICC_WIN95_CLASSES       |
+            ICC_INTERNET_CLASSES    |
+            ICC_DATE_CLASSES        |
+            ICC_COOL_CLASSES;
 
-		if(!InitCommonControlsEx(&Init))
-			INITIATE_DEFINED_FAILURE(TEXT("Error initializing common controls."));
-	}
+        if(!InitCommonControlsEx(&Init))
+            INITIATE_DEFINED_FAILURE(TEXT("Error initializing common controls."));
+    }
 
-	// Custom controls
-	TColorLabelControl::RegisterClass();
+    // Custom controls
+    TColorLabelControl::RegisterClass();
 
-	TSplitterControl::Register();
+    TSplitterControl::Register();
 }

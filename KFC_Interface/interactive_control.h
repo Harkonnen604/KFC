@@ -11,23 +11,23 @@
 // ------------------------------------
 struct TInteractiveControlCreationStruct : public TControlCreationStruct
 {
-	size_t m_szHotKey;
+    size_t m_szHotKey;
 
-	float m_InteractiveTransitionDelays[3];
+    float m_InteractiveTransitionDelays[3];
 
-	bool	m_bAllowNonHoveredClicks;
-	bool	m_bAllowMouseStealing;
-	size_t	m_szPushClickFirstDelay;
-	size_t	m_szPushClickRepeatDelay;
+    bool    m_bAllowNonHoveredClicks;
+    bool    m_bAllowMouseStealing;
+    size_t  m_szPushClickFirstDelay;
+    size_t  m_szPushClickRepeatDelay;
 
 
-	TInteractiveControlCreationStruct();
+    TInteractiveControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 
-	void SetImmediateInteractiveTransitions();
+    void SetImmediateInteractiveTransitions();
 };
 
 // ------------------------------------
@@ -35,13 +35,13 @@ struct TInteractiveControlCreationStruct : public TControlCreationStruct
 // ------------------------------------
 struct TInteractiveControlSoundsProvider
 {
-	TObjectPointer<TSound> m_PushSound;
-	TObjectPointer<TSound> m_ClickSound;
+    TObjectPointer<TSound> m_PushSound;
+    TObjectPointer<TSound> m_ClickSound;
 
 
-	TInteractiveControlSoundsProvider();
+    TInteractiveControlSoundsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // --------------------
@@ -50,124 +50,124 @@ struct TInteractiveControlSoundsProvider
 class TInteractiveControl : public TControl
 {
 public:
-	enum TPushState
-	{
-		PS_NONE			= 0,
-		PS_MOUSE		= 1,
-		PS_KEYBOARD		= 2,
-		PS_FORCE_UINT	= UINT_MAX,
+    enum TPushState
+    {
+        PS_NONE         = 0,
+        PS_MOUSE        = 1,
+        PS_KEYBOARD     = 2,
+        PS_FORCE_UINT   = UINT_MAX,
 
-	};
+    };
 
-	enum TInteractiveState
-	{
-		IS_DISABLED		= 0,
-		IS_NONHOVERED	= 1,
-		IS_HOVERED		= 2,
-		IS_PUSHED		= 3,
-		IS_FORCE_UINT	= UINT_MAX,
+    enum TInteractiveState
+    {
+        IS_DISABLED     = 0,
+        IS_NONHOVERED   = 1,
+        IS_HOVERED      = 2,
+        IS_PUSHED       = 3,
+        IS_FORCE_UINT   = UINT_MAX,
 
-	};
-	
+    };
+
 private:
-	float m_InteractiveTransitionDelays[3];
+    float m_InteractiveTransitionDelays[3];
 
-	size_t m_szHotKey;
+    size_t m_szHotKey;
 
-	size_t m_szPushClickFirstDelay;
-	size_t m_szPushClickRepeatDelay;
+    size_t m_szPushClickFirstDelay;
+    size_t m_szPushClickRepeatDelay;
 
-	TTimer	m_PushClickTimer;
-	bool	m_bFirstPushClickDelay;
+    TTimer  m_PushClickTimer;
+    bool    m_bFirstPushClickDelay;
 
-	TPushState m_PushState;
+    TPushState m_PushState;
 
-	TControlInterpolatedState<TInteractiveState, 4> m_InteractiveState;
+    TControlInterpolatedState<TInteractiveState, 4> m_InteractiveState;
 
-	
-	TInteractiveState DetermineInteractiveState() const;
+
+    TInteractiveState DetermineInteractiveState() const;
 
 protected:
-	// Allocation
-	virtual void OnAllocate();
+    // Allocation
+    virtual void OnAllocate();
 
-	virtual void OnSetInitialValues();
+    virtual void OnSetInitialValues();
 
-	// Update/render events
-	virtual bool OnSuspend	();
-	virtual bool OnResume	();
+    // Update/render events
+    virtual bool OnSuspend  ();
+    virtual bool OnResume   ();
 
-	virtual void OnPreUpdate();
+    virtual void OnPreUpdate();
 
-	virtual void OnPostUpdate();
+    virtual void OnPostUpdate();
 
-	// Appearance events
-	virtual void OnEnable();
+    // Appearance events
+    virtual void OnEnable();
 
-	virtual void OnDisable();
-	
-	// Mouse events
-	virtual void OnMouseButtonDown(size_t szButton);
+    virtual void OnDisable();
 
-	virtual void OnMouseButtonUp(size_t szButton);
+    // Mouse events
+    virtual void OnMouseButtonDown(size_t szButton);
 
-	virtual void OnMouseEnter();
+    virtual void OnMouseButtonUp(size_t szButton);
 
-	virtual void OnMouseLeave();
+    virtual void OnMouseEnter();
 
-	virtual void OnMouseCaptureLost();
+    virtual void OnMouseLeave();
 
-	// Keyboard events
-	virtual void OnKeyboardKeyDown(size_t szKey);
+    virtual void OnMouseCaptureLost();
 
-	virtual void OnKeyboardKeyUp(size_t szKey);
+    // Keyboard events
+    virtual void OnKeyboardKeyDown(size_t szKey);
 
-	// Push/unpush events
-	virtual void OnPush(bool bFromMouse);
+    virtual void OnKeyboardKeyUp(size_t szKey);
 
-	virtual void OnUnpush(bool bFromMouse);
+    // Push/unpush events
+    virtual void OnPush(bool bFromMouse);
 
-	// Click events
-	virtual void OnClick(bool bFromMouse);
+    virtual void OnUnpush(bool bFromMouse);
 
-	virtual void OnPushClick(bool bFromMouse);
+    // Click events
+    virtual void OnClick(bool bFromMouse);
 
-	// Push/unpush routines
-	void Push(bool bFromMouse);
+    virtual void OnPushClick(bool bFromMouse);
 
-	void Unpush(bool bFromMouse);
+    // Push/unpush routines
+    void Push(bool bFromMouse);
 
-	// Click routines
-	void Click(bool bFromMouse);
+    void Unpush(bool bFromMouse);
 
-	void PushClick(bool bFromMouse);
+    // Click routines
+    void Click(bool bFromMouse);
+
+    void PushClick(bool bFromMouse);
 
 public:
-	bool m_bAllowNonHoveredClicks;
-	bool m_bAllowMouseStealing;
+    bool m_bAllowNonHoveredClicks;
+    bool m_bAllowMouseStealing;
 
-	TObjectPointer<TSound> m_PushSound;
-	TObjectPointer<TSound> m_ClickSound;
-	
-	TD3DColor m_StateColors[4];
-	
+    TObjectPointer<TSound> m_PushSound;
+    TObjectPointer<TSound> m_ClickSound;
 
-	TInteractiveControl(const TInteractiveControlCreationStruct&	CreationStruct,
-						TInteractiveControlSoundsProvider&			SoundsProvider);
+    TD3DColor m_StateColors[4];
 
-	// Messages
-	bool IsValidMessage(const TControlMessage* pMessage) const;
 
-	// ---------------- TRIVIALS ----------------
-	size_t GetHotKey() const { return m_szHotKey; }
+    TInteractiveControl(const TInteractiveControlCreationStruct&    CreationStruct,
+                        TInteractiveControlSoundsProvider&          SoundsProvider);
 
-	TPushState GetPushState() const { return m_PushState; }	
+    // Messages
+    bool IsValidMessage(const TControlMessage* pMessage) const;
 
-	TInteractiveState GetInteractiveState() const
-		{ return m_InteractiveState; }
+    // ---------------- TRIVIALS ----------------
+    size_t GetHotKey() const { return m_szHotKey; }
 
-	float GetInterpolatedInteractiveState() const
-		{ return m_InteractiveState.GetInterpolatedState(); }
+    TPushState GetPushState() const { return m_PushState; }
+
+    TInteractiveState GetInteractiveState() const
+        { return m_InteractiveState; }
+
+    float GetInterpolatedInteractiveState() const
+        { return m_InteractiveState.GetInterpolatedState(); }
 };
 
 // ----------------

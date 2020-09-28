@@ -8,9 +8,9 @@
 // -----------------------------
 struct TDummySpriteCreationStruct : public TSpriteCreationStruct
 {
-	TDummySpriteCreationStruct();
+    TDummySpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -------------
@@ -19,57 +19,57 @@ struct TDummySpriteCreationStruct : public TSpriteCreationStruct
 class TDummySprite : public TSprite
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
 public:
-	static TSprite* Create(type_t tpType);
+    static TSprite* Create(type_t tpType);
 
-	TDummySprite();
+    TDummySprite();
 
-	~TDummySprite()
-		{ Release(); }
+    ~TDummySprite()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TSprite::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TSprite::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
-	
-	void Allocate(TDummySpriteCreationStruct& CreationStruct);
+    void Release(bool bFromAllocatorException = false);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Allocate(TDummySpriteCreationStruct& CreationStruct);
 
-	void DrawNonScaled(	const FPOINT&			DstCoords,
-						const TD3DColor&		Color	= WhiteColor(),
-						const TSpriteStates&	States	= TSpriteStates()) const;
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawRect(	const FRECT&			DstRect,
-					const TD3DColor&		Color	= WhiteColor(),
-					const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawNonScaled( const FPOINT&           DstCoords,
+                        const TD3DColor&        Color   = WhiteColor(),
+                        const TSpriteStates&    States  = TSpriteStates()) const;
 
-	bool HasDefaultSize() const;
+    void DrawRect(  const FRECT&            DstRect,
+                    const TD3DColor&        Color   = WhiteColor(),
+                    const TSpriteStates&    States  = TSpriteStates()) const;
 
-	void GetDefaultSize(FSIZE& RSize) const;
+    bool HasDefaultSize() const;
 
-	TSprite* GetSubObject(size_t szIndex);
+    void GetDefaultSize(FSIZE& RSize) const;
 
-	const TSprite* GetSubObject(size_t szIndex) const;
+    TSprite* GetSubObject(size_t szIndex);
 
-	size_t GetNSubObjects() const;
+    const TSprite* GetSubObject(size_t szIndex) const;
+
+    size_t GetNSubObjects() const;
 };
 
 // -------------------------------------
 // State skipper sprite creation struct
 // -------------------------------------
 struct TStateSkipperSpriteCreationStruct :
-	public TSpriteCreationStruct
+    public TSpriteCreationStruct
 
 {
-	size_t m_szNStates;
+    size_t m_szNStates;
 
 
-	TStateSkipperSpriteCreationStruct();
+    TStateSkipperSpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // --------------------------------------
@@ -77,12 +77,12 @@ struct TStateSkipperSpriteCreationStruct :
 // --------------------------------------
 struct TStateSkipperSpriteSpritesProvider
 {
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	TStateSkipperSpriteSpritesProvider();
+    TStateSkipperSpriteSpritesProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ---------------------
@@ -91,48 +91,48 @@ struct TStateSkipperSpriteSpritesProvider
 class TStateSkipperSprite : public TSprite
 {
 private:
-	bool m_bAllocated;
-	
+    bool m_bAllocated;
+
 public:
-	size_t m_szNStates;
+    size_t m_szNStates;
 
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	static TSprite* Create(type_t tpType);
+    static TSprite* Create(type_t tpType);
 
-	TStateSkipperSprite();
+    TStateSkipperSprite();
 
-	~TStateSkipperSprite()
-		{ Release(); }
+    ~TStateSkipperSprite()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TSprite::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TSprite::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(	const TStateSkipperSpriteCreationStruct&	CreationStruct,
-					TStateSkipperSpriteSpritesProvider&			SpritesProvider);
+    void Allocate(  const TStateSkipperSpriteCreationStruct&    CreationStruct,
+                    TStateSkipperSpriteSpritesProvider&         SpritesProvider);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawNonScaled(	const FPOINT&			DstCoords,
-						const TD3DColor&		Color	= WhiteColor(),
-						const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawNonScaled( const FPOINT&           DstCoords,
+                        const TD3DColor&        Color   = WhiteColor(),
+                        const TSpriteStates&    States  = TSpriteStates()) const;
 
-	void DrawRect(	const FRECT&			DstRect,
-					const TD3DColor&		Color	= WhiteColor(),
-					const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawRect(  const FRECT&            DstRect,
+                    const TD3DColor&        Color   = WhiteColor(),
+                    const TSpriteStates&    States  = TSpriteStates()) const;
 
-	bool HasDefaultSize() const;
+    bool HasDefaultSize() const;
 
-	void GetDefaultSize(FSIZE& RSize) const;
+    void GetDefaultSize(FSIZE& RSize) const;
 
-	TSprite* GetSubObject(size_t szIndex);
+    TSprite* GetSubObject(size_t szIndex);
 
-	const TSprite* GetSubObject(size_t szIndex) const;
+    const TSprite* GetSubObject(size_t szIndex) const;
 
-	size_t GetNSubObjects() const;
+    size_t GetNSubObjects() const;
 };
 
 #endif // dummy_sprites_h

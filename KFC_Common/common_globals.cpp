@@ -17,18 +17,18 @@ TCommonGlobals g_CommonGlobals;
 // ---------------
 TCommonGlobals::TCommonGlobals() : TModuleGlobals(TEXT("Common globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_StartupGlobals);
-	
-	#ifdef _MSC_VER
-	{
-		AddSubGlobals(g_CommonCfg);
-		AddSubGlobals(g_CommonInitials);
-	}
-	#endif // _MSC_VER
-	
-	AddSubGlobals(g_CommonTokens);
-	AddSubGlobals(g_CommonDeviceGlobals);
-	AddSubGlobals(g_TimeGlobals);
-	AddSubGlobals(g_RandomGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_StartupGlobals);
+
+    #ifdef _MSC_VER
+    {
+        AddSubGlobals(g_CommonCfg);
+        AddSubGlobals(g_CommonInitials);
+    }
+    #endif // _MSC_VER
+
+    AddSubGlobals(g_CommonTokens);
+    AddSubGlobals(g_CommonDeviceGlobals);
+    AddSubGlobals(g_TimeGlobals);
+    AddSubGlobals(g_RandomGlobals);
 }

@@ -9,11 +9,11 @@
 class TPhysicalObject
 {
 public:
-	virtual ~TPhysicalObject() {}
+    virtual ~TPhysicalObject() {}
 
-	virtual void BeginFrame() = 0;
+    virtual void BeginFrame() = 0;
 
-	virtual void EndFrame(double dStepTime) = 0;
+    virtual void EndFrame(double dStepTime) = 0;
 };
 /*
 // ----------------------
@@ -21,32 +21,32 @@ public:
 // ----------------------
 class TRigidPhysicalObject : public TPhysicalObject
 {
-private:	
-	double m_dMass;
+private:
+    double m_dMass;
 
-	double m_dInvMass;
+    double m_dInvMass;
 
 
-	TDVector3 m_Coords;
+    TDVector3 m_Coords;
 
-	TDVector3 m_LinearVelocity;
+    TDVector3 m_LinearVelocity;
 
-	TDVector3 m_LinearForce;
+    TDVector3 m_LinearForce;
 
 public:
-	TObjectPointer<TRigidPhysicalModel> m_Model;
+    TObjectPointer<TRigidPhysicalModel> m_Model;
 
 
-	TRigidPhysicalObject();
+    TRigidPhysicalObject();
 
-	double GetMass() const
-		{ return m_dMass; }
+    double GetMass() const
+        { return m_dMass; }
 
-	void SetMass(double dSMass);
+    void SetMass(double dSMass);
 
-	void BeginFrame();
+    void BeginFrame();
 
-	void EndFrame(double dStepTime);
+    void EndFrame(double dStepTime);
 };*/
 
 // ---------------------
@@ -55,78 +55,78 @@ public:
 class TSoftPhysicalObject : public TPhysicalObject
 {
 public:
-	// Normals mode
-	enum TNormalsMode
-	{
-		NM_ORIGINAL		= 0,
-		NM_UPDATE		= 1,
-		NM_NORMALIZE	= 2,
-		NM_FORCE_UINT	= UINT_MAX
-	};
+    // Normals mode
+    enum TNormalsMode
+    {
+        NM_ORIGINAL     = 0,
+        NM_UPDATE       = 1,
+        NM_NORMALIZE    = 2,
+        NM_FORCE_UINT   = UINT_MAX
+    };
 
 private:
-	// Edge
-	struct TEdgeInfo
-	{
-		double m_dEdgeLength;
-		double m_dCrossEdgeLength;
-		double m_dVertexFaceLength12;
-		double m_dVertexFaceLength21;
-	};
+    // Edge
+    struct TEdgeInfo
+    {
+        double m_dEdgeLength;
+        double m_dCrossEdgeLength;
+        double m_dVertexFaceLength12;
+        double m_dVertexFaceLength21;
+    };
 
-	TMesh			m_Mesh;
-	TNormalsMode	m_NormalsMode;
-	double			m_dMass;
-	double			m_dEdgeStiffness;
-	double			m_dCrossEdgeStiffness;
-	double			m_dVertexFaceStiffness;
+    TMesh           m_Mesh;
+    TNormalsMode    m_NormalsMode;
+    double          m_dMass;
+    double          m_dEdgeStiffness;
+    double          m_dCrossEdgeStiffness;
+    double          m_dVertexFaceStiffness;
 
-	double m_dInvVertexMass;
+    double m_dInvVertexMass;
 
-	TArray<TEdgeInfo> m_EdgeInfos;
+    TArray<TEdgeInfo> m_EdgeInfos;
 
-	TArray<TDVector3, true> m_VertexVelocities;
-	TArray<TDVector3, true> m_VertexForces;
+    TArray<TDVector3, true> m_VertexVelocities;
+    TArray<TDVector3, true> m_VertexForces;
 
 
-	void ApplyNormalsMode();
+    void ApplyNormalsMode();
 
 public:
-	TSoftPhysicalObject();
+    TSoftPhysicalObject();
 
-	const TMesh& GetMesh() const
-		{ return m_Mesh; }	
+    const TMesh& GetMesh() const
+        { return m_Mesh; }
 
-	void SetMesh(const TMesh& SMesh);
+    void SetMesh(const TMesh& SMesh);
 
-	TNormalsMode GetNormalsMode() const
-		{ return m_NormalsMode; }
+    TNormalsMode GetNormalsMode() const
+        { return m_NormalsMode; }
 
-	void SetNormalsMode(TNormalsMode SNormalsMode);
+    void SetNormalsMode(TNormalsMode SNormalsMode);
 
-	double GetMass() const
-		{ return m_dMass; }
+    double GetMass() const
+        { return m_dMass; }
 
-	void SetMass(double dSMass);
+    void SetMass(double dSMass);
 
-	double GetEdgeStiffness() const
-		{ return m_dEdgeStiffness; }
+    double GetEdgeStiffness() const
+        { return m_dEdgeStiffness; }
 
-	void SetEdgeStiffness(double dSEdgeStiffness);
+    void SetEdgeStiffness(double dSEdgeStiffness);
 
-	double GetCrossEdgeStiffness() const
-		{ return m_dCrossEdgeStiffness; }
+    double GetCrossEdgeStiffness() const
+        { return m_dCrossEdgeStiffness; }
 
-	void SetCrossEdgeStiffness(double dSCrossEdgeStiffness);
+    void SetCrossEdgeStiffness(double dSCrossEdgeStiffness);
 
-	double GetVertexFaceStiffness() const
-		{ return m_dVertexFaceStiffness; }
+    double GetVertexFaceStiffness() const
+        { return m_dVertexFaceStiffness; }
 
-	void SetVertexFaceStiffness(double dSVertexFaceStiffness);
+    void SetVertexFaceStiffness(double dSVertexFaceStiffness);
 
-	void BeginFrame();
+    void BeginFrame();
 
-	void EndFrame(double dStepTime);
+    void EndFrame(double dStepTime);
 };
 
 #endif // physical_objcet_h

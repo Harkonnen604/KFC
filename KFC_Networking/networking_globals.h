@@ -9,7 +9,7 @@
 class TNetworkingGlobals : public TModuleGlobals
 {
 public:
-	TNetworkingGlobals();
+    TNetworkingGlobals();
 };
 
 extern TNetworkingGlobals g_NetworkingGlobals;

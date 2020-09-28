@@ -7,28 +7,28 @@
 class TVertexShader
 {
 private:
-	IDirect3DVertexShader9* m_pVertexShader;
-	
+    IDirect3DVertexShader9* m_pVertexShader;
+
 public:
-	TVertexShader();
+    TVertexShader();
 
-	~TVertexShader()
-		{ Release(); }
-	
-	bool IsAllocated() const
-		{ return m_pVertexShader; }
+    ~TVertexShader()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_pVertexShader; }
 
-	void Allocate(IDirect3DVertexShader9* pSVertexShader);
+    void Release();
 
-	IDirect3DVertexShader9* GetVertexShader() const
-		{ return m_pVertexShader; }
+    void Allocate(IDirect3DVertexShader9* pSVertexShader);
 
-	operator IDirect3DVertexShader9* () const
-		{ return GetVertexShader(); }
+    IDirect3DVertexShader9* GetVertexShader() const
+        { return m_pVertexShader; }
 
-	void Install() const;
+    operator IDirect3DVertexShader9* () const
+        { return GetVertexShader(); }
+
+    void Install() const;
 };
 
 #endif // vertex_shader_h

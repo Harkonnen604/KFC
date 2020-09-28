@@ -9,7 +9,7 @@
 class TNetworkingConsts : public TConsts
 {
 public:
-	TNetworkingConsts();
+    TNetworkingConsts();
 };
 
 extern TNetworkingConsts g_NetworkingConsts;

@@ -5,7 +5,7 @@
 // Global routines
 // ----------------
 int CompareVersions(const KString& Version1,
-					const KString& Version2);
+                    const KString& Version2);
 
 #ifdef _MSC_VER
 

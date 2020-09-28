@@ -9,11 +9,11 @@
 class TModuleGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	() {}
-	void OnInitialize	() {}
+    void OnUninitialize () {}
+    void OnInitialize   () {}
 
 public:
-	TModuleGlobals(LPCTSTR pSName) : TGlobals(pSName) {}
+    TModuleGlobals(LPCTSTR pSName) : TGlobals(pSName) {}
 };
 
 #endif // module_globals_h

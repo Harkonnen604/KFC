@@ -26,13 +26,13 @@
 class TProjectGlobals : public TModuleGlobals
 {
 public:
-	TProjectGlobals() : TModuleGlobals(TEXT("Project globals"))
-	{
-		AddSubGlobals(g_KTL_Globals);
-		AddSubGlobals(g_CommonGlobals);
-		AddSubGlobals(g_FormatsGlobals);
-		AddSubGlobals(g_CGI_Globals);
-	}
+    TProjectGlobals() : TModuleGlobals(TEXT("Project globals"))
+    {
+        AddSubGlobals(g_KTL_Globals);
+        AddSubGlobals(g_CommonGlobals);
+        AddSubGlobals(g_FormatsGlobals);
+        AddSubGlobals(g_CGI_Globals);
+    }
 };
 
 TProjectGlobals g_ProjectGlobals;
@@ -42,51 +42,51 @@ TProjectGlobals g_ProjectGlobals;
 // ----------
 int main(int argc, char* argv[])
 {
-	REPORT_MAIN_PROC_ARGS;
+    REPORT_MAIN_PROC_ARGS;
 
-	TRACK_MEMORY_LEAKS;
+    TRACK_MEMORY_LEAKS;
 
-	KFC_OUTER_BLOCK_BEGIN
-	{
-		g_KTL_Consts.m_bConsole = true;
+    KFC_OUTER_BLOCK_BEGIN
+    {
+        g_KTL_Consts.m_bConsole = true;
 
-		TGlobalsInitializer Initializer0(g_ProjectGlobals);
+        TGlobalsInitializer Initializer0(g_ProjectGlobals);
 
-		srand(0x604);		
+        srand(0x604);
 
-		TestDateTime();
+        TestDateTime();
 
-		TestExpand();
+        TestExpand();
 
-		TestArrayFixedItemHeap		();
-		TestDancerFixedItemHeap		();
-		TestFileMappingFixedItemHeap();
+        TestArrayFixedItemHeap      ();
+        TestDancerFixedItemHeap     ();
+        TestFileMappingFixedItemHeap();
 
-		TestArrayFlexibleItemHeap		();
-		TestDancerFlexibleItemHeap		();
-		TestFileMappingFlexibleItemHeap	();
+        TestArrayFlexibleItemHeap       ();
+        TestDancerFlexibleItemHeap      ();
+        TestFileMappingFlexibleItemHeap ();
 
-		Test_AVL_Storage();
+        Test_AVL_Storage();
 
-		TestArrayFixedItemHeapList		();
-		TestDancerFixedItemHeapList		();
-		TestFileMappingFixedItemHeapList();
+        TestArrayFixedItemHeapList      ();
+        TestDancerFixedItemHeapList     ();
+        TestFileMappingFixedItemHeapList();
 
-		TestArrayFixedItemHeapAVL_Storage		();
-		TestDancerFixedItemHeapAVL_Storage		();
-		TestFileMappingFixedItemHeapAVL_Storage	();
+        TestArrayFixedItemHeapAVL_Storage       ();
+        TestDancerFixedItemHeapAVL_Storage      ();
+        TestFileMappingFixedItemHeapAVL_Storage ();
 
-		TestFileCharsTree();
+        TestFileCharsTree();
 
-		TestPersistentFixedItemHeap();
+        TestPersistentFixedItemHeap();
 
-		TestPtrAutoHolder			();
-		TestListAutoHolder			();
-		TestAVL_StorageAutoHolder	();
+        TestPtrAutoHolder           ();
+        TestListAutoHolder          ();
+        TestAVL_StorageAutoHolder   ();
 
-		TestCGI();
-	}
-	KFC_OUTER_BLOCK_END
+        TestCGI();
+    }
+    KFC_OUTER_BLOCK_END
 
-	return 0;
+    return 0;
 }

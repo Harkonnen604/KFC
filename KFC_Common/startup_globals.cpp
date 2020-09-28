@@ -16,122 +16,122 @@ TStartupGlobals g_StartupGlobals;
 // ----------------
 TStartupGlobals::TStartupGlobals() : TGlobals(TEXT("Startup globals"))
 {
-	AddSubGlobals(g_CommonDeviceGlobals);
+    AddSubGlobals(g_CommonDeviceGlobals);
 }
 
 void TStartupGlobals::OnUninitialize()
 {
-	// Parameters
-	m_Parameters.Clear();
+    // Parameters
+    m_Parameters.Clear();
 
-	// Folders
-	#ifdef _MSC_VER
-	{
-		m_DesktopFolder.			Empty();
-		m_StartMenuProgramsFolder.	Empty();
-		m_ProgramFilesFolder.		Empty();
-		m_SystemFolder.				Empty();
-		m_WindowsFolder.			Empty();
-	}
-	#endif // _MSC_VER
+    // Folders
+    #ifdef _MSC_VER
+    {
+        m_DesktopFolder.            Empty();
+        m_StartMenuProgramsFolder.  Empty();
+        m_ProgramFilesFolder.       Empty();
+        m_SystemFolder.             Empty();
+        m_WindowsFolder.            Empty();
+    }
+    #endif // _MSC_VER
 
-	m_TempFolder.	Empty();
-	m_StartFolder.	Empty();
+    m_TempFolder.   Empty();
+    m_StartFolder.  Empty();
 
-	// Files
-	m_StartFile.Empty();
+    // Files
+    m_StartFile.Empty();
 }
 
 void TStartupGlobals::OnInitialize()
 {
-	#ifndef _MSC_VER
-		DEBUG_VERIFY(!g_CommonConsts.m_MainProcArgs.IsEmpty());
-	#endif // _MSC_VER
+    #ifndef _MSC_VER
+        DEBUG_VERIFY(!g_CommonConsts.m_MainProcArgs.IsEmpty());
+    #endif // _MSC_VER
 
-	#ifdef _MSC_VER
-	{
-		TCHAR	Buf[1024];
-		size_t	szLength;
+    #ifdef _MSC_VER
+    {
+        TCHAR   Buf[1024];
+        size_t  szLength;
 
-		// Start file
-		m_StartFile = GetKModuleFileName(NULL);
+        // Start file
+        m_StartFile = GetKModuleFileName(NULL);
 
-		// Start folder
-		m_StartFolder = GetFilePath(m_StartFile);
+        // Start folder
+        m_StartFolder = GetFilePath(m_StartFile);
 
-		// Windows folder
-		szLength = GetWindowsDirectory(Buf, ARRAY_SIZE(Buf) - 1);
+        // Windows folder
+        szLength = GetWindowsDirectory(Buf, ARRAY_SIZE(Buf) - 1);
 
-		if(szLength == 0)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching windows folder"), GetLastError());
-		}
+        if(szLength == 0)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching windows folder"), GetLastError());
+        }
 
-		Buf[szLength] = 0, m_WindowsFolder = SlashedFolderName(Buf);
+        Buf[szLength] = 0, m_WindowsFolder = SlashedFolderName(Buf);
 
-		// System folder
-		szLength = GetSystemDirectory(Buf, ARRAY_SIZE(Buf) - 1);
+        // System folder
+        szLength = GetSystemDirectory(Buf, ARRAY_SIZE(Buf) - 1);
 
-		if(szLength == 0)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching system folder"), GetLastError());
-		}
+        if(szLength == 0)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching system folder"), GetLastError());
+        }
 
-		Buf[szLength] = 0, m_SystemFolder = SlashedFolderName(Buf);
+        Buf[szLength] = 0, m_SystemFolder = SlashedFolderName(Buf);
 
-		// Temp folder
-		szLength = GetTempPath(ARRAY_SIZE(Buf) - 1, Buf);
-		if(szLength == 0)
-		{
-			INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching temp folder"), GetLastError());
-		}
+        // Temp folder
+        szLength = GetTempPath(ARRAY_SIZE(Buf) - 1, Buf);
+        if(szLength == 0)
+        {
+            INITIATE_DEFINED_CODE_FAILURE(TEXT("Error fetching temp folder"), GetLastError());
+        }
 
-		Buf[szLength] = 0, m_TempFolder = SlashedFolderName(Buf);
+        Buf[szLength] = 0, m_TempFolder = SlashedFolderName(Buf);
 
-		// Program files folder
-		{
-			const LPCTSTR pEnv = _tgetenv(TEXT("ProgramFiles"));
+        // Program files folder
+        {
+            const LPCTSTR pEnv = _tgetenv(TEXT("ProgramFiles"));
 
-			m_ProgramFilesFolder =	pEnv ?
-										SlashedFolderName(pEnv) :
-										m_WindowsFolder.Left(3) + TEXT("Program Files\\");
-		}
+            m_ProgramFilesFolder =  pEnv ?
+                                        SlashedFolderName(pEnv) :
+                                        m_WindowsFolder.Left(3) + TEXT("Program Files\\");
+        }
 
-		// Start menu programs folder
-		{
-			TCHAR Buf[MAX_PATH];
-			SHGetSpecialFolderPath(NULL, Buf, CSIDL_STARTMENU, TRUE);
+        // Start menu programs folder
+        {
+            TCHAR Buf[MAX_PATH];
+            SHGetSpecialFolderPath(NULL, Buf, CSIDL_STARTMENU, TRUE);
 
-			m_StartMenuProgramsFolder = SlashedFolderName(Buf) + TEXT("Programs\\");
-		}
+            m_StartMenuProgramsFolder = SlashedFolderName(Buf) + TEXT("Programs\\");
+        }
 
-		// Desktop folder
-		{
-			TCHAR Buf[MAX_PATH];
-			SHGetSpecialFolderPath(NULL, Buf, CSIDL_DESKTOP, TRUE);
+        // Desktop folder
+        {
+            TCHAR Buf[MAX_PATH];
+            SHGetSpecialFolderPath(NULL, Buf, CSIDL_DESKTOP, TRUE);
 
-			m_DesktopFolder = SlashedFolderName(Buf);
-		}
+            m_DesktopFolder = SlashedFolderName(Buf);
+        }
 
-		// Parameters
-		ParseCmdLine(GetCommandLine(), m_Parameters);
-	}
-	#else
-	{
-		KFC_VERIFY(!g_CommonConsts.m_MainProcArgs.IsEmpty());
+        // Parameters
+        ParseCmdLine(GetCommandLine(), m_Parameters);
+    }
+    #else
+    {
+        KFC_VERIFY(!g_CommonConsts.m_MainProcArgs.IsEmpty());
 
-		// Start folder
-		m_StartFolder = FollowPath(GetWorkingDirectory(), GetFilePath(g_CommonConsts.m_MainProcArgs[0]));
+        // Start folder
+        m_StartFolder = FollowPath(GetWorkingDirectory(), GetFilePath(g_CommonConsts.m_MainProcArgs[0]));
 
-		// Temp folder
-		m_TempFolder = m_StartFolder;
+        // Temp folder
+        m_TempFolder = m_StartFolder;
 
-		// Start file
-		m_StartFile = m_StartFolder + GetFileName(g_CommonConsts.m_MainProcArgs[0]);
+        // Start file
+        m_StartFile = m_StartFolder + GetFileName(g_CommonConsts.m_MainProcArgs[0]);
 
-		// Parameters
-		for(KStrings::TConstIterator Iter = g_CommonConsts.m_MainProcArgs.GetFirst().GetNext() ; Iter.IsValid() ; ++Iter)
-			m_Parameters << *Iter;
-	}
-	#endif // _MSC_VER
+        // Parameters
+        for(KStrings::TConstIterator Iter = g_CommonConsts.m_MainProcArgs.GetFirst().GetNext() ; Iter.IsValid() ; ++Iter)
+            m_Parameters << *Iter;
+    }
+    #endif // _MSC_VER
 }

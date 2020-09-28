@@ -21,162 +21,162 @@
 class TInterfaceDeviceGlobals : public TGlobals
 {
 private:
-	// Messages
-	TMessageProcessor m_InputMessageProcessor;
+    // Messages
+    TMessageProcessor m_InputMessageProcessor;
 
-	// Sprites
-	TObjectRegisterer<TSprite> m_MousePointerSpriteRegisterer;
-	TObjectRegisterer<TSprite> m_HotPointerSpriteRegisterers[4];
-	TObjectRegisterer<TSprite> m_CheckBoxSpriteRegisterer;
-	TObjectRegisterer<TSprite> m_OkSpriteRegisterer;
-	TObjectRegisterer<TSprite> m_CancelSpriteRegisterer;
+    // Sprites
+    TObjectRegisterer<TSprite> m_MousePointerSpriteRegisterer;
+    TObjectRegisterer<TSprite> m_HotPointerSpriteRegisterers[4];
+    TObjectRegisterer<TSprite> m_CheckBoxSpriteRegisterer;
+    TObjectRegisterer<TSprite> m_OkSpriteRegisterer;
+    TObjectRegisterer<TSprite> m_CancelSpriteRegisterer;
 
-	// Fonts
-	TObjectRegisterer<TFont> m_HotMessageFontRegisterer;
-	TObjectRegisterer<TFont> m_DefaultLabelFontRegisterer;
+    // Fonts
+    TObjectRegisterer<TFont> m_HotMessageFontRegisterer;
+    TObjectRegisterer<TFont> m_DefaultLabelFontRegisterer;
 
-	// Sounds
-	TObjectRegisterer<TSound> m_HotMessageSoundRegisterer;
-	TObjectRegisterer<TSound> m_PushSoundRegisterer;
-	TObjectRegisterer<TSound> m_ClickSoundRegisterer;
+    // Sounds
+    TObjectRegisterer<TSound> m_HotMessageSoundRegisterer;
+    TObjectRegisterer<TSound> m_PushSoundRegisterer;
+    TObjectRegisterer<TSound> m_ClickSoundRegisterer;
 
-	// Hot message
-	KString		m_HotMessageText;
-	FPOINT		m_HotMessageCoords;
-	TD3DColor	m_HotMessageColor;
-	float		m_fHotMessageVisibilityDelay;
+    // Hot message
+    KString     m_HotMessageText;
+    FPOINT      m_HotMessageCoords;
+    TD3DColor   m_HotMessageColor;
+    float       m_fHotMessageVisibilityDelay;
 
-	// Hot pointers
-	struct THotPointerEntry
-	{
-		FPOINT					m_Coords;
-		THotPointerDirection	m_Direction;
-
-		
-		void Set(	const FPOINT&			SCoords,
-					THotPointerDirection	SDirection)
-		{
-			m_Coords	= SCoords;
-			m_Direction	= SDirection;
-		}
-	};
-
-	TArray<THotPointerEntry> m_HotPointers;
-
-	typedef
-		FLOAT_TIME_SEGMENTED_VALUE_MAPPER_INTERPOLATOR(float, TPersistentDstValueSetter<float>, TLinearSegmentValueMapper, 3)
-			THotMessageInterpolator;
-
-	THotMessageInterpolator m_HotMessageInterpolator;
-
-	// Interface
-	TControl* m_pMouseOwnerControl;
-	TControl* m_pFocusOwnerControl;
+    // Hot pointers
+    struct THotPointerEntry
+    {
+        FPOINT                  m_Coords;
+        THotPointerDirection    m_Direction;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
+        void Set(   const FPOINT&           SCoords,
+                    THotPointerDirection    SDirection)
+        {
+            m_Coords    = SCoords;
+            m_Direction = SDirection;
+        }
+    };
 
-	bool OnSuspend	();
-	bool OnResume	();
+    TArray<THotPointerEntry> m_HotPointers;
 
-	void OnUpdate();
-	
-	void OnPostRender(bool bFailureRollBack) const;
+    typedef
+        FLOAT_TIME_SEGMENTED_VALUE_MAPPER_INTERPOLATOR(float, TPersistentDstValueSetter<float>, TLinearSegmentValueMapper, 3)
+            THotMessageInterpolator;
 
-	void OnChangeMode();
+    THotMessageInterpolator m_HotMessageInterpolator;
 
-	FPOINT GetWindowedMouseCoords();
+    // Interface
+    TControl* m_pMouseOwnerControl;
+    TControl* m_pFocusOwnerControl;
 
-	void CenterMouseCursor();
-	
+
+    void OnUninitialize ();
+    void OnInitialize   ();
+
+    bool OnSuspend  ();
+    bool OnResume   ();
+
+    void OnUpdate();
+
+    void OnPostRender(bool bFailureRollBack) const;
+
+    void OnChangeMode();
+
+    FPOINT GetWindowedMouseCoords();
+
+    void CenterMouseCursor();
+
 public:
-	// Mouse pointer
-	bool m_bMousePointerVisible;
+    // Mouse pointer
+    bool m_bMousePointerVisible;
 
-	// Mouse data
-	FRECT	m_MouseRect;
-	FSIZE	m_MouseSensitivity;
-	FSIZE	m_MouseDelta;
-	FPOINT	m_MouseCoords;
-	FSIZE	m_MouseCoordsDelta;
+    // Mouse data
+    FRECT   m_MouseRect;
+    FSIZE   m_MouseSensitivity;
+    FSIZE   m_MouseDelta;
+    FPOINT  m_MouseCoords;
+    FSIZE   m_MouseCoordsDelta;
 
 
-	TInterfaceDeviceGlobals();
+    TInterfaceDeviceGlobals();
 
-	void SetMouseRect(const FRECT& SMouseRect);
+    void SetMouseRect(const FRECT& SMouseRect);
 
-	// Hot message
-	void RemoveHotMessage();
+    // Hot message
+    void RemoveHotMessage();
 
-	void SetHotMessage(	const KString&				MessageText,
-						const FPOINT&				MessageCoords,
-						const TD3DColor&			Color,
-						float						fVisibilityDelay,
-						const FRECT*				pPointerTargets,
-						const THotPointerDirection*	pPointerDirections,
-						size_t						szNPointers,
-						bool						bPlayDefaultSound = true);
+    void SetHotMessage( const KString&              MessageText,
+                        const FPOINT&               MessageCoords,
+                        const TD3DColor&            Color,
+                        float                       fVisibilityDelay,
+                        const FRECT*                pPointerTargets,
+                        const THotPointerDirection* pPointerDirections,
+                        size_t                      szNPointers,
+                        bool                        bPlayDefaultSound = true);
 
-	void SetHotMessage(	const KString&		MessageText,
-						const FPOINT&		MessageCoords,
-						const TD3DColor&	Color,
-						float				fVisibilityDelay,
-						bool				bPlayDefaultSound = true);
+    void SetHotMessage( const KString&      MessageText,
+                        const FPOINT&       MessageCoords,
+                        const TD3DColor&    Color,
+                        float               fVisibilityDelay,
+                        bool                bPlayDefaultSound = true);
 
-	void SetHotMessage(	const KString&			MessageText,
-						const FPOINT&			MessageCoords,
-						const TD3DColor&		Color,
-						float					fVisibilityDelay,
-						const FRECT&			PointerTarget,
-						THotPointerDirection	PointerDirection,
-						bool					bPlayDefaultSound = true);
+    void SetHotMessage( const KString&          MessageText,
+                        const FPOINT&           MessageCoords,
+                        const TD3DColor&        Color,
+                        float                   fVisibilityDelay,
+                        const FRECT&            PointerTarget,
+                        THotPointerDirection    PointerDirection,
+                        bool                    bPlayDefaultSound = true);
 
-	void SetHotMessage(	const KString&		MessageText,
-						const FPOINT&		MessageCoords,
-						const TD3DColor&	Color,
-						float				fVisibilityDelay,
-						const TControl*		pPointerTarget,
-						bool				bPlayDefaultSound = true);
+    void SetHotMessage( const KString&      MessageText,
+                        const FPOINT&       MessageCoords,
+                        const TD3DColor&    Color,
+                        float               fVisibilityDelay,
+                        const TControl*     pPointerTarget,
+                        bool                bPlayDefaultSound = true);
 
-	// Mouse ownership
-	bool IsMouseOwned() const;
+    // Mouse ownership
+    bool IsMouseOwned() const;
 
-	TControl* GetMouseOwnerControl();	
+    TControl* GetMouseOwnerControl();
 
-	TInterface* GetMouseOwnerInterface();
+    TInterface* GetMouseOwnerInterface();
 
-	void SetMouseOwnerControl(	TControl*	pControl,
-								bool		bCallMouseCaptureLostEvent);
+    void SetMouseOwnerControl(  TControl*   pControl,
+                                bool        bCallMouseCaptureLostEvent);
 
-	void InvalidateMouseOwnership(bool bCallMouseCaptureLostEvent);
+    void InvalidateMouseOwnership(bool bCallMouseCaptureLostEvent);
 
-	void InvalidateMouseOwnership(	TInterface*	pInterface,
-									bool		bCallMouseCaptureLostEvent);
+    void InvalidateMouseOwnership(  TInterface* pInterface,
+                                    bool        bCallMouseCaptureLostEvent);
 
-	void InvalidateMouseOwnership(	TControl*	pControl,
-									bool		bCallMouseCaptureLostEvent);
-	
-	// Focus ownership
-	bool IsFocusOwned() const;
+    void InvalidateMouseOwnership(  TControl*   pControl,
+                                    bool        bCallMouseCaptureLostEvent);
 
-	TControl* GetFocusOwnerControl();
+    // Focus ownership
+    bool IsFocusOwned() const;
 
-	TInterface* GetFocusOwnerInterface();
+    TControl* GetFocusOwnerControl();
 
-	void SetFocusOwnerControl(	TControl*	Control,
-								bool		bCallFocusLostEvent);
+    TInterface* GetFocusOwnerInterface();
 
-	void InvalidateFocusOwnership(bool bCallFocusLostEvent);
+    void SetFocusOwnerControl(  TControl*   Control,
+                                bool        bCallFocusLostEvent);
 
-	void InvalidateFocusOwnership(	TInterface*	pInterface,
-									bool		bCallFocusLostEvent);
+    void InvalidateFocusOwnership(bool bCallFocusLostEvent);
 
-	void InvalidateFocusOwnership(	TControl*	pControl,
-									bool		bCallFocusLostEvent);
+    void InvalidateFocusOwnership(  TInterface* pInterface,
+                                    bool        bCallFocusLostEvent);
 
-	// Messages
-	TMessageIterator GetFirstInputMessage();
+    void InvalidateFocusOwnership(  TControl*   pControl,
+                                    bool        bCallFocusLostEvent);
+
+    // Messages
+    TMessageIterator GetFirstInputMessage();
 };
 
 extern TInterfaceDeviceGlobals g_InterfaceDeviceGlobals;

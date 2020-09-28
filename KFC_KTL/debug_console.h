@@ -8,8 +8,8 @@ void CreateDebugConsole();
 
 #ifdef _MSC_VER
 
-void DebugConsolePause(	LPCTSTR	pMessage	= TEXT("Press any key to continue..."),
-						bool	bFlushFirst	= false);
+void DebugConsolePause( LPCTSTR pMessage    = TEXT("Press any key to continue..."),
+                        bool    bFlushFirst = false);
 
 #else // _MSC_VER
 

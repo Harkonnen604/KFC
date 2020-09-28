@@ -8,11 +8,11 @@
 // ------------------------------
 struct TDummyControlCreationStruct : public TControlCreationStruct
 {
-	TDummyControlCreationStruct();
+    TDummyControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 };
 
 // --------------
@@ -21,12 +21,12 @@ struct TDummyControlCreationStruct : public TControlCreationStruct
 class TDummyControl : public TControl
 {
 public:
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
 
-	TDummyControl(const TDummyControlCreationStruct& CreationStruct);
+    TDummyControl(const TDummyControlCreationStruct& CreationStruct);
 };
 
 #endif // dummy_control_h

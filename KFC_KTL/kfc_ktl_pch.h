@@ -2,28 +2,28 @@
 #define kfc_ktl_pch_h
 
 #ifdef _MSC_VER
-	#pragma warning( disable : 4091 4345 4800 4996 )
+    #pragma warning( disable : 4091 4345 4800 4996 )
 #endif // _MSC_VER
 
 #ifdef _DEBUG
-	#define _DEVELOP
+    #define _DEVELOP
 #endif // _DEBUG
 
-#define WTEXT(s)	L##s
+#define WTEXT(s)    L##s
 
 #include "basic_macros.h"
 
 #ifdef _MSC_VER
 
-	#define COM_STDMETHOD_CAN_THROW
+    #define COM_STDMETHOD_CAN_THROW
 
-/*	#if WINVER < 0x500
-		#define WINVER			(0x0500)
-		#define _WIN32_WINDOWS	(0x0500)
-		#define _WIN32_WINNT	(0x0500)
-	#endif // WINVER
+/*  #if WINVER < 0x500
+        #define WINVER          (0x0500)
+        #define _WIN32_WINDOWS  (0x0500)
+        #define _WIN32_WINNT    (0x0500)
+    #endif // WINVER
 
-	#define _WIN32_DCOM*/
+    #define _WIN32_DCOM*/
 
 #endif // _MSC_VER
 
@@ -39,21 +39,21 @@
 using namespace std;
 
 #ifdef _MSC_VER
-	#include <conio.h>
-	#include <tchar.h>
-	#include <process.h>
+    #include <conio.h>
+    #include <tchar.h>
+    #include <process.h>
 #else // _MSC_VER
-	#include <unistd.h>
-	#include <dirent.h>
-	#include <pthread.h>
-	#include <wchar.h>
-	#include <sys/types.h>
-	#include <sys/stat.h>
-	#include <sys/time.h>
-	#include <sys/mman.h>
-	#include <sys/file.h>
-	#include <netinet/tcp.h>
-	#include <netinet/udp.h>
+    #include <unistd.h>
+    #include <dirent.h>
+    #include <pthread.h>
+    #include <wchar.h>
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <sys/time.h>
+    #include <sys/mman.h>
+    #include <sys/file.h>
+    #include <netinet/tcp.h>
+    #include <netinet/udp.h>
 #endif // _MSC_VER
 
 #include <limits.h>
@@ -65,7 +65,7 @@ using namespace std;
 
 #ifdef _MSC_VER
 #ifdef _DEBUG
-	#include <crtdbg.h>
+    #include <crtdbg.h>
 #endif // _DEBUG
 #endif // _MSC_VER
 

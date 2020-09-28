@@ -11,14 +11,14 @@
 class T_DB_DeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	T_DB_Environment m_Environment;
+    T_DB_Environment m_Environment;
 
 public:
-	T_DB_DeviceGlobals();
+    T_DB_DeviceGlobals();
 };
 
 extern T_DB_DeviceGlobals g_DB_DeviceGlobals;

@@ -9,11 +9,11 @@
 class TConsts
 {
 protected:
-	TConsts() {}
+    TConsts() {}
 
 public:
-	// Registry
-	KString m_RegistryKeyName;
+    // Registry
+    KString m_RegistryKeyName;
 };
 
 #endif // consts_h

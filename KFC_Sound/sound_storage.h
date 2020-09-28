@@ -6,28 +6,28 @@
 #include "sound.h"
 #include "sound_defs.h"
 
-#define SOUNDS_FACTORY					(g_SoundStorage.m_Factory)
-#define SOUNDS_REGISTRATION_MANAGER		(g_SoundStorage.m_RegistrationManager)
+#define SOUNDS_FACTORY                  (g_SoundStorage.m_Factory)
+#define SOUNDS_REGISTRATION_MANAGER     (g_SoundStorage.m_RegistrationManager)
 
 // --------------
 // Sound storage
 // --------------
-class TSoundStorage :	public TGlobals,
-						public TStorage<TSound>
+class TSoundStorage :   public TGlobals,
+                        public TStorage<TSound>
 {
 private:
-	TFactoryTypesRegisterer<TSound> m_SystemSoundTypesRegisterer;
+    TFactoryTypesRegisterer<TSound> m_SystemSoundTypesRegisterer;
 
 
-	void OnInitialize	();
-	void OnUninitialize	();
+    void OnInitialize   ();
+    void OnUninitialize ();
 
-	void LoadByDirectValue(	const KString&			FileName,
-							TObjectPointer<TSound>&	RObject,
-							bool					bOmittable);
+    void LoadByDirectValue( const KString&          FileName,
+                            TObjectPointer<TSound>& RObject,
+                            bool                    bOmittable);
 
 public:
-	TSoundStorage();
+    TSoundStorage();
 };
 
 extern TSoundStorage g_SoundStorage;

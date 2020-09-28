@@ -9,23 +9,23 @@
 class TRandomGlobals : public TGlobals
 {
 private:
-	void OnInitialize	();
-	void OnUninitialize	();
+    void OnInitialize   ();
+    void OnUninitialize ();
 
 public:
-	TRandomGlobals();
+    TRandomGlobals();
 
-	int GenerateRandomInt(const ISEGMENT& Segment);
+    int GenerateRandomInt(const ISEGMENT& Segment);
 
-	size_t GenerateRandomUINT(const SZSEGMENT& Segment);
+    size_t GenerateRandomUINT(const SZSEGMENT& Segment);
 
-	size_t GenerateRandomUINT(size_t szMax)
-		{ return GenerateRandomUINT(SZSEGMENT(0, szMax)); }
+    size_t GenerateRandomUINT(size_t szMax)
+        { return GenerateRandomUINT(SZSEGMENT(0, szMax)); }
 
-	float GenerateRandomFloat(	const FSEGMENT&	Segment,
-								size_t			szAccuracy = 16384);
+    float GenerateRandomFloat(  const FSEGMENT& Segment,
+                                size_t          szAccuracy = 16384);
 
-	bool GenerateRandomBool(float fProbability = 0.5f);
+    bool GenerateRandomBool(float fProbability = 0.5f);
 };
 
 extern TRandomGlobals g_RandomGlobals;

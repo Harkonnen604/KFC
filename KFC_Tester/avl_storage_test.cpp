@@ -5,109 +5,109 @@
 
 struct tq_avl
 {
-	size_t a;
-	double v;
+    size_t a;
+    double v;
 
-	int n;
+    int n;
 
-	tq_avl(size_t sa) : a(sa) {}
+    tq_avl(size_t sa) : a(sa) {}
 
-	~tq_avl() { a = 3; }
+    ~tq_avl() { a = 3; }
 };
 
 typedef T_AVL_Storage<tq_avl> tstg;
 
 inline int Compare(const tq_avl& v1, size_t v2)
-	{ return Compare(v1.a, v2); }
+    { return Compare(v1.a, v2); }
 
 static void update(tstg::TIterator it)
 {
-	it->n =	(it.GetLeft ().IsValid() ? it.GetLeft ()->n : 0) +
-			(it.GetRight().IsValid() ? it.GetRight()->n : 0) + 1;
+    it->n = (it.GetLeft ().IsValid() ? it.GetLeft ()->n : 0) +
+            (it.GetRight().IsValid() ? it.GetRight()->n : 0) + 1;
 }
 
 void TestAVL_StorageInst()
 {
-	tstg stg(update);
-	tstg stg2;
-	const tstg cstg;
+    tstg stg(update);
+    tstg stg2;
+    const tstg cstg;
 
-	tstg::TIterator it;
-	tstg::TConstIterator cit;
+    tstg::TIterator it;
+    tstg::TConstIterator cit;
 
-	it = tstg::TIterator(NULL);
+    it = tstg::TIterator(NULL);
 
-	it.IsValid();
-	it.Invalidate();
+    it.IsValid();
+    it.Invalidate();
 
-	(*it).a = 3;
-	it->a = 2;
+    (*it).a = 3;
+    it->a = 2;
 
-	it.GetLeft();
-	it.GetRight();
-	it.GetParent();
-	it.GetPrev();
-	it.GetNext();
+    it.GetLeft();
+    it.GetRight();
+    it.GetParent();
+    it.GetPrev();
+    it.GetNext();
 
-	it.ToLeft();
-	it.ToRight();
-	it.ToParent();
-	it.ToPrev();
-	it.ToNext();
+    it.ToLeft();
+    it.ToRight();
+    it.ToParent();
+    it.ToPrev();
+    it.ToNext();
 
-	++it, --it, it++, it--;
+    ++it, --it, it++, it--;
 
-	it.GetH();
+    it.GetH();
 
-	if((*cit).a == 3) {}
-	if(cit->a == 2) {}
+    if((*cit).a == 3) {}
+    if(cit->a == 2) {}
 
-	cit.GetLeft();
-	cit.GetRight();
-	cit.GetParent();
-	cit.GetPrev();
-	cit.GetNext();
+    cit.GetLeft();
+    cit.GetRight();
+    cit.GetParent();
+    cit.GetPrev();
+    cit.GetNext();
 
-	cit.ToLeft();
-	cit.ToRight();
-	cit.ToParent();
-	cit.ToPrev();
-	cit.ToNext();
+    cit.ToLeft();
+    cit.ToRight();
+    cit.ToParent();
+    cit.ToPrev();
+    cit.ToNext();
 
-	++cit, --cit, cit++, cit--;
+    ++cit, --cit, cit++, cit--;
 
-	cit.GetH();
+    cit.GetH();
 
-	stg.Clear();
+    stg.Clear();
 
-	stg.Find(2);
-	cstg.Find(2);
+    stg.Find(2);
+    cstg.Find(2);
 
-	stg.FindFirst(2);
-	cstg.FindFirst(2);
+    stg.FindFirst(2);
+    cstg.FindFirst(2);
 
-	stg.FindLast(2);
-	cstg.FindLast(2);
+    stg.FindLast(2);
+    cstg.FindLast(2);
 
-	cstg.Has(2);
+    cstg.Has(2);
 
-	stg.GetRoot();
-	stg.GetFirst();
-	stg.GetLast();
+    stg.GetRoot();
+    stg.GetFirst();
+    stg.GetLast();
 
-	cstg.GetRoot();
-	cstg.GetFirst();
-	cstg.GetLast();
-	
-	stg.Add(2);
+    cstg.GetRoot();
+    cstg.GetFirst();
+    cstg.GetLast();
 
-	stg.Del(it);
+    stg.Add(2);
 
-	stg.Upd(it);
+    stg.Del(it);
 
-	cstg.IsEmpty();
-	cstg.GetN();
-	cstg.GetH();
+    stg.Upd(it);
+
+    cstg.IsEmpty();
+    cstg.GetN();
+    cstg.GetH();
 }
 
 #include <KFC_KTL/growable_allocator.h>
@@ -117,102 +117,102 @@ void TestAVL_StorageInst()
 // ----------------
 void Test_AVL_Storage()
 {
-	puts("Testing AVL storage...");
+    puts("Testing AVL storage...");
 
-	{
-		tstg stg(update);
+    {
+        tstg stg(update);
 
-		const tstg& cstg = stg;
+        const tstg& cstg = stg;
 
-		int nt = 0;
+        int nt = 0;
 
-		for(int q=4*1024;q;q--)	
-		{
-			tassert((int)stg.GetN() == nt);
+        for(int q=4*1024;q;q--)
+        {
+            tassert((int)stg.GetN() == nt);
 
-			if(rand() % 100 == 0)
-			{
-				if(stg.IsEmpty())
-				{
-					tassert(stg.GetH() == 0);
-				}
-				else
-				{
-					tstg::TIterator it;
-					tstg::TConstIterator cit;
+            if(rand() % 100 == 0)
+            {
+                if(stg.IsEmpty())
+                {
+                    tassert(stg.GetH() == 0);
+                }
+                else
+                {
+                    tstg::TIterator it;
+                    tstg::TConstIterator cit;
 
-					for(it = ++stg.GetFirst() ; it.IsValid() ; ++it)
-						tassert(it.GetPrev()->a <= it->a);
+                    for(it = ++stg.GetFirst() ; it.IsValid() ; ++it)
+                        tassert(it.GetPrev()->a <= it->a);
 
-					for(it = --stg.GetLast() ; it.IsValid() ; --it)
-						tassert(it.GetNext()->a >= it->a);
+                    for(it = --stg.GetLast() ; it.IsValid() ; --it)
+                        tassert(it.GetNext()->a >= it->a);
 
-					for(cit = ++cstg.GetFirst() ; cit.IsValid() ; ++cit)
-						tassert(cit.GetPrev()->a <= cit->a);
+                    for(cit = ++cstg.GetFirst() ; cit.IsValid() ; ++cit)
+                        tassert(cit.GetPrev()->a <= cit->a);
 
-					for(cit = --cstg.GetLast() ; cit.IsValid() ; --cit)
-						tassert(cit.GetNext()->a >= cit->a);
-					
-					int amt[32];
-					int tamt = 0;
-					memset(amt, 0, sizeof(amt));
+                    for(cit = --cstg.GetLast() ; cit.IsValid() ; --cit)
+                        tassert(cit.GetNext()->a >= cit->a);
 
-					for(it = stg.GetFirst() ; it.IsValid() ; ++it)
-						amt[it->a]++, tamt++;
+                    int amt[32];
+                    int tamt = 0;
+                    memset(amt, 0, sizeof(amt));
 
-					tassert(tamt == nt);
+                    for(it = stg.GetFirst() ; it.IsValid() ; ++it)
+                        amt[it->a]++, tamt++;
 
-					size_t i;
+                    tassert(tamt == nt);
 
-					for(i=0;i<32;i++)
-					{
-						if(amt[i])
-						{
-							tassert(cstg.Has(i));
-							tstg::TConstIterator cit = cstg.Find(i);
-							tassert(cit.IsValid() && cit->a == i);
-						}
-						else
-						{
-							tassert(!cstg.Has(i));
-						}
+                    size_t i;
 
-						int v;
+                    for(i=0;i<32;i++)
+                    {
+                        if(amt[i])
+                        {
+                            tassert(cstg.Has(i));
+                            tstg::TConstIterator cit = cstg.Find(i);
+                            tassert(cit.IsValid() && cit->a == i);
+                        }
+                        else
+                        {
+                            tassert(!cstg.Has(i));
+                        }
 
-						for(v = 0, cit = stg.FindFirst(i) ; cit.IsValid() && cit->a == i ; ++cit, v++);
-						tassert(v == amt[i]);
+                        int v;
 
-						for(v = 0, cit = stg.FindLast(i) ; cit.IsValid() && cit->a == i ; --cit, v++);
-						tassert(v == amt[i]);
-					}
-				}
-			}
+                        for(v = 0, cit = stg.FindFirst(i) ; cit.IsValid() && cit->a == i ; ++cit, v++);
+                        tassert(v == amt[i]);
 
-			size_t v = rand() % 32;
+                        for(v = 0, cit = stg.FindLast(i) ; cit.IsValid() && cit->a == i ; --cit, v++);
+                        tassert(v == amt[i]);
+                    }
+                }
+            }
 
-			if(!stg.IsEmpty() && rand() % 2)
-			{
-				tstg::TIterator it = stg.Find(v);
+            size_t v = rand() % 32;
 
-				if(it.IsValid())
-					stg.Del(it), nt--;
-			}
-			else
-			{
-				tstg::TIterator it = stg.Add(v);
+            if(!stg.IsEmpty() && rand() % 2)
+            {
+                tstg::TIterator it = stg.Find(v);
 
-				nt++;
+                if(it.IsValid())
+                    stg.Del(it), nt--;
+            }
+            else
+            {
+                tstg::TIterator it = stg.Add(v);
 
-				tassert(it->a == v);
-			}
+                nt++;
 
-			tassert((stg.IsEmpty() ? 0 : stg.GetRoot()->n) == nt);
+                tassert(it->a == v);
+            }
 
-			tassert(nt <= (1 << (2*stg.GetH())));
-		}
+            tassert((stg.IsEmpty() ? 0 : stg.GetRoot()->n) == nt);
 
-		stg. Clear();
-	}
+            tassert(nt <= (1 << (2*stg.GetH())));
+        }
 
-	puts("Done");
+        stg. Clear();
+    }
+
+    puts("Done");
 }

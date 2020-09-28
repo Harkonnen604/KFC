@@ -6,10 +6,10 @@
 // --------------
 HINSTANCE TSimpleDialog::GetInstance() const
 {
-	return m_hInstance;
+    return m_hInstance;
 }
 
 int TSimpleDialog::GetTemplateID() const
 {
-	return m_iTemplateID;
+    return m_iTemplateID;
 }

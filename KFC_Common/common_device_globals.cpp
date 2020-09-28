@@ -17,47 +17,47 @@ TCommonDeviceGlobals::TCommonDeviceGlobals() : TGlobals(TEXT("Common device glob
 
 void TCommonDeviceGlobals::OnUninitialize()
 {
-	#ifdef _MSC_VER
-	{
-		g_pCOM_GIT.Release();
+    #ifdef _MSC_VER
+    {
+        g_pCOM_GIT.Release();
 
-		m_COM_Initializer.Release();
+        m_COM_Initializer.Release();
 
-		m_COM_Initializer.Release();
-	}
-	#endif // _MSC_VER
+        m_COM_Initializer.Release();
+    }
+    #endif // _MSC_VER
 
-	#ifdef _MSC_VER
-	{
-		m_MsgBoxesEvent.Release();
-	}
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+    {
+        m_MsgBoxesEvent.Release();
+    }
+    #endif // _MSC_VER
 
-	TFileTableTLS_Item::Free();
+    TFileTableTLS_Item::Free();
 
-	TCommonTLS_Item::FreeItemType();
+    TCommonTLS_Item::FreeItemType();
 }
 
 void TCommonDeviceGlobals::OnInitialize()
 {
-	TCommonTLS_Item::ReserveItemType();
+    TCommonTLS_Item::ReserveItemType();
 
-	TFileTableTLS_Item::Reserve();
+    TFileTableTLS_Item::Reserve();
 
-	#ifdef _MSC_VER
-	{
-		KFC_VERIFY(!(g_CommonConsts.m_bInitOLE && g_CommonConsts.m_bInitCOM));
+    #ifdef _MSC_VER
+    {
+        KFC_VERIFY(!(g_CommonConsts.m_bInitOLE && g_CommonConsts.m_bInitCOM));
 
-		if(g_CommonConsts.m_bInitOLE)
-			m_OLE_Initializer.Allocate();
+        if(g_CommonConsts.m_bInitOLE)
+            m_OLE_Initializer.Allocate();
 
-		if(g_CommonConsts.m_bInitCOM)
-			m_COM_Initializer.Allocate(g_CommonConsts.m_flCOM_Init);
+        if(g_CommonConsts.m_bInitCOM)
+            m_COM_Initializer.Allocate(g_CommonConsts.m_flCOM_Init);
 
-		if(g_CommonConsts.m_bInitCOM_GIT)
-			g_pCOM_GIT.CreateObject(CLSID_StdGlobalInterfaceTable, IID_IGlobalInterfaceTable);
-	}
-	#endif // _MSC_VER
+        if(g_CommonConsts.m_bInitCOM_GIT)
+            g_pCOM_GIT.CreateObject(CLSID_StdGlobalInterfaceTable, IID_IGlobalInterfaceTable);
+    }
+    #endif // _MSC_VER
 
-	m_MsgBoxesEvent.Allocate(true, true);
+    m_MsgBoxesEvent.Allocate(true, true);
 }

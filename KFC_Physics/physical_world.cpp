@@ -8,49 +8,49 @@
 // ---------------
 TPhysicalWorld::TPhysicalWorld()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TPhysicalWorld::Release()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_Objects.Clear();
+    m_Objects.Clear();
 }
 
 void TPhysicalWorld::Allocate(double dSCurTime)
 {
-	Release();
+    Release();
 
-	m_dCurTime = dSCurTime;
+    m_dCurTime = dSCurTime;
 
-	m_bAllocated = true;
+    m_bAllocated = true;
 }
 
 void TPhysicalWorld::ResetTime(double dSCurTime)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_dCurTime = dSCurTime;
+    m_dCurTime = dSCurTime;
 }
 
 double TPhysicalWorld::Update()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	// {{{ perform time-subdivision here
+    // {{{ perform time-subdivision here
 
-	double dStepTime = g_PhysicsCfg.m_dInitialTickTime;
+    double dStepTime = g_PhysicsCfg.m_dInitialTickTime;
 
-	TObjects::TIterator Iter;
-	
-	for(Iter = m_Objects.GetFirst() ; Iter.IsValid() ; ++Iter)
-		(*Iter)->BeginFrame();
+    TObjects::TIterator Iter;
 
-	for(Iter = m_Objects.GetFirst() ; Iter.IsValid() ; ++Iter)
-		(*Iter)->EndFrame(dStepTime);
+    for(Iter = m_Objects.GetFirst() ; Iter.IsValid() ; ++Iter)
+        (*Iter)->BeginFrame();
 
-	m_dCurTime += dStepTime;
+    for(Iter = m_Objects.GetFirst() ; Iter.IsValid() ; ++Iter)
+        (*Iter)->EndFrame(dStepTime);
 
-	return m_dCurTime;
+    m_dCurTime += dStepTime;
+
+    return m_dCurTime;
 }

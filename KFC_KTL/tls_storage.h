@@ -9,49 +9,49 @@
 class T_TLS_Storage
 {
 public:
-	// Item
-	struct TItem
-	{
-		// Creator
-		typedef TItem* TCreator();
+    // Item
+    struct TItem
+    {
+        // Creator
+        typedef TItem* TCreator();
 
 
-		virtual ~TItem() {}
-	};
-
-private:
-	// Thread chain
-	typedef TArray< TPtrHolder<TItem> > TThreadChain;
-
-	// Thread chains
-	typedef TList<TThreadChain> TThreadChains;
+        virtual ~TItem() {}
+    };
 
 private:
-	mutable TCriticalSection m_AccessCS;
+    // Thread chain
+    typedef TArray< TPtrHolder<TItem> > TThreadChain;
 
-	size_t m_szTLSIndex;
+    // Thread chains
+    typedef TList<TThreadChain> TThreadChains;
 
-	TArray<TItem::TCreator*, true> m_ItemCreators;
+private:
+    mutable TCriticalSection m_AccessCS;
 
-	mutable TThreadChains m_ThreadChains;
+    size_t m_szTLSIndex;
 
-	size_t m_sz_KTL_TLS_Index;
+    TArray<TItem::TCreator*, true> m_ItemCreators;
+
+    mutable TThreadChains m_ThreadChains;
+
+    size_t m_sz_KTL_TLS_Index;
 
 public:
-	T_TLS_Storage();
+    T_TLS_Storage();
 
-	~T_TLS_Storage();
+    ~T_TLS_Storage();
 
-	void CleanThreadChain();
+    void CleanThreadChain();
 
-	void FreeItemType(size_t& szIndex);
+    void FreeItemType(size_t& szIndex);
 
-	size_t ReserveItemType(TItem::TCreator* pCreator);	
+    size_t ReserveItemType(TItem::TCreator* pCreator);
 
-	TItem& GetItem(size_t szIndex) const;
+    TItem& GetItem(size_t szIndex) const;
 
-	TItem& operator [] (size_t szIndex) const
-		{ return GetItem(szIndex); }	
+    TItem& operator [] (size_t szIndex) const
+        { return GetItem(szIndex); }
 };
 
 extern T_TLS_Storage g_TLS_Storage;

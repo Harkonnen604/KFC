@@ -9,17 +9,17 @@
 // -------------
 TD3DMaterial& TD3DMaterial::SetDefaults()
 {
-	m_DiffuseColor	= WhiteColor(0);
-	m_AmbientColor	= WhiteColor(0);
-	m_SpecularColor	= BlackColor(0);
-	m_EmissiveColor	= BlackColor(0);
+    m_DiffuseColor  = WhiteColor(0);
+    m_AmbientColor  = WhiteColor(0);
+    m_SpecularColor = BlackColor(0);
+    m_EmissiveColor = BlackColor(0);
 
-	m_fPower = 0.0f;
+    m_fPower = 0.0f;
 
-	return *this;
+    return *this;
 }
 
 void TD3DMaterial::Install() const
 {
-	g_GraphicsStateManager.SetMaterial(*this);
+    g_GraphicsStateManager.SetMaterial(*this);
 }

@@ -6,30 +6,30 @@
 // ---------------------
 TFontCreationStruct::TFontCreationStruct()
 {
-	m_Color = WhiteColor();
-	
-	m_CharSpacing.Set(0.0f, 0.0f);
+    m_Color = WhiteColor();
+
+    m_CharSpacing.Set(0.0f, 0.0f);
 }
 
 void TFontCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 {
-	TInfoParameterConstIterator PIter;
+    TInfoParameterConstIterator PIter;
 
-	// Geting color
-	if((PIter = InfoNode->FindParameter(TEXT("Color"))).IsValid())
-	{
-		ReadColor(	PIter->m_Value,
-					m_Color,
-					TEXT("font color"));
-	}
+    // Geting color
+    if((PIter = InfoNode->FindParameter(TEXT("Color"))).IsValid())
+    {
+        ReadColor(  PIter->m_Value,
+                    m_Color,
+                    TEXT("font color"));
+    }
 
-	// Getting character spacing
-	if((PIter = InfoNode->FindParameter(TEXT("CharSpacing"))).IsValid())
-	{
-		ReadBiTypeValue(PIter->m_Value,
-						m_CharSpacing,
-						TEXT("font character spacing"));
-	}
+    // Getting character spacing
+    if((PIter = InfoNode->FindParameter(TEXT("CharSpacing"))).IsValid())
+    {
+        ReadBiTypeValue(PIter->m_Value,
+                        m_CharSpacing,
+                        TEXT("font character spacing"));
+    }
 }
 
 // -----
@@ -37,86 +37,86 @@ void TFontCreationStruct::Load(TInfoNodeConstIterator InfoNode)
 // -----
 TFont::TFont()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TFont::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated =  false;
-	}
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated =  false;
+    }
 }
 
-void TFont::Allocate(	const TFontCreationStruct&	CreationStruct,
-						const FSIZE*				SCharSizes,
-						const FSIZE&				SMaxCharSize)
+void TFont::Allocate(   const TFontCreationStruct&  CreationStruct,
+                        const FSIZE*                SCharSizes,
+                        const FSIZE&                SMaxCharSize)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_Color = CreationStruct.m_Color;
+    try
+    {
+        m_Color = CreationStruct.m_Color;
 
-		m_CharSpacing = CreationStruct.m_CharSpacing;
+        m_CharSpacing = CreationStruct.m_CharSpacing;
 
-		memcpy(m_CharSizes, SCharSizes, sizeof(m_CharSizes));
-		m_MaxCharSize = SMaxCharSize;
+        memcpy(m_CharSizes, SCharSizes, sizeof(m_CharSizes));
+        m_MaxCharSize = SMaxCharSize;
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 void TFont::GetTextSize(const KString& Text, FSIZE& RSize) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	RSize.Set(0, 0);
+    RSize.Set(0, 0);
 
-	float fRowSize = 0.0f;
+    float fRowSize = 0.0f;
 
-	for(size_t i = 0 ; i < Text.GetLength() ; i++)
-	{
-		if(KString::IsSpecChar(Text[i]))
-		{
-			if(Text[i] == TEXT('\n'))
-			{
-				if(fRowSize > RSize.cx)
-					RSize.cx = fRowSize;
+    for(size_t i = 0 ; i < Text.GetLength() ; i++)
+    {
+        if(KString::IsSpecChar(Text[i]))
+        {
+            if(Text[i] == TEXT('\n'))
+            {
+                if(fRowSize > RSize.cx)
+                    RSize.cx = fRowSize;
 
-				RSize.cy += m_MaxCharSize.cy;
+                RSize.cy += m_MaxCharSize.cy;
 
-				fRowSize = 0.0f;
-			}
+                fRowSize = 0.0f;
+            }
 
-			continue;
-		}
+            continue;
+        }
 
-		if(fRowSize > 0.0f)
-			fRowSize += m_CharSpacing.cx, RSize.cy += m_CharSpacing.cy;
+        if(fRowSize > 0.0f)
+            fRowSize += m_CharSpacing.cx, RSize.cy += m_CharSpacing.cy;
 
-		fRowSize += m_CharSizes[(BYTE)Text[i]].cx;
-	}
+        fRowSize += m_CharSizes[(BYTE)Text[i]].cx;
+    }
 
-	// Last char width
-	if(fRowSize > RSize.cx)
-		RSize.cx = fRowSize;
+    // Last char width
+    if(fRowSize > RSize.cx)
+        RSize.cx = fRowSize;
 
-	// Last char height
-	if(!Text.IsEmpty())
-		RSize.cy += m_MaxCharSize.cy;
+    // Last char height
+    if(!Text.IsEmpty())
+        RSize.cy += m_MaxCharSize.cy;
 }
 
 FSIZE TFont::GetTextSize(const KString& Text) const
 {
-	FSIZE Size;
-	GetTextSize(Text, Size);
+    FSIZE Size;
+    GetTextSize(Text, Size);
 
-	return Size;
+    return Size;
 }

@@ -6,9 +6,9 @@
 // ----------------
 inline LPCTSTR getenv_safe(LPCTSTR pName)
 {
-	LPCTSTR p = _tgetenv(pName);
+    LPCTSTR p = _tgetenv(pName);
 
-	return p ? p : TEXT("");
+    return p ? p : TEXT("");
 }
 
 #endif // kfc_env_h

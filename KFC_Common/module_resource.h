@@ -9,38 +9,38 @@
 class TModuleResource
 {
 private:
-	HMODULE m_hModule;
+    HMODULE m_hModule;
 
-	HRSRC m_hResource;
+    HRSRC m_hResource;
 
 public:
-	TModuleResource();
-	
-	TModuleResource(HMODULE	hSModule,
-					LPCTSTR	pType,
-					LPCTSTR	pName,
-					WORD	wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
+    TModuleResource();
 
-	~TModuleResource()
-		{ Release(); }
+    TModuleResource(HMODULE hSModule,
+                    LPCTSTR pType,
+                    LPCTSTR pName,
+                    WORD    wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
 
-	bool IsAllocated() const
-		{ return m_hResource; }
+    ~TModuleResource()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_hResource; }
 
-	void Allocate(	HMODULE	hSModule,
-					LPCTSTR	pType,
-					LPCTSTR	pName,
-					WORD	wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
+    void Release();
 
-	size_t GetSize() const;
+    void Allocate(  HMODULE hSModule,
+                    LPCTSTR pType,
+                    LPCTSTR pName,
+                    WORD    wLanguage = MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL));
 
-	const void* GetDataPtr() const;
+    size_t GetSize() const;
 
-	HRSRC GetResource() const;
+    const void* GetDataPtr() const;
 
-	operator HRSRC () const { return GetResource(); }
+    HRSRC GetResource() const;
+
+    operator HRSRC () const { return GetResource(); }
 };
 
 #endif // _MSC_VER

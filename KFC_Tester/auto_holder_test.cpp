@@ -8,21 +8,21 @@
 // ----------------
 void TestPtrAutoHolder()
 {
-	puts("Testing ptr auto holder...");
+    puts("Testing ptr auto holder...");
 
-	puts("Done");
+    puts("Done");
 }
 
 void TestListAutoHolder()
 {
-	puts("Testing list auto holder...");
+    puts("Testing list auto holder...");
 
-	puts("Done");
+    puts("Done");
 }
 
 void TestAVL_StorageAutoHolder()
 {
-	puts("Testing AVL storage auto holder...");
+    puts("Testing AVL storage auto holder...");
 
-	puts("Done");
+    puts("Done");
 }

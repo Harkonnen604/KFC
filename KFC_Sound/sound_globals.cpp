@@ -17,12 +17,12 @@ TSoundGlobals g_SoundGlobals;
 // --------------
 TSoundGlobals::TSoundGlobals() : TModuleGlobals(TEXT("Sound globals"))
 {
-	AddSubGlobals(g_KTLGlobals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_WindowsGlobals);
-	AddSubGlobals(g_SoundCfg);
-	AddSubGlobals(g_SoundInitials);
-	AddSubGlobals(g_SoundTokens);
-	AddSubGlobals(g_SoundDeviceGlobals);
-	AddSubGlobals(g_SoundStorage);
+    AddSubGlobals(g_KTLGlobals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_WindowsGlobals);
+    AddSubGlobals(g_SoundCfg);
+    AddSubGlobals(g_SoundInitials);
+    AddSubGlobals(g_SoundTokens);
+    AddSubGlobals(g_SoundDeviceGlobals);
+    AddSubGlobals(g_SoundStorage);
 }

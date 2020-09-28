@@ -16,30 +16,30 @@
 class TVisualModelBase
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	bool m_bDynamic;
-	
+    bool m_bDynamic;
+
 protected:
-	void Allocate(bool bSDynamic);
+    void Allocate(bool bSDynamic);
 
 public:
-	TVisualModelBase();
+    TVisualModelBase();
 
-	virtual ~TVisualModelBase()
-		{ Release(); }
+    virtual ~TVisualModelBase()
+        { Release(); }
 
-	virtual bool IsAllocated() const
-		{ return m_bAllocated; }
+    virtual bool IsAllocated() const
+        { return m_bAllocated; }
 
-	virtual void Release();
+    virtual void Release();
 
-	virtual void SetVertices(const TMesh& SMesh) = 0;
+    virtual void SetVertices(const TMesh& SMesh) = 0;
 
-	virtual void Render() const = 0;	
+    virtual void Render() const = 0;
 
-	bool IsDynamic() const
-		{ DEBUG_VERIFY_LOCAL_ALLOCATION(TVisualModelBase); return m_bDynamic; }
+    bool IsDynamic() const
+        { DEBUG_VERIFY_LOCAL_ALLOCATION(TVisualModelBase); return m_bDynamic; }
 };
 
 // -----------------
@@ -49,209 +49,209 @@ template <class vt, class it>
 class TFVFVisualModel : public TVisualModelBase
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TD3DStateBlockNode m_StateBlockNode;
+    TD3DStateBlockNode m_StateBlockNode;
 
-	size_t m_szNVertices;
-	size_t m_szNFaces;
+    size_t m_szNVertices;
+    size_t m_szNFaces;
 
 public:
-	typedef vt TVertex;
+    typedef vt TVertex;
 
-	typedef it TIndex;
-
-
-	TFVFVertexBuffer<vt> m_VertexBuffer;
-
-	TIndexBuffer<it> m_IndexBuffer;
+    typedef it TIndex;
 
 
-	TFVFVisualModel();
+    TFVFVertexBuffer<vt> m_VertexBuffer;
 
-	~TFVFVisualModel()
-		{ Release(); }
+    TIndexBuffer<it> m_IndexBuffer;
 
-	bool IsAllocated() const
-		{ return TVisualModelBase::IsAllocated() && m_bAllocated; }
 
-	void Release();
+    TFVFVisualModel();
 
-	void Allocate(	const TMesh&				Mesh,
-					bool						bSDynamic,
-					const TD3DStateBlockNode&	ParentStateBlockNode,
-					const TTextureMapper*		pTextureMappers		= NULL,
-					size_t						szNTextureMappers	= 0);
+    ~TFVFVisualModel()
+        { Release(); }
 
-	void SetVertices(const TMesh& SMesh);
+    bool IsAllocated() const
+        { return TVisualModelBase::IsAllocated() && m_bAllocated; }
 
-	void Render() const;
+    void Release();
 
-	size_t GetNVertices() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_szNVertices; }
+    void Allocate(  const TMesh&                Mesh,
+                    bool                        bSDynamic,
+                    const TD3DStateBlockNode&   ParentStateBlockNode,
+                    const TTextureMapper*       pTextureMappers     = NULL,
+                    size_t                      szNTextureMappers   = 0);
 
-	size_t GetNFaces() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_szNFaces; }	
+    void SetVertices(const TMesh& SMesh);
+
+    void Render() const;
+
+    size_t GetNVertices() const
+        { DEBUG_VERIFY_ALLOCATION; return m_szNVertices; }
+
+    size_t GetNFaces() const
+        { DEBUG_VERIFY_ALLOCATION; return m_szNFaces; }
 };
 
 template <class vt, class it>
 TFVFVisualModel<vt, it>::TFVFVisualModel()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 template <class vt, class it>
 void TFVFVisualModel<vt, it>::Release()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_StateBlockNode.Release();
+    m_StateBlockNode.Release();
 
-	m_VertexBuffer.Release();
+    m_VertexBuffer.Release();
 
-	m_IndexBuffer.Release();
+    m_IndexBuffer.Release();
 }
 
 template <class vt, class it>
-void TFVFVisualModel<vt, it>::Allocate(	const TMesh&				Mesh,
-										bool						bSDynamic,
-										const TD3DStateBlockNode&	ParentStateBlockNode,
-										const TTextureMapper*		pTextureMappers,
-										size_t						szNTextureMappers)
+void TFVFVisualModel<vt, it>::Allocate( const TMesh&                Mesh,
+                                        bool                        bSDynamic,
+                                        const TD3DStateBlockNode&   ParentStateBlockNode,
+                                        const TTextureMapper*       pTextureMappers,
+                                        size_t                      szNTextureMappers)
 {
-	Release();
+    Release();
 
-	try
-	{
-		DEBUG_VERIFY(Mesh.IsAllocated());
+    try
+    {
+        DEBUG_VERIFY(Mesh.IsAllocated());
 
-		DEBUG_VERIFY(szNTextureMappers == 0 || pTextureMappers);
+        DEBUG_VERIFY(szNTextureMappers == 0 || pTextureMappers);
 
-		DEBUG_VERIFY(szNTextureMappers <= vt::s_szNTextures);
-		
-		TVisualModelBase::Allocate(bSDynamic);
+        DEBUG_VERIFY(szNTextureMappers <= vt::s_szNTextures);
 
-		size_t i, j;
+        TVisualModelBase::Allocate(bSDynamic);
 
-		m_VertexBuffer.Allocate(m_szNVertices = Mesh.GetNVertices(),
-								(IsDynamic() ? D3DUSAGE_DYNAMIC : 0) | D3DUSAGE_WRITEONLY,
-								(IsDynamic() ? D3DPOOL_SYSTEMMEM : D3DPOOL_MANAGED));
+        size_t i, j;
 
-		m_IndexBuffer.Allocate((m_szNFaces = Mesh.GetNFaces()) * 3);
-		
-		// State block
-		{
-			m_StateBlockNode.Allocate(&ParentStateBlockNode);
+        m_VertexBuffer.Allocate(m_szNVertices = Mesh.GetNVertices(),
+                                (IsDynamic() ? D3DUSAGE_DYNAMIC : 0) | D3DUSAGE_WRITEONLY,
+                                (IsDynamic() ? D3DPOOL_SYSTEMMEM : D3DPOOL_MANAGED));
 
-			TD3DStateBlockRecorder Recoder0(m_StateBlockNode.m_StateBlock);
+        m_IndexBuffer.Allocate((m_szNFaces = Mesh.GetNFaces()) * 3);
 
-			g_GraphicsDeviceGlobals.m_pD3DDevice->
-				SetRenderState(D3DRS_NORMALIZENORMALS, IsDynamic() ? TRUE : FALSE);
+        // State block
+        {
+            m_StateBlockNode.Allocate(&ParentStateBlockNode);
 
-			for(i = 0 ; i < szNTextureMappers ; i++)
-			{
-				const TPoint<bool> WrapTextureCoords =
-					pTextureMappers[i].GetWrapTextureCoords();
+            TD3DStateBlockRecorder Recoder0(m_StateBlockNode.m_StateBlock);
 
-				g_GraphicsDeviceGlobals.m_pD3DDevice->
-					SetRenderState(	(D3DRENDERSTATETYPE)(D3DRS_WRAP0 + i),
-									(	(WrapTextureCoords.x ? D3DWRAP_U : 0) |
-										(WrapTextureCoords.y ? D3DWRAP_V : 0)));
-			}
+            g_GraphicsDeviceGlobals.m_pD3DDevice->
+                SetRenderState(D3DRS_NORMALIZENORMALS, IsDynamic() ? TRUE : FALSE);
 
-			for( ; i < vt::s_szNTextures ; i++)
-			{
-				g_GraphicsDeviceGlobals.m_pD3DDevice->
-					SetRenderState((D3DRENDERSTATETYPE)(D3DRS_WRAP0 + i), 0);
-			}
-		}
+            for(i = 0 ; i < szNTextureMappers ; i++)
+            {
+                const TPoint<bool> WrapTextureCoords =
+                    pTextureMappers[i].GetWrapTextureCoords();
 
-		// Vertices
-		{
-			const TMesh::TVertex* pSrc = Mesh.m_Vertices.GetDataPtr();
+                g_GraphicsDeviceGlobals.m_pD3DDevice->
+                    SetRenderState( (D3DRENDERSTATETYPE)(D3DRS_WRAP0 + i),
+                                    (   (WrapTextureCoords.x ? D3DWRAP_U : 0) |
+                                        (WrapTextureCoords.y ? D3DWRAP_V : 0)));
+            }
 
-			vt* pDst;
-			TFVFVertexBufferLocker<vt> Locker1(m_VertexBuffer, pDst);
+            for( ; i < vt::s_szNTextures ; i++)
+            {
+                g_GraphicsDeviceGlobals.m_pD3DDevice->
+                    SetRenderState((D3DRENDERSTATETYPE)(D3DRS_WRAP0 + i), 0);
+            }
+        }
 
-			for(i = m_szNVertices ; i ; i--)
-			{
-				vt Vertex = *pSrc++;
+        // Vertices
+        {
+            const TMesh::TVertex* pSrc = Mesh.m_Vertices.GetDataPtr();
 
-				// Color
-				Vertex.m_Color = WhiteColor();
+            vt* pDst;
+            TFVFVertexBufferLocker<vt> Locker1(m_VertexBuffer, pDst);
 
-				// Textures
-				{
-					for(j = 0 ; j < szNTextureMappers ; j++)
-						Vertex.m_TextureCoords[j] = pTextureMappers[j].GetTextureCoords(Vertex.m_Coords);
+            for(i = m_szNVertices ; i ; i--)
+            {
+                vt Vertex = *pSrc++;
 
-					for( ; j < vt::s_szNTextures ; j++)
-						Vertex.m_TextureCoords[j].SetZero();
-				}
+                // Color
+                Vertex.m_Color = WhiteColor();
 
-				*pDst++ = Vertex;
-			}
-		}
-		
-		// Faces
-		{
-			const TMesh::TFace* pSrc = Mesh.m_Faces.GetDataPtr();
+                // Textures
+                {
+                    for(j = 0 ; j < szNTextureMappers ; j++)
+                        Vertex.m_TextureCoords[j] = pTextureMappers[j].GetTextureCoords(Vertex.m_Coords);
 
-			it* pDst;
-			TIndexBufferLocker<it> Locker1(m_IndexBuffer, pDst);
+                    for( ; j < vt::s_szNTextures ; j++)
+                        Vertex.m_TextureCoords[j].SetZero();
+                }
 
-			for(i = m_szNFaces ; i ; i--)
-				*pDst++ = (it)pSrc->v1, *pDst++ = (it)pSrc->v2, *pDst++ = (it)pSrc->v3, pSrc++;
-		}
+                *pDst++ = Vertex;
+            }
+        }
 
-		m_bAllocated = true;
-	}
+        // Faces
+        {
+            const TMesh::TFace* pSrc = Mesh.m_Faces.GetDataPtr();
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+            it* pDst;
+            TIndexBufferLocker<it> Locker1(m_IndexBuffer, pDst);
+
+            for(i = m_szNFaces ; i ; i--)
+                *pDst++ = (it)pSrc->v1, *pDst++ = (it)pSrc->v2, *pDst++ = (it)pSrc->v3, pSrc++;
+        }
+
+        m_bAllocated = true;
+    }
+
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 template <class vt, class it>
 void TFVFVisualModel<vt, it>::SetVertices(const TMesh& SMesh)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(m_szNVertices == SMesh.GetNVertices());
+    DEBUG_VERIFY(m_szNVertices == SMesh.GetNVertices());
 
-	size_t i;
+    size_t i;
 
-	{
-		const TMesh::TVertex* pSrc = SMesh.m_Vertices.GetDataPtr();
+    {
+        const TMesh::TVertex* pSrc = SMesh.m_Vertices.GetDataPtr();
 
-		vt* pDst;
-		TFVFVertexBufferLocker<vt> Locker1(m_VertexBuffer, pDst, 0/*D3DLOCK_DISCARD*/); // (otherwise texture coords can break)
+        vt* pDst;
+        TFVFVertexBufferLocker<vt> Locker1(m_VertexBuffer, pDst, 0/*D3DLOCK_DISCARD*/); // (otherwise texture coords can break)
 
-		for(i = m_szNVertices ; i ; i--)
-			*pDst++ = *pSrc++;
-	}	
+        for(i = m_szNVertices ; i ; i--)
+            *pDst++ = *pSrc++;
+    }
 }
 
 template <class vt, class it>
 void TFVFVisualModel<vt, it>::Render() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_VertexBuffer.Install();
+    m_VertexBuffer.Install();
 
-	m_IndexBuffer.Install();
+    m_IndexBuffer.Install();
 
-	g_GraphicsStateManager.SetStateBlockNode(&m_StateBlockNode);
+    g_GraphicsStateManager.SetStateBlockNode(&m_StateBlockNode);
 
-	DEBUG_EVALUATE_VERIFY
-		(!g_GraphicsDeviceGlobals.m_pD3DDevice->DrawIndexedPrimitive(	D3DPT_TRIANGLELIST,
-																		0,
-																		0,
-																		m_szNVertices,
-																		0,
-																		m_szNFaces));
+    DEBUG_EVALUATE_VERIFY
+        (!g_GraphicsDeviceGlobals.m_pD3DDevice->DrawIndexedPrimitive(   D3DPT_TRIANGLELIST,
+                                                                        0,
+                                                                        0,
+                                                                        m_szNVertices,
+                                                                        0,
+                                                                        m_szNFaces));
 }
 
 #endif // visual_model_h

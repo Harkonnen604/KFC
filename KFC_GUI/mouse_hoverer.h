@@ -7,27 +7,27 @@
 class TMouseHoverer
 {
 private:
-	HWND m_hWnd;
+    HWND m_hWnd;
 
-	bool m_bHovered;
+    bool m_bHovered;
 
 public:
-	TMouseHoverer();
+    TMouseHoverer();
 
-	~TMouseHoverer()
-		{ Release(); }
+    ~TMouseHoverer()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hWnd; }
+    bool IsAllocated() const
+        { return m_hWnd; }
 
-	void Release();
+    void Release();
 
-	int Allocate(HWND hWnd);
+    int Allocate(HWND hWnd);
 
-	int ProcessMessage(UINT uiMsg);
+    int ProcessMessage(UINT uiMsg);
 
-	bool IsHovered() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_bHovered; }
+    bool IsHovered() const
+        { DEBUG_VERIFY_ALLOCATION; return m_bHovered; }
 };
 
 #endif // mouse_hoverer_h

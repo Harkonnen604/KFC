@@ -8,5 +8,5 @@ TProtocolsConsts g_ProtocolsConsts;
 // -----------------
 TProtocolsConsts::TProtocolsConsts()
 {
-	m_bTryAllHTTP_IPs = false;
+    m_bTryAllHTTP_IPs = false;
 }

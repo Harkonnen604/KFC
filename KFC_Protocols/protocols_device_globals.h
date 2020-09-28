@@ -9,11 +9,11 @@
 class TProtocolsDeviceGlobals : public TGlobals
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
 public:
-	TProtocolsDeviceGlobals();
+    TProtocolsDeviceGlobals();
 };
 
 extern TProtocolsDeviceGlobals g_ProtocolsDeviceGlobals;

@@ -16,12 +16,12 @@ TPhysicsGlobals g_PhysicsGlobals;
 // ----------------
 TPhysicsGlobals::TPhysicsGlobals() : TModuleGlobals(TEXT("Physics globals"))
 {
-	AddSubGlobals(g_KTLGlobals);
-	AddSubGlobals(g_MathGlobals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_WindowsGlobals);
+    AddSubGlobals(g_KTLGlobals);
+    AddSubGlobals(g_MathGlobals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_WindowsGlobals);
 
-	AddSubGlobals(g_PhysicsCfg);
-	AddSubGlobals(g_PhysicsInitials);
-	AddSubGlobals(g_PhysicsDeviceGlobals);
+    AddSubGlobals(g_PhysicsCfg);
+    AddSubGlobals(g_PhysicsInitials);
+    AddSubGlobals(g_PhysicsDeviceGlobals);
 }

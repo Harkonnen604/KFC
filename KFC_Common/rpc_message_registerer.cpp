@@ -8,36 +8,36 @@
 // -----------------------
 TRPCMessageRegisterer::TRPCMessageRegisterer()
 {
-	m_szMessage = -1;
+    m_szMessage = -1;
 }
 
 void TRPCMessageRegisterer::Allocate(LPCTSTR pName)
 {
-	DEBUG_VERIFY(pName);
+    DEBUG_VERIFY(pName);
 
-	if(IsAllocated() && m_Name == pName)
-		return;
+    if(IsAllocated() && m_Name == pName)
+        return;
 
-	m_Name = pName;
+    m_Name = pName;
 
-	m_szMessage = RegisterWindowMessage(pName);
-		
-	if(m_szMessage == 0)
-	{
-		m_szMessage = -1;
+    m_szMessage = RegisterWindowMessage(pName);
 
-		INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error registering window message \"") +
-											pName +
-											TEXT("\""),
-										GetLastError());
-	}
+    if(m_szMessage == 0)
+    {
+        m_szMessage = -1;
+
+        INITIATE_DEFINED_CODE_FAILURE(  (KString)TEXT("Error registering window message \"") +
+                                            pName +
+                                            TEXT("\""),
+                                        GetLastError());
+    }
 }
 
 size_t TRPCMessageRegisterer::GetMessage() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_szMessage;
+    return m_szMessage;
 }
 
 #endif // _MSC_VER

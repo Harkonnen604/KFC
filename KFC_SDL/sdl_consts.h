@@ -10,28 +10,28 @@
 class T_SDL_Consts : public TConsts
 {
 public:
-	size_t m_szMaxResourceID;
+    size_t m_szMaxResourceID;
 
-	SZSIZE m_Resolution;
-	size_t m_szBPP;
+    SZSIZE m_Resolution;
+    size_t m_szBPP;
 
-	bool m_bSGE_TTF_AlphaAA;
+    bool m_bSGE_TTF_AlphaAA;
 
-	SZSIZE m_DefaultInterfaceExtFocusSize;	
+    SZSIZE m_DefaultInterfaceExtFocusSize;
 
-	UINT32 m_uiDefaultInterfaceBG_Color;
-	UINT32 m_uiDefaultInterfaceExtFocusColor;
-	UINT32 m_uiHeaderBG_CN_Color;
-	UINT32 m_uiHeaderBG_SC_Color;
-	UINT32 m_uiHeaderBG_LT_Color;
-	UINT32 m_uiHeaderBG_DK_Color;
-	UINT32 m_uiLabelSelectionBG_Color;
-	UINT32 m_uiListSelectionBG_Color;
+    UINT32 m_uiDefaultInterfaceBG_Color;
+    UINT32 m_uiDefaultInterfaceExtFocusColor;
+    UINT32 m_uiHeaderBG_CN_Color;
+    UINT32 m_uiHeaderBG_SC_Color;
+    UINT32 m_uiHeaderBG_LT_Color;
+    UINT32 m_uiHeaderBG_DK_Color;
+    UINT32 m_uiLabelSelectionBG_Color;
+    UINT32 m_uiListSelectionBG_Color;
 
 public:
-	T_SDL_Consts();
+    T_SDL_Consts();
 
-	void Load(TInfoNodeConstIterator Node);
+    void Load(TInfoNodeConstIterator Node);
 };
 
 extern T_SDL_Consts g_SDL_Consts;

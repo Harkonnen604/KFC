@@ -12,11 +12,11 @@ TImageControlCreationStruct::TImageControlCreationStruct()
 {
 }
 
-void TImageControlCreationStruct::Load(	TInfoNodeConstIterator	InfoNode,
-										const TControl*			pParentControl,
-										const FRECT&			Resolution)
+void TImageControlCreationStruct::Load( TInfoNodeConstIterator  InfoNode,
+                                        const TControl*         pParentControl,
+                                        const FRECT&            Resolution)
 {
-	TControlCreationStruct::Load(InfoNode, pParentControl, Resolution);
+    TControlCreationStruct::Load(InfoNode, pParentControl, Resolution);
 }
 
 // -------------------------------
@@ -28,77 +28,77 @@ TImageControlSpritesProvider::TImageControlSpritesProvider()
 
 void TImageControlSpritesProvider::Load(TInfoNodeConstIterator InfoNode)
 {
-	g_SpriteStorage.LoadObject(InfoNode, TEXT("Sprite"), m_Sprite, true);
+    g_SpriteStorage.LoadObject(InfoNode, TEXT("Sprite"), m_Sprite, true);
 }
 
 KString TImageControlSpritesProvider::GetText(bool* pRSuccess) const
 {
-	return GetSpriteText(m_Sprite.GetDataPtr(), pRSuccess);
+    return GetSpriteText(m_Sprite.GetDataPtr(), pRSuccess);
 }
 
 bool TImageControlSpritesProvider::SetText(const KString& Text)
 {
-	return SetSpriteText(m_Sprite.GetDataPtr(), Text);
+    return SetSpriteText(m_Sprite.GetDataPtr(), Text);
 }
 
 // --------------
 // Image control
 // --------------
-TControl* TImageControl::LoadControl(	type_t					tpType,
-										TInfoNodeConstIterator	InfoNode,
-										const TControl*			pParentControl,
-										const FRECT&			Resolution)
+TControl* TImageControl::LoadControl(   type_t                  tpType,
+                                        TInfoNodeConstIterator  InfoNode,
+                                        const TControl*         pParentControl,
+                                        const FRECT&            Resolution)
 {
-	DEBUG_VERIFY(tpType == CONTROL_TYPE_IMAGE);
+    DEBUG_VERIFY(tpType == CONTROL_TYPE_IMAGE);
 
-	DEBUG_VERIFY(InfoNode.IsValid());
+    DEBUG_VERIFY(InfoNode.IsValid());
 
-	TImageControlCreationStruct CreationStruct;
-	CreationStruct.Load(InfoNode, pParentControl, Resolution);
+    TImageControlCreationStruct CreationStruct;
+    CreationStruct.Load(InfoNode, pParentControl, Resolution);
 
-	TImageControlSpritesProvider SpritesProvider;
-	SpritesProvider.Load(InfoNode);
+    TImageControlSpritesProvider SpritesProvider;
+    SpritesProvider.Load(InfoNode);
 
-	return new TImageControl(CreationStruct, SpritesProvider);
+    return new TImageControl(CreationStruct, SpritesProvider);
 }
 
-TImageControl::TImageControl(const TImageControlCreationStruct&	CreationStruct,
-							 TImageControlSpritesProvider&		SpritesProvider) :
+TImageControl::TImageControl(const TImageControlCreationStruct& CreationStruct,
+                             TImageControlSpritesProvider&      SpritesProvider) :
 
-	TControl(CreationStruct)
+    TControl(CreationStruct)
 
 {
-	m_Sprite.ReOwn(SpritesProvider.m_Sprite);
+    m_Sprite.ReOwn(SpritesProvider.m_Sprite);
 }
 
 // Update/render events
 void TImageControl::OnRender() const
 {
-	TControl::OnRender();
-	
-	const TSprite* pSprite = m_Sprite.GetDataPtr();
+    TControl::OnRender();
 
-	if(pSprite)
-	{
-		pSprite->DrawRect(	GetCurrentScreenState().m_Rect.	m_OwnPart,
-							GetCurrentScreenState().m_Color.m_OwnPart,
-							(float)GetVisibleState());
-	}
+    const TSprite* pSprite = m_Sprite.GetDataPtr();
+
+    if(pSprite)
+    {
+        pSprite->DrawRect(  GetCurrentScreenState().m_Rect. m_OwnPart,
+                            GetCurrentScreenState().m_Color.m_OwnPart,
+                            (float)GetVisibleState());
+    }
 }
 
 TImageControl::TVisibleState TImageControl::GetVisibleState() const
 {
-	return GetCurrentScreenState().IsEnabled() ? VS_ENABLED : VS_DISABLED;
+    return GetCurrentScreenState().IsEnabled() ? VS_ENABLED : VS_DISABLED;
 }
 
 KString TImageControl::GetText(bool* pRSuccess) const
 {
-	return GetSpriteText(m_Sprite.GetDataPtr(), pRSuccess);
+    return GetSpriteText(m_Sprite.GetDataPtr(), pRSuccess);
 }
 
 bool TImageControl::SetText(const KString& Text)
 {
-	return SetSpriteText(m_Sprite.GetDataPtr(), Text);
+    return SetSpriteText(m_Sprite.GetDataPtr(), Text);
 }
 
 // -----------------------------------
@@ -108,13 +108,13 @@ TEasyLabelControlCreationStruct::TEasyLabelControlCreationStruct()
 {
 }
 
-void TEasyLabelControlCreationStruct::Load(	TInfoNodeConstIterator	InfoNode,
-											const TControl*			pParentControl,
-											const FRECT&			Resolution)
+void TEasyLabelControlCreationStruct::Load( TInfoNodeConstIterator  InfoNode,
+                                            const TControl*         pParentControl,
+                                            const FRECT&            Resolution)
 {
-	TControlCreationStruct::Load(InfoNode, pParentControl, Resolution);
+    TControlCreationStruct::Load(InfoNode, pParentControl, Resolution);
 
-	TTextSpriteCreationStruct::Load(InfoNode);
+    TTextSpriteCreationStruct::Load(InfoNode);
 }
 
 // ----------------------------------
@@ -122,40 +122,40 @@ void TEasyLabelControlCreationStruct::Load(	TInfoNodeConstIterator	InfoNode,
 // ----------------------------------
 TEasyLabelControlFontsProvider::TEasyLabelControlFontsProvider()
 {
-	m_Font.Allocate(FONTS_REGISTRATION_MANAGER[DEFAULT_LABEL_FONT_INDEX], true);
+    m_Font.Allocate(FONTS_REGISTRATION_MANAGER[DEFAULT_LABEL_FONT_INDEX], true);
 }
 
 void TEasyLabelControlFontsProvider::Load(TInfoNodeConstIterator InfoNode)
 {
-	TTextSpriteFontsProvider::Load(InfoNode);
+    TTextSpriteFontsProvider::Load(InfoNode);
 }
 
 // -------------------
 // Easy label control
 // -------------------
-TControl* TEasyLabelControl::LoadControl(	type_t					tpType,
-											TInfoNodeConstIterator	InfoNode,
-											const TControl*			pParentControl,
-											const FRECT&			Resolution)
+TControl* TEasyLabelControl::LoadControl(   type_t                  tpType,
+                                            TInfoNodeConstIterator  InfoNode,
+                                            const TControl*         pParentControl,
+                                            const FRECT&            Resolution)
 {
-	DEBUG_VERIFY(tpType == CONTROL_TYPE_EASY_LABEL);
+    DEBUG_VERIFY(tpType == CONTROL_TYPE_EASY_LABEL);
 
-	DEBUG_VERIFY(InfoNode.IsValid());
+    DEBUG_VERIFY(InfoNode.IsValid());
 
-	TEasyLabelControlCreationStruct CreationStruct;
-	CreationStruct.Load(InfoNode, pParentControl, Resolution);
+    TEasyLabelControlCreationStruct CreationStruct;
+    CreationStruct.Load(InfoNode, pParentControl, Resolution);
 
-	TEasyLabelControlFontsProvider FontsProvider;
-	FontsProvider.Load(InfoNode);
+    TEasyLabelControlFontsProvider FontsProvider;
+    FontsProvider.Load(InfoNode);
 
-	return new TEasyLabelControl(CreationStruct, FontsProvider);
+    return new TEasyLabelControl(CreationStruct, FontsProvider);
 }
 
-TEasyLabelControl::TEasyLabelControl(const TEasyLabelControlCreationStruct&	CreationStruct,
-									 TEasyLabelControlFontsProvider&		FontsProvider) :
+TEasyLabelControl::TEasyLabelControl(const TEasyLabelControlCreationStruct& CreationStruct,
+                                     TEasyLabelControlFontsProvider&        FontsProvider) :
 
-	TImageControl(CreationStruct, TImageControlSpritesProvider())	
+    TImageControl(CreationStruct, TImageControlSpritesProvider())
 {
-	((TTextSprite*)m_Sprite.Allocate(new TTextSprite, false))->
-		Allocate(CreationStruct, FontsProvider);
+    ((TTextSprite*)m_Sprite.Allocate(new TTextSprite, false))->
+        Allocate(CreationStruct, FontsProvider);
 }

@@ -14,9 +14,9 @@ TProtocolsGlobals g_ProtocolsGlobals;
 // ------------------
 TProtocolsGlobals::TProtocolsGlobals() : TModuleGlobals(TEXT("Protocols globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_FormatsGlobals);
-	AddSubGlobals(g_NetworkingGlobals);
-	AddSubGlobals(g_ProtocolsDeviceGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_FormatsGlobals);
+    AddSubGlobals(g_NetworkingGlobals);
+    AddSubGlobals(g_ProtocolsDeviceGlobals);
 }

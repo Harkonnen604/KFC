@@ -7,51 +7,51 @@
 class TMenu
 {
 private:
-	HMENU m_hMenu;
+    HMENU m_hMenu;
 
-	bool m_bSubMenu;
+    bool m_bSubMenu;
 
 public:
-	TMenu();
+    TMenu();
 
-	TMenu(HINSTANCE hInstance, LPCTSTR pName);
+    TMenu(HINSTANCE hInstance, LPCTSTR pName);
 
-	TMenu(int iID);
+    TMenu(int iID);
 
-	TMenu(HMENU hSMenu);
+    TMenu(HMENU hSMenu);
 
-	~TMenu()
-		{ Release(); }
+    ~TMenu()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_hMenu; }
+    bool IsAllocated() const
+        { return m_hMenu; }
 
-	void Release();
+    void Release();
 
-	void Allocate(HINSTANCE hInstance, LPCTSTR pName);
+    void Allocate(HINSTANCE hInstance, LPCTSTR pName);
 
-	void Allocate(int iID)
-		{ Allocate(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
+    void Allocate(int iID)
+        { Allocate(GetModuleHandle(NULL), MAKEINTRESOURCE(iID)); }
 
-	void Allocate(HMENU hSMenu);
+    void Allocate(HMENU hSMenu);
 
-	HMENU GetSubMenu(size_t szPos) const;
+    HMENU GetSubMenu(size_t szPos) const;
 
-	void EnableItem(int iID, bool bEnable);
+    void EnableItem(int iID, bool bEnable);
 
-	void CheckItem(int iID, bool bCheck);
+    void CheckItem(int iID, bool bCheck);
 
-	void TrackPopup(HWND			hWnd,
-					const IPOINT&	Coords,
-					const ISIZE&	Offset  = ISIZE(0, 0),
-					kflags_t		flFlags = TPM_TOPALIGN | TPM_LEFTALIGN);
+    void TrackPopup(HWND            hWnd,
+                    const IPOINT&   Coords,
+                    const ISIZE&    Offset  = ISIZE(0, 0),
+                    kflags_t        flFlags = TPM_TOPALIGN | TPM_LEFTALIGN);
 
-	HMENU GetMenu() const;
+    HMENU GetMenu() const;
 
-	operator HMENU () const { return GetMenu(); }
+    operator HMENU () const { return GetMenu(); }
 
-	// ---------------- TRIVIALS ----------------
-	bool IsSubMenu() const { return m_bSubMenu; }
+    // ---------------- TRIVIALS ----------------
+    bool IsSubMenu() const { return m_bSubMenu; }
 };
 
 // --------
@@ -60,27 +60,27 @@ public:
 class TSubMenu : public TMenu
 {
 private:
-	TMenu m_Menu;
+    TMenu m_Menu;
 
 public:
-	TSubMenu();
+    TSubMenu();
 
-	TSubMenu(HINSTANCE hInstance, LPCTSTR pName, size_t szPos = 0);
+    TSubMenu(HINSTANCE hInstance, LPCTSTR pName, size_t szPos = 0);
 
-	TSubMenu(int iID, size_t szPos = 0);
+    TSubMenu(int iID, size_t szPos = 0);
 
-	~TSubMenu()
-		{ Release(); }
+    ~TSubMenu()
+        { Release(); }
 
-	bool IsAllocated()
-		{ return TMenu::IsAllocated(); }
+    bool IsAllocated()
+        { return TMenu::IsAllocated(); }
 
-	void Release();
+    void Release();
 
-	void Allocate(HINSTANCE hInstance, LPCTSTR pName, size_t szPos = 0);
+    void Allocate(HINSTANCE hInstance, LPCTSTR pName, size_t szPos = 0);
 
-	void Allocate(int iID, size_t szPos = 0)
-		{ Allocate(GetModuleHandle(NULL), MAKEINTRESOURCE(iID), szPos); }
+    void Allocate(int iID, size_t szPos = 0)
+        { Allocate(GetModuleHandle(NULL), MAKEINTRESOURCE(iID), szPos); }
 };
 
 #endif // menu_h

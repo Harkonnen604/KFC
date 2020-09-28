@@ -14,33 +14,33 @@ TSoundTokens g_SoundTokens;
 // --------------------
 TSoundTokens::TSoundTokens() : TGlobals(TEXT("Sound tokens"))
 {
-	AddSubGlobals(g_SoundCfg);
-	AddSubGlobals(g_SoundInitials);
+    AddSubGlobals(g_SoundCfg);
+    AddSubGlobals(g_SoundInitials);
 }
 
 void TSoundTokens::OnUninitialize()
 {
-	m_SoundIndexTokensRegisterer.	Release();
-	m_SoundTypeTokensRegisterer.	Release();
-	m_FileNameTokensRegisterer.		Release();
-	
-	m_SoundIndexTokens.	Clear();
-	m_SoundTypeTokens.	Clear();
+    m_SoundIndexTokensRegisterer.   Release();
+    m_SoundTypeTokensRegisterer.    Release();
+    m_FileNameTokensRegisterer.     Release();
+
+    m_SoundIndexTokens. Clear();
+    m_SoundTypeTokens.  Clear();
 }
 
 void TSoundTokens::OnInitialize()
-{	
-	// --- Filename tokens ---
-	m_FileNameTokensRegisterer.Allocate(FILENAME_TOKENS);
+{
+    // --- Filename tokens ---
+    m_FileNameTokensRegisterer.Allocate(FILENAME_TOKENS);
 
-	m_FileNameTokensRegisterer.Add(TEXT("[SoundsFolder]"), g_SoundConsts.m_SoundsFolderName);
+    m_FileNameTokensRegisterer.Add(TEXT("[SoundsFolder]"), g_SoundConsts.m_SoundsFolderName);
 
-	// --- Sound type tokens ---
-	m_SoundTypeTokensRegisterer.Allocate(SOUND_TYPE_TOKENS);
+    // --- Sound type tokens ---
+    m_SoundTypeTokensRegisterer.Allocate(SOUND_TYPE_TOKENS);
 
-	m_SoundTypeTokensRegisterer.Add(TEXT("[Basic]"), OBJECT_TYPE_BASIC);
-	m_SoundTypeTokensRegisterer.Add(TEXT("[Plain]"), SOUND_TYPE_PLAIN);
+    m_SoundTypeTokensRegisterer.Add(TEXT("[Basic]"), OBJECT_TYPE_BASIC);
+    m_SoundTypeTokensRegisterer.Add(TEXT("[Plain]"), SOUND_TYPE_PLAIN);
 
-	// --- Sound index tokens ---
-	m_SoundIndexTokensRegisterer.Allocate(SOUND_INDEX_TOKENS);
+    // --- Sound index tokens ---
+    m_SoundIndexTokensRegisterer.Allocate(SOUND_INDEX_TOKENS);
 }

@@ -6,33 +6,33 @@
 // ----------------
 BIGNUM* Load_RSA_BIGNUM(TStream& Stream)
 {
-	size_t szN;
+    size_t szN;
 
-	Stream >> szN;
+    Stream >> szN;
 
-	TArray<BYTE, true> Data(szN);
+    TArray<BYTE, true> Data(szN);
 
-	Stream.StreamRead(Data.GetDataPtr(), Data.GetN());
+    Stream.StreamRead(Data.GetDataPtr(), Data.GetN());
 
-	BIGNUM* const pBN = BN_bin2bn(Data.GetDataPtr(), Data.GetN(), 0);
+    BIGNUM* const pBN = BN_bin2bn(Data.GetDataPtr(), Data.GetN(), 0);
 
-	if(!pBN)
-		INITIATE_DEFINED_FAILURE(TEXT("Error reading RSA big number."));
+    if(!pBN)
+        INITIATE_DEFINED_FAILURE(TEXT("Error reading RSA big number."));
 
-	return pBN;
+    return pBN;
 }
 
 void Save_RSA_BIGNUM(const BIGNUM* pBN, TStream& Stream)
 {
-	DEBUG_VERIFY(pBN);
+    DEBUG_VERIFY(pBN);
 
-	const size_t szN = BN_num_bytes(pBN);
+    const size_t szN = BN_num_bytes(pBN);
 
-	Stream << szN;
+    Stream << szN;
 
-	TArray<BYTE, true> Data(szN);
+    TArray<BYTE, true> Data(szN);
 
-	BN_bn2bin(pBN, Data.GetDataPtr());	
+    BN_bn2bin(pBN, Data.GetDataPtr());
 
-	Stream.StreamWrite(Data.GetDataPtr(), Data.GetN());	
+    Stream.StreamWrite(Data.GetDataPtr(), Data.GetN());
 }

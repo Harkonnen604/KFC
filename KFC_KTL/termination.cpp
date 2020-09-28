@@ -6,11 +6,11 @@
 // ----------------
 bool IsTerminated(HANDLE hTerminator, size_t szTimeout)
 {
-	if(hTerminator)
-		return WaitForSingleObject(hTerminator, (DWORD)szTimeout) == WAIT_OBJECT_0;
+    if(hTerminator)
+        return WaitForSingleObject(hTerminator, (DWORD)szTimeout) == WAIT_OBJECT_0;
 
-	if(szTimeout > 0)
-		Sleep((DWORD)szTimeout);
+    if(szTimeout > 0)
+        Sleep((DWORD)szTimeout);
 
-	return false;
+    return false;
 }

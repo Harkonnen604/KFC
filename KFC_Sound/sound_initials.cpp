@@ -19,7 +19,7 @@ void TSoundInitials::OnUninitialize()
 
 void TSoundInitials::OnInitialize()
 {
-	Load(), Save();
+    Load(), Save();
 }
 
 void TSoundInitials::LoadItems(KRegistryKey& Key)
@@ -32,14 +32,14 @@ void TSoundInitials::SaveItems(KRegistryKey& Key) const
 
 void TSoundInitials::Load()
 {
-	TAssignmentsList::Load(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_SoundConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Load( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_SoundConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }
 
 void TSoundInitials::Save() const
 {
-	TAssignmentsList::Save(	g_CommonConsts.m_ApplicationRegistryKeyName +
-							g_SoundConsts.m_RegistryKeyName +
-							g_CommonConsts.m_InitialsRegistryKeyName);
+    TAssignmentsList::Save( g_CommonConsts.m_ApplicationRegistryKeyName +
+                            g_SoundConsts.m_RegistryKeyName +
+                            g_CommonConsts.m_InitialsRegistryKeyName);
 }

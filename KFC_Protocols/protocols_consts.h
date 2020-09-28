@@ -9,10 +9,10 @@
 class TProtocolsConsts : public TConsts
 {
 public:
-	bool m_bTryAllHTTP_IPs;
+    bool m_bTryAllHTTP_IPs;
 
 public:
-	TProtocolsConsts();
+    TProtocolsConsts();
 };
 
 extern TProtocolsConsts g_ProtocolsConsts;

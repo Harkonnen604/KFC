@@ -11,31 +11,31 @@
 class TGlobalsCollector : public TSuspendable
 {
 private:
-	TArray<TGlobals*, true> m_GlobalsList;
+    TArray<TGlobals*, true> m_GlobalsList;
 
-	bool OnSuspend	();
-	bool OnResume	();
-	
-	bool PreUpdate();
+    bool OnSuspend  ();
+    bool OnResume   ();
 
-	void PostUpdate(size_t	szStartIndex,
-					bool	bFailureRollBack);
+    bool PreUpdate();
 
-	bool PreRender() const;
+    void PostUpdate(size_t  szStartIndex,
+                    bool    bFailureRollBack);
 
-	void PostRender(size_t	szStartIndex,
-					bool	bFailureRollBack) const;
+    bool PreRender() const;
+
+    void PostRender(size_t  szStartIndex,
+                    bool    bFailureRollBack) const;
 
 public:
-	void RegisterGlobals	(TGlobals* pGlobals);
-	void UnregisterGlobals	(TGlobals* pGlobals);
+    void RegisterGlobals    (TGlobals* pGlobals);
+    void UnregisterGlobals  (TGlobals* pGlobals);
 
-	bool Update();
-	bool Render() const;
+    bool Update();
+    bool Render() const;
 
-	void ChangeMode();
+    void ChangeMode();
 
-	void Terminate();
+    void Terminate();
 };
 
 extern TGlobalsCollector g_GlobalsCollector;

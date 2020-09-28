@@ -9,7 +9,7 @@
 class T_KTL_Globals : public TModuleGlobals
 {
 public:
-	T_KTL_Globals();
+    T_KTL_Globals();
 };
 
 extern T_KTL_Globals g_KTL_Globals;

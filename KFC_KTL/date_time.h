@@ -4,9 +4,9 @@
 #include "kstring.h"
 
 // Second casters
-#define MIN_SECS	(60)
-#define HOUR_SECS	(60 * MIN_SECS)
-#define DAY_SECS	(24 * HOUR_SECS)
+#define MIN_SECS    (60)
+#define HOUR_SECS   (60 * MIN_SECS)
+#define DAY_SECS    (24 * HOUR_SECS)
 
 // ----------
 // Date time
@@ -14,257 +14,257 @@
 struct TDateTime
 {
 public:
-	static const size_t ms_MonthDays		[2][12];
-	static const size_t ms_TotalMonthDays	[2][12];
-	
-	#ifndef _MSC_VER
-		static const QWORD ms_qwEpochOffset;
-		static const QWORD ms_qwFILETIME_Offset;
-	#endif // _MSC_VER
+    static const size_t ms_MonthDays        [2][12];
+    static const size_t ms_TotalMonthDays   [2][12];
+
+    #ifndef _MSC_VER
+        static const QWORD ms_qwEpochOffset;
+        static const QWORD ms_qwFILETIME_Offset;
+    #endif // _MSC_VER
 
 public:
-	size_t m_szYear;
+    size_t m_szYear;
     size_t m_szMonth;
     size_t m_szDay;
-	
+
     size_t m_szHour;
     size_t m_szMin;
     size_t m_szSec;
 
 public:
-	TDateTime()
-		{ Invalidate(); }
+    TDateTime()
+        { Invalidate(); }
 
-	TDateTime(	size_t szSYear,
+    TDateTime(  size_t szSYear,
                 size_t szSMonth,
                 size_t szSDay,
-                size_t szSHour	= 0,
-                size_t szSMin	= 0,
-                size_t szSSec	= 0)
-	{
-		Set(szSYear, szSMonth, szSDay, szSHour, szSMin, szSSec);
-	}
+                size_t szSHour  = 0,
+                size_t szSMin   = 0,
+                size_t szSSec   = 0)
+    {
+        Set(szSYear, szSMonth, szSDay, szSHour, szSMin, szSSec);
+    }
 
-	TDateTime(QWORD v)
-		{ *this = v; }
+    TDateTime(QWORD v)
+        { *this = v; }
 
-	TDateTime(FILETIME ft)
-		{ *this = ft; }
+    TDateTime(FILETIME ft)
+        { *this = ft; }
 
-	TDateTime(SYSTEMTIME st)
-		{ *this = st; }
+    TDateTime(SYSTEMTIME st)
+        { *this = st; }
 
-	TDateTime& Set(	size_t szSYear,
+    TDateTime& Set( size_t szSYear,
                     size_t szSMonth,
                     size_t szSDay,
-                    size_t szSHour	= 0,
-                    size_t szSMin	= 0,
-                    size_t szSSec	= 0)
-	{
-		m_szYear	= szSYear;
-		m_szMonth	= szSMonth;
-		m_szDay		= szSDay;
-		m_szHour	= szSHour;
-		m_szMin		= szSMin;
-		m_szSec		= szSSec;
-		
-		return *this;
-	}
+                    size_t szSHour  = 0,
+                    size_t szSMin   = 0,
+                    size_t szSSec   = 0)
+    {
+        m_szYear    = szSYear;
+        m_szMonth   = szSMonth;
+        m_szDay     = szSDay;
+        m_szHour    = szSHour;
+        m_szMin     = szSMin;
+        m_szSec     = szSSec;
 
-	bool IsValid() const;
+        return *this;
+    }
 
-	TDateTime& Invalidate()
-		{ memset(this, 0, sizeof(*this)); return *this; }
+    bool IsValid() const;
 
-	TDateTime& GetCurrentLocal	(size_t& szRMSec = temp<size_t>());
-	TDateTime& GetCurrentGlobal	(size_t& szRMSec = temp<size_t>());
+    TDateTime& Invalidate()
+        { memset(this, 0, sizeof(*this)); return *this; }
 
-	static QWORD GetCurrentLocalWithMSec()
-	{
-		size_t szMSec;
+    TDateTime& GetCurrentLocal  (size_t& szRMSec = temp<size_t>());
+    TDateTime& GetCurrentGlobal (size_t& szRMSec = temp<size_t>());
 
-		QWORD qwDT = TDateTime().GetCurrentLocal(szMSec);
+    static QWORD GetCurrentLocalWithMSec()
+    {
+        size_t szMSec;
 
-		return qwDT * 1000 + szMSec;
-	}
+        QWORD qwDT = TDateTime().GetCurrentLocal(szMSec);
 
-	static QWORD GetCurrentGlobalWithMSec()
-	{
-		size_t szMSec;
+        return qwDT * 1000 + szMSec;
+    }
 
-		QWORD qwDT = TDateTime().GetCurrentGlobal(szMSec);
+    static QWORD GetCurrentGlobalWithMSec()
+    {
+        size_t szMSec;
 
-		return qwDT * 1000 + szMSec;
-	}
+        QWORD qwDT = TDateTime().GetCurrentGlobal(szMSec);
 
-	void SetAsCurrentLocal (size_t szMSec = 0);
-	void SetAsCurrentGlobal(size_t szMSec = 0);
+        return qwDT * 1000 + szMSec;
+    }
 
-	static FILETIME GetFILETIME_FromMSec(QWORD v)
-		{ return TDateTime(v / 1000).GetFILETIME((size_t)(v % 1000)); }
+    void SetAsCurrentLocal (size_t szMSec = 0);
+    void SetAsCurrentGlobal(size_t szMSec = 0);
 
-	static SYSTEMTIME GetSYSTEMTIME_FromMSec(QWORD v)
-		{ return TDateTime(v / 1000).GetSYSTEMTIME((size_t)(v % 1000)); }
+    static FILETIME GetFILETIME_FromMSec(QWORD v)
+        { return TDateTime(v / 1000).GetFILETIME((size_t)(v % 1000)); }
 
-	TDateTime& LocalToGlobal();
-	TDateTime& GlobalToLocal();
+    static SYSTEMTIME GetSYSTEMTIME_FromMSec(QWORD v)
+        { return TDateTime(v / 1000).GetSYSTEMTIME((size_t)(v % 1000)); }
 
-	#ifdef _MSC_VER
-		double GetCOM_DT(size_t szMSec = 0) const;
+    TDateTime& LocalToGlobal();
+    TDateTime& GlobalToLocal();
 
-		TDateTime& SetCOM_DT(double dDT);
-	#endif // _MSC_VER
+    #ifdef _MSC_VER
+        double GetCOM_DT(size_t szMSec = 0) const;
 
-	// Decreasing
-	TDateTime& DecSec	(size_t szAmt = 1);
-	TDateTime& DecMin	(size_t szAmt = 1);
-	TDateTime& DecHour	(size_t szAmt = 1);
-	TDateTime& DecDay	(size_t szAmt = 1);
-	TDateTime& DecMonth	(size_t szAmt = 1);
-	TDateTime& DecYear	(size_t szAmt = 1);
+        TDateTime& SetCOM_DT(double dDT);
+    #endif // _MSC_VER
 
-	// Increasing
-	TDateTime& IncSec	(size_t szAmt = 1);
-	TDateTime& IncMin	(size_t szAmt = 1);
-	TDateTime& IncHour	(size_t szAmt = 1);
-	TDateTime& IncDay	(size_t szAmt = 1);
-	TDateTime& IncMonth	(size_t szAmt = 1);
-	TDateTime& IncYear	(size_t szAmt = 1);	
+    // Decreasing
+    TDateTime& DecSec   (size_t szAmt = 1);
+    TDateTime& DecMin   (size_t szAmt = 1);
+    TDateTime& DecHour  (size_t szAmt = 1);
+    TDateTime& DecDay   (size_t szAmt = 1);
+    TDateTime& DecMonth (size_t szAmt = 1);
+    TDateTime& DecYear  (size_t szAmt = 1);
 
-	// Aligning
-	TDateTime& AlignToSec	();
-	TDateTime& AlignToMin	();
-	TDateTime& AlignToHour	();
-	TDateTime& AlignToDay	();
-	TDateTime& AlignToMonth	();
-	TDateTime& AlignToYear	();
+    // Increasing
+    TDateTime& IncSec   (size_t szAmt = 1);
+    TDateTime& IncMin   (size_t szAmt = 1);
+    TDateTime& IncHour  (size_t szAmt = 1);
+    TDateTime& IncDay   (size_t szAmt = 1);
+    TDateTime& IncMonth (size_t szAmt = 1);
+    TDateTime& IncYear  (size_t szAmt = 1);
 
-	TDateTime AlignedToSec() const
-		{ return make_temp(*this)().AlignToSec(); }
+    // Aligning
+    TDateTime& AlignToSec   ();
+    TDateTime& AlignToMin   ();
+    TDateTime& AlignToHour  ();
+    TDateTime& AlignToDay   ();
+    TDateTime& AlignToMonth ();
+    TDateTime& AlignToYear  ();
 
-	TDateTime AlignedToMin() const
-		{ return make_temp(*this)().AlignToMin(); }
+    TDateTime AlignedToSec() const
+        { return make_temp(*this)().AlignToSec(); }
 
-	TDateTime AlignedToHour() const
-		{ return make_temp(*this)().AlignToHour(); }
+    TDateTime AlignedToMin() const
+        { return make_temp(*this)().AlignToMin(); }
 
-	TDateTime AlignedToDay() const
-		{ return make_temp(*this)().AlignToDay(); }
+    TDateTime AlignedToHour() const
+        { return make_temp(*this)().AlignToHour(); }
 
-	TDateTime AlignedToMonth() const
-		{ return make_temp(*this)().AlignToMonth(); }
+    TDateTime AlignedToDay() const
+        { return make_temp(*this)().AlignToDay(); }
 
-	TDateTime AlignedToYear() const
-		{ return make_temp(*this)().AlignToYear(); }
+    TDateTime AlignedToMonth() const
+        { return make_temp(*this)().AlignToMonth(); }
 
-	bool IsSecAligned	() const;
-	bool IsMinAligned	() const;
-	bool IsHourAligned	() const;
-	bool IsDayAligned	() const;
-	bool IsMonthAligned	() const;
-	bool IsYearAligned	() const;
+    TDateTime AlignedToYear() const
+        { return make_temp(*this)().AlignToYear(); }
 
-	// Operators
-	TDateTime& operator = (QWORD v);
+    bool IsSecAligned   () const;
+    bool IsMinAligned   () const;
+    bool IsHourAligned  () const;
+    bool IsDayAligned   () const;
+    bool IsMonthAligned () const;
+    bool IsYearAligned  () const;
 
-	TDateTime& operator = (const FILETIME& ft);
+    // Operators
+    TDateTime& operator = (QWORD v);
 
-	TDateTime& operator = (const SYSTEMTIME& st);
+    TDateTime& operator = (const FILETIME& ft);
 
-	operator QWORD () const;
+    TDateTime& operator = (const SYSTEMTIME& st);
 
-	TDateTime operator + (INT64 iDlt) const
-		{ DEBUG_VERIFY(IsValid()); return TDateTime((QWORD)*this + iDlt); }
+    operator QWORD () const;
 
-	TDateTime operator - (INT64 iDlt) const
-		{ DEBUG_VERIFY(IsValid()); return TDateTime((QWORD)*this - iDlt); }
+    TDateTime operator + (INT64 iDlt) const
+        { DEBUG_VERIFY(IsValid()); return TDateTime((QWORD)*this + iDlt); }
 
-	TDateTime& operator += (INT64 iDlt)
-		{ DEBUG_VERIFY(IsValid()); return *this = *this + iDlt; }
+    TDateTime operator - (INT64 iDlt) const
+        { DEBUG_VERIFY(IsValid()); return TDateTime((QWORD)*this - iDlt); }
 
-	TDateTime& operator -= (INT64 iDlt)
-		{ DEBUG_VERIFY(IsValid()); return *this = *this - iDlt; }
+    TDateTime& operator += (INT64 iDlt)
+        { DEBUG_VERIFY(IsValid()); return *this = *this + iDlt; }
 
-	FILETIME GetFILETIME(size_t szMSec = 0) const;
+    TDateTime& operator -= (INT64 iDlt)
+        { DEBUG_VERIFY(IsValid()); return *this = *this - iDlt; }
 
-	operator FILETIME () const
-		{ return GetFILETIME(); }
+    FILETIME GetFILETIME(size_t szMSec = 0) const;
 
-	SYSTEMTIME GetSYSTEMTIME(size_t szMSec = 0) const;
+    operator FILETIME () const
+        { return GetFILETIME(); }
 
-	operator SYSTEMTIME () const
-		{ return GetSYSTEMTIME(); }	
+    SYSTEMTIME GetSYSTEMTIME(size_t szMSec = 0) const;
 
-	// Static helpers
-	static bool IsLeapYear(size_t szYear)
-	{
-		DEBUG_VERIFY(szYear >= 1);
+    operator SYSTEMTIME () const
+        { return GetSYSTEMTIME(); }
 
-		return szYear % 400 == 0 || szYear % 4 == 0 && szYear % 100 != 0;
-	}
-	
-	static size_t GetMonthDays(size_t szYear, size_t szMonth)
-	{
-		DEBUG_VERIFY(szYear >= 1);
+    // Static helpers
+    static bool IsLeapYear(size_t szYear)
+    {
+        DEBUG_VERIFY(szYear >= 1);
 
-		DEBUG_VERIFY(szMonth >= 1 && szMonth <= 12);
+        return szYear % 400 == 0 || szYear % 4 == 0 && szYear % 100 != 0;
+    }
 
-		return ms_MonthDays[IsLeapYear(szYear) ? 1 : 0][szMonth - 1];
-	}
+    static size_t GetMonthDays(size_t szYear, size_t szMonth)
+    {
+        DEBUG_VERIFY(szYear >= 1);
 
-	static size_t GetTotalMonthDaysBefore(size_t szYear, size_t szMonth)
-	{
-		DEBUG_VERIFY(szYear >= 1);
+        DEBUG_VERIFY(szMonth >= 1 && szMonth <= 12);
 
-		DEBUG_VERIFY(szMonth >= 1 && szMonth <= 12);
+        return ms_MonthDays[IsLeapYear(szYear) ? 1 : 0][szMonth - 1];
+    }
 
-		return ms_TotalMonthDays[IsLeapYear(szYear) ? 1 : 0][szMonth - 1];
-	}
+    static size_t GetTotalMonthDaysBefore(size_t szYear, size_t szMonth)
+    {
+        DEBUG_VERIFY(szYear >= 1);
 
-	static size_t GetYearDays(size_t szYear)
-	{
-		DEBUG_VERIFY(szYear >= 1);
+        DEBUG_VERIFY(szMonth >= 1 && szMonth <= 12);
 
-		return IsLeapYear(szYear) ? 366 : 365;
-	}
+        return ms_TotalMonthDays[IsLeapYear(szYear) ? 1 : 0][szMonth - 1];
+    }
 
-	static size_t GetNumLeapYearsBefore(size_t szYear)
-	{
-		DEBUG_VERIFY(szYear >= 1);
+    static size_t GetYearDays(size_t szYear)
+    {
+        DEBUG_VERIFY(szYear >= 1);
 
-		szYear--;
+        return IsLeapYear(szYear) ? 366 : 365;
+    }
 
-		return szYear / 4 - szYear / 100 + szYear / 400;
-	}
-	
-	// Helpers
-	bool IsLeapYear() const
-		{ return IsLeapYear(m_szYear); }
+    static size_t GetNumLeapYearsBefore(size_t szYear)
+    {
+        DEBUG_VERIFY(szYear >= 1);
 
-	size_t GetMonthDays() const
-		{ return GetMonthDays(m_szYear, m_szMonth); }
+        szYear--;
 
-	size_t GetTotalMonthDaysBefore() const
-		{ return GetTotalMonthDaysBefore(m_szYear, m_szMonth); }
+        return szYear / 4 - szYear / 100 + szYear / 400;
+    }
 
-	size_t GetYearDays() const
-		{ return GetYearDays(m_szYear); }
+    // Helpers
+    bool IsLeapYear() const
+        { return IsLeapYear(m_szYear); }
 
-	size_t GetNumLeapYearsBefore() const
-		{ return GetNumLeapYearsBefore(m_szYear); }
+    size_t GetMonthDays() const
+        { return GetMonthDays(m_szYear, m_szMonth); }
 
-	size_t GetDayOfWeek() const // 0 for Sunday
-		{ return (size_t)(((QWORD)*this / (24*60*60) + 1) % 7); }
+    size_t GetTotalMonthDaysBefore() const
+        { return GetTotalMonthDaysBefore(m_szYear, m_szMonth); }
 
-	// Other
-	KString FormatDate() const
-		{ return KString::Formatted(TEXT("%.4u-%.2u-%.2u"), m_szYear, m_szMonth, m_szDay); }
+    size_t GetYearDays() const
+        { return GetYearDays(m_szYear); }
 
-	KString FormatTime() const
-		{ return KString::Formatted(TEXT("%.2u:%.2u:%.2u"), m_szHour, m_szMin, m_szSec); }
+    size_t GetNumLeapYearsBefore() const
+        { return GetNumLeapYearsBefore(m_szYear); }
 
-	operator KString () const
-		{ return FormatDate() + ' ' + FormatTime(); }
+    size_t GetDayOfWeek() const // 0 for Sunday
+        { return (size_t)(((QWORD)*this / (24*60*60) + 1) % 7); }
+
+    // Other
+    KString FormatDate() const
+        { return KString::Formatted(TEXT("%.4u-%.2u-%.2u"), m_szYear, m_szMonth, m_szDay); }
+
+    KString FormatTime() const
+        { return KString::Formatted(TEXT("%.2u:%.2u:%.2u"), m_szHour, m_szMin, m_szSec); }
+
+    operator KString () const
+        { return FormatDate() + ' ' + FormatTime(); }
 };
 
 DECLARE_BASIC_STREAMING(TDateTime);
@@ -275,35 +275,35 @@ DECLARE_BASIC_STREAMING(TDateTime);
 typedef TSegment<TDateTime> DTSEGMENT;
 
 inline QWSEGMENT TO_QW(const DTSEGMENT& Segment)
-	{ return QWSEGMENT(Segment.m_First, Segment.m_Last); }
+    { return QWSEGMENT(Segment.m_First, Segment.m_Last); }
 
 inline DTSEGMENT TO_DT(const QWSEGMENT& Segment)
-	{ return DTSEGMENT(Segment.m_First, Segment.m_Last); }
+    { return DTSEGMENT(Segment.m_First, Segment.m_Last); }
 
 // ----------------
 // Global routines
 // ----------------
 inline int Compare(const TDateTime& dt1, const TDateTime& dt2)
 {
-	if(dt1.m_szYear != dt2.m_szYear)
-		return (int)(dt1.m_szYear - dt2.m_szYear);
+    if(dt1.m_szYear != dt2.m_szYear)
+        return (int)(dt1.m_szYear - dt2.m_szYear);
 
-	if(dt1.m_szMonth != dt2.m_szMonth)
-		return (int)(dt1.m_szMonth - dt2.m_szMonth);
+    if(dt1.m_szMonth != dt2.m_szMonth)
+        return (int)(dt1.m_szMonth - dt2.m_szMonth);
 
-	if(dt1.m_szDay != dt2.m_szDay)
-		return (int)(dt1.m_szDay - dt2.m_szDay);
+    if(dt1.m_szDay != dt2.m_szDay)
+        return (int)(dt1.m_szDay - dt2.m_szDay);
 
-	if(dt1.m_szHour != dt2.m_szHour)
-		return (int)(dt1.m_szHour - dt2.m_szHour);
+    if(dt1.m_szHour != dt2.m_szHour)
+        return (int)(dt1.m_szHour - dt2.m_szHour);
 
-	if(dt1.m_szMin != dt2.m_szMin)
-		return (int)(dt1.m_szMin - dt2.m_szMin);
+    if(dt1.m_szMin != dt2.m_szMin)
+        return (int)(dt1.m_szMin - dt2.m_szMin);
 
-	if(dt1.m_szSec != dt2.m_szSec)
-		return (int)(dt1.m_szSec - dt2.m_szSec);
+    if(dt1.m_szSec != dt2.m_szSec)
+        return (int)(dt1.m_szSec - dt2.m_szSec);
 
-	return 0;
+    return 0;
 }
 
 bool FromString(KString String, TDateTime& RDateTime);

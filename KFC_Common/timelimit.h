@@ -8,11 +8,11 @@
 // -----------------
 enum TTimeLimitResult
 {
-	TR_OK			= 1,
-	TR_EXPIRED		= 2,
-	TR_PRE_HACK		= 3,
-	TR_POST_HACK	= 4,
-	TR_FORCE_UINT	= UINT_MAX,
+    TR_OK           = 1,
+    TR_EXPIRED      = 2,
+    TR_PRE_HACK     = 3,
+    TR_POST_HACK    = 4,
+    TR_FORCE_UINT   = UINT_MAX,
 };
 
 // ----------------

@@ -14,28 +14,28 @@
 class TSoundDeviceGlobals : public TGlobals
 {
 private:
-	TCOMInitializer m_COMInitializer;
+    TCOMInitializer m_COMInitializer;
 
 
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	bool OnSuspend	();
-	bool OnResume	();
-	
+    bool OnSuspend  ();
+    bool OnResume   ();
+
 public:
-	// Devices
-	IDirectMusic8*				m_pDMusic;
-	IDirectSound8*				m_pDSound;
-	IDirectMusicLoader8*		m_pDMusicLoader;
-	IDirectMusicPerformance8*	m_pDMusicPerformance;
-	IDirectMusicAudioPath8*		m_pDefaultAudioPath;
-	
-	// Buffers
-	TSoundBuffer m_PrimarySoundBuffer;
-	
-	
-	TSoundDeviceGlobals();
+    // Devices
+    IDirectMusic8*              m_pDMusic;
+    IDirectSound8*              m_pDSound;
+    IDirectMusicLoader8*        m_pDMusicLoader;
+    IDirectMusicPerformance8*   m_pDMusicPerformance;
+    IDirectMusicAudioPath8*     m_pDefaultAudioPath;
+
+    // Buffers
+    TSoundBuffer m_PrimarySoundBuffer;
+
+
+    TSoundDeviceGlobals();
 };
 
 extern TSoundDeviceGlobals g_SoundDeviceGlobals;

@@ -11,242 +11,242 @@ template <class ObjectType, bool bPOD_Type = false>
 class TValueMatrix
 {
 private:
-	ObjectType*	m_pData;
-	SZSIZE		m_Size;
+    ObjectType* m_pData;
+    SZSIZE      m_Size;
 
 public:
-	TValueMatrix();
+    TValueMatrix();
 
-	TValueMatrix(const SZSIZE& SSize);
+    TValueMatrix(const SZSIZE& SSize);
 
-	TValueMatrix(const TValueMatrix& Matrix);
+    TValueMatrix(const TValueMatrix& Matrix);
 
-	~TValueMatrix()
-		{ Release(); }
+    ~TValueMatrix()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_pData; }
+    bool IsAllocated() const
+        { return m_pData; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const SZSIZE& SSize);
+    void Allocate(const SZSIZE& SSize);
 
-	TValueMatrix& operator = (const TValueMatrix& Matrix);
-	
-	ObjectType& GetDataRef(const SZPOINT& Coords)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    TValueMatrix& operator = (const TValueMatrix& Matrix);
 
-		DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
+    ObjectType& GetDataRef(const SZPOINT& Coords)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_pData[Coords.y * m_Size.cx + Coords.x];
-	}
+        DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
 
-	const ObjectType& GetDataRef(const SZPOINT& Coords) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData[Coords.y * m_Size.cx + Coords.x];
+    }
 
-		DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
+    const ObjectType& GetDataRef(const SZPOINT& Coords) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_pData[Coords.y * m_Size.cx + Coords.x];
-	}
+        DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
 
-	ObjectType* GetDataPtr(const SZPOINT& Coords)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData[Coords.y * m_Size.cx + Coords.x];
+    }
 
-		DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
+    ObjectType* GetDataPtr(const SZPOINT& Coords)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_pData + (Coords.y * m_Size.cx + Coords.x);
-	}
+        DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
 
-	const ObjectType* GetDataPtr(const SZPOINT& Coords) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData + (Coords.y * m_Size.cx + Coords.x);
+    }
 
-		DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
+    const ObjectType* GetDataPtr(const SZPOINT& Coords) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_pData + (Coords.y * m_Size.cx + Coords.x);
-	}
+        DEBUG_VERIFY(Coords.x < m_Size.cx && Coords.y < m_Size.cy);
 
-	ObjectType* GetDataPtr()
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData + (Coords.y * m_Size.cx + Coords.x);
+    }
 
-		return m_pData;
-	}
+    ObjectType* GetDataPtr()
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const ObjectType* GetDataPtr() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData;
+    }
 
-		return m_pData;
-	}
+    const ObjectType* GetDataPtr() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	ObjectType& operator () (size_t y, size_t x)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData;
+    }
 
-		DEBUG_VERIFY(y < m_Size.cy && x < m_Size.cx);
+    ObjectType& operator () (size_t y, size_t x)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_pData[y * m_Size.cx + x];
-	}
+        DEBUG_VERIFY(y < m_Size.cy && x < m_Size.cx);
 
-	const ObjectType& operator () (size_t y, size_t x) const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return m_pData[y * m_Size.cx + x];
+    }
 
-		DEBUG_VERIFY(y < m_Size.cy && x < m_Size.cx);
+    const ObjectType& operator () (size_t y, size_t x) const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_pData[y * m_Size.cx + x];
-	}
+        DEBUG_VERIFY(y < m_Size.cy && x < m_Size.cx);
 
-	void Transpose();
+        return m_pData[y * m_Size.cx + x];
+    }
 
-	void FlipHorizontal();
+    void Transpose();
 
-	void FlipVertical();
+    void FlipHorizontal();
 
-	const SZSIZE& GetSize() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Size; }
+    void FlipVertical();
 
-	size_t GetWidth() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Size.cx; }
+    const SZSIZE& GetSize() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Size; }
 
-	size_t GetHeight() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_Size.cy; }
+    size_t GetWidth() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Size.cx; }
+
+    size_t GetHeight() const
+        { DEBUG_VERIFY_ALLOCATION; return m_Size.cy; }
 };
 
 template <class ObjectType, bool bPOD_Type>
 TValueMatrix<ObjectType, bPOD_Type>::TValueMatrix()
 {
-	m_pData = NULL;
+    m_pData = NULL;
 }
 
 template <class ObjectType, bool bPOD_Type>
 TValueMatrix<ObjectType, bPOD_Type>::TValueMatrix(const SZSIZE& SSize)
 {
-	m_pData = NULL;
+    m_pData = NULL;
 
-	Allocate(SSize);
+    Allocate(SSize);
 }
 
 template <class ObjectType, bool bPOD_Type>
 TValueMatrix<ObjectType, bPOD_Type>::TValueMatrix(const TValueMatrix& Matrix)
 {
-	m_pData = NULL;
+    m_pData = NULL;
 
-	*this = Matrix;
+    *this = Matrix;
 }
 
 template <class ObjectType, bool bPOD_Type>
 void TValueMatrix<ObjectType, bPOD_Type>::Release(bool bFromAllocatorException)
 {
-	delete[] m_pData, m_pData = NULL;
+    delete[] m_pData, m_pData = NULL;
 }
 
 template <class ObjectType, bool bPOD_Type>
 void TValueMatrix<ObjectType, bPOD_Type>::Allocate(const SZSIZE& SSize)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(SSize.IsPositive());
+    DEBUG_VERIFY(SSize.IsPositive());
 
-	m_Size = SSize;
+    m_Size = SSize;
 
-	m_pData = new ObjectType[m_Size.GetArea()];
+    m_pData = new ObjectType[m_Size.GetArea()];
 }
 
 template <class ObjectType, bool bPOD_Type>
 TValueMatrix<ObjectType, bPOD_Type>& TValueMatrix<ObjectType, bPOD_Type>::operator = (const TValueMatrix& Matrix)
 {
-	if(&Matrix == this)
-		return *this;
+    if(&Matrix == this)
+        return *this;
 
-	Release();
+    Release();
 
-	if(!Matrix.IsAllocated())
-		return *this;
+    if(!Matrix.IsAllocated())
+        return *this;
 
-	Allocate(Matrix.GetSize());
+    Allocate(Matrix.GetSize());
 
-	const size_t szLength = m_Size.GetSquare();
+    const size_t szLength = m_Size.GetSquare();
 
-	m_pData = new ObjectType[szLength];
+    m_pData = new ObjectType[szLength];
 
-	if(bPOD_Type)
-	{
-		memcpy(m_pData, Matrix.m_pData, szLength * sizeof(ObjectType));
-	}
-	else
-	{
-		size_t i;
+    if(bPOD_Type)
+    {
+        memcpy(m_pData, Matrix.m_pData, szLength * sizeof(ObjectType));
+    }
+    else
+    {
+        size_t i;
 
-		for(i = 0 ; i < szLength ; i++)
-			m_pData[i] = Matrix.m_pData[i];
-	}
+        for(i = 0 ; i < szLength ; i++)
+            m_pData[i] = Matrix.m_pData[i];
+    }
 
-	return *this;
+    return *this;
 }
 
 template <class ObjectType, bool bPOD_Type>
 void TValueMatrix<ObjectType, bPOD_Type>::Transpose()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	size_t y, x;
-	ObjectType tmp;
+    size_t y, x;
+    ObjectType tmp;
 
-	for(y = 0 ; y < m_Size.cy ; y++)
-	{
-		for(x = 0 ; x < y ; x++)
-		{
-			ObjectType& v1 = GetDataRef(SZPOINT(x, y));
-			ObjectType& v2 = GetDataRef(SZPOINT(y, x));
+    for(y = 0 ; y < m_Size.cy ; y++)
+    {
+        for(x = 0 ; x < y ; x++)
+        {
+            ObjectType& v1 = GetDataRef(SZPOINT(x, y));
+            ObjectType& v2 = GetDataRef(SZPOINT(y, x));
 
-			tmp = v1, v1 = v2, v2 = tmp;
-		}
-	}
+            tmp = v1, v1 = v2, v2 = tmp;
+        }
+    }
 }
 
 template <class ObjectType, bool bPOD_Type>
 void TValueMatrix<ObjectType, bPOD_Type>::FlipHorizontal()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	size_t y, x;
-	ObjectType tmp;
+    size_t y, x;
+    ObjectType tmp;
 
-	for(y = 0 ; y < m_Size.cy / 2 ; y++)
-	{
-		for(x = 0 ; x < m_Size.cx ; x++)
-		{
-			ObjectType& v1 = GetDataRef(SZPOINT(x, y));
-			ObjectType& v2 = GetDataRef(SZPOINT(x, m_Size.cy - y - 1));
+    for(y = 0 ; y < m_Size.cy / 2 ; y++)
+    {
+        for(x = 0 ; x < m_Size.cx ; x++)
+        {
+            ObjectType& v1 = GetDataRef(SZPOINT(x, y));
+            ObjectType& v2 = GetDataRef(SZPOINT(x, m_Size.cy - y - 1));
 
-			tmp = v1, v1 = v2, v2 = tmp;
-		}
-	}
+            tmp = v1, v1 = v2, v2 = tmp;
+        }
+    }
 }
 
 template <class ObjectType, bool bPOD_Type>
 void TValueMatrix<ObjectType, bPOD_Type>::FlipVertical()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	size_t x, y;
-	ObjectType tmp;
+    size_t x, y;
+    ObjectType tmp;
 
-	for(x = 0 ; x < m_Size.cx / 2 ; x++)
-	{
-		for(y = 0 ; y < m_Size.cy ; y++)
-		{
-			ObjectType& v1 = GetDataRef(SZPOINT(x, y));
-			ObjectType& v2 = GetDataRef(SZPOINT(m_Size.cx - x - 1, y));
+    for(x = 0 ; x < m_Size.cx / 2 ; x++)
+    {
+        for(y = 0 ; y < m_Size.cy ; y++)
+        {
+            ObjectType& v1 = GetDataRef(SZPOINT(x, y));
+            ObjectType& v2 = GetDataRef(SZPOINT(m_Size.cx - x - 1, y));
 
-			tmp = v1, v1 = v2, v2 = tmp;
-		}
-	}
+            tmp = v1, v1 = v2, v2 = tmp;
+        }
+    }
 }
 
 #endif // vmatrix_h

@@ -9,7 +9,7 @@
 class TPhysicsGlobals : public TModuleGlobals
 {
 public:
-	TPhysicsGlobals();
+    TPhysicsGlobals();
 };
 
 extern TPhysicsGlobals g_PhysicsGlobals;

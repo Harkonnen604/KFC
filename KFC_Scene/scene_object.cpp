@@ -6,17 +6,17 @@
 // -------------------------
 TSceneObjectRepresenter::TSceneObjectRepresenter()
 {
-	m_WorldMatrix.SetIdentity();
+    m_WorldMatrix.SetIdentity();
 }
 
 void TSceneObjectRepresenter::Render() const
 {
-	size_t i;
+    size_t i;
 
-	for(i = 0 ; i < m_VisualBinders.GetN() ; i++)
-		m_VisualBinders[i]->Bind();
+    for(i = 0 ; i < m_VisualBinders.GetN() ; i++)
+        m_VisualBinders[i]->Bind();
 
-	m_VisualPart->Render();
+    m_VisualPart->Render();
 }
 
 // -------------
@@ -24,65 +24,65 @@ void TSceneObjectRepresenter::Render() const
 // -------------
 TSceneObject::TSceneObject()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TSceneObject::Release()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_Representers.Clear();
+    m_Representers.Clear();
 
-	m_VisualBinders.Clear();
+    m_VisualBinders.Clear();
 }
 
 void TSceneObject::Allocate()
 {
-	Release();
+    Release();
 
-	m_bAllocated = true;
+    m_bAllocated = true;
 }
 
 bool TSceneObject::OnSuspend()
 {
-	if(!IsAllocated())
-		return false;
+    if(!IsAllocated())
+        return false;
 
-	if(!TSuspendable::OnSuspend())
-		return false;
+    if(!TSuspendable::OnSuspend())
+        return false;
 
-	return true;
+    return true;
 }
 
 bool TSceneObject::OnResume()
 {
-	if(!IsAllocated())
-		return false;
+    if(!IsAllocated())
+        return false;
 
-	if(!TSuspendable::OnResume())
-		return false;
+    if(!TSuspendable::OnResume())
+        return false;
 
-	return true;
+    return true;
 }
 
 void TSceneObject::PreUpdate()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	// {{{
+    // {{{
 }
 
 void TSceneObject::PostUpdate()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	// {{{
+    // {{{
 }
 
 void TSceneObject::Render() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	for(TRepresenters::TConstIterator Iter = m_Representers.GetFirst() ; Iter.IsValid() ; ++Iter)
-		Iter->Render();
+    for(TRepresenters::TConstIterator Iter = m_Representers.GetFirst() ; Iter.IsValid() ; ++Iter)
+        Iter->Render();
 }

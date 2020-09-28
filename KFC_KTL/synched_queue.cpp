@@ -6,166 +6,166 @@
 // --------------
 TSynchedQueue::TSynchedQueue()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 TSynchedQueue::TSynchedQueue(HANDLE hTerminator)
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	Allocate(hTerminator);
+    Allocate(hTerminator);
 }
 
 void TSynchedQueue::Release()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_Items.Clear();
+    m_Items.Clear();
 
-	m_DoneEvent.Release();
+    m_DoneEvent.Release();
 
-	m_AvailableEvent.Release();
+    m_AvailableEvent.Release();
 }
 
 void TSynchedQueue::Allocate(HANDLE hTerminator)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_AvailableEvent.Allocate(false, false);
+    try
+    {
+        m_AvailableEvent.Allocate(false, false);
 
-		m_DoneEvent.Allocate(true, true);
+        m_DoneEvent.Allocate(true, true);
 
-		m_lNRegisteredItems = 0;
+        m_lNRegisteredItems = 0;
 
-		m_hTerminator = hTerminator;
+        m_hTerminator = hTerminator;
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 void TSynchedQueue::RegisterItem()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_EVERIFY(InterlockedIncrement(&m_lNRegisteredItems) > 0);
+    DEBUG_EVERIFY(InterlockedIncrement(&m_lNRegisteredItems) > 0);
 
-	m_DoneEvent.Reset();
+    m_DoneEvent.Reset();
 }
 
 void TSynchedQueue::UnregisterItem()
 {
-	if(!IsAllocated())
-		return;
+    if(!IsAllocated())
+        return;
 
-	const LONG r = InterlockedDecrement(&m_lNRegisteredItems);
+    const LONG r = InterlockedDecrement(&m_lNRegisteredItems);
 
-	DEBUG_VERIFY(r >= 0);
+    DEBUG_VERIFY(r >= 0);
 
-	if(!r)
-		m_DoneEvent.Set();
+    if(!r)
+        m_DoneEvent.Set();
 }
 
 void TSynchedQueue::Enqueue(TItem* pItem)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(m_hTerminator && WaitForSingleObject(m_hTerminator, 0) == WAIT_OBJECT_0)
-	{
-		delete pItem;
-		return;
-	}
+    if(m_hTerminator && WaitForSingleObject(m_hTerminator, 0) == WAIT_OBJECT_0)
+    {
+        delete pItem;
+        return;
+    }
 
-	{
-		TCriticalSectionLocker Locker0(m_AccessCS);	
+    {
+        TCriticalSectionLocker Locker0(m_AccessCS);
 
-		*m_Items.AddLast() = pItem;
+        *m_Items.AddLast() = pItem;
 
-		m_AvailableEvent.Set();
-	}
+        m_AvailableEvent.Set();
+    }
 }
 
 TSynchedQueue::TItem* TSynchedQueue::DequeueOnceAvailable(size_t szTimeout)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	for(;;)
-	{
-		HANDLE Handles[] = {m_AvailableEvent, m_hTerminator};
+    for(;;)
+    {
+        HANDLE Handles[] = {m_AvailableEvent, m_hTerminator};
 
-		size_t szNHandles = ARRAY_SIZE(Handles);
+        size_t szNHandles = ARRAY_SIZE(Handles);
 
-		if(!m_hTerminator)
-			szNHandles--;
+        if(!m_hTerminator)
+            szNHandles--;
 
-		DWORD r = WaitForMultipleObjects((DWORD)szNHandles, Handles, FALSE, (DWORD)szTimeout);
+        DWORD r = WaitForMultipleObjects((DWORD)szNHandles, Handles, FALSE, (DWORD)szTimeout);
 
-		CHECK_TERMINATION(m_hTerminator);
+        CHECK_TERMINATION(m_hTerminator);
 
-		if(r == WAIT_TIMEOUT)
-			return NULL;
+        if(r == WAIT_TIMEOUT)
+            return NULL;
 
-		if(r == WAIT_OBJECT_0 + 0)
-		{
-			TCriticalSectionLocker Locker0(m_AccessCS);
+        if(r == WAIT_OBJECT_0 + 0)
+        {
+            TCriticalSectionLocker Locker0(m_AccessCS);
 
-			if(m_Items.IsEmpty())
-				continue;
+            if(m_Items.IsEmpty())
+                continue;
 
-			TItem* pItem = m_Items.GetFirst()->Extract();
+            TItem* pItem = m_Items.GetFirst()->Extract();
 
-			m_Items.DelFirst();
+            m_Items.DelFirst();
 
-			if(!m_Items.IsEmpty())
-				m_AvailableEvent.Set();
+            if(!m_Items.IsEmpty())
+                m_AvailableEvent.Set();
 
-			return pItem;
-		}
-	}
+            return pItem;
+        }
+    }
 }
 
 TSynchedQueue::TItem* TSynchedQueue::DequeueUntilDone()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	for(;;)
-	{
-		HANDLE Handles[] = {m_AvailableEvent, m_DoneEvent, m_hTerminator};
+    for(;;)
+    {
+        HANDLE Handles[] = {m_AvailableEvent, m_DoneEvent, m_hTerminator};
 
-		size_t szNHandles = ARRAY_SIZE(Handles);
+        size_t szNHandles = ARRAY_SIZE(Handles);
 
-		if(!m_hTerminator)
-			szNHandles--;
+        if(!m_hTerminator)
+            szNHandles--;
 
-		DWORD r = WaitForMultipleObjects((DWORD)szNHandles, Handles, FALSE, INFINITE);
+        DWORD r = WaitForMultipleObjects((DWORD)szNHandles, Handles, FALSE, INFINITE);
 
-		CHECK_TERMINATION(m_hTerminator);
+        CHECK_TERMINATION(m_hTerminator);
 
-		if(r == WAIT_OBJECT_0 + 0)
-		{
-			TCriticalSectionLocker Locker0(m_AccessCS);
+        if(r == WAIT_OBJECT_0 + 0)
+        {
+            TCriticalSectionLocker Locker0(m_AccessCS);
 
-			if(m_Items.IsEmpty())
-				continue;
+            if(m_Items.IsEmpty())
+                continue;
 
-			TItem* pItem = m_Items.GetFirst()->Extract();
+            TItem* pItem = m_Items.GetFirst()->Extract();
 
-			m_Items.DelFirst();
+            m_Items.DelFirst();
 
-			if(!m_Items.IsEmpty())
-				m_AvailableEvent.Set();
+            if(!m_Items.IsEmpty())
+                m_AvailableEvent.Set();
 
-			return pItem;
-		}
+            return pItem;
+        }
 
-		if(r == WAIT_OBJECT_0 + 1)
-			return NULL;
-	}
+        if(r == WAIT_OBJECT_0 + 1)
+            return NULL;
+    }
 }

@@ -10,49 +10,49 @@
 class TMessageBox : public TDialog
 {
 private:
-	KString m_Text;
-	KString m_Title;
-	
-	HICON m_hIcon;
+    KString m_Text;
+    KString m_Title;
 
-	int m_iFocusButtonID;
-	int m_iTimeoutButtonID;
+    HICON m_hIcon;
 
-	size_t m_szTimeout;
+    int m_iFocusButtonID;
+    int m_iTimeoutButtonID;
 
-	ISIZE m_TextSize;
-	ISIZE m_IconTextSize;
-	ISIZE m_DialogSize;
-	ISIZE m_DialogScreenSize;
+    size_t m_szTimeout;
 
-	TWindowTimer m_TimeoutTimer;
+    ISIZE m_TextSize;
+    ISIZE m_IconTextSize;
+    ISIZE m_DialogSize;
+    ISIZE m_DialogScreenSize;
 
-	bool m_bTimedOut;
+    TWindowTimer m_TimeoutTimer;
+
+    bool m_bTimedOut;
 
 
-	HINSTANCE GetInstance() const;
+    HINSTANCE GetInstance() const;
 
-	int GetTemplateID() const;
+    int GetTemplateID() const;
 
-	bool OnInitDialog();
+    bool OnInitDialog();
 
-	bool OnPaint();
+    bool OnPaint();
 
-	bool OnTimer(size_t szID);
+    bool OnTimer(size_t szID);
 
-	void OnOK();
+    void OnOK();
 
-	void OnCancel();
+    void OnCancel();
 
 public:
-	TMessageBox(LPCTSTR	pSTitle,
-				LPCTSTR	pSText,
-				HICON	hSIcon,
-				int		iSFocusButtonID,
-				int		iSTimeoutButtonID,
-				size_t	szSTimeout);
+    TMessageBox(LPCTSTR pSTitle,
+                LPCTSTR pSText,
+                HICON   hSIcon,
+                int     iSFocusButtonID,
+                int     iSTimeoutButtonID,
+                size_t  szSTimeout);
 
-	bool HasTimedOut() const { return m_bTimedOut; }
+    bool HasTimedOut() const { return m_bTimedOut; }
 };
 
 #endif // message_box_h

@@ -6,9 +6,9 @@
 // ----------------
 // Global routines
 // ----------------
-KString GetShortcutTarget(	const KString&	FileName,
-							bool			bResolve	= false,
-							kflags_t		flFlags		= SLGP_UNCPRIORITY);
+KString GetShortcutTarget(  const KString&  FileName,
+                            bool            bResolve    = false,
+                            kflags_t        flFlags     = SLGP_UNCPRIORITY);
 
 void CreateShortcut(const KString& FileName, const KString& Target);
 

@@ -5,86 +5,86 @@
 
 struct tq
 {
-	int a;
-	
-	tq() : a(2) {}
-	
-	~tq() { a=3; }
+    int a;
+
+    tq() : a(2) {}
+
+    ~tq() { a=3; }
 };
 
 void TestFileCharsTreeInst()
 {
-	typedef TFileCharsTree<tq> tchr;
-	
-	tchr chr;
-	const tchr cchr;
+    typedef TFileCharsTree<tq> tchr;
 
-	tchr::TIterator it;
-	tchr::TConstIterator cit;
+    tchr chr;
+    const tchr cchr;
 
-	it.IsRoot();
-	it.IsValid();
-	it.Invalidate();
+    tchr::TIterator it;
+    tchr::TConstIterator cit;
 
-	cchr.IsAllocated();
-	chr.Release();
-	chr.Create("a");
-	chr.Open("a", true);
-	chr.Clear();
+    it.IsRoot();
+    it.IsValid();
+    it.Invalidate();
 
-	it = chr.GetRoot();
-	cit = cchr.GetRoot();
+    cchr.IsAllocated();
+    chr.Release();
+    chr.Create("a");
+    chr.Open("a", true);
+    chr.Clear();
 
-	chr.ToRoot(it);
-	cchr.ToRoot(cit);
+    it = chr.GetRoot();
+    cit = cchr.GetRoot();
 
-	it = chr.GetFirstChild(it);
-	it = chr.GetNextSibling(it);
+    chr.ToRoot(it);
+    cchr.ToRoot(cit);
 
-	cit = cchr.GetFirstChild(cit);
-	cit = cchr.GetNextSibling(cit);
+    it = chr.GetFirstChild(it);
+    it = chr.GetNextSibling(it);
 
-	chr.ToFirstChild(it);
-	chr.ToNextSibling(it);
+    cit = cchr.GetFirstChild(cit);
+    cit = cchr.GetNextSibling(cit);
 
-	cchr.ToFirstChild(cit);
-	cchr.ToNextSibling(cit);
+    chr.ToFirstChild(it);
+    chr.ToNextSibling(it);
 
-	chr.IsLeaf(it);
-	chr.IsLastChild(it);
+    cchr.ToFirstChild(cit);
+    cchr.ToNextSibling(cit);
 
-	cchr.IsLeaf(cit);
-	cchr.IsLastChild(cit);
+    chr.IsLeaf(it);
+    chr.IsLastChild(it);
 
-	it = chr.InsertFirstChild(it, 0);
-	it = chr.InsertNextSibling(it, 0);
-	it = chr.InsertFirstChild(it, 0);
+    cchr.IsLeaf(cit);
+    cchr.IsLastChild(cit);
 
-	chr.DelFirstChild(it);
-	chr.DelNextSibling(it);
+    it = chr.InsertFirstChild(it, 0);
+    it = chr.InsertNextSibling(it, 0);
+    it = chr.InsertFirstChild(it, 0);
 
-	chr.GetDataPtr(it)->a = 2;
-	chr.GetDataRef(it).a = 2;
-	chr[it].a = 2;
+    chr.DelFirstChild(it);
+    chr.DelNextSibling(it);
 
-	if(	cchr.GetDataPtr(cit)->a == 2 ||
-		cchr.GetDataRef(cit).a == 2 ||
-		cchr[cit].a == 2)
-	{
-	}
+    chr.GetDataPtr(it)->a = 2;
+    chr.GetDataRef(it).a = 2;
+    chr[it].a = 2;
 
-	chr.IsReadOnly();
+    if( cchr.GetDataPtr(cit)->a == 2 ||
+        cchr.GetDataRef(cit).a == 2 ||
+        cchr[cit].a == 2)
+    {
+    }
 
-	it = chr.FindChild(it, ' ');
-	it = chr.GetChild(it, ' ');
+    chr.IsReadOnly();
 
-	cit = cchr.FindChild(cit, ' ');
-	cit = cchr.GetChild(cit, ' ');
+    it = chr.FindChild(it, ' ');
+    it = chr.GetChild(it, ' ');
 
-	cchr.HasChild(it, ' ');
-	cchr.HasChild(cit, ' ');	
+    cit = cchr.FindChild(cit, ' ');
+    cit = cchr.GetChild(cit, ' ');
 
-//	chr.GetHeap();
+    cchr.HasChild(it, ' ');
+    cchr.HasChild(cit, ' ');
+
+//  chr.GetHeap();
 }
 
 // ----------------
@@ -92,73 +92,73 @@ void TestFileCharsTreeInst()
 // ----------------
 static void print(TFileCharsTree<tq>& tree, TFileCharsTree<tq>::TIterator it)
 {
-	putchar(it.IsRoot() ? '*' : tree.GetChar(it));
+    putchar(it.IsRoot() ? '*' : tree.GetChar(it));
 
-	if(tree.IsLeaf(it))
-		return;
+    if(tree.IsLeaf(it))
+        return;
 
-	putchar('(');
+    putchar('(');
 
-	bool f = true;
+    bool f = true;
 
-	for(tree.ToFirstChild(it) ; it.IsValid() ; tree.ToNextSibling(it))
-	{
-		if(f)
-			f = false;
-		else
-			putchar(',');
+    for(tree.ToFirstChild(it) ; it.IsValid() ; tree.ToNextSibling(it))
+    {
+        if(f)
+            f = false;
+        else
+            putchar(',');
 
-		print(tree, it);
-	}
+        print(tree, it);
+    }
 
-	putchar(')');
+    putchar(')');
 }
 
 void TestFileCharsTree()
 {
-	puts("Testing file chars tree,,,");
+    puts("Testing file chars tree,,,");
 
-	{
-		TFileCharsTree<tq> chr;		
+    {
+        TFileCharsTree<tq> chr;
 
-		chr.Create("test.chr");
+        chr.Create("test.chr");
 
-		for(int q=4;q;q--)
-		{
-			TFileCharsTree<tq>::TIterator it, it2, tit;
+        for(int q=4;q;q--)
+        {
+            TFileCharsTree<tq>::TIterator it, it2, tit;
 
-			it = chr.InsertFirstChild(chr.GetRoot(), 'a');
-			it = chr.InsertNextSibling(it, 'b'), tit = it;
-			it = chr.InsertNextSibling(it, 'd');
+            it = chr.InsertFirstChild(chr.GetRoot(), 'a');
+            it = chr.InsertNextSibling(it, 'b'), tit = it;
+            it = chr.InsertNextSibling(it, 'd');
 
-			      chr.InsertFirstChild(it, '4');
-			it2 = chr.InsertFirstChild(it, '2');
-			      chr.InsertFirstChild(it, '1');
+                  chr.InsertFirstChild(it, '4');
+            it2 = chr.InsertFirstChild(it, '2');
+                  chr.InsertFirstChild(it, '1');
 
-			chr.InsertNextSibling(it2, '3');
+            chr.InsertNextSibling(it2, '3');
 
-			tit = chr.InsertNextSibling(tit, 'c');
+            tit = chr.InsertNextSibling(tit, 'c');
 
-			chr.DelNextSibling(tit);
+            chr.DelNextSibling(tit);
 
-			size_t osz = chr.GetHeap().m_Allocator.GetN();
+            size_t osz = chr.GetHeap().m_Allocator.GetN();
 
-			chr.InsertFirstChild(chr.GetRoot(), '0');
+            chr.InsertFirstChild(chr.GetRoot(), '0');
 
-			tassert(chr.GetHeap().m_Allocator.GetN() == osz);
+            tassert(chr.GetHeap().m_Allocator.GetN() == osz);
 
-			print(chr, chr.GetRoot()), puts("");
+            print(chr, chr.GetRoot()), puts("");
 
-			printf("sz = %d\n", chr.GetHeap().m_Allocator.GetN());
+            printf("sz = %d\n", chr.GetHeap().m_Allocator.GetN());
 
-			while(!chr.IsLeaf(chr.GetRoot()))
-				chr.DelFirstChild(chr.GetRoot());
-		}
+            while(!chr.IsLeaf(chr.GetRoot()))
+                chr.DelFirstChild(chr.GetRoot());
+        }
 
-		chr.Open("test.chr", true);
+        chr.Open("test.chr", true);
 
-		print(chr, chr.GetRoot()), puts("");
-	}
+        print(chr, chr.GetRoot()), puts("");
+    }
 
-	puts("Done");
+    puts("Done");
 }

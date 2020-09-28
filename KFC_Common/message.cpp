@@ -6,33 +6,33 @@
 // ------------------
 TMessageProcessor::TMessageProcessor()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 void TMessageProcessor::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
-		m_bAllocated = false;
+    if(m_bAllocated || bFromAllocatorException)
+    {
+        m_bAllocated = false;
 
-		TMessageStorage::Release();
-	}
+        TMessageStorage::Release();
+    }
 }
 
 void TMessageProcessor::Allocate(size_t szMinPortionSize)
 {
-	Release();
+    Release();
 
-	try
-	{
-		TMessageStorage::Allocate(szMinPortionSize);
+    try
+    {
+        TMessageStorage::Allocate(szMinPortionSize);
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }

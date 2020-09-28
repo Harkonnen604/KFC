@@ -9,7 +9,7 @@
 class TMathGlobals : public TModuleGlobals
 {
 public:
-	TMathGlobals();
+    TMathGlobals();
 };
 
 extern TMathGlobals g_MathGlobals;

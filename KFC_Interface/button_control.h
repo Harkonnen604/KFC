@@ -11,11 +11,11 @@
 // -------------------------------
 struct TButtonControlCreationStruct : public TInteractiveControlCreationStruct
 {
-	TButtonControlCreationStruct();
+    TButtonControlCreationStruct();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const TControl*			pParentControl,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const TControl*         pParentControl,
+                const FRECT&            Resolution);
 };
 
 // --------------------------------
@@ -23,55 +23,55 @@ struct TButtonControlCreationStruct : public TInteractiveControlCreationStruct
 // --------------------------------
 struct TButtonControlSpritesProvider : public TTextContainer
 {
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	TButtonControlSpritesProvider();
+    TButtonControlSpritesProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool SetText(const KString& Text);
+    bool SetText(const KString& Text);
 };
 
 // -------------------------------
 // Button control sounds provider
 // -------------------------------
 struct TButtonControlSoundsProvider :
-	public TInteractiveControlSoundsProvider
+    public TInteractiveControlSoundsProvider
 {
-	TButtonControlSoundsProvider();
+    TButtonControlSoundsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ---------------
 // Button control
 // ---------------
-class TButtonControl :	public TInteractiveControl,
-						public TTextContainer
+class TButtonControl :  public TInteractiveControl,
+                        public TTextContainer
 {
 protected:
-	// Update/render events
-	virtual void OnRender() const;
+    // Update/render events
+    virtual void OnRender() const;
 
 public:
-	TObjectPointer<TSprite> m_Sprite;
+    TObjectPointer<TSprite> m_Sprite;
 
 
-	static TControl* LoadControl(	type_t					tpType,
-									TInfoNodeConstIterator	InfoNode,
-									const TControl*			pParentControl,
-									const FRECT&			Resolution);
+    static TControl* LoadControl(   type_t                  tpType,
+                                    TInfoNodeConstIterator  InfoNode,
+                                    const TControl*         pParentControl,
+                                    const FRECT&            Resolution);
 
-	TButtonControl(	const TButtonControlCreationStruct&		CreationStruct,
-					TButtonControlSpritesProvider&			SpritesProvider,
-					TButtonControlSoundsProvider&			SoundsProvider);
+    TButtonControl( const TButtonControlCreationStruct&     CreationStruct,
+                    TButtonControlSpritesProvider&          SpritesProvider,
+                    TButtonControlSoundsProvider&           SoundsProvider);
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool SetText(const KString& Text);
+    bool SetText(const KString& Text);
 };
 
 #endif // button_control_h

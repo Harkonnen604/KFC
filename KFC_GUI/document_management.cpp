@@ -10,181 +10,181 @@ TDocumentManagement::TDocumentManagement()
 
 void TDocumentManagement::Release()
 {
-	m_UntitledFileName.Empty();
+    m_UntitledFileName.Empty();
 }
 
 void TDocumentManagement::Allocate(LPCTSTR pUntitledFileName)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(pUntitledFileName && *pUntitledFileName);
+    DEBUG_VERIFY(pUntitledFileName && *pUntitledFileName);
 
-	m_UntitledFileName = pUntitledFileName;
+    m_UntitledFileName = pUntitledFileName;
 
-	MakeNewDocument();
+    MakeNewDocument();
 }
 
 void TDocumentManagement::ModifyDocument(bool bModify)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	bool bOldModified = m_bModified;
+    bool bOldModified = m_bModified;
 
-	m_bModified = bModify;
+    m_bModified = bModify;
 
-	if(bModify)
-		OnDocumentChange();
+    if(bModify)
+        OnDocumentChange();
 
-	if(m_bModified != bOldModified)
-		ReportDocumentStateChange();	
+    if(m_bModified != bOldModified)
+        ReportDocumentStateChange();
 }
 
 bool TDocumentManagement::CheckSaveDocument()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(!m_bModified)
-		return true;
+    if(!m_bModified)
+        return true;
 
-	int r = OnConfirmSaveDocument(m_FileName, m_bUntitled);
+    int r = OnConfirmSaveDocument(m_FileName, m_bUntitled);
 
-	if(r == IDCANCEL)
-		return false;
+    if(r == IDCANCEL)
+        return false;
 
-	if(r == IDNO)
-		return true;
+    if(r == IDNO)
+        return true;
 
-	return SaveDocument();
+    return SaveDocument();
 }
 
 void TDocumentManagement::MakeNewDocument()
 {
-	m_FileName = m_UntitledFileName, m_bUntitled = true;
+    m_FileName = m_UntitledFileName, m_bUntitled = true;
 
-	m_bModified = false;
+    m_bModified = false;
 
-	OnNewDocument();
+    OnNewDocument();
 
-	OnDocumentChange();
+    OnDocumentChange();
 
-	ReportDocumentStateChange();
+    ReportDocumentStateChange();
 }
 
 bool TDocumentManagement::NewDocument()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(!CheckSaveDocument())
-		return false;
+    if(!CheckSaveDocument())
+        return false;
 
-	MakeNewDocument();
+    MakeNewDocument();
 
-	return true;
+    return true;
 }
 
 bool TDocumentManagement::OpenDocument()
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(!CheckSaveDocument())
-		return false;
+    if(!CheckSaveDocument())
+        return false;
 
-	bool bWasDamaged = false;
+    bool bWasDamaged = false;
 
-	for(;;)
-	{
-		KString FileName = OnGetLoadDocumentFileName();
+    for(;;)
+    {
+        KString FileName = OnGetLoadDocumentFileName();
 
-		if(FileName.IsEmpty())
-		{
-			if(bWasDamaged)
-				MakeNewDocument();
+        if(FileName.IsEmpty())
+        {
+            if(bWasDamaged)
+                MakeNewDocument();
 
-			return false;
-		}
+            return false;
+        }
 
-		bool bDamaged = false;
+        bool bDamaged = false;
 
-		if(!OnLoadDocument(FileName, false, bDamaged))
-		{
-			bWasDamaged |= bDamaged;
-			continue;
-		}
+        if(!OnLoadDocument(FileName, false, bDamaged))
+        {
+            bWasDamaged |= bDamaged;
+            continue;
+        }
 
-		DEBUG_VERIFY(!bDamaged);
+        DEBUG_VERIFY(!bDamaged);
 
-		m_FileName = FileName, m_bUntitled = false;
-		
-		m_bModified = false;
+        m_FileName = FileName, m_bUntitled = false;
 
-		OnDocumentChange();
+        m_bModified = false;
 
-		ReportDocumentStateChange();
+        OnDocumentChange();
 
-		return true;		
-	}
+        ReportDocumentStateChange();
+
+        return true;
+    }
 }
 
 bool TDocumentManagement::ForceOpenDocument(LPCTSTR pFileName, bool bSilent)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	bool bDamaged;
+    bool bDamaged;
 
-	if(!OnLoadDocument(pFileName, bSilent, bDamaged))
-	{
-		if(bDamaged)
-			MakeNewDocument();
+    if(!OnLoadDocument(pFileName, bSilent, bDamaged))
+    {
+        if(bDamaged)
+            MakeNewDocument();
 
-		return false;
-	}
+        return false;
+    }
 
-	m_FileName = pFileName, m_bUntitled = false;
+    m_FileName = pFileName, m_bUntitled = false;
 
-	m_bModified = false;
+    m_bModified = false;
 
-	OnDocumentChange();
+    OnDocumentChange();
 
-	ReportDocumentStateChange();
+    ReportDocumentStateChange();
 
-	return true;
+    return true;
 }
 
 bool TDocumentManagement::SaveDocument(bool bSaveAs)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	if(m_bUntitled)
-		bSaveAs = true;
+    if(m_bUntitled)
+        bSaveAs = true;
 
-	for(;;)
-	{
-		KString FileName;
+    for(;;)
+    {
+        KString FileName;
 
-		if(bSaveAs)
-		{
-			FileName = OnGetSaveDocumentFileName(m_FileName, m_bUntitled);
+        if(bSaveAs)
+        {
+            FileName = OnGetSaveDocumentFileName(m_FileName, m_bUntitled);
 
-			if(FileName.IsEmpty())
-				return false;
-		}
-		else
-		{
-			FileName = m_FileName;
-		}
+            if(FileName.IsEmpty())
+                return false;
+        }
+        else
+        {
+            FileName = m_FileName;
+        }
 
-		if(!OnSaveDocument(FileName, false))
-		{
-			bSaveAs = true;
-			continue;
-		}
+        if(!OnSaveDocument(FileName, false))
+        {
+            bSaveAs = true;
+            continue;
+        }
 
-		m_FileName = FileName, m_bUntitled = false;
+        m_FileName = FileName, m_bUntitled = false;
 
-		m_bModified = false;
+        m_bModified = false;
 
-		ReportDocumentStateChange();
+        ReportDocumentStateChange();
 
-		return true;
-	}
+        return true;
+    }
 }

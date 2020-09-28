@@ -11,28 +11,28 @@
 class TVisualPart
 {
 public:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TObjectPointer<TVisualModelBase> m_Model;
+    TObjectPointer<TVisualModelBase> m_Model;
 
-	TObjectPointer<TD3DMaterial> m_Material;
+    TObjectPointer<TD3DMaterial> m_Material;
 
-	TArray< TObjectPointer<TStatedTexture> > m_Textures;
+    TArray< TObjectPointer<TStatedTexture> > m_Textures;
 
 
-	TVisualPart();
+    TVisualPart();
 
-	~TVisualPart()
-		{ Release(); }
+    ~TVisualPart()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Allocate();
+    void Allocate();
 
-	void Render() const;
+    void Render() const;
 };
 
 #endif // visual_part_h

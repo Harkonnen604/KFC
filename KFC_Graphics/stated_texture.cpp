@@ -8,32 +8,32 @@
 // ---------------
 TStatedTexture::TStatedTexture()
 {
-	m_szStage = UINT_MAX;
+    m_szStage = UINT_MAX;
 }
 
 void TStatedTexture::Release()
 {
-	m_StateBlockNode.Release();	
+    m_StateBlockNode.Release();
 
-	m_Texture.Release();
+    m_Texture.Release();
 
-	m_szStage = UINT_MAX;
+    m_szStage = UINT_MAX;
 }
 
 void TStatedTexture::Allocate(size_t szSStage)
 {
-	Release();
+    Release();
 
-	DEBUG_VERIFY(szSStage != UINT_MAX);
+    DEBUG_VERIFY(szSStage != UINT_MAX);
 
-	m_szStage = szSStage;
+    m_szStage = szSStage;
 }
 
 void TStatedTexture::Install() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	m_Texture.Install(m_szStage);
+    m_Texture.Install(m_szStage);
 
-	g_GraphicsStateManager.SetStateBlockNode(m_StateBlockNode.GetDataPtr());
+    g_GraphicsStateManager.SetStateBlockNode(m_StateBlockNode.GetDataPtr());
 }

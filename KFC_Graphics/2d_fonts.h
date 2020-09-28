@@ -12,17 +12,17 @@
 // ---------------
 struct T2DFontSource
 {
-	KString						m_FileName; // w/o extension
-	TObjectPointer<TGUIFont>	m_GUIFont;
+    KString                     m_FileName; // w/o extension
+    TObjectPointer<TGUIFont>    m_GUIFont;
 
-	
-	T2DFontSource();
 
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const KString&			NamePrefix = TEXT(""),	// trailing space should be added
-				LPCTSTR					pValueName = TEXT("")); // trailing space should be added
+    T2DFontSource();
 
-	bool SetFileName(const KString& SFileName);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const KString&          NamePrefix = TEXT(""),  // trailing space should be added
+                LPCTSTR                 pValueName = TEXT("")); // trailing space should be added
+
+    bool SetFileName(const KString& SFileName);
 };
 
 // -----------
@@ -31,27 +31,27 @@ struct T2DFontSource
 class TFontImage : public TImage
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	FSIZE m_CharSizes[256];
-	FSIZE m_MaxCharSize;
+    FSIZE m_CharSizes[256];
+    FSIZE m_MaxCharSize;
 
 public:
-	TFontImage();
+    TFontImage();
 
-	~TFontImage()
-		{ Release(); }
+    ~TFontImage()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TImage::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TImage::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const T2DFontSource& Source);
+    void Allocate(const T2DFontSource& Source);
 
-	// ---------------- TRIVIALS ----------------
-	const FSIZE* GetCharSizes	() const { return m_CharSizes;		}
-	const FSIZE& GetMaxCharSize	() const { return m_MaxCharSize;	}
+    // ---------------- TRIVIALS ----------------
+    const FSIZE* GetCharSizes   () const { return m_CharSizes;      }
+    const FSIZE& GetMaxCharSize () const { return m_MaxCharSize;    }
 };
 
 // -----------------------------
@@ -59,12 +59,12 @@ public:
 // -----------------------------
 struct TTextureFontCreationStruct : public TFontCreationStruct
 {
-	T2DFontSource m_Source;
+    T2DFontSource m_Source;
 
-	
-	TTextureFontCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    TTextureFontCreationStruct();
+
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -------------
@@ -73,38 +73,38 @@ struct TTextureFontCreationStruct : public TFontCreationStruct
 class TTextureFont : public TFont
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TTexture m_Texture;
+    TTexture m_Texture;
 
 public:
-	static TFont* Create(type_t tpType);
+    static TFont* Create(type_t tpType);
 
-	TTextureFont();
+    TTextureFont();
 
-	~TTextureFont()
-		{ Release(); }	
+    ~TTextureFont()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TFont::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TFont::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const TTextureFontCreationStruct& CreationStruct);
+    void Allocate(const TTextureFontCreationStruct& CreationStruct);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawChar(	TCHAR				cChar,
-					FPOINT				DstCoords,
-					const TD3DColor&	Color = WhiteColor()) const;
+    void DrawChar(  TCHAR               cChar,
+                    FPOINT              DstCoords,
+                    const TD3DColor&    Color = WhiteColor()) const;
 
-	void DrawText(	const KString&		Text,
-					FPOINT				DstCoords,
-					const TD3DColor&	Color = WhiteColor()) const;
+    void DrawText(  const KString&      Text,
+                    FPOINT              DstCoords,
+                    const TD3DColor&    Color = WhiteColor()) const;
 
-	// ---------------- TRIVIALS ----------------
-	TTexture&		GetTexture()		{ return m_Texture; }
-	const TTexture&	GetTexture() const	{ return m_Texture; }
+    // ---------------- TRIVIALS ----------------
+    TTexture&       GetTexture()        { return m_Texture; }
+    const TTexture& GetTexture() const  { return m_Texture; }
 };
 
 // ------------------------------------
@@ -112,16 +112,16 @@ public:
 // ------------------------------------
 struct TTextureShadowFontCreationStruct : public TFontCreationStruct
 {
-	T2DFontSource m_BaseSource;
-	T2DFontSource m_ShadowSource;
+    T2DFontSource m_BaseSource;
+    T2DFontSource m_ShadowSource;
 
-	TD3DColor	m_ShadowColor;
-	FSIZE		m_ShadowOffset;
+    TD3DColor   m_ShadowColor;
+    FSIZE       m_ShadowOffset;
 
 
-	TTextureShadowFontCreationStruct();
+    TTextureShadowFontCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // --------------------
@@ -129,55 +129,55 @@ struct TTextureShadowFontCreationStruct : public TFontCreationStruct
 // --------------------
 class TTextureShadowFont : public TFont
 {
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TTexture m_BaseTexture;
-	TTexture m_ShadowTexture;
+    TTexture m_BaseTexture;
+    TTexture m_ShadowTexture;
 
-	FSIZE m_ShadowOffset;
+    FSIZE m_ShadowOffset;
 
-	FSIZE m_ShadowCharSizes[256];
-	FSIZE m_MaxShadowCharSize;
+    FSIZE m_ShadowCharSizes[256];
+    FSIZE m_MaxShadowCharSize;
 
 public:
-	TD3DColor m_ShadowColor;
+    TD3DColor m_ShadowColor;
 
 
-	static TFont* Create(type_t tpType);
+    static TFont* Create(type_t tpType);
 
-	TTextureShadowFont();
+    TTextureShadowFont();
 
-	~TTextureShadowFont()
-		{ Release(); }
+    ~TTextureShadowFont()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TFont::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TFont::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const TTextureShadowFontCreationStruct& CreationStruct);
+    void Allocate(const TTextureShadowFontCreationStruct& CreationStruct);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawChar(	TCHAR				cChar,
-					FPOINT				DstCoords,
-					const TD3DColor&	Color = WhiteColor()) const;
+    void DrawChar(  TCHAR               cChar,
+                    FPOINT              DstCoords,
+                    const TD3DColor&    Color = WhiteColor()) const;
 
-	void DrawText(	const KString&		Text,
-					FPOINT				DstCoords,
-					const TD3DColor&	Color = WhiteColor()) const;
+    void DrawText(  const KString&      Text,
+                    FPOINT              DstCoords,
+                    const TD3DColor&    Color = WhiteColor()) const;
 
-	// ---------------- TRIVIALS ----------------
-	TTexture&		GetBaseTexture()		{ return m_BaseTexture; }
-	const TTexture&	GetBaseTexture() const	{ return m_BaseTexture; }
+    // ---------------- TRIVIALS ----------------
+    TTexture&       GetBaseTexture()        { return m_BaseTexture; }
+    const TTexture& GetBaseTexture() const  { return m_BaseTexture; }
 
-	TTexture&		GetShadowTexture()			{ return m_ShadowTexture; }
-	const TTexture&	GetShadowTexture() const	{ return m_ShadowTexture; }
+    TTexture&       GetShadowTexture()          { return m_ShadowTexture; }
+    const TTexture& GetShadowTexture() const    { return m_ShadowTexture; }
 
-	const FSIZE& GetShadowOffset() const { return m_ShadowOffset; }
+    const FSIZE& GetShadowOffset() const { return m_ShadowOffset; }
 
-	const FSIZE* GetShadowCharSizes		() const { return m_ShadowCharSizes;	}
-	const FSIZE& GetMaxShadowCharSize	() const { return m_MaxShadowCharSize;	}
+    const FSIZE* GetShadowCharSizes     () const { return m_ShadowCharSizes;    }
+    const FSIZE& GetMaxShadowCharSize   () const { return m_MaxShadowCharSize;  }
 };
 
 #endif // _2d_fonts

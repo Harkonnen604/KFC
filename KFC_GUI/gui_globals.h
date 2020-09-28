@@ -9,7 +9,7 @@
 class T_GUI_Globals : public TModuleGlobals
 {
 public:
-	T_GUI_Globals();
+    T_GUI_Globals();
 };
 
 extern T_GUI_Globals g_GUI_Globals;

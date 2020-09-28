@@ -11,65 +11,65 @@
 class T_SDL_ResourceID_Map
 {
 private:
-	// Storage
-	typedef TTire<size_t> TStorage;
+    // Storage
+    typedef TTire<size_t> TStorage;
 
 private:
-	TStorage m_Storage;
+    TStorage m_Storage;
 
 public:
-	T_SDL_ResourceID_Map() {}
-	
-	T_SDL_ResourceID_Map(LPCTSTR pFileName)
-		{ Parse(pFileName); }
+    T_SDL_ResourceID_Map() {}
 
-	void Parse(LPCTSTR pFileName);
+    T_SDL_ResourceID_Map(LPCTSTR pFileName)
+        { Parse(pFileName); }
 
-	void Clear()
-		{ m_Storage.Clear(); }
+    void Parse(LPCTSTR pFileName);
 
-	void Add(LPCTSTR pName, size_t szValue)
-	{
-		DEBUG_VERIFY(*pName != '[');
+    void Clear()
+        { m_Storage.Clear(); }
 
-		bool bNew;
+    void Add(LPCTSTR pName, size_t szValue)
+    {
+        DEBUG_VERIFY(*pName != '[');
 
-		TStorage::TIterator Iter = m_Storage.Add(pName, bNew);
+        bool bNew;
 
-		if(!bNew)
-			INITIATE_DEFINED_FAILURE((KString)"Duplicate SDL resource ID definition for \"" + pName + "\".");
+        TStorage::TIterator Iter = m_Storage.Add(pName, bNew);
 
-		*Iter = szValue;
-	}
+        if(!bNew)
+            INITIATE_DEFINED_FAILURE((KString)"Duplicate SDL resource ID definition for \"" + pName + "\".");
 
-	size_t operator [] (LPCTSTR pName) const
-	{
-		if(!*pName)
-			return UINT_MAX;
+        *Iter = szValue;
+    }
 
-		TStorage::TConstIterator Iter;
+    size_t operator [] (LPCTSTR pName) const
+    {
+        if(!*pName)
+            return UINT_MAX;
 
-		if(*pName == '[')
-		{
-			size_t szLength = strlen(pName);
+        TStorage::TConstIterator Iter;
 
-			if(szLength < 2 || pName[szLength - 1] != ']')
-				INITIATE_DEFINED_FAILURE((KString)"Malformed SDL resource ID definition: \"" + pName + "\" not found.");
+        if(*pName == '[')
+        {
+            size_t szLength = strlen(pName);
 
-			Iter = m_Storage.Find(pName + 1, szLength - 2);
-		}
-		else
-		{
-			Iter = m_Storage.Find(pName);
-		}
+            if(szLength < 2 || pName[szLength - 1] != ']')
+                INITIATE_DEFINED_FAILURE((KString)"Malformed SDL resource ID definition: \"" + pName + "\" not found.");
 
-		if(!Iter.IsValid())
-			INITIATE_DEFINED_FAILURE((KString)"SDL resource ID definition for \"" + pName + "\" not found.");
+            Iter = m_Storage.Find(pName + 1, szLength - 2);
+        }
+        else
+        {
+            Iter = m_Storage.Find(pName);
+        }
 
-		return *Iter;
-	}
+        if(!Iter.IsValid())
+            INITIATE_DEFINED_FAILURE((KString)"SDL resource ID definition for \"" + pName + "\" not found.");
 
-	void TestDupes() const;
+        return *Iter;
+    }
+
+    void TestDupes() const;
 };
 
 // ---------------------
@@ -78,263 +78,263 @@ public:
 class T_SDL_ResourceStorage
 {
 private:
-	// Cached font
-	struct TCachedFont
-	{
-	public:
-		// Key
-		struct TKey
-		{
-		public:
-			KString	m_FileName;
-			size_t	m_szSize;			
+    // Cached font
+    struct TCachedFont
+    {
+    public:
+        // Key
+        struct TKey
+        {
+        public:
+            KString m_FileName;
+            size_t  m_szSize;
 
-		public:
-			TKey(LPCTSTR pFileName, size_t szSize) :
-			  m_FileName(pFileName), m_szSize(szSize) {}
-		};
+        public:
+            TKey(LPCTSTR pFileName, size_t szSize) :
+              m_FileName(pFileName), m_szSize(szSize) {}
+        };
 
-	public:
-		KString	m_FileName;
-		size_t	m_szSize;
+    public:
+        KString m_FileName;
+        size_t  m_szSize;
 
-		T_SGE_Font m_Font;
+        T_SGE_Font m_Font;
 
-	public:
-		TCachedFont(const TKey& Key) :
-		  m_FileName(Key.m_FileName), m_szSize(Key.m_szSize)
-		  {
-			  m_Font.Load(m_FileName, m_szSize);
-		  }
-	};
+    public:
+        TCachedFont(const TKey& Key) :
+          m_FileName(Key.m_FileName), m_szSize(Key.m_szSize)
+          {
+              m_Font.Load(m_FileName, m_szSize);
+          }
+    };
 
-	friend inline int Compare(const TCachedFont& Image, const TCachedFont::TKey& Key);
+    friend inline int Compare(const TCachedFont& Image, const TCachedFont::TKey& Key);
 
-	// Cached image
-	struct TCachedImage
-	{
-	public:
-		// Key
-		struct TKey
-		{
-		public:
-			KString	m_FileName;
-			UINT32	m_uiColorKey;
+    // Cached image
+    struct TCachedImage
+    {
+    public:
+        // Key
+        struct TKey
+        {
+        public:
+            KString m_FileName;
+            UINT32  m_uiColorKey;
 
-		public:
-			TKey(LPCTSTR pFileName, UINT32 uiColorKey) :
-				m_FileName(pFileName), m_uiColorKey(uiColorKey) {}
-		};
+        public:
+            TKey(LPCTSTR pFileName, UINT32 uiColorKey) :
+                m_FileName(pFileName), m_uiColorKey(uiColorKey) {}
+        };
 
-	public:
-		KString	m_FileName;
-		UINT32	m_uiColorKey;
+    public:
+        KString m_FileName;
+        UINT32  m_uiColorKey;
 
-		T_SDL_Image m_Image;
+        T_SDL_Image m_Image;
 
-	public:
-		TCachedImage(const TKey& Key) :
-			m_FileName(Key.m_FileName), m_uiColorKey(Key.m_uiColorKey)
-		{
-			m_Image.Load(m_FileName);
+    public:
+        TCachedImage(const TKey& Key) :
+            m_FileName(Key.m_FileName), m_uiColorKey(Key.m_uiColorKey)
+        {
+            m_Image.Load(m_FileName);
 
-			if(m_uiColorKey != UINT_MAX)
-				m_Image.SetColorKey(m_uiColorKey);
-		}
-	};
+            if(m_uiColorKey != UINT_MAX)
+                m_Image.SetColorKey(m_uiColorKey);
+        }
+    };
 
-	friend inline int Compare(const TCachedImage& Image, const TCachedImage::TKey& Key);	
+    friend inline int Compare(const TCachedImage& Image, const TCachedImage::TKey& Key);
 
-	// Cached multi-image
-	struct TCachedMultiImage
-	{
-	public:
-		// Key
-		struct TKey
-		{
-		public:
-			KString	m_FileName;
-			bool	m_bSingle;
+    // Cached multi-image
+    struct TCachedMultiImage
+    {
+    public:
+        // Key
+        struct TKey
+        {
+        public:
+            KString m_FileName;
+            bool    m_bSingle;
 
-		public:
-			TKey(LPCTSTR pFileName, bool bSingle) :
-				m_FileName(pFileName), m_bSingle(bSingle) {}
-		};
+        public:
+            TKey(LPCTSTR pFileName, bool bSingle) :
+                m_FileName(pFileName), m_bSingle(bSingle) {}
+        };
 
-	public:
-		KString	m_FileName;
-		bool	m_bSingle;
+    public:
+        KString m_FileName;
+        bool    m_bSingle;
 
-		T_SDL_MultiImage m_Image;
+        T_SDL_MultiImage m_Image;
 
-	public:
-		TCachedMultiImage(const TKey& Key) :
-			m_FileName(Key.m_FileName), m_bSingle(Key.m_bSingle)
-		{
-			m_Image.Load(m_FileName, m_bSingle);
-		}
-	};
+    public:
+        TCachedMultiImage(const TKey& Key) :
+            m_FileName(Key.m_FileName), m_bSingle(Key.m_bSingle)
+        {
+            m_Image.Load(m_FileName, m_bSingle);
+        }
+    };
 
-	friend inline int Compare(const TCachedMultiImage& Image, const TCachedMultiImage::TKey& Key);	
-
-private:
-	static T_SDL_InterfaceDefinition ms_EmptyInterfaceDef;
+    friend inline int Compare(const TCachedMultiImage& Image, const TCachedMultiImage::TKey& Key);
 
 private:
-	T_AVL_Storage<TCachedFont>			m_FontsCache;
-	T_AVL_Storage<TCachedImage>			m_ImagesCache;
-	T_AVL_Storage<TCachedMultiImage>	m_MultiImagesCache;
-
-	mutable TArray<double, true>			m_StateValues;
-	TArray<double, true>					m_Values;
-	TArray<UINT32, true>					m_Colors;
-	TArray<KString>							m_Strings;
-	TArray<const T_SGE_Font*,		true>	m_Fonts;
-	TArray<const T_SDL_Image*,		true>	m_Images;
-	TArray<const T_SDL_MultiImage*,	true>	m_MultiImages;
-	TArray<T_SDL_InterfaceDefinition>		m_InterfaceDefs;
+    static T_SDL_InterfaceDefinition ms_EmptyInterfaceDef;
 
 private:
-	const T_SGE_Font* LoadFont(	LPCTSTR			pString,
-								const TTokens&	ValueTokens,
-								const TTokens&	ColorTokens,
-								const TTokens&	StringTokens);
+    T_AVL_Storage<TCachedFont>          m_FontsCache;
+    T_AVL_Storage<TCachedImage>         m_ImagesCache;
+    T_AVL_Storage<TCachedMultiImage>    m_MultiImagesCache;
 
-	const T_SDL_Image* LoadImage(	LPCTSTR			pString,
-									const TTokens&	ValueTokens,
-									const TTokens&	ColorTokens,
-									const TTokens&	StringTokens);
+    mutable TArray<double, true>            m_StateValues;
+    TArray<double, true>                    m_Values;
+    TArray<UINT32, true>                    m_Colors;
+    TArray<KString>                         m_Strings;
+    TArray<const T_SGE_Font*,       true>   m_Fonts;
+    TArray<const T_SDL_Image*,      true>   m_Images;
+    TArray<const T_SDL_MultiImage*, true>   m_MultiImages;
+    TArray<T_SDL_InterfaceDefinition>       m_InterfaceDefs;
 
-	const T_SDL_MultiImage* LoadMultiImage(	LPCTSTR			pString,
-											const TTokens&	ValueTokens,
-											const TTokens&	ColorTokens,
-											const TTokens&	StringTokens);
+private:
+    const T_SGE_Font* LoadFont( LPCTSTR         pString,
+                                const TTokens&  ValueTokens,
+                                const TTokens&  ColorTokens,
+                                const TTokens&  StringTokens);
+
+    const T_SDL_Image* LoadImage(   LPCTSTR         pString,
+                                    const TTokens&  ValueTokens,
+                                    const TTokens&  ColorTokens,
+                                    const TTokens&  StringTokens);
+
+    const T_SDL_MultiImage* LoadMultiImage( LPCTSTR         pString,
+                                            const TTokens&  ValueTokens,
+                                            const TTokens&  ColorTokens,
+                                            const TTokens&  StringTokens);
 
 public:
-	T_SDL_ResourceStorage() {}
+    T_SDL_ResourceStorage() {}
 
-	T_SDL_ResourceStorage(LPCTSTR pFileName)
-		{ Load(pFileName); }
+    T_SDL_ResourceStorage(LPCTSTR pFileName)
+        { Load(pFileName); }
 
-	void Clear();
+    void Clear();
 
-	void Load(LPCTSTR pFileName);
+    void Load(LPCTSTR pFileName);
 
-	double& GetStateValue(size_t szID) const
-	{
-		KFC_VERIFY(szID < m_StateValues.GetN());
+    double& GetStateValue(size_t szID) const
+    {
+        KFC_VERIFY(szID < m_StateValues.GetN());
 
-		return m_StateValues[szID];
-	}
+        return m_StateValues[szID];
+    }
 
-	double GetValue(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return 0;
-		
-		KFC_VERIFY(szID < m_Values.GetN());
+    double GetValue(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return 0;
 
-		return m_Values[szID];
-	}
-		
-	UINT32 GetColor(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return UINT_MAX;
+        KFC_VERIFY(szID < m_Values.GetN());
 
-		KFC_VERIFY(szID < m_Colors.GetN());
+        return m_Values[szID];
+    }
 
-		return m_Colors[szID];
-	}
+    UINT32 GetColor(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return UINT_MAX;
 
-	const KString& GetString(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return g_EmptyString;
+        KFC_VERIFY(szID < m_Colors.GetN());
 
-		KFC_VERIFY(szID < m_Strings.GetN());
+        return m_Colors[szID];
+    }
 
-		return m_Strings[szID];
-	}
+    const KString& GetString(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return g_EmptyString;
 
-	const T_SGE_Font* GetFont(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return NULL;
+        KFC_VERIFY(szID < m_Strings.GetN());
 
-		KFC_VERIFY(szID < m_Fonts.GetN() && m_Fonts[szID]);
+        return m_Strings[szID];
+    }
 
-		return m_Fonts[szID];
-	}
+    const T_SGE_Font* GetFont(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return NULL;
 
-	const T_SDL_Image* GetImage(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return NULL;
+        KFC_VERIFY(szID < m_Fonts.GetN() && m_Fonts[szID]);
 
-		KFC_VERIFY(szID < m_Images.GetN() && m_Images[szID]);
+        return m_Fonts[szID];
+    }
 
-		return m_Images[szID];
-	}
+    const T_SDL_Image* GetImage(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return NULL;
 
-	const T_SDL_MultiImage* GetMultiImage(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return NULL;
+        KFC_VERIFY(szID < m_Images.GetN() && m_Images[szID]);
 
-		KFC_VERIFY(szID < m_MultiImages.GetN() && m_MultiImages[szID]);
+        return m_Images[szID];
+    }
 
-		return m_MultiImages[szID];
-	}
-		
-	const T_SDL_InterfaceDefinition& GetInterfaceDef(size_t szID) const
-	{
-		if(szID == UINT_MAX)
-			return ms_EmptyInterfaceDef;
-		
-		KFC_VERIFY(szID < m_InterfaceDefs.GetN());
+    const T_SDL_MultiImage* GetMultiImage(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return NULL;
 
-		return m_InterfaceDefs[szID];
-	}	
+        KFC_VERIFY(szID < m_MultiImages.GetN() && m_MultiImages[szID]);
+
+        return m_MultiImages[szID];
+    }
+
+    const T_SDL_InterfaceDefinition& GetInterfaceDef(size_t szID) const
+    {
+        if(szID == UINT_MAX)
+            return ms_EmptyInterfaceDef;
+
+        KFC_VERIFY(szID < m_InterfaceDefs.GetN());
+
+        return m_InterfaceDefs[szID];
+    }
 };
 
 inline int Compare(const T_SDL_ResourceStorage::TCachedFont& Font, const T_SDL_ResourceStorage::TCachedFont::TKey& Key)
 {
-	int d;
+    int d;
 
-	if(d = Compare(Font.m_FileName, Key.m_FileName))
-		return d;
+    if(d = Compare(Font.m_FileName, Key.m_FileName))
+        return d;
 
-	if(d = Compare(Font.m_szSize, Key.m_szSize))
-		return d;
+    if(d = Compare(Font.m_szSize, Key.m_szSize))
+        return d;
 
-	return 0;
+    return 0;
 }
 
 inline int Compare(const T_SDL_ResourceStorage::TCachedImage& Image, const T_SDL_ResourceStorage::TCachedImage::TKey& Key)
 {
-	int d;
+    int d;
 
-	if(d = Compare(Image.m_FileName, Key.m_FileName))
-		return d;
+    if(d = Compare(Image.m_FileName, Key.m_FileName))
+        return d;
 
-	if(d = Compare(Image.m_uiColorKey, Key.m_uiColorKey))
-		return d;
+    if(d = Compare(Image.m_uiColorKey, Key.m_uiColorKey))
+        return d;
 
-	return 0;
+    return 0;
 }
 
 inline int Compare(const T_SDL_ResourceStorage::TCachedMultiImage& Image, const T_SDL_ResourceStorage::TCachedMultiImage::TKey& Key)
 {
-	int d;
+    int d;
 
-	if(d = Compare(Image.m_FileName, Key.m_FileName))
-		return d;
+    if(d = Compare(Image.m_FileName, Key.m_FileName))
+        return d;
 
-	if(d = Compare(Image.m_bSingle, Key.m_bSingle))
-		return d;
+    if(d = Compare(Image.m_bSingle, Key.m_bSingle))
+        return d;
 
-	return 0;
+    return 0;
 }
 
 #endif // sdl_resource_storage_h

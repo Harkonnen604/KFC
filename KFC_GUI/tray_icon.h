@@ -7,47 +7,47 @@
 class TTrayIcon
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	HWND m_hWnd;
+    HWND m_hWnd;
 
-	HICON m_hIcon;
+    HICON m_hIcon;
 
-	UINT m_uiID;
-
-public:
-	bool m_bFailSafe; // prevents exceptions for dead tray under non-NT
+    UINT m_uiID;
 
 public:
-	TTrayIcon();
+    bool m_bFailSafe; // prevents exceptions for dead tray under non-NT
 
-	~TTrayIcon()
-		{ Release(); }
+public:
+    TTrayIcon();
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    ~TTrayIcon()
+        { Release(); }
 
-	void Release(bool bFromAllocatorException = false);
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Allocate(	HWND	hSWnd,
-					UINT	uiSID,
-					HICON	hSIcon,
-					UINT	uiMsg,
-					LPCTSTR	pToolTip = NULL);
+    void Release(bool bFromAllocatorException = false);
 
-	void SetIcon(HICON hSIcon);
+    void Allocate(  HWND    hSWnd,
+                    UINT    uiSID,
+                    HICON   hSIcon,
+                    UINT    uiMsg,
+                    LPCTSTR pToolTip = NULL);
 
-	void SetToolTip(LPCTSTR pToolTip);
+    void SetIcon(HICON hSIcon);
 
-	static void HideWindow		(HWND hWnd, bool bSafe = true);
-	static void RestoreWindow	(HWND hWnd, bool bSafe = true);
+    void SetToolTip(LPCTSTR pToolTip);
 
-	// ---------------- TRIVIALS ----------------
-	HWND GetWnd() const { return m_hWnd; }
+    static void HideWindow      (HWND hWnd, bool bSafe = true);
+    static void RestoreWindow   (HWND hWnd, bool bSafe = true);
 
-	UINT GetID() const { return m_uiID; }
+    // ---------------- TRIVIALS ----------------
+    HWND GetWnd() const { return m_hWnd; }
 
-	HICON GetIcon() const { return m_hIcon; }
+    UINT GetID() const { return m_uiID; }
+
+    HICON GetIcon() const { return m_hIcon; }
 };
 
 #endif // tray_icon_h

@@ -9,30 +9,30 @@
 class TGUIBackBuffer
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TDC m_DC;
+    TDC m_DC;
 
-	TBitmap m_Bitmap;
+    TBitmap m_Bitmap;
 
-	HBITMAP m_hOldBitmap;
+    HBITMAP m_hOldBitmap;
 
-	SZSIZE m_LastSize;
+    SZSIZE m_LastSize;
 
 public:
-	TGUIBackBuffer();
+    TGUIBackBuffer();
 
-	~TGUIBackBuffer()
-		{ Release(); }
+    ~TGUIBackBuffer()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate();
+    void Allocate();
 
-	TDC& GetDC();
+    TDC& GetDC();
 };
 
 #endif // gui_back_buffer_h

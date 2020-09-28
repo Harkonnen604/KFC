@@ -9,19 +9,19 @@
 // ----------------------------
 // Text sprite creation struct
 // ----------------------------
-struct TTextSpriteCreationStruct :	public TSpriteCreationStruct,
-									public TTextContainer
+struct TTextSpriteCreationStruct :  public TSpriteCreationStruct,
+                                    public TTextContainer
 {
-	TTextParams m_TextParams;
+    TTextParams m_TextParams;
 
 
-	TTextSpriteCreationStruct();
+    TTextSpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool SetText(const KString& Text);
+    bool SetText(const KString& Text);
 };
 
 // ---------------------------
@@ -29,81 +29,81 @@ struct TTextSpriteCreationStruct :	public TSpriteCreationStruct,
 // ---------------------------
 struct TTextSpriteFontsProvider
 {
-	TObjectPointer<TFont> m_Font;
+    TObjectPointer<TFont> m_Font;
 
 
-	TTextSpriteFontsProvider();
+    TTextSpriteFontsProvider();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // ------------
 // Text sprite
 // ------------
-class TTextSprite :	public TSprite,
-					public TTextContainer
+class TTextSprite : public TSprite,
+                    public TTextContainer
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TTextParams				m_TextParams;
-	TObjectPointer<TFont>	m_Font;
+    TTextParams             m_TextParams;
+    TObjectPointer<TFont>   m_Font;
 
-	mutable FSIZE m_TextSize;
+    mutable FSIZE m_TextSize;
 
 
-	void InternalUpdateTextSize();	
-	
+    void InternalUpdateTextSize();
+
 public:
-	static TSprite* Create(type_t tpType);
+    static TSprite* Create(type_t tpType);
 
-	TTextSprite();
+    TTextSprite();
 
-	~TTextSprite()
-		{ Release(); }
+    ~TTextSprite()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TSprite::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TSprite::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(	const TTextSpriteCreationStruct&	CreationStruct,
-					TTextSpriteFontsProvider&			FontsProvider);
+    void Allocate(  const TTextSpriteCreationStruct&    CreationStruct,
+                    TTextSpriteFontsProvider&           FontsProvider);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawNonScaled(	const FPOINT&			DstCoords,
-						const TD3DColor&		Color	= WhiteColor(),
-						const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawNonScaled( const FPOINT&           DstCoords,
+                        const TD3DColor&        Color   = WhiteColor(),
+                        const TSpriteStates&    States  = TSpriteStates()) const;
 
-	void DrawRect(	const FRECT&			DstRect,
-					const TD3DColor&		Color	= WhiteColor(),
-					const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawRect(  const FRECT&            DstRect,
+                    const TD3DColor&        Color   = WhiteColor(),
+                    const TSpriteStates&    States  = TSpriteStates()) const;
 
-	bool HasDefaultSize() const;
+    bool HasDefaultSize() const;
 
-	void GetDefaultSize(FSIZE& RSize) const;
+    void GetDefaultSize(FSIZE& RSize) const;
 
-	void SetTextParams(const TTextParams& STextParams);
+    void SetTextParams(const TTextParams& STextParams);
 
-	KString GetText(bool* pRSuccess = NULL) const;
+    KString GetText(bool* pRSuccess = NULL) const;
 
-	bool SetText(const KString& Text);
+    bool SetText(const KString& Text);
 
-	void SetTextAlignment	(const ALSIZE&			Alignment);
-	void SetTextFlags		(flags_t				flFlags);
-	void SetTextFont		(TObjectPointer<TFont>&	Font);
+    void SetTextAlignment   (const ALSIZE&          Alignment);
+    void SetTextFlags       (flags_t                flFlags);
+    void SetTextFont        (TObjectPointer<TFont>& Font);
 
-	TSprite* GetSubObject(size_t szIndex) { INITIATE_FAILURE; }
+    TSprite* GetSubObject(size_t szIndex) { INITIATE_FAILURE; }
 
-	const TSprite* GetSubObject(size_t szIndex) const { INITIATE_FAILURE; }
+    const TSprite* GetSubObject(size_t szIndex) const { INITIATE_FAILURE; }
 
-	size_t GetNSubObjects() const { return 0; }
+    size_t GetNSubObjects() const { return 0; }
 
-	// ---------------- TRIVIALS ----------------
-	const TTextParams& GetTextParams() const { return m_TextParams; }
+    // ---------------- TRIVIALS ----------------
+    const TTextParams& GetTextParams() const { return m_TextParams; }
 
-	const TFont* GetFont() const { return m_Font.GetDataPtr(); }
+    const TFont* GetFont() const { return m_Font.GetDataPtr(); }
 };
 
 #endif // text_sprite_h

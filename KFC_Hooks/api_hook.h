@@ -9,83 +9,83 @@
 class T_API_HookBase
 {
 public:
-	// In-hook counter
-	struct TInHookCounter
-	{
-		// Order should not change
-		DWORD m_dwCounter;
-		DWORD m_dwEDI;
-		DWORD m_dwESI;
+    // In-hook counter
+    struct TInHookCounter
+    {
+        // Order should not change
+        DWORD m_dwCounter;
+        DWORD m_dwEDI;
+        DWORD m_dwESI;
 
 
-		TInHookCounter() : m_dwCounter(0) {}
-	};
+        TInHookCounter() : m_dwCounter(0) {}
+    };
 
-	// TLS in-hook counter getter
-	typedef TInHookCounter& T_TLS_InHookCounterGetter();
+    // TLS in-hook counter getter
+    typedef TInHookCounter& T_TLS_InHookCounterGetter();
 
 private:
-	// Protector
-	class TProtector
-	{
-	private:
-		void*	m_pData;
-		size_t	m_szSize;
-		DWORD	m_dwOldProtect;
+    // Protector
+    class TProtector
+    {
+    private:
+        void*   m_pData;
+        size_t  m_szSize;
+        DWORD   m_dwOldProtect;
 
-	public:
-		TProtector();
+    public:
+        TProtector();
 
-		TProtector(void* pSData, size_t szSSize, DWORD dwProtect);
+        TProtector(void* pSData, size_t szSSize, DWORD dwProtect);
 
-		~TProtector()
-			{ Release(); }
+        ~TProtector()
+            { Release(); }
 
-		bool IsAllocated() const
-			{ return m_pData; }
+        bool IsAllocated() const
+            { return m_pData; }
 
-		void Release();
+        void Release();
 
-		void Allocate(void* pSData, size_t szSSize, DWORD dwProtect);
-	};
+        void Allocate(void* pSData, size_t szSSize, DWORD dwProtect);
+    };
 
 
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	void* m_pOrigProc;
+    void* m_pOrigProc;
 
-	// Must go one after another, size shouldn't change
-	BYTE m_OuterCallWrapper	[64];
-	BYTE m_TrampCode		[64];
+    // Must go one after another, size shouldn't change
+    BYTE m_OuterCallWrapper [64];
+    BYTE m_TrampCode        [64];
 
-	void* m_pTrampProc;	
+    void* m_pTrampProc;
 
-	TProtector m_TrampCodeProtector;
+    TProtector m_TrampCodeProtector;
 
-	TProtector m_OuterCallWrapperProtector;
+    TProtector m_OuterCallWrapperProtector;
 
 public:
-	T_API_HookBase();
+    T_API_HookBase();
 
-	~T_API_HookBase()
-		{ Release(); }
+    ~T_API_HookBase()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	bool Allocate(	LPCTSTR						pName,
-					void*						pSOrigProc,
-					void*						pHookProc,
-					T_TLS_InHookCounterGetter*	pInHookCounterGetter, // NULL for none
-					bool						bSafe);
+    bool Allocate(  LPCTSTR                     pName,
+                    void*                       pSOrigProc,
+                    void*                       pHookProc,
+                    T_TLS_InHookCounterGetter*  pInHookCounterGetter, // NULL for none
+                    bool                        bSafe);
 
-	void* GetTrampProc() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pTrampProc; }
-	
-	bool IsHooked() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pTrampProc != m_pOrigProc; }
+    void* GetTrampProc() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pTrampProc; }
+
+    bool IsHooked() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pTrampProc != m_pOrigProc; }
 };
 
 // ---------
@@ -95,31 +95,31 @@ template <class ft>
 class T_API_Hook : public T_API_HookBase
 {
 public:
-	bool Allocate(	LPCTSTR						pName,
-					ft*							pSOrigProc,
-					ft*							pHookProc,
-					T_TLS_InHookCounterGetter*	pInHookCounterGetter,
-					bool						bSafe);
+    bool Allocate(  LPCTSTR                     pName,
+                    ft*                         pSOrigProc,
+                    ft*                         pHookProc,
+                    T_TLS_InHookCounterGetter*  pInHookCounterGetter,
+                    bool                        bSafe);
 
-	ft* GetTrampProc() const
-		{ return (ft*)T_API_HookBase::GetTrampProc(); }
+    ft* GetTrampProc() const
+        { return (ft*)T_API_HookBase::GetTrampProc(); }
 
-	ft* operator () () const
-		{ return GetTrampProc(); }
+    ft* operator () () const
+        { return GetTrampProc(); }
 };
 
 template <class ft>
-bool T_API_Hook<ft>::Allocate(	LPCTSTR						pName,
-								ft*							pSOrigProc,
-								ft*							pHookProc,
-								T_TLS_InHookCounterGetter*	pInHookCounterGetter,
-								bool						bSafe)
+bool T_API_Hook<ft>::Allocate(  LPCTSTR                     pName,
+                                ft*                         pSOrigProc,
+                                ft*                         pHookProc,
+                                T_TLS_InHookCounterGetter*  pInHookCounterGetter,
+                                bool                        bSafe)
 {
-	return T_API_HookBase::Allocate(pName,
-									(void*)pSOrigProc,
-									(void*)pHookProc,
-									pInHookCounterGetter,
-									bSafe);
+    return T_API_HookBase::Allocate(pName,
+                                    (void*)pSOrigProc,
+                                    (void*)pHookProc,
+                                    pInHookCounterGetter,
+                                    bSafe);
 }
 
 #endif // api_hook_h

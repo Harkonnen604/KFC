@@ -15,285 +15,285 @@
 class TInterface : public TSuspendable
 {
 private:
-	bool m_bAllocated;
-	
-	TControls m_Controls;
+    bool m_bAllocated;
 
-	TMessageProcessor m_MessageProcessor;
+    TControls m_Controls;
+
+    TMessageProcessor m_MessageProcessor;
 
 
-	static void UpdateControlScreenState(TControl* pControl);
+    static void UpdateControlScreenState(TControl* pControl);
 
-	void UpdateControl(TControl* pControl);
+    void UpdateControl(TControl* pControl);
 
-	void CallOnInterfaceUpdated(TControl* pControl);
+    void CallOnInterfaceUpdated(TControl* pControl);
 
-	void RenderControl(const TControl* pControl) const;
+    void RenderControl(const TControl* pControl) const;
 
-	static TControl* InternalFindControl(	size_t		szID,
-											TControl*	pParentControl,
-											TControl*	pStartControl,
-											bool		bRecursive = false);
+    static TControl* InternalFindControl(   size_t      szID,
+                                            TControl*   pParentControl,
+                                            TControl*   pStartControl,
+                                            bool        bRecursive = false);
 
-	static const TControl* InternalFindControl(	size_t			szID,
-												const TControl*	pParentControl,
-												const TControl*	pStartControl,
-												bool			bRecursive = false);
+    static const TControl* InternalFindControl( size_t          szID,
+                                                const TControl* pParentControl,
+                                                const TControl* pStartControl,
+                                                bool            bRecursive = false);
 
-	bool OnSuspend	();
-	bool OnResume	();
+    bool OnSuspend  ();
+    bool OnResume   ();
 
 public:
-	TInterface();
+    TInterface();
 
-	~TInterface()
-		{ Release(); }
+    ~TInterface()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
-	
-	void Release(bool bFromAllocatorException = false);
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	// Returns desktop control (the one passed in)s
-	TControl* Allocate(TControl* pDesktopControl);
+    void Release(bool bFromAllocatorException = false);
+
+    // Returns desktop control (the one passed in)s
+    TControl* Allocate(TControl* pDesktopControl);
 
 private:
-	TControl* MergeControl(	TControl* pSrcControl,
-							TControl* pDstParentControl);
-	
+    TControl* MergeControl( TControl* pSrcControl,
+                            TControl* pDstParentControl);
+
 public:
-	TControl* Merge(TControl* pSrcControl,
-					TControl* pDstParentControl);
+    TControl* Merge(TControl* pSrcControl,
+                    TControl* pDstParentControl);
 
 private:
-	void LoadControl(	TInfoNodeConstIterator	InfoNode,
-						TControl*				pParentControl,
-						const FRECT&			Resolution);
-	
+    void LoadControl(   TInfoNodeConstIterator  InfoNode,
+                        TControl*               pParentControl,
+                        const FRECT&            Resolution);
+
 public:
-	void Load(	TInfoNodeConstIterator	InfoNode,
-				const FRECT&			Resolution);
+    void Load(  TInfoNodeConstIterator  InfoNode,
+                const FRECT&            Resolution);
 
-	void Update();
-	void Render() const;
+    void Update();
+    void Render() const;
 
-	static void SetControlID(TControl* pControl, size_t szID);
+    static void SetControlID(TControl* pControl, size_t szID);
 
-	static void SetControlInitialValues(TControl* pControl);
+    static void SetControlInitialValues(TControl* pControl);
 
-	static void SuspendControl	(TControl* pControl);
-	static void ResumeControl	(TControl* pControl);	
+    static void SuspendControl  (TControl* pControl);
+    static void ResumeControl   (TControl* pControl);
 
-	static void SetControlClientState(	TControl*				pControl,
-										const TControlState&	ClientState,
-										bool					bSetInitialValues = false);
+    static void SetControlClientState(  TControl*               pControl,
+                                        const TControlState&    ClientState,
+                                        bool                    bSetInitialValues = false);
 
-	// Deletion
+    // Deletion
 private:
-	void PreDeleteControl(TControl* pControl);
+    void PreDeleteControl(TControl* pControl);
 
 public:
-	static void DeleteControl(TControl* pControl);
+    static void DeleteControl(TControl* pControl);
 
-	static void DetachControl(TControl* pControl);
+    static void DetachControl(TControl* pControl);
 
-	// Fast handle visibility setting
-	static void SetControlCommonVisibility(	TControl*	pControl,
-											float		fVisibility,
-											bool		bSetInitialValues = false);
+    // Fast handle visibility setting
+    static void SetControlCommonVisibility( TControl*   pControl,
+                                            float       fVisibility,
+                                            bool        bSetInitialValues = false);
 
-	static void SetControlOwnVisibility(TControl*	pControl,
-										float		fVisibility,
-										bool		bSetInitialValues = false);
+    static void SetControlOwnVisibility(TControl*   pControl,
+                                        float       fVisibility,
+                                        bool        bSetInitialValues = false);
 
-	static void SetControlChildrenVisibility(	TControl*	pControl,
-												float		fVisibility,
-												bool		bSetInitialValues = false);
+    static void SetControlChildrenVisibility(   TControl*   pControl,
+                                                float       fVisibility,
+                                                bool        bSetInitialValues = false);
 
-	// Fast ID visibility setting
-	void SetControlCommonVisibility(size_t	szID,
-									float	fVisibility,
-									bool	bSetInitialValues = false)
-	{
-		SetControlCommonVisibility(FindControl(szID), fVisibility, bSetInitialValues);
-	}
+    // Fast ID visibility setting
+    void SetControlCommonVisibility(size_t  szID,
+                                    float   fVisibility,
+                                    bool    bSetInitialValues = false)
+    {
+        SetControlCommonVisibility(FindControl(szID), fVisibility, bSetInitialValues);
+    }
 
-	void SetControlOwnVisibility(	size_t	szID,
-									float	fVisibility,
-									bool	bSetInitialValues = false)
-	{
-		SetControlOwnVisibility(FindControl(szID), fVisibility, bSetInitialValues);
-	}
+    void SetControlOwnVisibility(   size_t  szID,
+                                    float   fVisibility,
+                                    bool    bSetInitialValues = false)
+    {
+        SetControlOwnVisibility(FindControl(szID), fVisibility, bSetInitialValues);
+    }
 
-	void SetControlChildrenVisibility(	size_t	szID,
-										float	fVisibility,
-										bool	bSetInitialValues = false)
-	{
-		SetControlChildrenVisibility(FindControl(szID), fVisibility, bSetInitialValues);
-	}
+    void SetControlChildrenVisibility(  size_t  szID,
+                                        float   fVisibility,
+                                        bool    bSetInitialValues = false)
+    {
+        SetControlChildrenVisibility(FindControl(szID), fVisibility, bSetInitialValues);
+    }
 
-	// Fast handle enablement setting
-	static void SetControlCommonEnablement(	TControl*	pControl,
-											float		fEnablement,
-											bool		bSetInitialValues = false);
+    // Fast handle enablement setting
+    static void SetControlCommonEnablement( TControl*   pControl,
+                                            float       fEnablement,
+                                            bool        bSetInitialValues = false);
 
-	static void SetControlOwnEnablement(TControl*	pControl,
-										float		fEnablement,
-										bool		bSetInitialValues = false);
-
-
-	static void SetControlChildrenEnablement(	TControl*	pControl,
-												float		fEnablement,
-												bool		bSetInitialValues = false);
+    static void SetControlOwnEnablement(TControl*   pControl,
+                                        float       fEnablement,
+                                        bool        bSetInitialValues = false);
 
 
-	// Fast ID enablement setting
-	void SetControlCommonEnablement(size_t	szID,
-									float	fEnablement,
-									bool	bSetInitialValues = false)
+    static void SetControlChildrenEnablement(   TControl*   pControl,
+                                                float       fEnablement,
+                                                bool        bSetInitialValues = false);
 
-	{
-		SetControlCommonEnablement(FindControl(szID), fEnablement, bSetInitialValues);
-	}
 
-	void SetControlOwnEnablement(	size_t	szID,
-									float	fEnablement,
-									bool	bSetInitialValues = false)
+    // Fast ID enablement setting
+    void SetControlCommonEnablement(size_t  szID,
+                                    float   fEnablement,
+                                    bool    bSetInitialValues = false)
 
-	{
-		SetControlOwnEnablement(FindControl(szID), fEnablement, bSetInitialValues);
-	}
+    {
+        SetControlCommonEnablement(FindControl(szID), fEnablement, bSetInitialValues);
+    }
 
-	void SetControlChildrenEnablement(	size_t	szID,
-										float	fEnablement,
-										bool	bSetInitialValues = false)
+    void SetControlOwnEnablement(   size_t  szID,
+                                    float   fEnablement,
+                                    bool    bSetInitialValues = false)
 
-	{
-		SetControlChildrenEnablement(FindControl(szID), fEnablement, bSetInitialValues);
-	}
-	
-	// Fash handle text getting
-	static KString GetControlText(	const TControl*	pControl,
-									bool*			pRSuccess = NULL);
+    {
+        SetControlOwnEnablement(FindControl(szID), fEnablement, bSetInitialValues);
+    }
 
-	// Fast ID text getting
-	KString GetControlText(	size_t	szID,
-							bool*	pRSuccess = NULL) const
-	{
-		return GetControlText(FindControl(szID), pRSuccess);
-	}
+    void SetControlChildrenEnablement(  size_t  szID,
+                                        float   fEnablement,
+                                        bool    bSetInitialValues = false)
 
-	// Fast handle text setting
-	static bool SetControlText(	TControl*		pControl,
-								const KString&	Text,
-								bool			bSetInitialValues = false);
+    {
+        SetControlChildrenEnablement(FindControl(szID), fEnablement, bSetInitialValues);
+    }
 
-	// Fast ID text setting
-	bool SetControlText(size_t			szID,
-						const KString&	Text,
-						bool			bSetInitialValues = false)
-	{
-		return SetControlText(FindControl(szID), Text, bSetInitialValues);
-	}
+    // Fash handle text getting
+    static KString GetControlText(  const TControl* pControl,
+                                    bool*           pRSuccess = NULL);
 
-	// Fast handle check getting
-	static bool GetControlCheck(const TControl*	pControlIter,
-								bool*			pRSuccess = NULL);
+    // Fast ID text getting
+    KString GetControlText( size_t  szID,
+                            bool*   pRSuccess = NULL) const
+    {
+        return GetControlText(FindControl(szID), pRSuccess);
+    }
 
-	// Fast ID check getting
-	bool GetControlCheck(	size_t	szID,
-							bool*	pRSuccess = NULL) const
-	{
-		return GetControlCheck(FindControl(szID), pRSuccess);
-	}
+    // Fast handle text setting
+    static bool SetControlText( TControl*       pControl,
+                                const KString&  Text,
+                                bool            bSetInitialValues = false);
 
-	// Fast handle check setting
-	static bool SetControlCheck(TControl*	pControl,
-								bool		bCheck,
-								bool		bSetInitialValues = false);
+    // Fast ID text setting
+    bool SetControlText(size_t          szID,
+                        const KString&  Text,
+                        bool            bSetInitialValues = false)
+    {
+        return SetControlText(FindControl(szID), Text, bSetInitialValues);
+    }
 
-	// Fast ID check setting
-	bool SetControlCheck(	size_t	szID,
-							bool	bCheck,
-							bool	bSetInitialValues = false)
-	{
-		return SetControlCheck(FindControl(szID), bCheck, bSetInitialValues);
-	}
+    // Fast handle check getting
+    static bool GetControlCheck(const TControl* pControlIter,
+                                bool*           pRSuccess = NULL);
 
-	// Messages accessing
-	TMessageProcessor& GetMessageProcessor();
+    // Fast ID check getting
+    bool GetControlCheck(   size_t  szID,
+                            bool*   pRSuccess = NULL) const
+    {
+        return GetControlCheck(FindControl(szID), pRSuccess);
+    }
 
-	const TMessageProcessor& GetMessageProcessor() const;
+    // Fast handle check setting
+    static bool SetControlCheck(TControl*   pControl,
+                                bool        bCheck,
+                                bool        bSetInitialValues = false);
 
-	TMessageIterator GetFirstMessage() const;
-	
-	// Addition
-	TControl* AddChildControl(	TControl* pControl,
-								TControl* pParentControl,
-								TControl* pPrevControl,
-								TControl* pNextControl)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    // Fast ID check setting
+    bool SetControlCheck(   size_t  szID,
+                            bool    bCheck,
+                            bool    bSetInitialValues = false)
+    {
+        return SetControlCheck(FindControl(szID), bCheck, bSetInitialValues);
+    }
 
-		DEBUG_VERIFY(pControl);
+    // Messages accessing
+    TMessageProcessor& GetMessageProcessor();
 
-		TControls::TIterator Iter =
-			m_Controls.Add(	pParentControl->m_Iter,
-							pPrevControl ? pPrevControl->m_Iter : NULL,
-							pNextControl ? pNextControl->m_Iter : NULL);
+    const TMessageProcessor& GetMessageProcessor() const;
 
-		return &(*Iter = pControl)->Allocate(*this, Iter);
-	}
+    TMessageIterator GetFirstMessage() const;
 
-	TControl* AddFirstChildControl(	TControl* pControl,
-									TControl* pParentControl)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    // Addition
+    TControl* AddChildControl(  TControl* pControl,
+                                TControl* pParentControl,
+                                TControl* pPrevControl,
+                                TControl* pNextControl)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		DEBUG_VERIFY(pControl);
+        DEBUG_VERIFY(pControl);
 
-		TControls::TIterator Iter =
-			m_Controls.AddFirstChild(pParentControl->m_Iter);
+        TControls::TIterator Iter =
+            m_Controls.Add( pParentControl->m_Iter,
+                            pPrevControl ? pPrevControl->m_Iter : NULL,
+                            pNextControl ? pNextControl->m_Iter : NULL);
 
-		return &(*Iter = pControl)->Allocate(*this, Iter);
-	}
-	
-	TControl* AddLastChildControl(	TControl* pControl,
-									TControl* pParentControl)
-	{
-		DEBUG_VERIFY_ALLOCATION;
+        return &(*Iter = pControl)->Allocate(*this, Iter);
+    }
 
-		DEBUG_VERIFY(pControl);
+    TControl* AddFirstChildControl( TControl* pControl,
+                                    TControl* pParentControl)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		TControls::TIterator Iter =
-			m_Controls.AddLastChild(pParentControl->m_Iter);
+        DEBUG_VERIFY(pControl);
 
-		return &(*Iter = pControl)->Allocate(*this, Iter);
-	}
+        TControls::TIterator Iter =
+            m_Controls.AddFirstChild(pParentControl->m_Iter);
 
-	// Enumeration
-	TControl*		GetDesktopControl();
-	const TControl*	GetDesktopControl() const;
+        return &(*Iter = pControl)->Allocate(*this, Iter);
+    }
 
-	TControl* FindControl(	size_t		szID,
-							TControl*	pParentControl	= NULL,
-							TControl*	pStartControl	= NULL,
-							bool		bRecursive		= true);
+    TControl* AddLastChildControl(  TControl* pControl,
+                                    TControl* pParentControl)
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-	const TControl* FindControl(size_t			szID,
-								const TControl*	pParentControl	= NULL,
-								const TControl*	pStartControl	= NULL,
-								bool			bRecursive		= true) const;
+        DEBUG_VERIFY(pControl);
 
-	TControl* GetControl(	size_t		szID,
-							TControl*	pParentControl	= NULL,
-							TControl*	pStartControl	= NULL,
-							bool		bRecursive		= true);
+        TControls::TIterator Iter =
+            m_Controls.AddLastChild(pParentControl->m_Iter);
 
-	const TControl* GetControl(	size_t			szID,
-								const TControl*	pParentControl	= NULL,
-								const TControl*	pStartControl	= NULL,
-								bool			bRecursive		= true) const;
+        return &(*Iter = pControl)->Allocate(*this, Iter);
+    }
+
+    // Enumeration
+    TControl*       GetDesktopControl();
+    const TControl* GetDesktopControl() const;
+
+    TControl* FindControl(  size_t      szID,
+                            TControl*   pParentControl  = NULL,
+                            TControl*   pStartControl   = NULL,
+                            bool        bRecursive      = true);
+
+    const TControl* FindControl(size_t          szID,
+                                const TControl* pParentControl  = NULL,
+                                const TControl* pStartControl   = NULL,
+                                bool            bRecursive      = true) const;
+
+    TControl* GetControl(   size_t      szID,
+                            TControl*   pParentControl  = NULL,
+                            TControl*   pStartControl   = NULL,
+                            bool        bRecursive      = true);
+
+    const TControl* GetControl( size_t          szID,
+                                const TControl* pParentControl  = NULL,
+                                const TControl* pStartControl   = NULL,
+                                bool            bRecursive      = true) const;
 };
 
 // ----------------
@@ -302,21 +302,21 @@ public:
 class TControlsMerger
 {
 private:
-	TControl* m_pControl;
+    TControl* m_pControl;
 
 public:
-	TControlsMerger();
+    TControlsMerger();
 
-	~TControlsMerger()
-		{ Release(); }
+    ~TControlsMerger()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_pControl; }
+    bool IsAllocated() const
+        { return m_pControl; }
 
-	void Release();
+    void Release();
 
-	TControl* Allocate(	TControl* pSrcControl,
-						TControl* pDstParentControl);
+    TControl* Allocate( TControl* pSrcControl,
+                        TControl* pDstParentControl);
 };
 
 #endif // interface_h

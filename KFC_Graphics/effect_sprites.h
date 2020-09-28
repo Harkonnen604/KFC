@@ -8,12 +8,12 @@
 // -----------------------------------
 struct TRectEffectSpriteCreationStruct : public TSpriteCreationStruct
 {
-	TD3DColor m_SubColors[4];
+    TD3DColor m_SubColors[4];
 
 
-	TRectEffectSpriteCreationStruct();
+    TRectEffectSpriteCreationStruct();
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 };
 
 // -------------------
@@ -22,45 +22,45 @@ struct TRectEffectSpriteCreationStruct : public TSpriteCreationStruct
 class TRectEffectSprite : public TSprite
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
 public:
-	TD3DColor m_SubColors[4];
+    TD3DColor m_SubColors[4];
 
 
-	static TSprite* Create(type_t tpType);
+    static TSprite* Create(type_t tpType);
 
-	TRectEffectSprite();
+    TRectEffectSprite();
 
-	~TRectEffectSprite()
-		{ Release(); }
+    ~TRectEffectSprite()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return TSprite::IsAllocated() && m_bAllocated; }
+    bool IsAllocated() const
+        { return TSprite::IsAllocated() && m_bAllocated; }
 
-	void Release(bool bFromAllocatorException = false);
+    void Release(bool bFromAllocatorException = false);
 
-	void Allocate(const TRectEffectSpriteCreationStruct& CreationStruct);
+    void Allocate(const TRectEffectSpriteCreationStruct& CreationStruct);
 
-	void Load(TInfoNodeConstIterator InfoNode);
+    void Load(TInfoNodeConstIterator InfoNode);
 
-	void DrawNonScaled(	const FPOINT&			DstCoords,
-						const TD3DColor&		Color	= WhiteColor(),
-						const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawNonScaled( const FPOINT&           DstCoords,
+                        const TD3DColor&        Color   = WhiteColor(),
+                        const TSpriteStates&    States  = TSpriteStates()) const;
 
-	void DrawRect(	const FRECT&			DstRect,
-					const TD3DColor&		Color	= WhiteColor(),
-					const TSpriteStates&	States	= TSpriteStates()) const;
+    void DrawRect(  const FRECT&            DstRect,
+                    const TD3DColor&        Color   = WhiteColor(),
+                    const TSpriteStates&    States  = TSpriteStates()) const;
 
-	bool HasDefaultSize() const { return false; }
+    bool HasDefaultSize() const { return false; }
 
-	void GetDefaultSize(FSIZE& RSize) const;
+    void GetDefaultSize(FSIZE& RSize) const;
 
-	TSprite *GetSubObject(size_t szIndex) { INITIATE_FAILURE; }
+    TSprite *GetSubObject(size_t szIndex) { INITIATE_FAILURE; }
 
-	const TSprite* GetSubObject(size_t szIndex) const { INITIATE_FAILURE; }
+    const TSprite* GetSubObject(size_t szIndex) const { INITIATE_FAILURE; }
 
-	size_t GetNSubObjects() const { return 0; }
+    size_t GetNSubObjects() const { return 0; }
 };
 
 #endif // effect_sprites_h

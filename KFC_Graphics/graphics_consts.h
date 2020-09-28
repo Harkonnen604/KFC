@@ -13,27 +13,27 @@
 class TGraphicsConsts : public TConsts
 {
 public:
-	// Filenames
-	KString m_SpritesFolderName;
-	KString m_FontsFolderName;
-	KString m_ScreenShotsFolderName;
-	KString m_ScreenShotFileNamePrefix;
-	KString m_ScreenShotFileNamePostfix;
+    // Filenames
+    KString m_SpritesFolderName;
+    KString m_FontsFolderName;
+    KString m_ScreenShotsFolderName;
+    KString m_ScreenShotFileNamePrefix;
+    KString m_ScreenShotFileNamePostfix;
 
-	// Graphics
-	size_t		m_szMaxGraphicsStripRects;
-	FSEGMENT	m_DefaultCameraZClipPlanes;
-	float		m_fDefaultCameraFOV;
+    // Graphics
+    size_t      m_szMaxGraphicsStripRects;
+    FSEGMENT    m_DefaultCameraZClipPlanes;
+    float       m_fDefaultCameraFOV;
 
-	// Graphics effects
-	size_t m_szMaxGraphicsEffectVertices;
+    // Graphics effects
+    size_t m_szMaxGraphicsEffectVertices;
 
-	// Storages
-	size_t m_szNFontsRegistrationManagerFixedEntries;
-	size_t m_szNSpritesRegistrationManagerFixedEntries;
+    // Storages
+    size_t m_szNFontsRegistrationManagerFixedEntries;
+    size_t m_szNSpritesRegistrationManagerFixedEntries;
 
 
-	TGraphicsConsts();
+    TGraphicsConsts();
 };
 
 extern TGraphicsConsts g_GraphicsConsts;

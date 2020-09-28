@@ -4,8 +4,8 @@
 // ----------------
 // Global routines
 // ----------------
-void TestArrayFlexibleItemHeap		();
-void TestDancerFlexibleItemHeap		();
+void TestArrayFlexibleItemHeap      ();
+void TestDancerFlexibleItemHeap     ();
 void TestFileMappingFlexibleItemHeap();
 
 #endif // flexible_item_heap_test_h

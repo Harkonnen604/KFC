@@ -10,22 +10,22 @@ bool KGetAtomName(ATOM aAtom, KString& RName);
 
 inline KString KGetAtomName(ATOM aAtom)
 {
-	KString Name;
+    KString Name;
 
-	KFC_VERIFY(KGetAtomName(aAtom, Name));
+    KFC_VERIFY(KGetAtomName(aAtom, Name));
 
-	return Name;
+    return Name;
 }
 
 bool KGlobalGetAtomName(ATOM aAtom, KString& RName);
 
 inline KString KGlobalGetAtomName(ATOM aAtom)
 {
-	KString Name;
+    KString Name;
 
-	KFC_VERIFY(KGetAtomName(aAtom, Name));
+    KFC_VERIFY(KGetAtomName(aAtom, Name));
 
-	return Name;
+    return Name;
 }
 
 // -----
@@ -34,80 +34,80 @@ inline KString KGlobalGetAtomName(ATOM aAtom)
 class TAtom
 {
 private:
-	ATOM m_aAtom;
+    ATOM m_aAtom;
 
 private:
-	TAtom(const TAtom&);
+    TAtom(const TAtom&);
 
-	TAtom& operator = (const TAtom&);
+    TAtom& operator = (const TAtom&);
 
 public:
-	TAtom()
-	{
-		m_aAtom = 0;
-	}
+    TAtom()
+    {
+        m_aAtom = 0;
+    }
 
-	TAtom(ATOM aAtom)
-	{
-		m_aAtom = 0;
+    TAtom(ATOM aAtom)
+    {
+        m_aAtom = 0;
 
-		Allocate(aAtom);		
-	}
+        Allocate(aAtom);
+    }
 
-	TAtom(LPCTSTR pString)
-	{
-		m_aAtom = 0;
+    TAtom(LPCTSTR pString)
+    {
+        m_aAtom = 0;
 
-		Allocate(pString);
-	}
+        Allocate(pString);
+    }
 
-	~TAtom()
-		{ Release(); }
+    ~TAtom()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_aAtom; }
+    bool IsAllocated() const
+        { return m_aAtom; }
 
-	void Release()
-	{
-		if(m_aAtom)
-			DeleteAtom(m_aAtom), m_aAtom = 0;
-	}
+    void Release()
+    {
+        if(m_aAtom)
+            DeleteAtom(m_aAtom), m_aAtom = 0;
+    }
 
-	void Allocate(LPCTSTR pString)
-	{
-		Release();
+    void Allocate(LPCTSTR pString)
+    {
+        Release();
 
-		DEBUG_VERIFY(pString);
+        DEBUG_VERIFY(pString);
 
-		m_aAtom = AddAtom(pString);
-		KFC_VERIFY(m_aAtom);
-	}
+        m_aAtom = AddAtom(pString);
+        KFC_VERIFY(m_aAtom);
+    }
 
-	void Allocate(ATOM aAtom)
-	{
-		Release();
+    void Allocate(ATOM aAtom)
+    {
+        Release();
 
-		DEBUG_VERIFY(aAtom);
+        DEBUG_VERIFY(aAtom);
 
-		m_aAtom = aAtom;
-	}
+        m_aAtom = aAtom;
+    }
 
-	ATOM GetAtom() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    ATOM GetAtom() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_aAtom;
-	}
+        return m_aAtom;
+    }
 
-	operator ATOM () const
-		{ return GetAtom(); }
+    operator ATOM () const
+        { return GetAtom(); }
 
-	operator KString () const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    operator KString () const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return KGetAtomName(m_aAtom);		
-	}
+        return KGetAtomName(m_aAtom);
+    }
 };
 
 // ------------
@@ -116,80 +116,80 @@ public:
 class TGlobalAtom
 {
 private:
-	ATOM m_aAtom;
+    ATOM m_aAtom;
 
 private:
-	TGlobalAtom(const TGlobalAtom&);
+    TGlobalAtom(const TGlobalAtom&);
 
-	TGlobalAtom& operator = (const TGlobalAtom&);
+    TGlobalAtom& operator = (const TGlobalAtom&);
 
 public:
-	TGlobalAtom()
-	{
-		m_aAtom = 0;
-	}
+    TGlobalAtom()
+    {
+        m_aAtom = 0;
+    }
 
-	TGlobalAtom(ATOM aAtom)
-	{
-		m_aAtom = 0;
+    TGlobalAtom(ATOM aAtom)
+    {
+        m_aAtom = 0;
 
-		Allocate(aAtom);		
-	}
+        Allocate(aAtom);
+    }
 
-	TGlobalAtom(LPCTSTR pString)
-	{
-		m_aAtom = 0;
+    TGlobalAtom(LPCTSTR pString)
+    {
+        m_aAtom = 0;
 
-		Allocate(pString);
-	}
+        Allocate(pString);
+    }
 
-	~TGlobalAtom()
-		{ Release(); }
+    ~TGlobalAtom()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_aAtom; }
+    bool IsAllocated() const
+        { return m_aAtom; }
 
-	void Release()
-	{
-		if(m_aAtom)
-			GlobalDeleteAtom(m_aAtom), m_aAtom = 0;
-	}
+    void Release()
+    {
+        if(m_aAtom)
+            GlobalDeleteAtom(m_aAtom), m_aAtom = 0;
+    }
 
-	void Allocate(LPCTSTR pString)
-	{
-		Release();
+    void Allocate(LPCTSTR pString)
+    {
+        Release();
 
-		DEBUG_VERIFY(pString);
+        DEBUG_VERIFY(pString);
 
-		m_aAtom = GlobalAddAtom(pString);
-		KFC_VERIFY(m_aAtom);
-	}
+        m_aAtom = GlobalAddAtom(pString);
+        KFC_VERIFY(m_aAtom);
+    }
 
-	void Allocate(ATOM aAtom)
-	{
-		Release();
+    void Allocate(ATOM aAtom)
+    {
+        Release();
 
-		DEBUG_VERIFY(aAtom);
+        DEBUG_VERIFY(aAtom);
 
-		m_aAtom = aAtom;
-	}
+        m_aAtom = aAtom;
+    }
 
-	ATOM GetAtom() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    ATOM GetAtom() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return m_aAtom;
-	}
+        return m_aAtom;
+    }
 
-	operator ATOM () const
-		{ return GetAtom(); }
+    operator ATOM () const
+        { return GetAtom(); }
 
-	operator KString () const
-	{
-		DEBUG_VERIFY_ALLOCATION;
+    operator KString () const
+    {
+        DEBUG_VERIFY_ALLOCATION;
 
-		return KGlobalGetAtomName(m_aAtom);
-	}
+        return KGlobalGetAtomName(m_aAtom);
+    }
 };
 
 #endif // _MSC_VER

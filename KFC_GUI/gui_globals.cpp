@@ -18,13 +18,13 @@ T_GUI_Globals g_GUI_Globals;
 // ------------
 T_GUI_Globals::T_GUI_Globals() : TModuleGlobals(TEXT("GUI globals"))
 {
-	AddSubGlobals(g_KTL_Globals);
-	AddSubGlobals(g_CommonGlobals);
-	AddSubGlobals(g_GUI_Cfg);
-	AddSubGlobals(g_GUI_Initials);
-	AddSubGlobals(g_GUI_Tokens);
-	AddSubGlobals(g_GUI_DeviceGlobals);
-	AddSubGlobals(g_GUI_FontStorage);
-	AddSubGlobals(g_WindowSubclasserGlobals);
-	AddSubGlobals(g_EditFilterGlobals);
+    AddSubGlobals(g_KTL_Globals);
+    AddSubGlobals(g_CommonGlobals);
+    AddSubGlobals(g_GUI_Cfg);
+    AddSubGlobals(g_GUI_Initials);
+    AddSubGlobals(g_GUI_Tokens);
+    AddSubGlobals(g_GUI_DeviceGlobals);
+    AddSubGlobals(g_GUI_FontStorage);
+    AddSubGlobals(g_WindowSubclasserGlobals);
+    AddSubGlobals(g_EditFilterGlobals);
 }

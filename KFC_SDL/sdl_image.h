@@ -7,58 +7,58 @@
 class T_SDL_Image
 {
 private:
-	SDL_Surface* m_pSurface;
+    SDL_Surface* m_pSurface;
 
-	UINT32 m_uiColorKey;
+    UINT32 m_uiColorKey;
 
 public:
-	T_SDL_Image();
+    T_SDL_Image();
 
-	T_SDL_Image(const T_SDL_Image& Image);
+    T_SDL_Image(const T_SDL_Image& Image);
 
-	T_SDL_Image(LPCTSTR pFileName);
+    T_SDL_Image(LPCTSTR pFileName);
 
-	T_SDL_Image(const SZSIZE& Size);
-	
-	~T_SDL_Image()
-		{ Release(); }
+    T_SDL_Image(const SZSIZE& Size);
 
-	bool IsAllocated() const
-		{ return m_pSurface; }
+    ~T_SDL_Image()
+        { Release(); }
 
-	void Release();
+    bool IsAllocated() const
+        { return m_pSurface; }
 
-	void Create(const SZSIZE& Size);
+    void Release();
 
-	void Load(LPCTSTR pFileName);
+    void Create(const SZSIZE& Size);
 
-	const SDL_PixelFormat* GetFormat() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pSurface->format; }
+    void Load(LPCTSTR pFileName);
 
-	UINT GetColorKey() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_uiColorKey; }
+    const SDL_PixelFormat* GetFormat() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pSurface->format; }
 
-	bool HasColorKey() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_uiColorKey != UINT_MAX; }
+    UINT GetColorKey() const
+        { DEBUG_VERIFY_ALLOCATION; return m_uiColorKey; }
 
-	void SetColorKey(UINT32 uiColorKey);
+    bool HasColorKey() const
+        { DEBUG_VERIFY_ALLOCATION; return m_uiColorKey != UINT_MAX; }
 
-	T_SDL_Image& operator = (const T_SDL_Image& Image);	
+    void SetColorKey(UINT32 uiColorKey);
 
-	size_t GetWidth() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pSurface->w; }
-		
-	size_t GetHeight() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pSurface->h; }
-	
-	SZSIZE GetSize() const
-		{ DEBUG_VERIFY_ALLOCATION; return SZSIZE(m_pSurface->w, m_pSurface->h); }
+    T_SDL_Image& operator = (const T_SDL_Image& Image);
 
-	SDL_Surface* GetSurface() const
-		{ DEBUG_VERIFY_ALLOCATION; return m_pSurface; }
+    size_t GetWidth() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pSurface->w; }
 
-	operator SDL_Surface* () const
-		{ return GetSurface(); }
+    size_t GetHeight() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pSurface->h; }
+
+    SZSIZE GetSize() const
+        { DEBUG_VERIFY_ALLOCATION; return SZSIZE(m_pSurface->w, m_pSurface->h); }
+
+    SDL_Surface* GetSurface() const
+        { DEBUG_VERIFY_ALLOCATION; return m_pSurface; }
+
+    operator SDL_Surface* () const
+        { return GetSurface(); }
 };
 
 // ----------------
@@ -67,35 +67,35 @@ public:
 class T_SDL_MultiImage
 {
 private:
-	T_SDL_Image m_Images[3][3];
+    T_SDL_Image m_Images[3][3];
 
 public:
-	T_SDL_MultiImage();
+    T_SDL_MultiImage();
 
-	T_SDL_MultiImage(LPCTSTR pFileName, bool bSingle = false);
+    T_SDL_MultiImage(LPCTSTR pFileName, bool bSingle = false);
 
-	~T_SDL_MultiImage()
-		{ Release(); }
+    ~T_SDL_MultiImage()
+        { Release(); }
 
-	bool IsAllocated() const
-		{ return m_Images[1][1].IsAllocated(); }
+    bool IsAllocated() const
+        { return m_Images[1][1].IsAllocated(); }
 
-	void Release();
+    void Release();
 
-	bool IsSingle() const
-		{ return !m_Images[0][0].IsAllocated(); }
+    bool IsSingle() const
+        { return !m_Images[0][0].IsAllocated(); }
 
-	SZSIZE GetSingleSize() const
-	{
-		DEBUG_VERIFY_ALLOCATION;
-		DEBUG_VERIFY(IsSingle());
+    SZSIZE GetSingleSize() const
+    {
+        DEBUG_VERIFY_ALLOCATION;
+        DEBUG_VERIFY(IsSingle());
 
-		return m_Images[1][1].GetSize();
-	}
+        return m_Images[1][1].GetSize();
+    }
 
-	void Load(LPCTSTR pFileName, bool bSingle = false);
+    void Load(LPCTSTR pFileName, bool bSingle = false);
 
-	void Draw(SDL_Surface* pSurface, const IRECT& Rect, bool bUpdate = true) const;
+    void Draw(SDL_Surface* pSurface, const IRECT& Rect, bool bUpdate = true) const;
 };
 
 #endif // sdl_image_h

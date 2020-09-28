@@ -8,15 +8,15 @@
 // Dereferencing routines
 // -----------------------
 inline TControl* IterToCtrl(TControls::TIterator Iter)
-	{ return Iter.IsValid() ? &**Iter : NULL; }
+    { return Iter.IsValid() ? &**Iter : NULL; }
 
 inline const TControl* IterToCtrl(TControls::TConstIterator Iter)
-	{ return Iter.IsValid() ? &**Iter : NULL; }
+    { return Iter.IsValid() ? &**Iter : NULL; }
 
 inline TControls::TIterator CtrlToIter(TControl* pControl)
-	{ return pControl ? pControl->GetIter() : NULL; }
+    { return pControl ? pControl->GetIter() : NULL; }
 
 inline TControls::TConstIterator CtrlToIter(const TControl* pControl)
-	{ return pControl ? pControl->GetIter() : NULL; }
+    { return pControl ? pControl->GetIter() : NULL; }
 
 #endif // ctrl_deref_h

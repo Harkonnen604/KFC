@@ -9,21 +9,21 @@
 struct TMsgBoxParams
 {
 public:
-	HWND	m_hWnd;
-	KString	m_Text;
-	KString	m_Caption;
-	ktype_t	m_tpType;
-	
-public:
-	TMsgBoxParams(	HWND	hSWnd,
-					LPCTSTR	pSText,
-					LPCTSTR	pSCaption,
-					ktype_t	tpSType) :	m_hWnd		(hSWnd),
-										m_Text		(pSText),
-										m_Caption	(pSCaption),
-										m_tpType	(tpSType) {}
+    HWND    m_hWnd;
+    KString m_Text;
+    KString m_Caption;
+    ktype_t m_tpType;
 
-	int Spawn() const;
+public:
+    TMsgBoxParams(  HWND    hSWnd,
+                    LPCTSTR pSText,
+                    LPCTSTR pSCaption,
+                    ktype_t tpSType) :  m_hWnd      (hSWnd),
+                                        m_Text      (pSText),
+                                        m_Caption   (pSCaption),
+                                        m_tpType    (tpSType) {}
+
+    int Spawn() const;
 };
 
 // ----------------

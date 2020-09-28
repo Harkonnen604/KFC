@@ -8,25 +8,25 @@
 // Physics cfg
 // ------------
 class TPhysicsCfg :
-	public TGlobals,
-	public TAssignmentsList
+    public TGlobals,
+    public TAssignmentsList
 {
 private:
-	void OnUninitialize	();
-	void OnInitialize	();
+    void OnUninitialize ();
+    void OnInitialize   ();
 
-	void LoadItems(KRegistryKey& Key);
-	void SaveItems(KRegistryKey& Key) const;
+    void LoadItems(KRegistryKey& Key);
+    void SaveItems(KRegistryKey& Key) const;
 
-public:	
-	double m_dInitialTickTime;	// seconds
-	size_t m_szMaxTimeSubdivision;
+public:
+    double m_dInitialTickTime;  // seconds
+    size_t m_szMaxTimeSubdivision;
 
 
-	TPhysicsCfg();
+    TPhysicsCfg();
 
-	void Load();
-	void Save() const;
+    void Load();
+    void Save() const;
 };
 
 extern TPhysicsCfg g_PhysicsCfg;

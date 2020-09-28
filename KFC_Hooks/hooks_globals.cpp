@@ -10,5 +10,5 @@ THooksGlobals g_HooksGlobals;
 // --------------
 THooksGlobals::THooksGlobals() : TModuleGlobals(TEXT("Hooks globals"))
 {
-	AddSubGlobals(g_KTLGlobals);
+    AddSubGlobals(g_KTLGlobals);
 }

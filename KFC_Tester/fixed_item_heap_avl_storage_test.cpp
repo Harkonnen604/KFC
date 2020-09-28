@@ -7,137 +7,137 @@
 
 struct tq_fih_avl
 {
-	union
-	{
-		struct
-		{
-			size_t a;
-			double v;
-			int n;
-		}q;
+    union
+    {
+        struct
+        {
+            size_t a;
+            double v;
+            int n;
+        }q;
 
-		BYTE pad[16];
-	};
+        BYTE pad[16];
+    };
 
-	tq_fih_avl() {}
+    tq_fih_avl() {}
 
-	tq_fih_avl(size_t sa) { q.a=sa; }
+    tq_fih_avl(size_t sa) { q.a=sa; }
 
-	tq_fih_avl(size_t sa, size_t sv) { q.a=sa, q.v=sv; }
+    tq_fih_avl(size_t sa, size_t sv) { q.a=sa, q.v=sv; }
 
-	~tq_fih_avl() { q.a = 3; }
+    ~tq_fih_avl() { q.a = 3; }
 };
 
 inline int Compare(const tq_fih_avl& v1, size_t v2)
-	{ return Compare(v1.q.a, v2); }
+    { return Compare(v1.q.a, v2); }
 
 template <class StorageType>
 void update_proc(StorageType& stg, typename StorageType::TIterator it)
 {
-	stg[it].q.n =	(stg.GetLeft (it).IsValid() ? stg[stg.GetLeft (it)].q.n : 0) +
-					(stg.GetRight(it).IsValid() ? stg[stg.GetRight(it)].q.n : 0) + 1;
+    stg[it].q.n =   (stg.GetLeft (it).IsValid() ? stg[stg.GetLeft (it)].q.n : 0) +
+                    (stg.GetRight(it).IsValid() ? stg[stg.GetRight(it)].q.n : 0) + 1;
 }
 
 template <class StorageType>
 void TestInst3()
 {
-	typedef StorageType tstg;
+    typedef StorageType tstg;
 
-	typename tstg::THeap heap;
+    typename tstg::THeap heap;
 
-	typename tstg::THeader header;
-	
-	tstg stg(update_proc<tstg>);
-	tstg stg2;
+    typename tstg::THeader header;
 
-	typename tstg::TIterator iter;
-	const tstg cstg;
+    tstg stg(update_proc<tstg>);
+    tstg stg2;
 
-	cstg.IsAllocated();
-	stg.Release();
+    typename tstg::TIterator iter;
+    const tstg cstg;
 
-	cstg.m_Accessor.IsAllocated();
-	stg.m_Accessor.Release();
+    cstg.IsAllocated();
+    stg.Release();
 
-	typename tstg::TIterator it;
-	typename tstg::TConstIterator cit;
+    cstg.m_Accessor.IsAllocated();
+    stg.m_Accessor.Release();
 
-	it = typename tstg::TIterator(0);
+    typename tstg::TIterator it;
+    typename tstg::TConstIterator cit;
 
-	it.IsValid();
-	it.Invalidate();
+    it = typename tstg::TIterator(0);
 
-	stg[it].q.a = 3;
+    it.IsValid();
+    it.Invalidate();
 
-	stg.GetLeft(it);
-	stg.GetRight(it);
-	stg.GetParent(it);
-	stg.GetPrev(it);
-	stg.GetNext(it);
+    stg[it].q.a = 3;
 
-	stg.ToLeft(it);
-	stg.ToRight(it);
-	stg.ToParent(it);
-	stg.ToPrev(it);
-	stg.ToNext(it);
+    stg.GetLeft(it);
+    stg.GetRight(it);
+    stg.GetParent(it);
+    stg.GetPrev(it);
+    stg.GetNext(it);
 
-	stg.GetH(it);
+    stg.ToLeft(it);
+    stg.ToRight(it);
+    stg.ToParent(it);
+    stg.ToPrev(it);
+    stg.ToNext(it);
 
-	if(stg[cit].q.a==3) {}
+    stg.GetH(it);
 
-	stg.GetLeft(cit);
-	stg.GetRight(cit);
-	stg.GetParent(cit);
-	stg.GetPrev(cit);
-	stg.GetNext(cit);
+    if(stg[cit].q.a==3) {}
 
-	stg.ToLeft(cit);
-	stg.ToRight(cit);
-	stg.ToParent(cit);
-	stg.ToPrev(cit);
-	stg.ToNext(cit);
+    stg.GetLeft(cit);
+    stg.GetRight(cit);
+    stg.GetParent(cit);
+    stg.GetPrev(cit);
+    stg.GetNext(cit);
 
-	stg.GetH(cit);
+    stg.ToLeft(cit);
+    stg.ToRight(cit);
+    stg.ToParent(cit);
+    stg.ToPrev(cit);
+    stg.ToNext(cit);
 
-	stg.Clear();
+    stg.GetH(cit);
 
-	stg.Find(2);
-	cstg.Find(2);
+    stg.Clear();
 
-	it  = stg. FindFirst(2);
-	cit = cstg.FindFirst(2);
-	it  = stg. FindFirstGreater(2);
-	cit = cstg.FindFirstGreater(2);
-	it  = stg. FindFirstGreaterEq(2);
-	cit = cstg.FindFirstGreaterEq(2);
+    stg.Find(2);
+    cstg.Find(2);
 
-	it  = stg. FindLast(2);
-	cit = cstg.FindLast(2);
-	it  = stg. FindLastLess(2);
-	cit = cstg.FindLastLess(2);
-	it  = stg. FindLastLessEq(2);
-	cit = cstg.FindLastLessEq(2);
+    it  = stg. FindFirst(2);
+    cit = cstg.FindFirst(2);
+    it  = stg. FindFirstGreater(2);
+    cit = cstg.FindFirstGreater(2);
+    it  = stg. FindFirstGreaterEq(2);
+    cit = cstg.FindFirstGreaterEq(2);
 
-	cstg.Has(2);
+    it  = stg. FindLast(2);
+    cit = cstg.FindLast(2);
+    it  = stg. FindLastLess(2);
+    cit = cstg.FindLastLess(2);
+    it  = stg. FindLastLessEq(2);
+    cit = cstg.FindLastLessEq(2);
 
-	stg.GetRoot();
-	stg.GetFirst();
-	stg.GetLast();
+    cstg.Has(2);
 
-	cstg.GetRoot();
-	cstg.GetFirst();
-	cstg.GetLast();
-	
-	stg.Add(2);
-	stg.Add(2, 3);
+    stg.GetRoot();
+    stg.GetFirst();
+    stg.GetLast();
 
-	stg.Del(it);
+    cstg.GetRoot();
+    cstg.GetFirst();
+    cstg.GetLast();
 
-	stg.Upd(it);
+    stg.Add(2);
+    stg.Add(2, 3);
 
-	cstg.IsEmpty();
-	cstg.GetH();
-	cstg.GetN();
+    stg.Del(it);
+
+    stg.Upd(it);
+
+    cstg.IsEmpty();
+    cstg.GetH();
+    cstg.GetN();
 }
 
 DECLARE_SPECIFIC_GROWABLE_ALLOCATOR_PTR(TArrayGrowableAllocator, avl_gap_arr)
@@ -152,27 +152,27 @@ DECLARE_SPECIFIC_SHARED_FIXED_ITEM_HEAP_ACCESSOR(avl_gap_fm, avl_sfiha_fm)
 template <class HeapAllocatorType>
 void TestInst2()
 {
-	TestInst3<FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, HeapAllocatorType, TPrivateFixedItemHeapAccessor)>();
-	TestInst3<FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, HeapAllocatorType, avl_sfiha_arr)>();
-	TestInst3<FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, HeapAllocatorType, avl_sfiha_fm)>();
+    TestInst3<FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, HeapAllocatorType, TPrivateFixedItemHeapAccessor)>();
+    TestInst3<FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, HeapAllocatorType, avl_sfiha_arr)>();
+    TestInst3<FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, HeapAllocatorType, avl_sfiha_fm)>();
 }
 
 void TestFixedItemHeapAVL_StorageInst()
 {
-	TestInst2<TArrayGrowableAllocator>		();
-	TestInst2<TDancerGrowableAllocator>		();
-	TestInst2<TFileMappingGrowableAllocator>();
+    TestInst2<TArrayGrowableAllocator>      ();
+    TestInst2<TDancerGrowableAllocator>     ();
+    TestInst2<TFileMappingGrowableAllocator>();
 }
 
 template <class StorageType>
 void print(const StorageType& stg, typename StorageType::TConstIterator i)
 {
-	if(!i.IsValid())
-		return;
-	
-	printf("%d:%d", i.x, stg[i].a);
-	printf("("), print(stg, stg.GetLeft(i)), printf(")");
-	printf("("), print(stg, stg.GetRight(i)), printf(")");
+    if(!i.IsValid())
+        return;
+
+    printf("%d:%d", i.x, stg[i].a);
+    printf("("), print(stg, stg.GetLeft(i)), printf(")");
+    printf("("), print(stg, stg.GetRight(i)), printf(")");
 }
 
 template <class AllocatorType>
@@ -186,161 +186,161 @@ void reopen_proc<TArrayGrowableAllocator>(TArrayGrowableAllocator& Allocator)
 template <>
 void reopen_proc<TDancerGrowableAllocator>(TDancerGrowableAllocator& Allocator)
 {
-	Allocator.SetN(Allocator.GetN(), true);
+    Allocator.SetN(Allocator.GetN(), true);
 }
 
 template <>
 void reopen_proc<TFileMappingGrowableAllocator>(TFileMappingGrowableAllocator& Allocator)
 {
-	Allocator.Allocate(Allocator.GetFileName(), false);
+    Allocator.Allocate(Allocator.GetFileName(), false);
 }
 
 template <class tstg>
 void TestStorage(tstg& stg, bool bFastClean = false)
 {
-	const tstg& cstg = stg;
+    const tstg& cstg = stg;
 
-	int nt = 0;	
+    int nt = 0;
 
-	for(int q=4*1024;q;q--)
-	{
-		tassert(nt == (int)stg.GetN());
+    for(int q=4*1024;q;q--)
+    {
+        tassert(nt == (int)stg.GetN());
 
-		if(rand() % 1000 == 0)
-			reopen_proc(stg.m_Accessor.GetHeap().m_Allocator);
+        if(rand() % 1000 == 0)
+            reopen_proc(stg.m_Accessor.GetHeap().m_Allocator);
 
-		if(rand() % 100 == 0)
-		{
-			if(cstg.IsEmpty())
-			{
-				tassert(cstg.GetH() == 0);					
-			}
-			else
-			{
-				typename tstg::TIterator it;
-				typename tstg::TConstIterator cit;
+        if(rand() % 100 == 0)
+        {
+            if(cstg.IsEmpty())
+            {
+                tassert(cstg.GetH() == 0);
+            }
+            else
+            {
+                typename tstg::TIterator it;
+                typename tstg::TConstIterator cit;
 
-				for(it = stg.ToNext(make_temp(stg.GetFirst())()) ; it.IsValid() ; stg.ToNext(it))
-					tassert(stg[make_temp(stg.GetPrev(it))()].q.a <= stg[it].q.a);
+                for(it = stg.ToNext(make_temp(stg.GetFirst())()) ; it.IsValid() ; stg.ToNext(it))
+                    tassert(stg[make_temp(stg.GetPrev(it))()].q.a <= stg[it].q.a);
 
-				for(it = stg.ToPrev(make_temp(stg.GetLast())()) ; it.IsValid() ; stg.ToPrev(it))
-					tassert(stg[stg.GetNext(it)].q.a >= stg[it].q.a);
+                for(it = stg.ToPrev(make_temp(stg.GetLast())()) ; it.IsValid() ; stg.ToPrev(it))
+                    tassert(stg[stg.GetNext(it)].q.a >= stg[it].q.a);
 
-				for(cit = cstg.ToNext(make_temp(cstg.GetFirst())()) ; cit.IsValid() ; cstg.ToNext(cit))
-					tassert(cstg[make_temp(cstg.GetPrev(cit))()].q.a <= cstg[cit].q.a);
+                for(cit = cstg.ToNext(make_temp(cstg.GetFirst())()) ; cit.IsValid() ; cstg.ToNext(cit))
+                    tassert(cstg[make_temp(cstg.GetPrev(cit))()].q.a <= cstg[cit].q.a);
 
-				for(cit = cstg.ToPrev(make_temp(cstg.GetLast())()) ; cit.IsValid() ; cstg.ToPrev(cit))
-					tassert(cstg[make_temp(cstg.GetNext(cit))()].q.a >= cstg[cit].q.a);
-				
-				int amt[32];
-				int tamt = 0;
-				memset(amt, 0, sizeof(amt));
+                for(cit = cstg.ToPrev(make_temp(cstg.GetLast())()) ; cit.IsValid() ; cstg.ToPrev(cit))
+                    tassert(cstg[make_temp(cstg.GetNext(cit))()].q.a >= cstg[cit].q.a);
 
-				for(cit = cstg.GetFirst() ; cit.IsValid() ; cstg.ToNext(cit))
-					amt[stg[cit].q.a]++, tamt++;
+                int amt[32];
+                int tamt = 0;
+                memset(amt, 0, sizeof(amt));
 
-				tassert(tamt == nt);
+                for(cit = cstg.GetFirst() ; cit.IsValid() ; cstg.ToNext(cit))
+                    amt[stg[cit].q.a]++, tamt++;
 
-				size_t i;
+                tassert(tamt == nt);
 
-				for(i=0;i<32;i++)
-				{
-					if(amt[i])
-					{
-						tassert(cstg.Has(i));
-						typename tstg::TConstIterator cit = cstg.Find(i);
-						tassert(cit.IsValid() && cstg[cit].q.a == i);
-					}
-					else
-					{
-						tassert(!cstg.Has(i));
-					}
+                size_t i;
 
-					int v;
+                for(i=0;i<32;i++)
+                {
+                    if(amt[i])
+                    {
+                        tassert(cstg.Has(i));
+                        typename tstg::TConstIterator cit = cstg.Find(i);
+                        tassert(cit.IsValid() && cstg[cit].q.a == i);
+                    }
+                    else
+                    {
+                        tassert(!cstg.Has(i));
+                    }
 
-					for(v = 0, cit = cstg.FindFirst(i) ; cit.IsValid() && cstg[cit].q.a == i ; cstg.ToNext(cit), v++);
-					tassert(v == amt[i]);
+                    int v;
 
-					for(v = 0, cit = cstg.FindLast(i) ; cit.IsValid() && cstg[cit].q.a == i ; cstg.ToPrev(cit), v++);
-					tassert(v == amt[i]);
-				}
-			}
-		}
+                    for(v = 0, cit = cstg.FindFirst(i) ; cit.IsValid() && cstg[cit].q.a == i ; cstg.ToNext(cit), v++);
+                    tassert(v == amt[i]);
 
-		size_t v = rand() % 32;
+                    for(v = 0, cit = cstg.FindLast(i) ; cit.IsValid() && cstg[cit].q.a == i ; cstg.ToPrev(cit), v++);
+                    tassert(v == amt[i]);
+                }
+            }
+        }
 
-		if(!stg.IsEmpty() && rand() % 2)
-		{
-			typename tstg::TIterator it = stg.Find(v);
+        size_t v = rand() % 32;
 
-			if(it.IsValid())
-				stg.Del(it), nt--;
-		}
-		else
-		{
-			typename tstg::TIterator it = stg.Add(v);
+        if(!stg.IsEmpty() && rand() % 2)
+        {
+            typename tstg::TIterator it = stg.Find(v);
 
-			nt++;
+            if(it.IsValid())
+                stg.Del(it), nt--;
+        }
+        else
+        {
+            typename tstg::TIterator it = stg.Add(v);
 
-			tassert(stg[it].q.a == v);
-		}
+            nt++;
 
-		tassert((stg.IsEmpty() ? 0 : stg[stg.GetRoot()].q.n) == nt);
+            tassert(stg[it].q.a == v);
+        }
 
-		tassert(nt <= (1 << (2*stg.GetH())));
-	}
+        tassert((stg.IsEmpty() ? 0 : stg[stg.GetRoot()].q.n) == nt);
 
-	stg.Clear();
+        tassert(nt <= (1 << (2*stg.GetH())));
+    }
 
-	if(bFastClean)
-	{
-		tassert(stg.IsEmpty() &&
-				stg.m_Accessor.GetHeap().IsTotallyCleanWithAux() &&
-				stg.m_Accessor.GetHeap().IsTotallyCleanWithAuxDefaultCmp());
-	}
+    stg.Clear();
 
-	stg.Add(2);
+    if(bFastClean)
+    {
+        tassert(stg.IsEmpty() &&
+                stg.m_Accessor.GetHeap().IsTotallyCleanWithAux() &&
+                stg.m_Accessor.GetHeap().IsTotallyCleanWithAuxDefaultCmp());
+    }
 
-	stg.Clear();
+    stg.Add(2);
 
-	{
-		for(size_t i = 0 ; i < 4153 ; i++)
-			stg.Add(1 + rand() % 16);		
+    stg.Clear();
 
-		typename tstg::TIterator it;
+    {
+        for(size_t i = 0 ; i < 4153 ; i++)
+            stg.Add(1 + rand() % 16);
 
-		for(size_t i = 0 ; i <= 17 ; i++)
-		{
-			it = stg.Find(i);
-			tassert(!it.IsValid() || stg[it].q.a == i);
+        typename tstg::TIterator it;
 
-			it = stg.FindFirstGreater(i);
-			tassert(it.IsValid() ?
-						(stg[it].q.a > i &&
-							(!stg.GetPrev(it).IsValid() || stg[stg.GetPrev(it)].q.a <= i)) :
-						(!stg.GetLast().IsValid() || stg[stg.GetLast()].q.a <= i));
+        for(size_t i = 0 ; i <= 17 ; i++)
+        {
+            it = stg.Find(i);
+            tassert(!it.IsValid() || stg[it].q.a == i);
 
-			it = stg.FindFirstGreaterEq(i);
-			tassert(it.IsValid() ?
-						(stg[it].q.a >= i &&
-							(!stg.GetPrev(it).IsValid() || stg[stg.GetPrev(it)].q.a < i)) :
-						(!stg.GetLast().IsValid() || stg[stg.GetLast()].q.a < i));			
+            it = stg.FindFirstGreater(i);
+            tassert(it.IsValid() ?
+                        (stg[it].q.a > i &&
+                            (!stg.GetPrev(it).IsValid() || stg[stg.GetPrev(it)].q.a <= i)) :
+                        (!stg.GetLast().IsValid() || stg[stg.GetLast()].q.a <= i));
 
-			it = stg.FindLastLess(i);
-			tassert(it.IsValid() ?
-						(stg[it].q.a < i &&
-							(!stg.GetNext(it).IsValid() || stg[stg.GetNext(it)].q.a >= i)) :
-						(!stg.GetFirst().IsValid() || stg[stg.GetFirst()].q.a >= i));
+            it = stg.FindFirstGreaterEq(i);
+            tassert(it.IsValid() ?
+                        (stg[it].q.a >= i &&
+                            (!stg.GetPrev(it).IsValid() || stg[stg.GetPrev(it)].q.a < i)) :
+                        (!stg.GetLast().IsValid() || stg[stg.GetLast()].q.a < i));
 
-			it = stg.FindLastLessEq(i);
-			tassert(it.IsValid() ?
-						(stg[it].q.a <= i &&
-							(!stg.GetNext(it).IsValid() || stg[stg.GetNext(it)].q.a > i)) :
-						(!stg.GetFirst().IsValid() || stg[stg.GetFirst()].q.a > i));
-		}
+            it = stg.FindLastLess(i);
+            tassert(it.IsValid() ?
+                        (stg[it].q.a < i &&
+                            (!stg.GetNext(it).IsValid() || stg[stg.GetNext(it)].q.a >= i)) :
+                        (!stg.GetFirst().IsValid() || stg[stg.GetFirst()].q.a >= i));
 
-		stg.Clear();
-	}
+            it = stg.FindLastLessEq(i);
+            tassert(it.IsValid() ?
+                        (stg[it].q.a <= i &&
+                            (!stg.GetNext(it).IsValid() || stg[stg.GetNext(it)].q.a > i)) :
+                        (!stg.GetFirst().IsValid() || stg[stg.GetFirst()].q.a > i));
+        }
+
+        stg.Clear();
+    }
 }
 
 // ----------------
@@ -348,217 +348,217 @@ void TestStorage(tstg& stg, bool bFastClean = false)
 // ----------------
 void TestArrayFixedItemHeapAVL_Storage()
 {
-	{
-		puts("Testing array fixed item heap AVL storage with private heap...");
+    {
+        puts("Testing array fixed item heap AVL storage with private heap...");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TArrayGrowableAllocator, TPrivateFixedItemHeapAccessor) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TArrayGrowableAllocator, TPrivateFixedItemHeapAccessor) tstg;
 
-		tstg stg(update_proc<tstg>);
+        tstg stg(update_proc<tstg>);
 
-		stg.m_Accessor.AllocateHeap();
+        stg.m_Accessor.AllocateHeap();
 
-		stg.Clear();
+        stg.Clear();
 
-		TestStorage(stg, true);
+        TestStorage(stg, true);
 
-		puts("Done");
-	}
+        puts("Done");
+    }
 
-	{
-		puts("Testing array fixed item heap AVL storage with shared heap, direct header ptr");
+    {
+        puts("Testing array fixed item heap AVL storage with shared heap, direct header ptr");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TArrayGrowableAllocator, TSharedFixedItemHeapAccessor<TDirectPtr>::_) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TArrayGrowableAllocator, TSharedFixedItemHeapAccessor<TDirectPtr>::_) tstg;
 
-		tstg stg(update_proc<tstg>);
+        tstg stg(update_proc<tstg>);
 
-		tstg::THeap heap;
+        tstg::THeap heap;
 
-		heap.Allocate();
+        heap.Allocate();
 
-		heap.Clear();
+        heap.Clear();
 
-		tstg::THeader header;
+        tstg::THeader header;
 
-		stg.m_Accessor.Allocate(heap, header);
+        stg.m_Accessor.Allocate(heap, header);
 
-		TestStorage(stg);
+        TestStorage(stg);
 
-		puts("Done");
-	}
+        puts("Done");
+    }
 
-	{
-		puts("Testing array fixed item heap AVL storage with shared heap, heap header ptr");
+    {
+        puts("Testing array fixed item heap AVL storage with shared heap, heap header ptr");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
-											TArrayGrowableAllocator,
-											avl_sfiha_arr) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
+                                            TArrayGrowableAllocator,
+                                            avl_sfiha_arr) tstg;
 
-		tstg stg(update_proc<tstg>);
+        tstg stg(update_proc<tstg>);
 
-		tstg::THeap heap;
+        tstg::THeap heap;
 
-		heap.Allocate();
+        heap.Allocate();
 
-		heap.Clear();
+        heap.Clear();
 
-		tstg::THeader& Header =
-			reinterpret_cast<tstg::THeader&>
-				(heap[heap.Reserve(tstg::TItem(0, 0))]);
+        tstg::THeader& Header =
+            reinterpret_cast<tstg::THeader&>
+                (heap[heap.Reserve(tstg::TItem(0, 0))]);
 
-		new(&Header) tstg::THeader();
+        new(&Header) tstg::THeader();
 
-		stg.m_Accessor.Allocate(heap, avl_gap_arr<tstg::THeader>(heap.m_Allocator, &Header));
+        stg.m_Accessor.Allocate(heap, avl_gap_arr<tstg::THeader>(heap.m_Allocator, &Header));
 
-		TestStorage(stg);
+        TestStorage(stg);
 
-		puts("Done");
-	}
+        puts("Done");
+    }
 }
 
 void TestDancerFixedItemHeapAVL_Storage()
 {
-	{
-		puts("Testing dancer fixed item heap AVL storage with private heap...");
+    {
+        puts("Testing dancer fixed item heap AVL storage with private heap...");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TDancerGrowableAllocator, TPrivateFixedItemHeapAccessor) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TDancerGrowableAllocator, TPrivateFixedItemHeapAccessor) tstg;
 
-		tstg stg(update_proc<tstg>);
-		
-		stg.m_Accessor.AllocateHeap();
+        tstg stg(update_proc<tstg>);
 
-		stg.Clear();
+        stg.m_Accessor.AllocateHeap();
 
-		TestStorage(stg, true);
+        stg.Clear();
 
-		puts("Done");
-	}
+        TestStorage(stg, true);
 
-	{
-		puts("Testing dancer fixed item heap AVL storage with shared heap, direct header ptr");
+        puts("Done");
+    }
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
-											TDancerGrowableAllocator,
-											TSharedFixedItemHeapAccessor<TDirectPtr>::_) tstg;
+    {
+        puts("Testing dancer fixed item heap AVL storage with shared heap, direct header ptr");
 
-		tstg stg(update_proc<tstg>);
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
+                                            TDancerGrowableAllocator,
+                                            TSharedFixedItemHeapAccessor<TDirectPtr>::_) tstg;
 
-		tstg::THeap heap;
+        tstg stg(update_proc<tstg>);
 
-		heap.Allocate();
+        tstg::THeap heap;
 
-		heap.Clear();
+        heap.Allocate();
 
-		tstg::THeader header;
+        heap.Clear();
 
-		stg.m_Accessor.Allocate(heap, header);
+        tstg::THeader header;
 
-		TestStorage(stg);
+        stg.m_Accessor.Allocate(heap, header);
 
-		puts("Done");
-	}
+        TestStorage(stg);
 
-	{
-		puts("Testing dancer fixed item heap AVL storage with shared heap, heap header ptr");
+        puts("Done");
+    }
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
-											TDancerGrowableAllocator,
-											avl_sfiha_dancer) tstg;
+    {
+        puts("Testing dancer fixed item heap AVL storage with shared heap, heap header ptr");
 
-		tstg stg(update_proc<tstg>);
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
+                                            TDancerGrowableAllocator,
+                                            avl_sfiha_dancer) tstg;
 
-		tstg::THeap heap;
+        tstg stg(update_proc<tstg>);
 
-		heap.Allocate();
+        tstg::THeap heap;
 
-		heap.Clear();
+        heap.Allocate();
 
-		tstg::THeader& Header =
-			reinterpret_cast<tstg::THeader&>
-				(heap[heap.Reserve(tstg::TItem(0, 0))]);
+        heap.Clear();
 
-		new(&Header) tstg::THeader();
+        tstg::THeader& Header =
+            reinterpret_cast<tstg::THeader&>
+                (heap[heap.Reserve(tstg::TItem(0, 0))]);
 
-		stg.m_Accessor.Allocate(heap, avl_gap_dancer<tstg::THeader>(heap.m_Allocator, &Header));
+        new(&Header) tstg::THeader();
 
-		TestStorage(stg);
+        stg.m_Accessor.Allocate(heap, avl_gap_dancer<tstg::THeader>(heap.m_Allocator, &Header));
 
-		puts("Done");
-	}
+        TestStorage(stg);
+
+        puts("Done");
+    }
 }
 
 void TestFileMappingFixedItemHeapAVL_Storage()
 {
-	{
-		puts("Testing file mapping fixed item heap AVL storage with private heap...");
+    {
+        puts("Testing file mapping fixed item heap AVL storage with private heap...");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TFileMappingGrowableAllocator, TPrivateFixedItemHeapAccessor) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl, TFileMappingGrowableAllocator, TPrivateFixedItemHeapAccessor) tstg;
 
-		tstg stg(update_proc<tstg>);
+        tstg stg(update_proc<tstg>);
 
-		stg.m_Accessor.GetHeapAllocator().Allocate("test.dat", false);
+        stg.m_Accessor.GetHeapAllocator().Allocate("test.dat", false);
 
-		stg.m_Accessor.AllocateHeap();
+        stg.m_Accessor.AllocateHeap();
 
-		stg.Clear();
+        stg.Clear();
 
-		TestStorage(stg, true);
+        TestStorage(stg, true);
 
-		puts("Done");
-	}
+        puts("Done");
+    }
 
-	{
-		puts("Testing file mapping fixed item heap AVL storage with shared heap, direct header ptr");
+    {
+        puts("Testing file mapping fixed item heap AVL storage with shared heap, direct header ptr");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
-											TFileMappingGrowableAllocator,
-											TSharedFixedItemHeapAccessor<TDirectPtr>::_) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
+                                            TFileMappingGrowableAllocator,
+                                            TSharedFixedItemHeapAccessor<TDirectPtr>::_) tstg;
 
-		tstg stg(update_proc<tstg>);
+        tstg stg(update_proc<tstg>);
 
-		tstg::THeap heap;
+        tstg::THeap heap;
 
-		heap.m_Allocator.Allocate("test.dat", false);
+        heap.m_Allocator.Allocate("test.dat", false);
 
-		heap.Allocate();
+        heap.Allocate();
 
-		heap.Clear();
+        heap.Clear();
 
-		tstg::THeader header;
+        tstg::THeader header;
 
-		stg.m_Accessor.Allocate(heap, header);
+        stg.m_Accessor.Allocate(heap, header);
 
-		TestStorage(stg);
+        TestStorage(stg);
 
-		puts("Done");
-	}
+        puts("Done");
+    }
 
-	{
-		puts("Testing file mapping fixed item heap AVL storage with shared heap, heap header ptr");
+    {
+        puts("Testing file mapping fixed item heap AVL storage with shared heap, heap header ptr");
 
-		typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
-											TFileMappingGrowableAllocator,
-											avl_sfiha_fm) tstg;
+        typedef FIXED_ITEM_HEAP_AVL_STORAGE(tq_fih_avl,
+                                            TFileMappingGrowableAllocator,
+                                            avl_sfiha_fm) tstg;
 
-		tstg stg(update_proc<tstg>);
+        tstg stg(update_proc<tstg>);
 
-		tstg::THeap heap;
+        tstg::THeap heap;
 
-		heap.m_Allocator.Allocate("test.dat", false);
+        heap.m_Allocator.Allocate("test.dat", false);
 
-		heap.Allocate();
+        heap.Allocate();
 
-		heap.Clear();
+        heap.Clear();
 
-		tstg::THeader& Header =
-			reinterpret_cast<tstg::THeader&>
-				(heap[heap.Reserve(tstg::TItem(0, 0))]);
+        tstg::THeader& Header =
+            reinterpret_cast<tstg::THeader&>
+                (heap[heap.Reserve(tstg::TItem(0, 0))]);
 
-		new(&Header) tstg::THeader();
+        new(&Header) tstg::THeader();
 
-		stg.m_Accessor.Allocate(heap, avl_gap_fm<tstg::THeader>(heap.m_Allocator, &Header));
+        stg.m_Accessor.Allocate(heap, avl_gap_fm<tstg::THeader>(heap.m_Allocator, &Header));
 
-		TestStorage(stg);
+        TestStorage(stg);
 
-		puts("Done");
-	}
+        puts("Done");
+    }
 }

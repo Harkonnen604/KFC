@@ -12,154 +12,154 @@ template <class ObjectType>
 class TRegistrationManager
 {
 private:
-	bool m_bAllocated;
+    bool m_bAllocated;
 
-	TArray< TObjectPointer<ObjectType> > m_Storage;
+    TArray< TObjectPointer<ObjectType> > m_Storage;
 
-	size_t m_szNFixedEntries;
+    size_t m_szNFixedEntries;
 
 public:
-	TRegistrationManager();
+    TRegistrationManager();
 
-	~TRegistrationManager() { Release(); }
-	
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    ~TRegistrationManager() { Release(); }
 
-	void Release(bool bFromAllocatorException = false);
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Allocate(size_t szSNFixedEntries);
+    void Release(bool bFromAllocatorException = false);
 
-	size_t Register(TObjectPointer<ObjectType>&	Object,
-					size_t						szIndex = -1);
+    void Allocate(size_t szSNFixedEntries);
 
-	void Unregister(size_t szIndex);
+    size_t Register(TObjectPointer<ObjectType>& Object,
+                    size_t                      szIndex = -1);
 
-	ObjectType*			GetObject(size_t szIndex);
-	const ObjectType*	GetObject(size_t szIndex) const;
+    void Unregister(size_t szIndex);
 
-	ObjectType*			operator [] (size_t szIndex)		{ return GetObject(szIndex); }
-	const ObjectType*	operator [] (size_t szIndex) const	{ return GetObject(szIndex); }
+    ObjectType*         GetObject(size_t szIndex);
+    const ObjectType*   GetObject(size_t szIndex) const;
 
-	bool IsValidIndex(size_t szIndex) const;
+    ObjectType*         operator [] (size_t szIndex)        { return GetObject(szIndex); }
+    const ObjectType*   operator [] (size_t szIndex) const  { return GetObject(szIndex); }
 
-	// ---------------- TRIVIALS ----------------
-	size_t GetNFixedEntries() const { return m_szNFixedEntries; }
+    bool IsValidIndex(size_t szIndex) const;
+
+    // ---------------- TRIVIALS ----------------
+    size_t GetNFixedEntries() const { return m_szNFixedEntries; }
 };
 
 template <class ObjectType>
 TRegistrationManager<ObjectType>::TRegistrationManager()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 }
 
 template <class ObjectType>
 void TRegistrationManager<ObjectType>::Release(bool bFromAllocatorException)
 {
-	if(m_bAllocated || bFromAllocatorException)
-	{
+    if(m_bAllocated || bFromAllocatorException)
+    {
 #ifdef _DEBUG
 
-		for(size_t i = 0 ; i < m_Storage.GetN() ; i++)
-		{
-			if(IsValidIndex(i))
-				ShowErrorText((KString)TEXT("Storage item at index ") + i + TEXT(" was not unregistered."));
-		}
+        for(size_t i = 0 ; i < m_Storage.GetN() ; i++)
+        {
+            if(IsValidIndex(i))
+                ShowErrorText((KString)TEXT("Storage item at index ") + i + TEXT(" was not unregistered."));
+        }
 
 #endif // _DEBUG
 
-		m_bAllocated = false;
+        m_bAllocated = false;
 
-		m_Storage.Clear();
-	}
+        m_Storage.Clear();
+    }
 }
 
 template <class ObjectType>
 void TRegistrationManager<ObjectType>::Allocate(size_t szSNFixedEntries)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_szNFixedEntries = szSNFixedEntries;
+    try
+    {
+        m_szNFixedEntries = szSNFixedEntries;
 
-		m_Storage.Add(m_szNFixedEntries);
+        m_Storage.Add(m_szNFixedEntries);
 
-		m_bAllocated = true;
-	}
-	
-	catch(...)
-	{
-		Release(true);
-		throw;
-	}
+        m_bAllocated = true;
+    }
+
+    catch(...)
+    {
+        Release(true);
+        throw;
+    }
 }
 
 template <class ObjectType>
-size_t TRegistrationManager<ObjectType>::Register(	TObjectPointer<ObjectType>&	Object,
-													size_t						szIndex)
+size_t TRegistrationManager<ObjectType>::Register(  TObjectPointer<ObjectType>& Object,
+                                                    size_t                      szIndex)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(Object.IsAllocated());
+    DEBUG_VERIFY(Object.IsAllocated());
 
-	DEBUG_VERIFY(szIndex == -1 || szIndex < m_szNFixedEntries);
+    DEBUG_VERIFY(szIndex == -1 || szIndex < m_szNFixedEntries);
 
-	if(szIndex < m_szNFixedEntries) // fixed
-	{
-		DEBUG_VERIFY(!m_Storage[szIndex].IsAllocated());
+    if(szIndex < m_szNFixedEntries) // fixed
+    {
+        DEBUG_VERIFY(!m_Storage[szIndex].IsAllocated());
 
-		m_Storage[szIndex].ReOwn(Object);
+        m_Storage[szIndex].ReOwn(Object);
 
-		return szIndex;
-	}
-	else // custom
-	{
-		m_Storage.Add().ReOwn(Object);
+        return szIndex;
+    }
+    else // custom
+    {
+        m_Storage.Add().ReOwn(Object);
 
-		return m_Storage.GetN() - 1;		
-	}
+        return m_Storage.GetN() - 1;
+    }
 }
 
 template <class ObjectType>
 void TRegistrationManager<ObjectType>::Unregister(size_t szIndex)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(szIndex < m_szNFixedEntries || szIndex == m_Storage.GetLast());
+    DEBUG_VERIFY(szIndex < m_szNFixedEntries || szIndex == m_Storage.GetLast());
 
-	if(szIndex < m_szNFixedEntries) // fixed
-	{		
-		m_Storage[szIndex].Release();
-	}
-	else // custom
-	{
-		m_Storage.Del(szIndex);
-	}
+    if(szIndex < m_szNFixedEntries) // fixed
+    {
+        m_Storage[szIndex].Release();
+    }
+    else // custom
+    {
+        m_Storage.Del(szIndex);
+    }
 }
 
 template <class ObjectType>
 ObjectType* TRegistrationManager<ObjectType>::GetObject(size_t szIndex)
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_Storage[szIndex].GetDataPtr();
+    return m_Storage[szIndex].GetDataPtr();
 }
 
 template <class ObjectType>
 const ObjectType* TRegistrationManager<ObjectType>::GetObject(size_t szIndex) const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_Storage[szIndex].GetDataPtr();
+    return m_Storage[szIndex].GetDataPtr();
 }
 
 template <class ObjectType>
 bool TRegistrationManager<ObjectType>::IsValidIndex(size_t szIndex) const
 {
-	DEBUG_VERIFY_ALLOCATION;
-	
-	return szIndex < m_Storage.GetN() && m_Storage[szIndex].IsAllocated();
+    DEBUG_VERIFY_ALLOCATION;
+
+    return szIndex < m_Storage.GetN() && m_Storage[szIndex].IsAllocated();
 }
 
 // ------------------
@@ -169,84 +169,84 @@ template <class ObjectType>
 class TObjectRegisterer
 {
 private:
-	bool m_bAllocated;
-	
-	TRegistrationManager<ObjectType>* m_pRegistrationManager;
+    bool m_bAllocated;
 
-	size_t m_szIndex;
+    TRegistrationManager<ObjectType>* m_pRegistrationManager;
+
+    size_t m_szIndex;
 
 public:
-	TObjectRegisterer();
+    TObjectRegisterer();
 
-	~TObjectRegisterer() { Release(); }
+    ~TObjectRegisterer() { Release(); }
 
-	bool IsAllocated() const
-		{ return m_bAllocated; }
+    bool IsAllocated() const
+        { return m_bAllocated; }
 
-	void Release();
+    void Release();
 
-	void Allocate(	TRegistrationManager<ObjectType>&	SRegistrationManager,
-					TObjectPointer<ObjectType>&			Object,
-					size_t								szIndex = -1);
+    void Allocate(  TRegistrationManager<ObjectType>&   SRegistrationManager,
+                    TObjectPointer<ObjectType>&         Object,
+                    size_t                              szIndex = -1);
 
-	size_t GetIndex() const;
+    size_t GetIndex() const;
 
-	operator size_t () const { return GetIndex(); }
+    operator size_t () const { return GetIndex(); }
 
-	// ---------------- TRIVIALS ----------------
-	TRegistrationManager<ObjectType>* GetRegistrationManager() { return m_pRegistrationManager; }
+    // ---------------- TRIVIALS ----------------
+    TRegistrationManager<ObjectType>* GetRegistrationManager() { return m_pRegistrationManager; }
 };
 
 template <class ObjectType>
 TObjectRegisterer<ObjectType>::TObjectRegisterer()
 {
-	m_bAllocated = false;
+    m_bAllocated = false;
 
-	m_pRegistrationManager = NULL;
+    m_pRegistrationManager = NULL;
 }
 
 template <class ObjectType>
 void TObjectRegisterer<ObjectType>::Release()
 {
-	if(IsAllocated())
-	{
-		m_bAllocated = false;
+    if(IsAllocated())
+    {
+        m_bAllocated = false;
 
-		SAFE_BLOCK_BEGIN m_pRegistrationManager->Unregister(m_szIndex); SAFE_BLOCK_END
-	}
+        SAFE_BLOCK_BEGIN m_pRegistrationManager->Unregister(m_szIndex); SAFE_BLOCK_END
+    }
 
-	m_pRegistrationManager = NULL;
+    m_pRegistrationManager = NULL;
 }
 
 template <class ObjectType>
-void TObjectRegisterer<ObjectType>::Allocate(	TRegistrationManager<ObjectType>&	SRegistrationManager,
-												TObjectPointer<ObjectType>&			Object,
-												size_t								szIndex)
+void TObjectRegisterer<ObjectType>::Allocate(   TRegistrationManager<ObjectType>&   SRegistrationManager,
+                                                TObjectPointer<ObjectType>&         Object,
+                                                size_t                              szIndex)
 {
-	Release();
+    Release();
 
-	try
-	{
-		m_pRegistrationManager = &SRegistrationManager;
+    try
+    {
+        m_pRegistrationManager = &SRegistrationManager;
 
-		m_szIndex = m_pRegistrationManager->Register(Object, szIndex);
+        m_szIndex = m_pRegistrationManager->Register(Object, szIndex);
 
-		m_bAllocated = true;
-	}
+        m_bAllocated = true;
+    }
 
-	catch(...)
-	{
-		Release();
-		throw;
-	}
+    catch(...)
+    {
+        Release();
+        throw;
+    }
 }
 
 template <class ObjectType>
 size_t TObjectRegisterer<ObjectType>::GetIndex() const
 {
-	DEBUG_VERIFY_ALLOCATION;
+    DEBUG_VERIFY_ALLOCATION;
 
-	return m_szIndex;
+    return m_szIndex;
 }
 
 #endif // registration_manager_h

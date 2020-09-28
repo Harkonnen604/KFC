@@ -18,68 +18,68 @@ void TTimeGlobals::OnUninitialize()
 
 void TTimeGlobals::OnInitialize()
 {
-	if(!g_CommonConsts.m_bTimeGlobalsNeeded)
-		return;
+    if(!g_CommonConsts.m_bTimeGlobalsNeeded)
+        return;
 
-	m_qwFrequency = GetSystemTimerFrequency();
+    m_qwFrequency = GetSystemTimerFrequency();
 
-	m_qwLastStartTime = GetSystemTimerValue(m_qwFrequency);
+    m_qwLastStartTime = GetSystemTimerValue(m_qwFrequency);
 
-	m_qwAccumulatedTime = 0;
+    m_qwAccumulatedTime = 0;
 }
 
 bool TTimeGlobals::OnSuspend()
 {
-	if(!TGlobals::OnSuspend())
-		return false;
+    if(!TGlobals::OnSuspend())
+        return false;
 
-	m_qwAccumulatedTime = GetMSEC();
+    m_qwAccumulatedTime = GetMSEC();
 
-	return true;
+    return true;
 }
 
 bool TTimeGlobals::OnResume()
 {
-	if(!TGlobals::OnSuspend())
-		return false;
+    if(!TGlobals::OnSuspend())
+        return false;
 
-	m_qwLastStartTime = GetSystemTimerValue(m_qwFrequency);
+    m_qwLastStartTime = GetSystemTimerValue(m_qwFrequency);
 
-	return true;
+    return true;
 }
 
 QWORD TTimeGlobals::GetMSEC() const
 {
-	DEBUG_VERIFY_INITIALIZATION;
+    DEBUG_VERIFY_INITIALIZATION;
 
-	QWORD qwElapsedTime = m_qwAccumulatedTime;
+    QWORD qwElapsedTime = m_qwAccumulatedTime;
 
-	if(!IsSuspended())
-		qwElapsedTime += GetGlobalMSEC() - m_qwLastStartTime;
+    if(!IsSuspended())
+        qwElapsedTime += GetGlobalMSEC() - m_qwLastStartTime;
 
-	return qwElapsedTime;
+    return qwElapsedTime;
 }
 
 #ifdef _MSC_VER
 
 QWORD TTimeGlobals::GetSystemTimerFrequency()
 {
-	LARGE_INTEGER Frequency;
+    LARGE_INTEGER Frequency;
 
-	if(QueryPerformanceFrequency(&Frequency) == 0)
-		INITIATE_DEFINED_FAILURE(TEXT("Error retrieving system timer frequency."));
+    if(QueryPerformanceFrequency(&Frequency) == 0)
+        INITIATE_DEFINED_FAILURE(TEXT("Error retrieving system timer frequency."));
 
-	return Frequency.QuadPart;
+    return Frequency.QuadPart;
 }
 
 QWORD TTimeGlobals::GetSystemTimerValue(QWORD qwFrequency)
 {
-	LARGE_INTEGER Count;
+    LARGE_INTEGER Count;
 
-	if(QueryPerformanceCounter(&Count) == 0)
-		INITIATE_DEFINED_FAILURE(TEXT("Error getting system timer value."));
+    if(QueryPerformanceCounter(&Count) == 0)
+        INITIATE_DEFINED_FAILURE(TEXT("Error getting system timer value."));
 
-	return Count.QuadPart * 1000 / qwFrequency;
+    return Count.QuadPart * 1000 / qwFrequency;
 }
 
 #endif // _MSC_VER
