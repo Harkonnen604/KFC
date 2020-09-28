@@ -105,7 +105,7 @@ TSynchedQueue::TItem* TSynchedQueue::DequeueOnceAvailable(size_t szTimeout)
 		if(!m_hTerminator)
 			szNHandles--;
 
-		DWORD r = WaitForMultipleObjects(szNHandles, Handles, FALSE, szTimeout);
+		DWORD r = WaitForMultipleObjects((DWORD)szNHandles, Handles, FALSE, (DWORD)szTimeout);
 
 		CHECK_TERMINATION(m_hTerminator);
 
@@ -144,7 +144,7 @@ TSynchedQueue::TItem* TSynchedQueue::DequeueUntilDone()
 		if(!m_hTerminator)
 			szNHandles--;
 
-		DWORD r = WaitForMultipleObjects(szNHandles, Handles, FALSE, INFINITE);
+		DWORD r = WaitForMultipleObjects((DWORD)szNHandles, Handles, FALSE, INFINITE);
 
 		CHECK_TERMINATION(m_hTerminator);
 

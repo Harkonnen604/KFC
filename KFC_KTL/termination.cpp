@@ -7,10 +7,10 @@
 bool IsTerminated(HANDLE hTerminator, size_t szTimeout)
 {
 	if(hTerminator)
-		return WaitForSingleObject(hTerminator, szTimeout) == WAIT_OBJECT_0;
+		return WaitForSingleObject(hTerminator, (DWORD)szTimeout) == WAIT_OBJECT_0;
 
 	if(szTimeout > 0)
-		Sleep(szTimeout);
+		Sleep((DWORD)szTimeout);
 
 	return false;
 }

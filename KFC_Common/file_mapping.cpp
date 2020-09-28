@@ -121,7 +121,7 @@ void TFileMapping::ResizeFileAndOpenMapping(size_t szSize)
 		}
 		#endif // _MSC_VER
 
-		DEBUG_VERIFY(!((UINT)m_pData & (DATA_ALIGNMENT - 1)));
+		DEBUG_VERIFY(!((uintptr_t)m_pData & (DATA_ALIGNMENT - 1)));
 	}
 	else
 	{

@@ -46,7 +46,7 @@ void TSemaphore::Allocate(size_t szInitialCount, size_t szMaximumCount)
 
 	DEBUG_VERIFY(szInitialCount <= szMaximumCount);
 
-	if(!(m_hSemaphore = CreateSemaphore(NULL, szInitialCount, szMaximumCount, NULL)))
+	if(!(m_hSemaphore = CreateSemaphore(NULL, (DWORD)szInitialCount, (DWORD)szMaximumCount, NULL)))
 		INITIATE_DEFINED_CODE_FAILURE(TEXT("Error creating semaphore"), GetLastError());
 }
 
@@ -58,7 +58,7 @@ bool TSemaphore::Create(LPCTSTR pName, size_t szInitialCount, size_t szMaximumCo
 
 	DEBUG_VERIFY(szInitialCount < szMaximumCount);
 
-	if(!(m_hSemaphore = CreateSemaphore(NULL, szInitialCount, szMaximumCount, pName)))
+	if(!(m_hSemaphore = CreateSemaphore(NULL, (DWORD)szInitialCount, (DWORD)szMaximumCount, pName)))
 		INITIATE_DEFINED_CODE_FAILURE(TEXT("Error creating named semaphore"), GetLastError());
 
 	return GetLastError() != ERROR_ALREADY_EXISTS;
@@ -87,7 +87,7 @@ bool TSemaphore::WaitWithTermination(HANDLE hTerminator, size_t szTimeout)
 
 	const HANDLE Handles[2] = {m_hSemaphore, hTerminator};
 
-	DWORD r = WaitForMultipleObjects(ARRAY_SIZE(Handles), Handles, FALSE, szTimeout);
+	DWORD r = WaitForMultipleObjects(ARRAY_SIZE(Handles), Handles, FALSE, (DWORD)szTimeout);
 
 	if(r == WAIT_OBJECT_0 + 0)
 		return true;

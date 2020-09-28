@@ -67,7 +67,7 @@ bool TEnumStringConv<t>::Read(KString String, t& RValue) const
 			return RValue = (*this)[i].m_Value, true;
 	}
 
-	size_t v;
+	unsigned int v;
 
 	if(	m_bSafe &&
 		String.DoesStart("0x") &&

@@ -89,7 +89,7 @@ public:
 		{ return (LPTSTR)memcpy(Allocate(l), s, l * sizeof(TCHAR)); }
 
 	void Empty()
-		{ Allocate(0u); }
+		{ Allocate((size_t)0); }
 
 	size_t GetLength() const
 		{ return m_Chars.GetN() - 1; }

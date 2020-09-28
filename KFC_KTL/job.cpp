@@ -155,7 +155,7 @@ TJob* TJobsManager::Dequeue(bool	bStopOnDone,
 
 	for(;;)
 	{
-		DWORD r = WaitForMultipleObjects(szN, pHandles, FALSE, szTimeout);
+		DWORD r = WaitForMultipleObjects((DWORD)szN, pHandles, FALSE, (DWORD)szTimeout);
 
 		CHECK_TERMINATION(m_hTerminator);
 

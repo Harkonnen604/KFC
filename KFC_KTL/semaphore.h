@@ -40,7 +40,7 @@ public:
 	{
 		DEBUG_VERIFY_ALLOCATION;
 
-		return WaitForSingleObject(m_hSemaphore, szTimeout) == WAIT_OBJECT_0;
+		return WaitForSingleObject(m_hSemaphore, (DWORD)szTimeout) == WAIT_OBJECT_0;
 	}
 
 	bool WaitWithTermination(HANDLE hTerminator, size_t szTimeout = INFINITE);
@@ -54,7 +54,7 @@ public:
 
 		DEBUG_VERIFY((LONG)szCount > 0);
 
-		DEBUG_EVERIFY(ReleaseSemaphore(m_hSemaphore, szCount, NULL));
+		DEBUG_EVERIFY(ReleaseSemaphore(m_hSemaphore, (DWORD)szCount, NULL));
 	}
 
 	HANDLE GetSemaphore() const

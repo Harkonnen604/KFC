@@ -83,7 +83,7 @@ void DebugConsoleHexDump(const void* p, size_t n)
 		// Values
 		{
 			for(j = 0, qq = pp ; j < 8 && i + j < n ; j++, qq++)
-				printf("%.2X ", (size_t)*qq);
+				printf("%.2X ", (unsigned)*qq);
 			
 			for( ; j < 8 ; j++)
 				printf("   ");
@@ -91,7 +91,7 @@ void DebugConsoleHexDump(const void* p, size_t n)
 			printf("| ");
 
 			for( ; j < 16 && i + j < n ; j++, qq++)
-				printf("%.2X ", (size_t)*qq);
+				printf("%.2X ", (unsigned)*qq);
 
 			for( ; j < 16 ; j++)
 				printf("   ");

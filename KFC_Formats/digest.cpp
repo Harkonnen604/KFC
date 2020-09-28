@@ -73,7 +73,7 @@ KString MD5(const BYTE* pData, size_t szN)
 
 		DWORD f, g, t;
 
-		for(size_t j = 0 ; j < 64 ; j++)
+		for(DWORD j = 0 ; j < 64 ; j++)
 		{
 			if(j < 16)
 			{

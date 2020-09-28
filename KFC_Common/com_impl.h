@@ -524,7 +524,7 @@ public:
 
 		Iter->m_IntGIT_Link.Allocate(pInt, *m_pIID);
 
-		*pdwCookie = (DWORD)Iter.AsPVoid();
+		*pdwCookie = (DWORD)(uintptr_t)Iter.AsPVoid();
 
 		return S_OK;
 	}
@@ -539,7 +539,7 @@ public:
 
 		FOR_EACH_LIST(m_Connections, TConnections::TConstIterator, CIter)
 		{
-			if((DWORD)CIter.AsPVoid() == dwCookie)
+			if((uintptr_t)CIter.AsPVoid() == dwCookie)
 			{
 				bValidCookie = true;
 				break;
@@ -549,7 +549,7 @@ public:
 		if(!bValidCookie)
 			return CONNECT_E_NOCONNECTION;
 
-		m_Connections.Del(TConnections::TIterator().FromPVoid((void*)dwCookie));
+		m_Connections.Del(TConnections::TIterator().FromPVoid((void*)(uintptr_t)dwCookie));
 
 		return S_OK;
 	}
@@ -570,7 +570,7 @@ public:
 			CONNECTDATA& Data = pEnum->m_Data.Add();
 
 			Data.pUnk		= Iter->m_pUnk;
-			Data.dwCookie	= (DWORD)Iter.AsPVoid();
+			Data.dwCookie	= (DWORD)(uintptr_t)Iter.AsPVoid();
 		}
 
 		DEBUG_EVERIFY(SUCCEEDED(pEnum->QueryInterface(IID_IEnumConnections, (void**)ppEnum)));

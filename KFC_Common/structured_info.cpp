@@ -790,10 +790,10 @@ UINT& ReadUINT(	const KString&	String,
 	return uiRValue;
 }
 
-UINT& ReadNormalizedUINT(const KString&		String,
-						UINT&				uiRValue,
-						LPCTSTR				pValueName,
-						const SZSEGMENT&	Limits)
+UINT& ReadNormalizedUINT(   const KString&		String,
+						    UINT&				uiRValue,
+						    LPCTSTR				pValueName,
+						    const UISEGMENT&	Limits)
 {
 	ReadUINT(String, uiRValue, pValueName);
 

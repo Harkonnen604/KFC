@@ -104,7 +104,7 @@ bool TEvent::WaitWithTermination(HANDLE hTerminator, size_t szTimeout)
 
 	const HANDLE Handles[2] = {m_hEvent, hTerminator};
 
-	DWORD r = WaitForMultipleObjects(ARRAY_SIZE(Handles), Handles, FALSE, szTimeout);
+	DWORD r = WaitForMultipleObjects(ARRAY_SIZE(Handles), Handles, FALSE, (DWORD)szTimeout);
 
 	if(r == WAIT_OBJECT_0 + 0)
 		return true;

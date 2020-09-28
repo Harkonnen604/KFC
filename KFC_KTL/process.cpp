@@ -76,7 +76,7 @@ void StartGuardedThread(volatile LONG&	lNThreads,
 void WaitGuardedThreads(volatile LONG& lNThreads, size_t szPollDelay)
 {
 	while(InterlockedExchangeAdd(&lNThreads, 0))
-		Sleep(szPollDelay);
+		Sleep((DWORD)szPollDelay);
 }
 
 #ifdef _MSC_VER

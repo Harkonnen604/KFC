@@ -24,23 +24,23 @@ public:
 
 public:
 	size_t m_szYear;
-	size_t m_szMonth;
-	size_t m_szDay;
+    size_t m_szMonth;
+    size_t m_szDay;
 	
-	size_t m_szHour;
-	size_t m_szMin;
-	size_t m_szSec;
+    size_t m_szHour;
+    size_t m_szMin;
+    size_t m_szSec;
 
 public:
 	TDateTime()
 		{ Invalidate(); }
 
 	TDateTime(	size_t szSYear,
-				size_t szSMonth,
-				size_t szSDay,
-				size_t szSHour	= 0,
-				size_t szSMin	= 0,
-				size_t szSSec	= 0)
+                size_t szSMonth,
+                size_t szSDay,
+                size_t szSHour	= 0,
+                size_t szSMin	= 0,
+                size_t szSSec	= 0)
 	{
 		Set(szSYear, szSMonth, szSDay, szSHour, szSMin, szSSec);
 	}
@@ -55,11 +55,11 @@ public:
 		{ *this = st; }
 
 	TDateTime& Set(	size_t szSYear,
-					size_t szSMonth,
-					size_t szSDay,
-					size_t szSHour	= 0,
-					size_t szSMin	= 0,
-					size_t szSSec	= 0)
+                    size_t szSMonth,
+                    size_t szSDay,
+                    size_t szSHour	= 0,
+                    size_t szSMin	= 0,
+                    size_t szSSec	= 0)
 	{
 		m_szYear	= szSYear;
 		m_szMonth	= szSMonth;

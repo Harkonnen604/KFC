@@ -36,7 +36,7 @@ public:
 	{
 		DEBUG_VERIFY_ALLOCATION;
 
-		return WaitForSingleObject(m_hMutex, szTimeout) == WAIT_OBJECT_0;
+		return WaitForSingleObject(m_hMutex, (DWORD)szTimeout) == WAIT_OBJECT_0;
 	}
 
 	bool TerminableLock(HANDLE hTerminator, size_t szTimeout = INFINITE)
@@ -48,7 +48,7 @@ public:
 
 		HANDLE Handles[2] = {hTerminator, m_hMutex};
 
-		DWORD r = WaitForMultipleObjects(2, Handles, FALSE, szTimeout);
+		DWORD r = WaitForMultipleObjects(2, Handles, FALSE, (DWORD)szTimeout);
 
 		if(r == WAIT_TIMEOUT)
 			return false;

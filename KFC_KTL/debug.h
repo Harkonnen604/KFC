@@ -23,18 +23,6 @@
 	#endif // _MSC_VER
 #endif // _DEBUG
 
-// --------------
-// Static assert
-// --------------
-template <bool v>
-struct _kfc_static_assert { static char _[v ? 1 : -1]; };
-
-#ifdef _DEBUG
-	#define kfc_static_assert(exp)	((void)(_kfc_static_assert<(bool)(exp)>::_))
-#else // _DEBUG
-	#define kfc_static_assert(exp)
-#endif // _DEBUG
-
 // ------------
 // Test assert
 // ------------

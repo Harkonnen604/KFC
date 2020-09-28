@@ -22,14 +22,14 @@ T_TLS_Storage::~T_TLS_Storage()
 	T_KTL_TLS_Item::FreeItemType();
 
 	if(m_szTLSIndex != TLS_OUT_OF_INDEXES)
-		TlsFree(m_szTLSIndex), m_szTLSIndex = TLS_OUT_OF_INDEXES;
+		TlsFree((DWORD)m_szTLSIndex), m_szTLSIndex = TLS_OUT_OF_INDEXES;
 }
 
 void T_TLS_Storage::CleanThreadChain()
 {
 	TThreadChains::TIterator Iter;
 
-	if(Iter.FromPVoid(TlsGetValue(m_szTLSIndex)).IsValid())
+	if(Iter.FromPVoid(TlsGetValue((DWORD)m_szTLSIndex)).IsValid())
 	{
 		{
 			TCriticalSectionLocker Locker0(m_AccessCS);
@@ -37,7 +37,7 @@ void T_TLS_Storage::CleanThreadChain()
 			m_ThreadChains.Del(Iter), Iter.Invalidate();
 		}
 
-		TlsSetValue(m_szTLSIndex, Iter.AsPVoid());
+		TlsSetValue((DWORD)m_szTLSIndex, Iter.AsPVoid());
 	}
 }
 
@@ -78,7 +78,7 @@ T_TLS_Storage::TItem& T_TLS_Storage::GetItem(size_t szIndex) const
 
 	TThreadChains::TIterator Iter;
 
-	if(!Iter.FromPVoid(TlsGetValue(m_szTLSIndex)).IsValid())
+	if(!Iter.FromPVoid(TlsGetValue((DWORD)m_szTLSIndex)).IsValid())
 	{
 		{
 			TCriticalSectionLocker Locker0(m_AccessCS);
@@ -88,7 +88,7 @@ T_TLS_Storage::TItem& T_TLS_Storage::GetItem(size_t szIndex) const
 
 		Iter->SetN(m_ItemCreators.GetN());
 
-		TlsSetValue(m_szTLSIndex, Iter.AsPVoid());		
+		TlsSetValue((DWORD)m_szTLSIndex, Iter.AsPVoid());		
 	}
 
 	Iter->EnsureN(szIndex + 1);

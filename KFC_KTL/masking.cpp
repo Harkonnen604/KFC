@@ -19,9 +19,7 @@ bool DoesMaskMatch(LPCTSTR s, LPCTSTR m, bool bCaseSensitive)
 	memset(f[0], 0, (ml+1) * sizeof(bool));
 	memset(f[1], 0, (ml+1) * sizeof(bool));
 
-	kfc_static_assert(sizeof(bool*) == sizeof(UINT));
-
-	const UINT dif = (UINT)f[0] ^ (UINT)f[1];
+	const uintptr_t dif = (uintptr_t)f[0] ^ (uintptr_t)f[1];
 
 	bool* cf = f[0];
 	bool* nf = f[1];
@@ -47,8 +45,8 @@ bool DoesMaskMatch(LPCTSTR s, LPCTSTR m, bool bCaseSensitive)
 
 			*cf = false;
 
-			cf -= ml, cf = (bool*)((UINT)cf ^ dif);
-			nf -= ml, nf = (bool*)((UINT)nf ^ dif);
+			cf -= ml, cf = (bool*)((uintptr_t)cf ^ dif);
+			nf -= ml, nf = (bool*)((uintptr_t)nf ^ dif);
 		}
 	}
 	else
@@ -70,8 +68,8 @@ bool DoesMaskMatch(LPCTSTR s, LPCTSTR m, bool bCaseSensitive)
 
 			*cf = false;
 
-			cf -= ml, cf = (bool*)((UINT)cf ^ dif);
-			nf -= ml, nf = (bool*)((UINT)nf ^ dif);
+			cf -= ml, cf = (bool*)((uintptr_t)cf ^ dif);
+			nf -= ml, nf = (bool*)((uintptr_t)nf ^ dif);
 		}
 	}
 

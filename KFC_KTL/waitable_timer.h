@@ -44,7 +44,7 @@ public:
 	{
 		DEBUG_VERIFY_ALLOCATION;
 
-		return WaitForSingleObject(m_hTimer, szTimeout) == WAIT_OBJECT_0;
+		return WaitForSingleObject(m_hTimer, (DWORD)szTimeout) == WAIT_OBJECT_0;
 	}
 
 	HANDLE GetTimer() const

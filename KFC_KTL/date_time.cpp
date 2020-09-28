@@ -438,13 +438,13 @@ TDateTime& TDateTime::operator = (QWORD v)
 	dlt = vv / days400, vv -= days400 * dlt;
 	m_szYear += dlt * 400u;
 
-	dlt = Min(vv / days100, 3u), vv -= days100 * dlt;
+	dlt = Min((unsigned)(vv / days100), 3u), vv -= days100 * dlt;
 	m_szYear += dlt * 100u;
 
-	dlt = Min(vv / days4, 24u), vv -= days4 * dlt;
+	dlt = Min((unsigned)(vv / days4), 24u), vv -= days4 * dlt;
 	m_szYear += dlt * 4u;
 	
-	dlt = Min(vv / days1, 3u), vv -= days1 * dlt;
+	dlt = Min((unsigned)(vv / days1), 3u), vv -= days1 * dlt;
 	m_szYear += dlt;
 
 	const size_t* pMonthDays = ms_MonthDays[IsLeapYear()];
@@ -568,7 +568,7 @@ bool FromString(KString String, TDateTime& RDateTime)
 	}
 
 	if(_stscanf(String,
-				TEXT("%u %u %u %u %u %u"),
+				TEXT("%zu %zu %zu %zu %zu %zu"),
 					&RDateTime.m_szYear,
 					&RDateTime.m_szMonth,
 					&RDateTime.m_szDay,

@@ -54,7 +54,7 @@ public:
 	{
 		DEBUG_VERIFY_ALLOCATION;
 
-		return WaitForSingleObject(m_hEvent, szTimeout) == WAIT_OBJECT_0;
+		return WaitForSingleObject(m_hEvent, (DWORD)szTimeout) == WAIT_OBJECT_0;
 	}
 
 	bool WaitWithTermination(HANDLE hTerminator, size_t szTimeout = INFINITE);

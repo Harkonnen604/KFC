@@ -90,7 +90,7 @@ void TWaitableTimer::SetRelative(size_t szDelay, size_t szPeriod)
 
 	tm.QuadPart = (INT64)-10000 * szDelay;
 
-	if(!SetWaitableTimer(m_hTimer, &tm, szPeriod, NULL, NULL, FALSE))
+	if(!SetWaitableTimer(m_hTimer, &tm, (DWORD)szPeriod, NULL, NULL, FALSE))
 		INITIATE_DEFINED_CODE_FAILURE(TEXT("Error setting relative waitable timer"), GetLastError());
 }
 
@@ -107,7 +107,7 @@ void TWaitableTimer::SetAbsolute(const FILETIME& GlobalTime, size_t szPeriod)
 	tm.LowPart	= GlobalTime.dwLowDateTime;
 	tm.HighPart	= GlobalTime.dwHighDateTime;
 
-	if(!SetWaitableTimer(m_hTimer, &tm, szPeriod, NULL, NULL, FALSE))
+	if(!SetWaitableTimer(m_hTimer, &tm, (DWORD)szPeriod, NULL, NULL, FALSE))
 		INITIATE_DEFINED_CODE_FAILURE(TEXT("Error setting absolute waitable timer"), GetLastError());
 }
 

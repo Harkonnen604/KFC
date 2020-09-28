@@ -83,7 +83,7 @@ bool FromString(KString String, T_COM_Port::TSettings& RSettings)
 	TCHAR cParityChar;
 
 	if(_stscanf((LPCTSTR)String + 3,
-				TEXT("%u %u %u%c%u"),
+				TEXT("%zu %zu %zu%c%zu"),
 					&RSettings.m_szPortNumber,
 					&RSettings.m_szBaudRate,
 					&RSettings.m_szDataBits,

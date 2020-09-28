@@ -26,3 +26,9 @@
 /_out_rel_unicode
 /KFC_Formats/Debug Unicode
 /KFC_Formats/Release Unicode
+/KFC_Common/x64/Debug
+/KFC_Formats/x64/Debug
+/KFC_KTL/x64/Debug
+/KFC_Common/x64/Release
+/KFC_Formats/x64/Release
+/KFC_KTL/x64/Release

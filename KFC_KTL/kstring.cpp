@@ -692,10 +692,10 @@ KString KString::TrimmedRight() const
 
 KString KString::Trimmed() const
 {
-	int i;
+	ptrdiff_t i;
 	for(i = 0 ; _istspace(m_Chars[i]) ; i++);
 
-	int j;
+	ptrdiff_t j;
 	for(j = GetLength() - 1 ; j > i && _istspace(m_Chars[j]) ; j--);
 
 	return Mid(i, j - i + 1);
@@ -719,10 +719,10 @@ KString& KString::TrimRight()
 
 KString& KString::Trim()
 {
-	int i;
+	ptrdiff_t i;
 	for(i = 0 ; _istspace(m_Chars[i]) ; i++);
 
-	int j;
+	ptrdiff_t j;
 	for(j = GetLength() - 1 ; j > i && _istspace(m_Chars[j]) ; j--);
 
 	return SetMid(i, j - i + 1);
@@ -975,7 +975,7 @@ KString KString::GetOEMToChar() const
 {
   TAnsiString Source(*this);
   KString Result(GetLength());
-  OemToCharBuff(Source.GetDataPtr(), Result.GetDataPtr(), GetLength());
+  OemToCharBuff(Source.GetDataPtr(), Result.GetDataPtr(), (DWORD)GetLength());
 	return Result;
 }
 
@@ -983,7 +983,7 @@ KString KString::GetCharToOEM() const
 {
   TAnsiString Result;
   Result.SetN(GetLength() + 1);
-	CharToOemBuff(GetDataPtr(), Result.GetDataPtr(), GetLength());
+	CharToOemBuff(GetDataPtr(), Result.GetDataPtr(), (DWORD)GetLength());
   Result.GetLastItem() = 0;
 	return (LPCTSTR)TDefaultString(Result);
 }
@@ -1092,9 +1092,9 @@ TAnsiString::TAnsiString(LPCWSTR pWideString, size_t szLength, UINT uiCodePage)
 		szLength = WideCharToMultiByte(	uiCodePage,
 										0,
 										pWideString,
-										szLength,
+										(int)szLength,
 										GetDataPtr(),
-										GetN() - 1,
+										(int)(GetN() - 1),
 										NULL,
 										NULL);
 
@@ -1140,9 +1140,9 @@ TWideString::TWideString(LPCSTR pAnsiString, size_t szLength, UINT uiCodePage)
 		szLength = MultiByteToWideChar(	uiCodePage,
 										0,
 										pAnsiString,
-										szLength,
+										(int)szLength,
 										GetDataPtr(),
-										GetN() - 1);
+										(int)(GetN() - 1));
 
 		UpdateMin(szLength, GetN() - 1);
 
@@ -1195,7 +1195,7 @@ static inline int ncmp(LPCTSTR s1, size_t l1, LPCTSTR s2, size_t l2)
 		s1++, s2++, l1--, l2--;
 	}
 
-	return l1 - l2;
+	return Sign(l1 - l2);
 }
 
 static inline int nicmp(LPCTSTR s1, size_t l1, LPCTSTR s2, size_t l2)
@@ -1208,7 +1208,7 @@ static inline int nicmp(LPCTSTR s1, size_t l1, LPCTSTR s2, size_t l2)
 		s1++, s2++, l1--, l2--;
 	}
 
-	return l1 - l2;
+	return Sign(l1 - l2);
 }
 
 int str_alnum_cmp(LPCTSTR s1, LPCTSTR s2)
