@@ -13,10 +13,10 @@ inline LPTSTR ShortenFloatBuf(LPTSTR s)
 {
     size_t i;
 
-    for(i = _tcslen(s) - 1 ; i >= 0 && s[i] == TEXT('0') ; i--)
+    for(i = _tcslen(s) - 1 ; i != -1 && s[i] == TEXT('0') ; i--)
         s[i] = 0;
 
-    if(i >= 0 && s[i] == TEXT('.'))
+    if(i != -1 && s[i] == TEXT('.'))
         s[i] = 0;
 
     if(!_tcscmp(s, TEXT("-0")))
