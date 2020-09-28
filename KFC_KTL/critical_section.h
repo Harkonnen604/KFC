@@ -137,7 +137,7 @@ public:
 		
 	bool Wait(size_t szTimeout)
 	{
-		if(szTimeout == UINT_MAX)
+		if(szTimeout == -1)
 			return Wait(), true;
 			
 		timeval tv;

@@ -7,7 +7,7 @@
 inline size_t HighestBit1(UINT uiValue)
 {
 	if(!uiValue)
-		return UINT_MAX;
+		return -1;
 
 	const size_t	szUINTHighestBit		= (sizeof(UINT) << 3) - 1;
 	const UINT		uiUINTHighestBitValue	= 1 << szUINTHighestBit;
@@ -24,7 +24,7 @@ inline size_t HighestBit1(UINT uiValue)
 inline size_t HighestBit1(QWORD qwValue)
 {
 	if(!qwValue)
-		return UINT_MAX;
+		return -1;
 
 	const size_t	szQWORDHighestBit		= (sizeof(QWORD) << 3) - 1;
 	const QWORD		qwQWORDHighestBitValue	= (QWORD)1 << szQWORDHighestBit;
@@ -41,7 +41,7 @@ inline size_t HighestBit1(QWORD qwValue)
 inline size_t LowestBit1(UINT uiValue)
 {
 	if(!uiValue)
-		return UINT_MAX;
+		return -1;
 
 	for(size_t szRet = 0 ; ; szRet++)
 	{
@@ -55,7 +55,7 @@ inline size_t LowestBit1(UINT uiValue)
 inline size_t LowestBit1(QWORD qwValue)
 {
 	if(!qwValue)
-		return UINT_MAX;
+		return -1;
 
 	for(size_t szRet = 0 ; ; szRet++)
 	{
@@ -89,7 +89,7 @@ inline bool IsPow2(QWORD qwValue)
 inline UINT MaxPow2LessEq(UINT uiValue)
 {
 	if(!uiValue)
-		return UINT_MAX;
+		return -1;
 
 	UINT uiRet;
 
@@ -103,7 +103,7 @@ inline UINT MaxPow2LessEq(UINT uiValue)
 inline QWORD MaxPow2LessEq(QWORD qwValue)
 {
 	if(!qwValue)
-		return QWORD_MAX;
+		return -1;
 
 	QWORD qwRet;
 
@@ -117,7 +117,7 @@ inline QWORD MaxPow2LessEq(QWORD qwValue)
 inline UINT MinPow2GreaterEq(UINT uiValue)
 {
 	if(uiValue > 1u << 31)
-		return UINT_MAX;
+		return -1;
 
 	UINT uiRet;
 
@@ -129,7 +129,7 @@ inline UINT MinPow2GreaterEq(UINT uiValue)
 inline QWORD MinPow2GreaterEq(QWORD qwValue)
 {
 	if(qwValue > (QWORD)1 << 63)
-		return QWORD_MAX;
+		return -1;
 
 	QWORD qwRet;
 

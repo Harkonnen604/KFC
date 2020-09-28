@@ -40,7 +40,7 @@ KStrings::TIterator KStrings::SplitString(	const KString&	String,
 		{
 			const size_t szPos = String.Find(pSplitter, szStart);
 
-			if(szPos == UINT_MAX)
+			if(szPos == -1)
 			{
 				if(	szStart < String.GetLength() ||
 						(flEmptyMode & SSEM_TRAILING))

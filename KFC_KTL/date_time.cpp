@@ -207,7 +207,7 @@ TDateTime& TDateTime::DecSec(size_t szAmt)
 
 	for( ; szAmt ; szAmt--)
 	{
-		if(--m_szSec == UINT_MAX)
+		if(--m_szSec == -1)
 			DecMin(), m_szSec = 59;
 	}
 
@@ -221,7 +221,7 @@ TDateTime& TDateTime::DecMin(size_t szAmt)
 
 	for( ; szAmt ; szAmt--)
 	{
-		if(--m_szMin == UINT_MAX)
+		if(--m_szMin == -1)
 			DecHour(), m_szMin = 59;
 	}
 
@@ -235,7 +235,7 @@ TDateTime& TDateTime::DecHour(size_t szAmt)
 
 	for( ; szAmt ; szAmt--)
 	{
-		if(--m_szHour == UINT_MAX)
+		if(--m_szHour == -1)
 			DecDay(), m_szHour = 23;
 	}
 
@@ -417,7 +417,7 @@ bool TDateTime::IsYearAligned() const
 // Operators
 TDateTime& TDateTime::operator = (QWORD v)
 {
-	if(v == QWORD_MAX)
+	if(v == -1)
 		return Invalidate(), *this;
 
 	m_szSec		= (size_t)(v % 60), v /= 60;
@@ -497,7 +497,7 @@ TDateTime& TDateTime::operator = (const SYSTEMTIME& st)
 TDateTime::operator QWORD () const
 {
 	if(!IsValid())
-		return QWORD_MAX;
+		return -1;
 
 	return ((((QWORD)(m_szYear - 1) * 365 + GetNumLeapYearsBefore() +
 				GetTotalMonthDaysBefore() +

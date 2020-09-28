@@ -631,7 +631,7 @@ TFile& TFile::WriteFromString(LPCTSTR s, size_t l) // requires binary mode
 
 	DEBUG_VERIFY(IsBinaryMode() && AllowsWriting());
 
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = _tcslen(s);
 
 	Write(s, l * sizeof(TCHAR));

@@ -253,7 +253,7 @@ void KRegistryKey::ReadString(const KString& ValueName, KString& RValue) const
 	{
 		size_t i;
 
-		for(i = RValue.GetLength() - 1 ; i != UINT_MAX && !RValue[i] ; i--);
+		for(i = RValue.GetLength() - 1 ; i != -1 && !RValue[i] ; i--);
 
 		RValue.SetLeft(i + 1);
 	}
@@ -787,7 +787,7 @@ void ProcessMultiReg(LPCTSTR pText, bool bSafe, bool bUnroll)
 
 			i = Iter->FindOneOf(TEXT("/\\"));
 
-			if(i == UINT_MAX)
+			if(i == -1)
 				INITIATE_DEFINED_FAILURE((KString)TEXT("No base key found in multireg row \"" + *Iter + TEXT("\".")));
 
 			KString BaseKeyName		= Iter->Left(i);
@@ -801,7 +801,7 @@ void ProcessMultiReg(LPCTSTR pText, bool bSafe, bool bUnroll)
 
 			i = NameAndValue.Find(TEXT('='));
 
-			if(i == UINT_MAX)
+			if(i == -1)
 			{
 				Name	= NameAndValue;
 				bValue	= false;
@@ -899,7 +899,7 @@ void UnprocessMultiReg(LPCTSTR pText, bool bForceKeyDeletion)
 
 		i = Iter->FindOneOf(TEXT("/\\"));
 
-		if(i == UINT_MAX)
+		if(i == -1)
 			INITIATE_DEFINED_FAILURE((KString)TEXT("No base key found in multireg row \"" + *Iter + TEXT("\".")));
 
 		KString BaseKeyName  = Iter->Left(i);
@@ -912,7 +912,7 @@ void UnprocessMultiReg(LPCTSTR pText, bool bForceKeyDeletion)
 
 		i = NameAndValue.Find(TEXT('='));
 
-		if(i == UINT_MAX)
+		if(i == -1)
 		{
 			Name	= NameAndValue;
 			bValue	= false;

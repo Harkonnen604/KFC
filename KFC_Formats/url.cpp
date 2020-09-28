@@ -23,7 +23,7 @@ T_URL::TResource& T_URL::TResource::operator = (KString s)
 
 	size_t i;
 
-	if((i = s.Find(TEXT('?'))) != UINT_MAX)
+	if((i = s.Find(TEXT('?'))) != -1)
 		m_File = s.Left(i), m_Arguments = s.Mid(i+1);
 	else
 		m_File = s, m_Arguments.Empty();
@@ -74,25 +74,25 @@ T_URL& T_URL::operator = (KString s)
 
 	size_t i;
 
-	if((i = s.Find(TEXT('#'))) != UINT_MAX)
+	if((i = s.Find(TEXT('#'))) != -1)
 		m_Section = s.Mid(i+1), s.SetLeft(i);
 	else
 		m_Section.Empty();
 
-	if((i = s.Find(TEXT("://"))) != UINT_MAX)
+	if((i = s.Find(TEXT("://"))) != -1)
 		m_Protocol = s.Left(i), s.SetMid(i + 3);
 	else
 		m_Protocol = TEXT("http");
 
 	i = Min(s.Find(TEXT('/')), s.Find(TEXT('?')));
 
-	if(i == UINT_MAX)
+	if(i == -1)
 		m_Address = s, m_Resource = TEXT('/');
 	else
 		m_Address = s.Left(i), m_Resource = s.Mid(i);
 
 	// Splitting address to address/port
-	if((i = m_Address.Find(TEXT(':'))) != UINT_MAX)
+	if((i = m_Address.Find(TEXT(':'))) != -1)
 		m_wPort = (WORD)_ttoi(m_Address.Mid(i+1)), m_Address = m_Address.Left(i).Trimmed();
 	else
 		m_wPort = GetDefaultPort(m_Protocol);
@@ -177,7 +177,7 @@ bool T_URL::GetLinkTarget(KString Link, T_URL& R_URL) const
 	// Resolving relative URL
 	R_URL = *this, R_URL.m_Section.Empty();
 
-	if((i = Link.Find(TEXT('#'), 1)) != UINT_MAX)
+	if((i = Link.Find(TEXT('#'), 1)) != -1)
 		R_URL.m_Section = Link.Mid(i+1).Trim(), s = Link.SetLeft(i);
 
 	if(IsSlash(s[0]))

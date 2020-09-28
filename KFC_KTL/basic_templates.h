@@ -16,12 +16,12 @@ struct null_virt_t { virtual ~null_virt_t(); };
 // ---------
 template <	size_t _v0,
 			size_t _v1,
-			size_t _v2 = UINT_MAX,
-			size_t _v3 = UINT_MAX,
-			size_t _v4 = UINT_MAX,
-			size_t _v5 = UINT_MAX,
-			size_t _v6 = UINT_MAX,
-			size_t _v7 = UINT_MAX>
+			size_t _v2 = -1,
+			size_t _v3 = -1,
+			size_t _v4 = -1,
+			size_t _v5 = -1,
+			size_t _v6 = -1,
+			size_t _v7 = -1>
 
 class min_t
 {

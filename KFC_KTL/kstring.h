@@ -319,30 +319,30 @@ public:
 	size_t FindOneOfNoCase(LPCTSTR pChars, size_t szStart = 0) const
 		{ return GetLower().FindOneOf(KString(pChars).ToLower(), szStart); }
 
-	// UINT_MAX rev finder result is ambiguous since UINT_MAX can also mean pre-start
+	// (size_t)-1 rev finder result is ambiguous since (size_t)-1 can also mean pre-start
 
-	size_t FindRev(LPCTSTR pString, size_t szStart = UINT_MAX - 1)  const;
+	size_t FindRev(LPCTSTR pString, size_t szStart = (size_t)-1 - 1)  const;
 
-	size_t FindRevNoCase(LPCTSTR pString, size_t szStart = UINT_MAX - 1) const
+	size_t FindRevNoCase(LPCTSTR pString, size_t szStart = (size_t)-1 - 1) const
 		{ return GetLower().FindRev(KString(pString).ToLower(), szStart); }
 
-	size_t FindRev(TCHAR cChar, size_t szStart = UINT_MAX - 1) const;
+	size_t FindRev(TCHAR cChar, size_t szStart = (size_t)-1 - 1) const;
 
-	size_t FindRevNoCase(TCHAR cChar, size_t szStart = UINT_MAX - 1) const
+	size_t FindRevNoCase(TCHAR cChar, size_t szStart = (size_t)-1 - 1) const
 		{ return GetLower().FindRev(_totlower(cChar), szStart); }
 
-	size_t FindOneOfRev(LPCTSTR pChars, size_t szStart = UINT_MAX - 1) const;
+	size_t FindOneOfRev(LPCTSTR pChars, size_t szStart = (size_t)-1 - 1) const;
 
-	size_t FindOneOfRevNoCase(LPCTSTR pChars, size_t szStart = UINT_MAX - 1) const
+	size_t FindOneOfRevNoCase(LPCTSTR pChars, size_t szStart = (size_t)-1 - 1) const
 		{ return GetLower().FindOneOfRev(KString(pChars).ToLower(), szStart); }
 
 	KString Left	(size_t szCount) const;
 	KString Right	(size_t szCount) const;
-	KString Mid		(size_t szStart, size_t szCount = UINT_MAX) const;
+	KString Mid		(size_t szStart, size_t szCount = -1) const;
 
 	KString& SetLeft	(size_t szCount);
 	KString& SetRight	(size_t szCount);
-	KString& SetMid		(size_t szStart, size_t szCount = UINT_MAX);
+	KString& SetMid		(size_t szStart, size_t szCount = -1);
 
 	int CompareStart(const KString& SString) const
 		{ return _tcsncoll(*this, SString, SString.GetLength()); }
@@ -646,9 +646,9 @@ class TAnsiString : public TArray<char, true>
 public:
 	TAnsiString(size_t szLength = 0);
 
-	TAnsiString(LPCSTR pAnsiString, size_t szLength = UINT_MAX);
+	TAnsiString(LPCSTR pAnsiString, size_t szLength = -1);
 
-	TAnsiString(LPCWSTR pWideString, size_t szLength = UINT_MAX, UINT uiCodePage = CP_ACP);
+	TAnsiString(LPCWSTR pWideString, size_t szLength = -1, UINT uiCodePage = CP_ACP);
 
 	size_t GetLength() const { return GetN() - 1; }
 
@@ -803,9 +803,9 @@ class TWideString : public TArray<wchar_t, true>
 public:
 	TWideString(size_t szLength = 0);
 
-	TWideString(LPCSTR pAnsiString, size_t szLength = UINT_MAX, UINT uiCodePage = CP_ACP);
+	TWideString(LPCSTR pAnsiString, size_t szLength = -1, UINT uiCodePage = CP_ACP);
 
-	TWideString(LPCWSTR pWideString, size_t szLength = UINT_MAX);
+	TWideString(LPCWSTR pWideString, size_t szLength = -1);
 
 	size_t GetLength() const { return GetN() - 1; }
 

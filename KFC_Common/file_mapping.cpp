@@ -66,7 +66,7 @@ void TFileMapping::ResizeFileAndOpenMapping(size_t szSize)
 		DEBUG_VERIFY(!m_hMapping);
 	#endif // _MSC_VER
 
-	if(szSize != UINT_MAX)
+	if(szSize != -1)
 		m_File.SetLength(szSize, false);
 
 	if(GetActualSize() > 0)
@@ -77,7 +77,7 @@ void TFileMapping::ResizeFileAndOpenMapping(size_t szSize)
 											NULL,
 											m_bReadOnly ? PAGE_READONLY : PAGE_READWRITE,
 											0,
-											szSize == UINT_MAX ? 0 : szSize,
+											szSize == -1 ? 0 : szSize,
 											NULL);
 
 			if(m_hMapping == NULL)
@@ -92,7 +92,7 @@ void TFileMapping::ResizeFileAndOpenMapping(size_t szSize)
 									m_bReadOnly ? FILE_MAP_READ : FILE_MAP_ALL_ACCESS,
 									0,
 									0,
-									szSize == UINT_MAX ? 0 : szSize);
+									szSize == -1 ? 0 : szSize);
 
 			if(m_pData == NULL)
 			{
@@ -105,7 +105,7 @@ void TFileMapping::ResizeFileAndOpenMapping(size_t szSize)
 		#else // _MSC_VER
 		{
 			m_pData = mmap(	NULL,
-					 		szSize == UINT_MAX ? m_File.GetLength() : szSize,
+					 		szSize == -1 ? m_File.GetLength() : szSize,
 							m_bReadOnly ? PROT_READ : (PROT_READ | PROT_WRITE),
 							MAP_SHARED,
 							fileno(m_File.GetStream()),
@@ -137,7 +137,7 @@ void TFileMapping::Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize)
 	{
 		DEBUG_VERIFY(pFileName);
 
-		DEBUG_VERIFY(!(bReadOnly && szSize != UINT_MAX));
+		DEBUG_VERIFY(!(bReadOnly && szSize != -1));
 
 		m_bReadOnly = bReadOnly;
 
@@ -159,11 +159,11 @@ void TFileMapping::Reopen(bool bReadOnly, size_t szSize)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
-	DEBUG_VERIFY(!(bReadOnly && szSize != UINT_MAX));
+	DEBUG_VERIFY(!(bReadOnly && szSize != -1));
 
 	if(bReadOnly == m_bReadOnly)
 	{
-		if(szSize != UINT_MAX && szSize != GetActualSize())
+		if(szSize != -1 && szSize != GetActualSize())
 		{
 			InternalCloseMapping();
 
@@ -188,7 +188,7 @@ void TFileMapping::SetSizeAndRelease(size_t szSize)
 
 	DEBUG_VERIFY(!IsReadOnly());
 
-	DEBUG_VERIFY(szSize != UINT_MAX);
+	DEBUG_VERIFY(szSize != -1);
 
 	InternalCloseMapping();
 
@@ -226,7 +226,7 @@ void TFileMappingGrowableAllocator::Allocate(LPCTSTR pFileName, bool bReadOnly, 
 	{
 		if(bReadOnly)
 		{
-			DEBUG_VERIFY(szSize == UINT_MAX);
+			DEBUG_VERIFY(szSize == -1);
 
 			m_Mapping.Allocate(pFileName, true);
 
@@ -234,7 +234,7 @@ void TFileMappingGrowableAllocator::Allocate(LPCTSTR pFileName, bool bReadOnly, 
 		}
 		else
 		{
-			if(szSize == UINT_MAX)
+			if(szSize == -1)
 			{
 				DEBUG_VERIFY(FileExists(pFileName));
 

@@ -32,11 +32,11 @@ public:
 
 	void AllocateOEM(LPCTSTR pSName = TEXT("oem"));
 
-	KString Encode(LPCSTR s, size_t l = UINT_MAX) const;
-	KString Decode(LPCSTR s, size_t l = UINT_MAX) const;
+	KString Encode(LPCSTR s, size_t l = -1) const;
+	KString Decode(LPCSTR s, size_t l = -1) const;
 
-	LPSTR EncodeSelf(LPSTR s, size_t l = UINT_MAX) const;
-	LPSTR DecodeSelf(LPSTR s, size_t l = UINT_MAX) const;
+	LPSTR EncodeSelf(LPSTR s, size_t l = -1) const;
+	LPSTR DecodeSelf(LPSTR s, size_t l = -1) const;
 
 	const KString& GetName() const
 		{ DEBUG_VERIFY_ALLOCATION; return m_Name; }
@@ -47,22 +47,22 @@ public:
 // ----------------
 
 // Encoding
-KString Encode(LPCTSTR pName, LPCSTR s, size_t l = UINT_MAX);
-KString Decode(LPCTSTR pName, LPCSTR s, size_t l = UINT_MAX);
+KString Encode(LPCTSTR pName, LPCSTR s, size_t l = -1);
+KString Decode(LPCTSTR pName, LPCSTR s, size_t l = -1);
 
-KString EncodeSafe(LPCTSTR pName, LPCSTR s, size_t l = UINT_MAX);
-KString DecodeSafe(LPCTSTR pName, LPCSTR s, size_t l = UINT_MAX);
+KString EncodeSafe(LPCTSTR pName, LPCSTR s, size_t l = -1);
+KString DecodeSafe(LPCTSTR pName, LPCSTR s, size_t l = -1);
 
-LPSTR EncodeSelf(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
-LPSTR DecodeSelf(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
+LPSTR EncodeSelf(LPCTSTR pName, LPSTR s, size_t l = -1);
+LPSTR DecodeSelf(LPCTSTR pName, LPSTR s, size_t l = -1);
 
-LPSTR EncodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
-LPSTR DecodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = UINT_MAX);
+LPSTR EncodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = -1);
+LPSTR DecodeSelfSafe(LPCTSTR pName, LPSTR s, size_t l = -1);
 */
 
 // Base64
 KString EncodeBase64(const BYTE* p, size_t l);
-void DecodeBase64(TArray<BYTE, true>& RData, LPCTSTR s, size_t l = UINT_MAX);
+void DecodeBase64(TArray<BYTE, true>& RData, LPCTSTR s, size_t l = -1);
 
 /*
 // Quoted-printable custom
@@ -76,39 +76,39 @@ KString EncodeQuotedPrintableCustom(char	cPrefix,
 									char	cSpace,
 									LPCSTR	pDelimeters,
 									LPCSTR	s,
-									size_t	l = UINT_MAX);
+									size_t	l = -1);
 
 void DecodeQuotedPrintableCustom(	char				cPrefix,
 									char				cSpace,
 									LPCSTR				pDelimeters,
 									TArray<BYTE, true>&	RData,
 									LPCSTR				s,
-									size_t				l = UINT_MAX);
+									size_t				l = -1);
 
 KString DecodeQuotedPrintableCustom(char				cPrefix,
 									char				cSpace,
 									LPCSTR				pDelimeters,
 									LPCSTR				s,
-									size_t				l = UINT_MAX);
+									size_t				l = -1);
 
 // Quoted-printable
 inline KString EncodeQuotedPrintable(const BYTE* p, size_t l)
 	{ return EncodeQuotedPrintableCustom('=', '_', NULL, p, l); };
 
-inline KString EncodeQuotedPrintable(LPCSTR s, size_t l = UINT_MAX)
+inline KString EncodeQuotedPrintable(LPCSTR s, size_t l = -1)
 	{ return EncodeQuotedPrintableCustom('=', '_', NULL, s, l); }
 
-inline void DecodeQuotedPrintable(TArray<BYTE, true>& RData, LPCSTR s, size_t l = UINT_MAX)
+inline void DecodeQuotedPrintable(TArray<BYTE, true>& RData, LPCSTR s, size_t l = -1)
 	{ DecodeQuotedPrintableCustom('=', '_', NULL, RData, s, l); }
 
-inline KString DecodeQuotedPrintable(LPCSTR s, size_t l = UINT_MAX)
+inline KString DecodeQuotedPrintable(LPCSTR s, size_t l = -1)
 	{ return DecodeQuotedPrintableCustom('=', '_', NULL, s, l); }
 
 // CGI
-inline KString EncodeCGI_Parameter(LPCTSTR s, size_t l = UINT_MAX)
+inline KString EncodeCGI_Parameter(LPCTSTR s, size_t l = -1)
 	{ return EncodeQuotedPrintableCustom('%', '+', "?=&'\"", s, l); }
 
-inline KString DecodeCGI_Parameter(LPCTSTR s, size_t l = UINT_MAX)
+inline KString DecodeCGI_Parameter(LPCTSTR s, size_t l = -1)
 {
 	KString Text = DecodeQuotedPrintableCustom('%', '+', "?=&'\"", s, l);
 
@@ -126,9 +126,9 @@ inline KString DecodeCGI_Parameter(LPCTSTR s, size_t l = UINT_MAX)
 // MIME
 KString EncodeMIME(LPCTSTR pEncoding, const BYTE* p, size_t l);
 
-KString EncodeMIME(LPCTSTR pEncoding, LPCSTR s, size_t l = UINT_MAX);
+KString EncodeMIME(LPCTSTR pEncoding, LPCSTR s, size_t l = -1);
 
-KString DecodeMIME(LPCSTR s, size_t l = UINT_MAX);
+KString DecodeMIME(LPCSTR s, size_t l = -1);
 
 // Quoted
 KString EncodeQuoted(LPCTSTR s, TCHAR qc, bool bWeak = false);

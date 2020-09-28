@@ -27,7 +27,7 @@ private:
 	{
 		return	m_bReadOnly ?
 					FOF_BINARY | FOF_READ :
-					szSize == UINT_MAX ?
+					szSize == -1 ?
 						FOF_BINARY | FOF_READ | FOF_WRITE:
 						FOF_BINARY | FOF_READ | FOF_WRITE | FOF_CREATE;
 	}
@@ -39,7 +39,7 @@ private:
 public:
 	TFileMapping();
 
-	TFileMapping(LPCTSTR pFileName, bool bReadOnly, size_t szSize = UINT_MAX);
+	TFileMapping(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
 	~TFileMapping()
 		{ Release(); }
@@ -49,9 +49,9 @@ public:
 
 	void Release();
 
-	void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = UINT_MAX);
+	void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
-	void Reopen(bool bReadOnly, size_t szSize = UINT_MAX);
+	void Reopen(bool bReadOnly, size_t szSize = -1);
 	
 	void SetSizeAndRelease(size_t szSize);
 
@@ -84,7 +84,7 @@ private:
 public:
 	TFileMappingGrowableAllocator();
 
-	TFileMappingGrowableAllocator(LPCTSTR pFileName, bool bReadOnly, size_t szSize = UINT_MAX);
+	TFileMappingGrowableAllocator(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
 	~TFileMappingGrowableAllocator()
 		{ Release(); }
@@ -94,7 +94,7 @@ public:
 
 	void Release();
 	
-	void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = UINT_MAX);
+	void Allocate(LPCTSTR pFileName, bool bReadOnly, size_t szSize = -1);
 
 	BYTE* GetDataPtr()
 		{ DEBUG_VERIFY_ALLOCATION; return (BYTE*)m_Mapping.GetDataPtr(); }

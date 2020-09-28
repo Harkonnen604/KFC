@@ -54,10 +54,10 @@ class TMIMEHeaders : public TList<TMIMEHeader>
 public:
 	TMIMEHeaders() {}
 
-	TMIMEHeaders(bool bDotted, LPCTSTR pBody, size_t szLength = UINT_MAX)
+	TMIMEHeaders(bool bDotted, LPCTSTR pBody, size_t szLength = -1)
 		{ Parse(bDotted, pBody, szLength); }
 
-	void Parse(bool bDotted, LPCTSTR pBody, size_t szLength = UINT_MAX);
+	void Parse(bool bDotted, LPCTSTR pBody, size_t szLength = -1);
 
 	KString GetValue(LPCTSTR pName, LPCTSTR pDefaultValue = TEXT("")) const;
 

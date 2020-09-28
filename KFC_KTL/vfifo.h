@@ -278,7 +278,7 @@ void TValueFIFO<ObjectType, bPOD_Type>::RemoveTail()
 
 	DEBUG_VERIFY(!IsEmpty());
 
-	if(--m_szTailIndex == UINT_MAX)
+	if(--m_szTailIndex == -1)
 		m_szTailIndex = m_szMaxItems - 1;
 
 	m_szNItems--;

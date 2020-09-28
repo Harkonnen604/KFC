@@ -336,7 +336,7 @@ public:
 	
 	void Del(LPCTSTR pText);
 
-	TIterator Find(LPCTSTR pText, size_t szMaxLength = UINT_MAX)
+	TIterator Find(LPCTSTR pText, size_t szMaxLength = -1)
 	{
 		TIterator Iter;
 	
@@ -345,7 +345,7 @@ public:
 		return Iter.IsValid() && Iter.IsTerminal() ? Iter : NULL;
 	}
 	
-	TConstIterator Find(LPCTSTR pText, size_t szMaxLength = UINT_MAX) const
+	TConstIterator Find(LPCTSTR pText, size_t szMaxLength = -1) const
 	{
 		TConstIterator Iter;
 	
@@ -354,16 +354,16 @@ public:
 		return Iter.IsValid() && Iter.IsTerminal() ? Iter : NULL;
 	}
 
-	TIterator Get(LPCTSTR pText, size_t szMaxLength = UINT_MAX)
+	TIterator Get(LPCTSTR pText, size_t szMaxLength = -1)
 		{ TIterator Iter = Find(pText, szMaxLength); assert(Iter.IsValid()); return Iter; }
 
-	TConstIterator Get(LPCTSTR pText, size_t szMaxLength = UINT_MAX) const
+	TConstIterator Get(LPCTSTR pText, size_t szMaxLength = -1) const
 		{ TConstIterator Iter = Find(pText, szMaxLength); assert(Iter.IsValid()); return Iter; }
 
 	ObjectType Get(LPCTSTR pText, const ObjectType& DefaultValue) const
 		{ TConstIterator Iter = Find(pText); return Iter.IsValid() ? *Iter : DefaultValue; }
 
-	bool Has(LPCTSTR pText, size_t szMaxLength = UINT_MAX) const
+	bool Has(LPCTSTR pText, size_t szMaxLength = -1) const
 		{ return Find(pText, szMaxLength).IsValid(); }
 
 	TObject& operator [] (LPCTSTR pText)
@@ -758,7 +758,7 @@ void TTrie<ObjectType>::Del(LPCTSTR pText)
 
 	if(szN <= ARRAY_SIZE(Path))
 	{
-		for(size_t i = szN - 1 ; i != UINT_MAX ; i--)
+		for(size_t i = szN - 1 ; i != -1 ; i--)
 		{
 			if(!Path[i]->m_szNTerm && !Path[i]->m_pFirstChild)
 				*Prev[i] = Path[i]->m_pNextSibling, m_Heap.FreeWithoutDestruction(Path[i]);
@@ -769,7 +769,7 @@ void TTrie<ObjectType>::Del(LPCTSTR pText)
 		assert(ArrayPath.GetN() == szN);
 		assert(ArrayPrev.GetN() == szN);
 	
-		for(size_t i = szN - 1 ; i != UINT_MAX ; i--)
+		for(size_t i = szN - 1 ; i != -1 ; i--)
 		{
 			if(!ArrayPath[i]->m_szNTerm && !ArrayPath[i]->m_pFirstChild)
 				*ArrayPrev[i] = ArrayPath[i]->m_pNextSibling, m_Heap.FreeWithoutDestruction(ArrayPath[i]);

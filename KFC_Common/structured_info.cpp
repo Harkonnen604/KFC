@@ -651,9 +651,9 @@ KString EncodeToSingleString(	const KString&	String,
 		_istspace(String[0])						||	// has leading  space(s)
 		_istspace(String[String.GetLength() - 1])	||	// has trailing space(s)
 		cTerminator && _tcschr(String, cTerminator)	||	// has terminator character
-		String.Find(TEXT("//")) != UINT_MAX			||	// has single line comment start
-		String.Find(TEXT("/*")) != UINT_MAX			||	// has long comment start
-		String.Find(TEXT("*/")) != UINT_MAX;			// has long commend end
+		String.Find(TEXT("//")) != -1			    ||	// has single line comment start
+		String.Find(TEXT("/*")) != -1			    ||	// has long comment start
+		String.Find(TEXT("*/")) != -1;			        // has long commend end
 
 	KString SingleString;
 	

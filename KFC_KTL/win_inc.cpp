@@ -10,7 +10,7 @@ TCriticalSection g_InterlockedCS(false);
 
 TConditionVariable g_SyncCV;
 
-volatile QWORD g_qwNextTimerTime = QWORD_MAX;
+volatile QWORD g_qwNextTimerTime = -1;
 
 namespace _test
 {
@@ -108,7 +108,7 @@ BOOL SetWaitableTimer(	HANDLE					hTimer,
 	
 	QWORD qwTimeDue = (const QWORD&)*pDueTime / 10000;
 	
-	assert(qwTimeDue != QWORD_MAX);
+	assert(qwTimeDue != -1);
 	
 	if((INT64)qwTimeDue < 0)
 		qwTimeDue = TDateTime::GetCurrentGlobalWithMSec() - qwTimeDue;
@@ -229,7 +229,7 @@ DWORD WaitForMultipleObjects(DWORD dwN, const HANDLE* pObjects, BOOL bWaitAll, D
 				if(i == dwN)
 					return WAIT_OBJECT_0;
 					
-				for(i-- ; i != UINT_MAX ; i--)
+				for(i-- ; i != -1 ; i--)
 					((TSyncObject*)pObjects[i])->Revert();
 					
 				g_SyncCV.Wait();
@@ -262,7 +262,7 @@ DWORD WaitForMultipleObjects(DWORD dwN, const HANDLE* pObjects, BOOL bWaitAll, D
 				if(i == dwN)
 					return WAIT_OBJECT_0;
 					
-				for(i-- ; i != UINT_MAX ; i--)
+				for(i-- ; i != -1 ; i--)
 					((TSyncObject*)pObjects[i])->Revert();
 					
 				QWORD qwTime = msec_time();

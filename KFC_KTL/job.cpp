@@ -114,8 +114,8 @@ TJob* TJobsManager::Dequeue(bool	bStopOnDone,
 	HANDLE*	pHandles;
 	size_t	szN;
 
-	size_t szDoneIndex			= UINT_MAX;
-	size_t szTerminatorIndex	= UINT_MAX;
+	size_t szDoneIndex			= -1;
+	size_t szTerminatorIndex	= -1;
 	size_t szExtraIndexBase;
 
 	// Considering 'bStopOnDone' and 'm_hTerminator' would be more accurate, but slower

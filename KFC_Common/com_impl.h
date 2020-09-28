@@ -283,7 +283,7 @@ public:
 
 	static void Clean(LPOLESTR* pData, size_t szN)
 	{
-		for(size_t i = szN - 1 ; i != UINT_MAX ; i--)
+		for(size_t i = szN - 1 ; i != -1 ; i--)
 			CoTaskMemFree(pData[i]), pData[i] = NULL;
 	}
 
@@ -327,7 +327,7 @@ public:
 
 	static void Clean(IUnknown** pData, size_t szN)
 	{
-		for(size_t i = szN - 1 ; i != UINT_MAX ; i--)
+		for(size_t i = szN - 1 ; i != -1 ; i--)
 			pData[i]->Release(), pData[i] = NULL;
 	}
 

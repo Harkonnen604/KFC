@@ -22,7 +22,7 @@ private:
 	bool OnResume	();
 		
 public:
-	TTimer(bool bAllocate = false, QWORD qwSStartTime = QWORD_MAX);
+	TTimer(bool bAllocate = false, QWORD qwSStartTime = -1);
 
 	~TTimer()
 		{ Release(); }
@@ -32,13 +32,13 @@ public:
 
 	void Release();
 
-	void Allocate(QWORD qwSStartTime = QWORD_MAX);
+	void Allocate(QWORD qwSStartTime = -1);
 
-	void Reset(QWORD qwSStartTime = QWORD_MAX);
+	void Reset(QWORD qwSStartTime = -1);
 
-	void SetSpeedCoef(float fSSpeedCoef, QWORD qwCurTime = QWORD_MAX);
+	void SetSpeedCoef(float fSSpeedCoef, QWORD qwCurTime = -1);
 
-	QWORD GetElapsedTime(QWORD qwCurTime = QWORD_MAX) const;
+	QWORD GetElapsedTime(QWORD qwCurTime = -1) const;
 
 	operator QWORD () const
 		{ return (QWORD)GetElapsedTime(); }

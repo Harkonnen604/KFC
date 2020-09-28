@@ -13,8 +13,8 @@ void TEMailAddress::Parse(LPCTSTR s)
 
 	size_t i, j;
 
-	if(	((i = Text.Find('<'))      != UINT_MAX) &&
-		((j = Text.Find('>', i+1)) != UINT_MAX))
+	if(	((i = Text.Find('<'))      != -1) &&
+		((j = Text.Find('>', i+1)) != -1))
 	{
 		m_Address = Text.Mid(i+1, j-i-1).Trim();
 
@@ -51,7 +51,7 @@ TEMailAddresses::TIterator TEMailAddresses::Parse(LPCTSTR s, bool bClearFirst)
 // -------------
 void TMIMEHeaders::Parse(bool bDotted, LPCTSTR pBody, size_t szLength)
 {
-	if(szLength == UINT_MAX)
+	if(szLength == -1)
 		szLength = strlen(pBody);
 
 	Clear();
@@ -76,7 +76,7 @@ void TMIMEHeaders::Parse(bool bDotted, LPCTSTR pBody, size_t szLength)
 			{
 				const size_t i = Line.Find(':');
 
-				if(i != UINT_MAX)
+				if(i != -1)
 				{
 					AddLast()->Set(	Line.Left(i).Trimmed(),
 									DecodeMIME(Line.Mid(i+1).Trimmed()));

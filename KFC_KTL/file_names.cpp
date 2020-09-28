@@ -62,9 +62,9 @@ KString GetFilePath(const KString& FileName)
 		return FileName;
 
 	size_t i;
-	for(i=FileName.GetLength()-1 ; i!=UINT_MAX && !IsSlash(FileName[i]) && (i!=1 || FileName[i]!=TEXT(':')) ; i--);
+	for(i = FileName.GetLength()-1 ; i != -1 && !IsSlash(FileName[i]) && (i!=1 || FileName[i]!=TEXT(':')) ; i--);
 
-	return i==UINT_MAX ? KString(TEXT("")) : FileName.Left(i+1);
+	return i == -1 ? KString(TEXT("")) : FileName.Left(i+1);
 }
 
 KString GetFileName(const KString& FileName)
@@ -75,9 +75,9 @@ KString GetFileName(const KString& FileName)
 	size_t szLength = FileName.GetLength();
 
 	size_t i;
-	for(i=szLength-1 ; i!=UINT_MAX && !IsSlash(FileName[i]) ; i--);
+	for(i = szLength-1 ; i != -1 && !IsSlash(FileName[i]) ; i--);
 
-	return i==UINT_MAX ? FileName : FileName.Right(szLength-i-1);
+	return i == -1 ? FileName : FileName.Right(szLength-i-1);
 }
 
 KString GetFileNameName(const KString& FileName)
@@ -88,9 +88,9 @@ KString GetFileNameName(const KString& FileName)
 	KString str = GetFileName(FileName);
 
 	size_t i;
-	for(i=str.GetLength()-1 ; i!=UINT_MAX && str[i]!=TEXT('.') ; i--);
+	for(i = str.GetLength()-1 ; i != -1 && str[i]!=TEXT('.') ; i--);
 
-	return i==UINT_MAX ? str : str.Left(i);
+	return i == -1 ? str : str.Left(i);
 }
 
 KString GetFileExtension(const KString& FileName)
@@ -103,9 +103,9 @@ KString GetFileExtension(const KString& FileName)
 	size_t szLength = str.GetLength();
 
 	size_t i;
-	for(i=szLength-1 ; i!=UINT_MAX && str[i]!=TEXT('.') ; i--);
+	for(i = szLength-1 ; i != -1 && str[i]!=TEXT('.') ; i--);
 
-	return i==UINT_MAX ? KString(TEXT("")) : str.Right(szLength - i - 1);
+	return i == -1 ? KString(TEXT("")) : str.Right(szLength - i - 1);
 }
 
 KString GetLastFolderName(const KString& Path)

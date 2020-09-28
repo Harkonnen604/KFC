@@ -146,7 +146,7 @@ void TPersistentFixedItemHeap<ObjectType>::Release()
 	{
 		assert(!m_szN);
 
-		for(size_t i = m_Blocks.GetN() - 1 ; i != UINT_MAX ; i--)
+		for(size_t i = m_Blocks.GetN() - 1 ; i != -1 ; i--)
 			kfc_free(m_Blocks[i]);
 
 		m_Blocks.Clear();

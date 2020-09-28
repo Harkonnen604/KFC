@@ -4,7 +4,7 @@
 #include <KFC_KTL\stacked_storage.h>
 
 // Interpolator IDs
-#define INTERPOLATOR_ID_NONE	(UINT_MAX)
+#define INTERPOLATOR_ID_NONE	((size_t)-1)
 
 // -------------
 // Declarations

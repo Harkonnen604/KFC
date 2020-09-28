@@ -31,7 +31,7 @@ public:
 	void Allocate(size_t szSNFixedEntries);
 
 	size_t Register(TObjectPointer<ObjectType>&	Object,
-					size_t						szIndex = UINT_MAX);
+					size_t						szIndex = -1);
 
 	void Unregister(size_t szIndex);
 
@@ -103,7 +103,7 @@ size_t TRegistrationManager<ObjectType>::Register(	TObjectPointer<ObjectType>&	O
 
 	DEBUG_VERIFY(Object.IsAllocated());
 
-	DEBUG_VERIFY(szIndex == UINT_MAX || szIndex < m_szNFixedEntries);
+	DEBUG_VERIFY(szIndex == -1 || szIndex < m_szNFixedEntries);
 
 	if(szIndex < m_szNFixedEntries) // fixed
 	{
@@ -187,7 +187,7 @@ public:
 
 	void Allocate(	TRegistrationManager<ObjectType>&	SRegistrationManager,
 					TObjectPointer<ObjectType>&			Object,
-					size_t								szIndex = UINT_MAX);
+					size_t								szIndex = -1);
 
 	size_t GetIndex() const;
 

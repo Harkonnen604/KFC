@@ -487,13 +487,13 @@ public:
 template <class ObjectType, class AllocatorType, class AuxType>
 TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::TFixedItemHeapWithAux()
 {
-	m_szAuxDataSize = UINT_MAX;
+	m_szAuxDataSize = -1;
 }
 
 template <class ObjectType, class AllocatorType, class AuxType>
 void TFixedItemHeapWithAux<ObjectType, AllocatorType, AuxType>::Release()
 {
-	m_szAuxDataSize = UINT_MAX;
+	m_szAuxDataSize = -1;
 
 	m_Allocator.Release();
 }

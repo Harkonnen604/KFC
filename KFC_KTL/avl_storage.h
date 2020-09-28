@@ -464,7 +464,7 @@ public:
 		}
 		#endif // _DEBUG
 
-		for(size_t i = n - 1 ; i != UINT_MAX ; i--)
+		for(size_t i = n - 1 ; i != -1 ; i--)
 			Detach(pIters[i]);
 
 		for(size_t i = 0 ; i < n ; i++)

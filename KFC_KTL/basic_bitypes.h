@@ -173,7 +173,7 @@ inline bool FromString(KString String, TPoint<t>& RPoint)
 
 	const size_t szPos = String.Find(TEXT(";"), 1);
 
-	if(szPos == UINT_MAX)
+	if(szPos == -1)
 		return false;
 
 	if(	!FromString(String.Mid(1, szPos - 1).Trim(), RPoint.x) ||
@@ -478,7 +478,7 @@ inline bool FromString(KString String, TRect<t>& RRect)
 
 	szPos = String.Find(TEXT(" - "), 1);
 
-	if(szPos == UINT_MAX)
+	if(szPos == -1)
 		return false;
 
 	KString Start	= String.Mid(1, szPos - 1).Trim();
@@ -487,7 +487,7 @@ inline bool FromString(KString String, TRect<t>& RRect)
 	// Start
 	szPos = Start.Find(TEXT(";"));
 
-	if(szPos == UINT_MAX)
+	if(szPos == -1)
 		return false;
 
 	if(	!FromString(Start.Left(szPos).Trim(), RRect.m_Left) ||
@@ -499,7 +499,7 @@ inline bool FromString(KString String, TRect<t>& RRect)
 	// End
 	szPos = End.Find(TEXT(";"));
 
-	if(szPos == UINT_MAX)
+	if(szPos == -1)
 		return false;
 
 	if(	!FromString(End.Left(szPos).Trim(), RRect.m_Right) ||
@@ -720,7 +720,7 @@ inline bool FromString(KString String, TSize<t>& RSize)
 
 	const size_t szPos = String.Find(TEXT(";"), 1);
 
-	if(szPos == UINT_MAX)
+	if(szPos == -1)
 		return false;
 
 	if(	!FromString(String.Mid(1, szPos - 1).Trim(), RSize.cx) ||
@@ -957,7 +957,7 @@ inline bool FromString(KString String, TSegment<t>& RSegment)
 
 	const size_t szPos = String.Find(TEXT(";"), 1);
 
-	if(szPos == UINT_MAX)
+	if(szPos == -1)
 		return false;
 
 	if(	!FromString(String.Mid(1, szPos - 1).Trim(), RSegment.m_First) ||

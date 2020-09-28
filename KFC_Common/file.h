@@ -226,7 +226,7 @@ public:
 		return String;
 	}
 
-	TFile& WriteFromString(LPCTSTR s, size_t l = UINT_MAX);
+	TFile& WriteFromString(LPCTSTR s, size_t l = -1);
 
 	TFile& WriteFromString(const KString& String)
 		{ return WriteFromString((LPCTSTR)String, String.GetLength()); }

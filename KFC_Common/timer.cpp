@@ -45,7 +45,7 @@ void TTimer::Reset(QWORD qwSStartTime)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
-	if(qwSStartTime == QWORD_MAX)
+	if(qwSStartTime == -1)
 		qwSStartTime = g_TimeGlobals.GetMSEC();
 
 	m_qwLastStartTime = qwSStartTime;
@@ -57,7 +57,7 @@ void TTimer::SetSpeedCoef(float fSSpeedCoef, QWORD qwCurTime)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
-	if(qwCurTime == QWORD_MAX)
+	if(qwCurTime == -1)
 		qwCurTime = g_TimeGlobals.GetMSEC();
 
 	m_qwAccumulatedTime = GetElapsedTime(qwCurTime), m_qwLastStartTime = qwCurTime;
@@ -95,7 +95,7 @@ QWORD TTimer::GetElapsedTime(QWORD qwCurTime) const
 {
 	DEBUG_VERIFY_ALLOCATION;
 
-	if(qwCurTime == QWORD_MAX)
+	if(qwCurTime == -1)
 		qwCurTime = g_TimeGlobals.GetMSEC();
 
 	QWORD qwElapsedTime = m_qwAccumulatedTime;

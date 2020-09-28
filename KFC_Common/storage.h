@@ -210,7 +210,7 @@ void TStorage<ObjectType>::LoadObjects(	TInfoNodeConstIterator		InfoNode,
 	{
 		szMaskAlphabetNamePos[i] = Name.Find(pMaskAlphabet[i]);
 
-		DEBUG_VERIFY(szMaskAlphabetNamePos[i] != UINT_MAX);
+		DEBUG_VERIFY(szMaskAlphabetNamePos[i] != -1);
 	}
 
 	// ---- Loading ----
@@ -225,7 +225,7 @@ void TStorage<ObjectType>::LoadObjects(	TInfoNodeConstIterator		InfoNode,
 		{
 			szMaskAlphabetValuePos[i] = Value.Find(pMaskAlphabet[i]);
 
-			if(szMaskAlphabetValuePos[i] == UINT_MAX)
+			if(szMaskAlphabetValuePos[i] == -1)
 			{
 				INITIATE_DEFINED_FAILURE(	(KString)TEXT("Mutliple objects loading value does not contain required mask alphabet character '") +
 												pMaskAlphabet[i] +
@@ -250,7 +250,7 @@ void TStorage<ObjectType>::LoadObjects(	TInfoNodeConstIterator		InfoNode,
 								pCurOmittable ? *pCurOmittable : false);
 
 			// Iteration
-			for(szCurPos = szNDimensions - 1 ; szCurPos != UINT_MAX ; szCurPos--)
+			for(szCurPos = szNDimensions - 1 ; szCurPos != -1 ; szCurPos--)
 			{
 				if(++szCurValues[szCurPos] == pLimits[szCurPos])
 					szCurValues[szCurPos] = 0;
@@ -262,7 +262,7 @@ void TStorage<ObjectType>::LoadObjects(	TInfoNodeConstIterator		InfoNode,
 					break;
 			}
 
-			if(szCurPos == UINT_MAX)
+			if(szCurPos == -1)
 				break;
 		}
 	}
@@ -286,7 +286,7 @@ void TStorage<ObjectType>::LoadObjects(	TInfoNodeConstIterator		InfoNode,
 						pCurOmittable ? *pCurOmittable : false);
 
 			// Iteration
-			for(szCurPos = szNDimensions - 1 ; szCurPos != UINT_MAX ; szCurPos--)
+			for(szCurPos = szNDimensions - 1 ; szCurPos != -1 ; szCurPos--)
 			{
 				if(++szCurValues[szCurPos] == pLimits[szCurPos])
 					szCurValues[szCurPos] = 0;
@@ -298,7 +298,7 @@ void TStorage<ObjectType>::LoadObjects(	TInfoNodeConstIterator		InfoNode,
 					break;
 			}
 
-			if(szCurPos == UINT_MAX)
+			if(szCurPos == -1)
 				break;
 		}
 	}

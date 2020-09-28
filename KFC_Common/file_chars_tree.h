@@ -30,7 +30,7 @@ public:
 			{ x = 0; }
 
 		bool IsRoot() const
-			{ return x == UINT_MAX; }
+			{ return x == -1; }
 	};
 
 	// Const iterator
@@ -54,7 +54,7 @@ public:
 			{ x = 0; }
 
 		bool IsRoot() const
-			{ return x == UINT_MAX; }
+			{ return x == -1; }
 	};
 
 private:
@@ -133,7 +133,7 @@ public:
 	void Clear();
 
 	static TIterator GetRoot()
-		{ return UINT_MAX; }
+		{ return -1; }
 
 	static TIterator& ToRoot(TIterator& Iter)
 		{ return Iter = GetRoot(); }

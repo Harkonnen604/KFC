@@ -26,7 +26,7 @@ bool TGlobalsCollector::OnResume()
 
 	size_t i;
 	
-	for(i = m_GlobalsList.GetN() - 1 ; i != UINT_MAX ; i--)
+	for(i = m_GlobalsList.GetN() - 1 ; i != -1 ; i--)
 		m_GlobalsList[i]->Resume();
 
 	return true;
@@ -56,7 +56,7 @@ void TGlobalsCollector::PostUpdate(	size_t	szStartIndex,
 {
 	size_t i;
 
-	for(i = szStartIndex ; i != UINT_MAX ; i--)
+	for(i = szStartIndex ; i != -1 ; i--)
 		m_GlobalsList[i]->PostUpdate(bFailureRollBack);
 }
 
@@ -84,7 +84,7 @@ void TGlobalsCollector::PostRender(	size_t	szStartIndex,
 {
 	size_t i;
 
-	for(i = szStartIndex ; i != UINT_MAX ; i--)
+	for(i = szStartIndex ; i != -1 ; i--)
 		m_GlobalsList[i]->PostRender(bFailureRollBack);
 }
 
@@ -134,7 +134,7 @@ void TGlobalsCollector::Terminate()
 {
 	size_t i;
 
-	for(i = m_GlobalsList.GetN() - 1 ; i != UINT_MAX ; i--)
+	for(i = m_GlobalsList.GetN() - 1 ; i != -1 ; i--)
 		m_GlobalsList[i]->Terminate();
 }
 

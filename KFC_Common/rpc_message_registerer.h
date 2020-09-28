@@ -17,7 +17,7 @@ public:
 	TRPCMessageRegisterer();
 
 	bool IsAllocated() const
-		{ return m_szMessage != UINT_MAX; }
+		{ return m_szMessage != -1; }
 
 	void Allocate(LPCTSTR pName);
 	

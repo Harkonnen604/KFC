@@ -12,7 +12,7 @@
 #define SSEM_TRAILING	(0x0004)
 
 #define SSEM_NONE		(0)
-#define SSEM_ALL		(UINT_MAX)
+#define SSEM_ALL		((kflags_t)-1)
 
 // --------
 // Strings

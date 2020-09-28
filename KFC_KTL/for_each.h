@@ -18,7 +18,7 @@
 	for(size_t _index = 0 ; _index < ARRAY_SIZE(_array) ; ++_index)
 
 #define FOR_EACH_C_ARRAY_REV(_array, _index) \
-	for(size_t _index = ARRAY_SIZE(_array) - 1 ; _index != UINT_MAX ; --_index)
+	for(size_t _index = ARRAY_SIZE(_array) - 1 ; _index != -1 ; --_index)
 
 #define FOR_EACH_C_ARRAY(_array, _index) \
 	FOR_EACH_C_ARRAY_FWD((_array), _index)
@@ -28,7 +28,7 @@
 	for((_index) = 0 ; (_index) < ARRAY_SIZE(_array) ; ++(_index))
 
 #define FOR_EACH_C_ARRAY_REV_EI(_array, _index) \
-	for((_index) = ARRAY_SIZE(_array) - 1 ; (size_t)(_index) != UINT_MAX ; --(_index))
+	for((_index) = ARRAY_SIZE(_array) - 1 ; (size_t)(_index) != -1 ; --(_index))
 
 #define FOR_EACH_C_ARRAY_EI(_array, _index) \
 	FOR_EACH_C_ARRAY_FWD_EI((_array), (_index))
@@ -38,7 +38,7 @@
 	for(size_t _index = 0 ; _index < (_array).GetN() ; ++_index)
 
 #define FOR_EACH_ARRAY_REV(_array, _index) \
-	for(size_t _index = (_array).GetN() - 1 ; _index != UINT_MAX ; --_index)
+	for(size_t _index = (_array).GetN() - 1 ; _index != -1 ; --_index)
 
 #define FOR_EACH_ARRAY(_array, _index) \
 	FOR_EACH_ARRAY_FWD((_array), _index)
@@ -48,7 +48,7 @@
 	for((_index) = 0 ; (_index) < (_array).GetN() ; ++(_index))
 
 #define FOR_EACH_ARRAY_REV_EI(_array, _index) \
-	for((_index) = (_array).GetN() - 1 ; (size_t)(_index) != UINT_MAX ; --(_index))
+	for((_index) = (_array).GetN() - 1 ; (size_t)(_index) != -1 ; --(_index))
 
 #define FOR_EACH_ARRAY_EI(_array, _index) \
 	FOR_EACH_ARRAY_FWD_EI((_array), (_index))

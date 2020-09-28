@@ -167,7 +167,7 @@ void TEncoding::AllocateOEM(LPCTSTR pSName)
 
 KString TEncoding::Encode(LPCSTR s, size_t l) const
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	if(!this)
@@ -175,7 +175,7 @@ KString TEncoding::Encode(LPCSTR s, size_t l) const
 
 	DEBUG_VERIFY_ALLOCATION;
 
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	KString Text;
@@ -190,7 +190,7 @@ KString TEncoding::Encode(LPCSTR s, size_t l) const
 
 KString TEncoding::Decode(LPCSTR s, size_t l) const
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	if(!this)
@@ -215,7 +215,7 @@ LPSTR TEncoding::EncodeSelf(LPSTR s, size_t l) const
 
 	DEBUG_VERIFY_ALLOCATION;
 
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	LPSTR p;
@@ -233,7 +233,7 @@ LPSTR TEncoding::DecodeSelf(LPSTR s, size_t l) const
 
 	DEBUG_VERIFY_ALLOCATION;
 
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	LPTSTR p;
@@ -340,7 +340,7 @@ KString EncodeBase64(const BYTE* p, size_t l)
 
 void DecodeBase64(TArray<BYTE, true>& RData, LPCTSTR s, size_t l)
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = _tcslen(s);
 
 	RData.Clear();
@@ -428,7 +428,7 @@ KString EncodeQuotedPrintableCustom(char	cPrefix,
 									LPCSTR	s,
 									size_t	l)
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	return EncodeQuotedPrintableCustom(cPrefix, cSpace, pDelimeters, (const BYTE*)s, l);
@@ -441,7 +441,7 @@ void DecodeQuotedPrintableCustom(	char				cPrefix,
 									LPCSTR				s,
 									size_t				l)
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	RData.Clear();
@@ -514,7 +514,7 @@ KString EncodeMIME(LPCTSTR pEncoding, const BYTE* p, size_t l)
 
 KString EncodeMIME(LPCTSTR pEncoding, LPCSTR s, size_t l)
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	return EncodeMIME(pEncoding, (const BYTE*)s, l);
@@ -522,7 +522,7 @@ KString EncodeMIME(LPCTSTR pEncoding, LPCSTR s, size_t l)
 
 KString DecodeMIME(LPCSTR s, size_t l)
 {
-	if(l == UINT_MAX)
+	if(l == -1)
 		l = strlen(s);
 
 	KString Text;

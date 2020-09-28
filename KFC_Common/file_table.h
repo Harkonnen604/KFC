@@ -316,7 +316,7 @@ public:
 
 	TIterator Add(const t& Data);
 
-	void Modify(TIterator Iter, size_t szIndex = UINT_MAX);
+	void Modify(TIterator Iter, size_t szIndex = -1);
 
 	void Del(TIterator Iter);
 
@@ -634,7 +634,7 @@ TFileTable<t, szNIndices>::TFileTable()
 template <class t, size_t szNIndices>
 void TFileTable<t, szNIndices>::Release()
 {
-	for(size_t i = m_szCurIndex - 1 ; i != UINT_MAX ; i--)
+	for(size_t i = m_szCurIndex - 1 ; i != -1 ; i--)
 		m_Indices[i]->m_Storage.Release();
 
 	m_IndicesHeap.Release();
@@ -755,7 +755,7 @@ void TFileTable<t, szNIndices>::Modify(TIterator Iter, size_t szIndex)
 
 	const TDataItem& Item = m_DataStorage[Iter.x];
 
-	if(szIndex == UINT_MAX)
+	if(szIndex == -1)
 	{
 		for(size_t i = 0 ; i < szNIndices ; i++)
 			m_Indices[i]->Modify(Item.m_IndexIters[i], Item);

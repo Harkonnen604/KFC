@@ -105,7 +105,7 @@ size_t KString::AlphabetToValue(TCHAR cChar)
 	if(_istlower(cChar))
 		return cChar - TEXT('a') + (10 + 26);
 
-	return UINT_MAX;
+	return -1;
 }
 
 size_t KString::GetNoSpaceCharactersLength() const
@@ -187,7 +187,7 @@ KString& KString::WriteInt64(INT64 iValue, bool bSeparate)
 	Buf[l] = 0;
 
 	// Reversing
-	for(size_t i = (l>>1) - 1 ; i!=UINT_MAX ; i--)
+	for(size_t i = (l>>1) - 1 ; i != -1 ; i--)
 	{
 		TCHAR t;
 		t=Buf[i], Buf[i]=Buf[l-i-1], Buf[l-i-1]=t;
@@ -237,7 +237,7 @@ KString& KString::WriteQWORD(QWORD qwValue, bool bSeparate)
 	Buf[l] = 0;
 
 	// Reversing
-	for(size_t i = (l >> 1) - 1 ; i != UINT_MAX ; i--)
+	for(size_t i = (l >> 1) - 1 ; i != -1 ; i--)
 	{
 		TCHAR t;
 		t=Buf[i], Buf[i]=Buf[l-i-1], Buf[l-i-1]=t;
@@ -521,85 +521,85 @@ size_t KString::Find(LPCTSTR pString, size_t szStart) const
 
 	LPCTSTR ptr = _tcsstr(GetDataPtr() + szStart, pString);
 
-	return ptr ? ptr - GetDataPtr() : UINT_MAX;
+	return ptr ? ptr - GetDataPtr() : -1;
 }
 
 size_t KString::Find(TCHAR cChar, size_t szStart) const
 {
 	if(szStart >= GetLength())
-		return UINT_MAX;
+		return -1;
 
 	LPCTSTR ptr = _tcschr(GetDataPtr() + szStart, cChar);
 
-	return ptr ? ptr - GetDataPtr() : UINT_MAX;
+	return ptr ? ptr - GetDataPtr() : -1;
 }
 
 size_t KString::FindOneOf(LPCTSTR pChars, size_t szStart) const
 {
 	if(szStart >= GetLength())
-		return UINT_MAX;
+		return -1;
 
 	UpdateMin(szStart, GetLength());
 
 	LPCTSTR ptr = _tcspbrk(GetDataPtr() + szStart, pChars);
 
-	return ptr ? ptr - GetDataPtr() : UINT_MAX;
+	return ptr ? ptr - GetDataPtr() : -1;
 }
 
 size_t KString::FindRev(LPCTSTR pString, size_t szStart) const
 {
-	if(szStart == UINT_MAX || IsEmpty())
-		return UINT_MAX;
+	if(szStart == -1 || IsEmpty())
+		return -1;
 
 	size_t l = _tcslen(pString);
 
-	UpdateMin(szStart, GetLength() - l); // includes UINT_MAX - 1
+	UpdateMin(szStart, GetLength() - l); // includes (size_t)-1 - 1
 
 	LPCTSTR p = (LPCTSTR)*this + szStart;
 
-	for(size_t i = szStart ; i != UINT_MAX ; i--, p--)
+	for(size_t i = szStart ; i != -1 ; i--, p--)
 	{
 		if(!memcmp(p, pString, l * sizeof(TCHAR)))
 			return i;
 	}
 
-	return UINT_MAX;
+	return -1;
 }
 
 size_t KString::FindRev(TCHAR cChar, size_t szStart) const
 {
-	if(szStart == UINT_MAX || IsEmpty())
-		return UINT_MAX;
+	if(szStart == -1 || IsEmpty())
+		return -1;
 
-	UpdateMin(szStart, GetLength() - 1); // includes UINT_MAX - 1
+	UpdateMin(szStart, GetLength() - 1); // includes (size_t)-1 - 1
 
 	LPCTSTR p = (LPCTSTR)*this + szStart;
 
-	for(size_t i = szStart ; i != UINT_MAX ; i--, p--)
+	for(size_t i = szStart ; i != -1 ; i--, p--)
 	{
 		if(*p == cChar)
 			return i;
 	}
 
-	return UINT_MAX;
+	return -1;
 }
 
 size_t KString::FindOneOfRev(LPCTSTR pChars, size_t szStart) const
 {
-	if(szStart == UINT_MAX || IsEmpty())
-		return UINT_MAX;
+	if(szStart == -1 || IsEmpty())
+		return -1;
 
-	UpdateMin(szStart, GetLength() - 1); // includes UINT_MAX - 1
+	UpdateMin(szStart, GetLength() - 1); // includes (size_t)-1 - 1
 
 	LPCTSTR p = (LPCTSTR)*this + szStart;
 
-	for(size_t i = szStart ; i != UINT_MAX ; i--, p--)
+	for(size_t i = szStart ; i != -1 ; i--, p--)
 	{
 		if(_tcschr(pChars, *p))
 			return i;
 	}
 
-	return UINT_MAX;
+	return -1;
 }
 
 KString KString::Left(size_t szCount) const
@@ -623,7 +623,7 @@ KString KString::Mid(size_t szStart, size_t szCount) const
 	if(szStart > GetLength())
 		szStart = GetLength();
 
-	if(szCount == UINT_MAX || szStart + szCount > GetLength())
+	if(szCount == -1 || szStart + szCount > GetLength())
 		szCount = GetLength() - szStart;
 
 	return KString(GetDataPtr() + szStart, szCount);
@@ -654,7 +654,7 @@ KString& KString::SetMid(size_t szStart, size_t szCount)
 	if(szStart > GetLength())
 		szStart = GetLength();
 
-	if(szCount == UINT_MAX || szStart + szCount > GetLength())
+	if(szCount == -1 || szStart + szCount > GetLength())
 		szCount = GetLength() - szStart;
 
 	return SetLeft(szStart + szCount).SetRight(szCount);
@@ -685,7 +685,7 @@ KString KString::TrimmedLeft() const
 KString KString::TrimmedRight() const
 {
 	size_t i;
-	for(i = GetLength() - 1 ; i != UINT_MAX && _istspace(m_Chars[i]) ; i--);
+	for(i = GetLength() - 1 ; i != -1 && _istspace(m_Chars[i]) ; i--);
 
 	return Left(i + 1);
 }
@@ -712,7 +712,7 @@ KString& KString::TrimLeft()
 KString& KString::TrimRight()
 {
 	size_t i;
-	for(i = GetLength() - 1 ; i != UINT_MAX && _istspace(m_Chars[i]) ; i--);
+	for(i = GetLength() - 1 ; i != -1 && _istspace(m_Chars[i]) ; i--);
 
 	return SetLeft(i + 1);
 }
@@ -1070,7 +1070,7 @@ TAnsiString::TAnsiString(size_t szLength)
 
 TAnsiString::TAnsiString(LPCSTR pAnsiString, size_t szLength)
 {
-	if(szLength == UINT_MAX)
+	if(szLength == -1)
 		szLength = strlen(pAnsiString);
 
 	SetN(szLength + 1);
@@ -1082,7 +1082,7 @@ TAnsiString::TAnsiString(LPCSTR pAnsiString, size_t szLength)
 
 TAnsiString::TAnsiString(LPCWSTR pWideString, size_t szLength, UINT uiCodePage)
 {
-	if(szLength == UINT_MAX)
+	if(szLength == -1)
 		szLength = wcslen(pWideString);
 
 	#ifdef _MSC_VER
@@ -1130,7 +1130,7 @@ TWideString::TWideString(size_t szLength)
 
 TWideString::TWideString(LPCSTR pAnsiString, size_t szLength, UINT uiCodePage)
 {
-	if(szLength == UINT_MAX)
+	if(szLength == -1)
 		szLength = strlen(pAnsiString);
 
 	#ifdef _MSC_VER
@@ -1167,7 +1167,7 @@ TWideString::TWideString(LPCSTR pAnsiString, size_t szLength, UINT uiCodePage)
 
 TWideString::TWideString(LPCWSTR pWideString, size_t szLength)
 {
-	if(szLength == UINT_MAX)
+	if(szLength == -1)
 		szLength = wcslen(pWideString);
 
 	SetN(szLength + 1);

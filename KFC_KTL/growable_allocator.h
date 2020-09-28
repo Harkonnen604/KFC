@@ -107,11 +107,11 @@ private:
 	size_t m_szN;
 
 public:
-	TFixedSizeGrowableAllocator(size_t szMaxN = UINT_MAX)
+	TFixedSizeGrowableAllocator(size_t szMaxN = -1)
 	{
-		m_szMaxN = UINT_MAX;
+		m_szMaxN = -1;
 		
-		if(szMaxN != UINT_MAX)
+		if(szMaxN != -1)
 			Allocate(szMaxN);
 	}
 
@@ -119,11 +119,11 @@ public:
 		{ Release(); }
 
 	bool IsAllocated() const
-		{ return m_szMaxN != UINT_MAX; }
+		{ return m_szMaxN != -1; }
 
 	void Allocate(size_t szMaxN)
 	{
-		DEBUG_VERIFY(szMaxN != UINT_MAX);
+		DEBUG_VERIFY(szMaxN != -1);
 
 		m_Array.SetN(m_szMaxN = szMaxN);
 
@@ -132,7 +132,7 @@ public:
 
 	void Release()
 	{
-		m_szMaxN = UINT_MAX;
+		m_szMaxN = -1;
 
 		m_Array.Clear();
 	}

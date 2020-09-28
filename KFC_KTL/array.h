@@ -404,7 +404,7 @@ t& TArray<t, bPOD_Type>::SetNAndReinit(size_t szSN, bool bFixAllocation)
 	{
 		size_t i;
 
-		for(i = szNRecreate - 1 ; i != UINT_MAX ; i--)
+		for(i = szNRecreate - 1 ; i != -1 ; i--)
 			m_pData[i].~t();
 
 		for(i = 0 ; i < szNRecreate ; i++)
@@ -528,7 +528,7 @@ void TArray<t, bPOD_Type>::DelExceptNoFix(size_t szFirst, size_t szLast)
 		for(i = m_szN - 1 ; i != szLast - 1 ; i--)
 			m_pData[i].~t();
 
-		for(i = szFirst - 1 ; i != UINT_MAX ; i--)
+		for(i = szFirst - 1 ; i != -1 ; i--)
 			m_pData[i].~t();
 	}
 
@@ -661,7 +661,7 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetFirstItem(), v) > 0 || Compare(GetLastItem(), v) < 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
@@ -681,7 +681,7 @@ size_t TArray<t, bPOD_Type>::FindInSorted(const k& v) const
 			r = m - 1;
 
 		if(l > r)
-			return UINT_MAX;
+			return -1;
 	}
 }
 
@@ -690,12 +690,12 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindFirstInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetFirstItem(), v) > 0 || Compare(GetLastItem(), v) < 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
 
-	size_t x = UINT_MAX;
+	size_t x = -1;
 
 	for(;;)
 	{
@@ -721,12 +721,12 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindFirstGreaterInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetLastItem(), v) <= 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
 
-	size_t x = UINT_MAX;
+	size_t x = -1;
 
 	for(;;)
 	{
@@ -754,12 +754,12 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindFirstGreaterEqInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetLastItem(), v) < 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
 
-	size_t x = UINT_MAX;
+	size_t x = -1;
 
 	for(;;)
 	{
@@ -787,12 +787,12 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindLastInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetFirstItem(), v) > 0 || Compare(GetLastItem(), v) < 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
 
-	size_t x = UINT_MAX;
+	size_t x = -1;
 
 	for(;;)
 	{
@@ -818,12 +818,12 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindLastLessInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetFirstItem(), v) >= 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
 
-	size_t x = UINT_MAX;
+	size_t x = -1;
 
 	for(;;)
 	{
@@ -851,12 +851,12 @@ template <class k>
 size_t TArray<t, bPOD_Type>::FindLastLessEqInSorted(const k& v) const
 {
 	if(IsEmpty() || Compare(GetFirstItem(), v) > 0)
-		return UINT_MAX;
+		return -1;
 
 	int l = 0;
 	int r = m_szN - 1;
 
-	size_t x = UINT_MAX;
+	size_t x = -1;
 
 	for(;;)
 	{
@@ -887,7 +887,7 @@ size_t TArray<t, bPOD_Type>::AddInSorted(const k& v)
 		return Add() = v, GetLast();
 
 	size_t szIndex = FindFirstGreaterInSorted(v);
-	assert(szIndex != UINT_MAX);
+	assert(szIndex != -1);
 
 	Insert(szIndex) = v;
 
@@ -900,7 +900,7 @@ size_t TArray<t, bPOD_Type>::FindOrAddInSorted(const k& v)
 {
 	size_t szIndex = FindInSorted(v);
 
-	if(szIndex == UINT_MAX)
+	if(szIndex == -1)
 		szIndex = AddInSorted(v);
 
 	return szIndex;

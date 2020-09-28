@@ -115,25 +115,25 @@ private:
 	size_t m_szWriteOffset;
 
 public:
-	TMappedMemoryStream() : m_szLength(UINT_MAX) {}
+	TMappedMemoryStream() : m_szLength(-1) {}
 
-	TMappedMemoryStream(void* pData, size_t szLength) : m_szLength(UINT_MAX)
+	TMappedMemoryStream(void* pData, size_t szLength) : m_szLength(-1)
 		{ Allocate(pData, szLength); }
 
 	~TMappedMemoryStream()
 		{ Release(); }
 
 	bool IsAllocated() const
-		{ return m_szLength != UINT_MAX; }
+		{ return m_szLength != -1; }
 
 	void Release()
-		{ m_szLength = UINT_MAX; }
+		{ m_szLength = -1; }
 
 	void Allocate(void* pData, size_t szLength)
 	{
 		Release();
 
-		DEBUG_VERIFY(szLength != UINT_MAX);
+		DEBUG_VERIFY(szLength != -1);
 
 		m_pData = pData;
 

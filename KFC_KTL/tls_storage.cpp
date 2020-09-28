@@ -46,7 +46,7 @@ void T_TLS_Storage::FreeItemType(size_t& szIndex)
 	{
 		TCriticalSectionLocker Locker0(m_AccessCS);
 
-		assert(szIndex != UINT_MAX && szIndex == m_ItemCreators.GetN() - 1);
+		assert(szIndex != -1 && szIndex == m_ItemCreators.GetN() - 1);
 
 		m_ItemCreators.DelLast();
 
@@ -54,7 +54,7 @@ void T_TLS_Storage::FreeItemType(size_t& szIndex)
 			Iter->SetN(m_ItemCreators.GetN());
 	}
 
-	szIndex = UINT_MAX;
+	szIndex = -1;
 }
 
 size_t T_TLS_Storage::ReserveItemType(TItem::TCreator* pCreator)

@@ -8,7 +8,7 @@
 // -----------------------
 TRPCMessageRegisterer::TRPCMessageRegisterer()
 {
-	m_szMessage = UINT_MAX;
+	m_szMessage = -1;
 }
 
 void TRPCMessageRegisterer::Allocate(LPCTSTR pName)
@@ -24,7 +24,7 @@ void TRPCMessageRegisterer::Allocate(LPCTSTR pName)
 		
 	if(m_szMessage == 0)
 	{
-		m_szMessage = UINT_MAX;
+		m_szMessage = -1;
 
 		INITIATE_DEFINED_CODE_FAILURE(	(KString)TEXT("Error registering window message \"") +
 											pName +

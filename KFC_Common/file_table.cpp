@@ -4,4 +4,4 @@
 // --------------------
 // File table TLS item
 // --------------------
-size_t TFileTableTLS_Item::ms_szIndex = UINT_MAX;
+size_t TFileTableTLS_Item::ms_szIndex = -1;
