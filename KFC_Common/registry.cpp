@@ -516,7 +516,7 @@ void KRegistryKey::WriteString(const KString& ValueName, const KString& Value)
 
 	int r;
 
-	if(r = RegSetValueEx(m_hKey, ValueName, NULL, REG_SZ, (BYTE*)Value.GetDataPtr(), (Value.GetLength() + 1) * sizeof(TCHAR)))
+	if(r = RegSetValueEx(m_hKey, ValueName, NULL, REG_SZ, (BYTE*)Value.GetDataPtr(), (DWORD)(Value.GetLength() + 1) * sizeof(TCHAR)))
 		INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error writing STRING registry value ") + ValueName + TEXT("\""), r);
 }
 
@@ -619,7 +619,7 @@ void KRegistryKey::EnlistKeys(KStrings& RKeys) const
 		TCHAR Name[16384];
 		DWORD dwNameLength = sizeof(Name) - 1;
 
-		LONG res = RegEnumKeyEx(*this, i, Name, &dwNameLength, NULL, NULL, NULL, NULL);
+		LONG res = RegEnumKeyEx(*this, (DWORD)i, Name, &dwNameLength, NULL, NULL, NULL, NULL);
 
 		if(res && res != ERROR_MORE_DATA)
 			break;
@@ -644,7 +644,7 @@ void KRegistryKey::EnlistValues(KStrings& RValues) const
 		TCHAR Name[16384];
 		DWORD dwNameLength = sizeof(Name) - 1;
 
-		LONG res = RegEnumValue(*this, i, Name, &dwNameLength, NULL, NULL, NULL, NULL);
+		LONG res = RegEnumValue(*this, (DWORD)i, Name, &dwNameLength, NULL, NULL, NULL, NULL);
 
 		if(res && res != ERROR_MORE_DATA)
 			break;

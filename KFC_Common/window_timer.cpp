@@ -33,7 +33,7 @@ void TWindowTimer::Allocate(HWND		hSWnd,
 		m_hWnd		= hSWnd;
 		m_szEventID	= szSEventID;
 
-		m_szTimerID = SetTimer(m_hWnd, m_szEventID, szTimeout, pTimerProc);
+		m_szTimerID = SetTimer(m_hWnd, m_szEventID, (UINT)szTimeout, pTimerProc);
 
 		m_bAllocated = true;
 	}

@@ -77,7 +77,7 @@ void TFileMapping::ResizeFileAndOpenMapping(size_t szSize)
 											NULL,
 											m_bReadOnly ? PAGE_READONLY : PAGE_READWRITE,
 											0,
-											szSize == -1 ? 0 : szSize,
+											(DWORD)(szSize == -1 ? 0 : szSize),
 											NULL);
 
 			if(m_hMapping == NULL)

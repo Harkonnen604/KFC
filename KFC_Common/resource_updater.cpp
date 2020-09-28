@@ -63,7 +63,7 @@ void TResourceUpdater::Update(	LPCTSTR	pType,
 
 	DEBUG_VERIFY(pData && szLength > 0);
 
-	if(!UpdateResource(*this, pType, MAKEINTRESOURCE(szID), wLanguage, pData, szLength))
+	if(!UpdateResource(*this, pType, MAKEINTRESOURCE(szID), wLanguage, pData, (DWORD)szLength))
 	{
 		INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error updating resource"),
 										GetLastError());

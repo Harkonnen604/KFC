@@ -97,7 +97,7 @@ public:
 	TListIterator operator ++ (int)
 		{ const TListIterator Iter = *this; ToNext(); return Iter; }
 
-	TListIterator& operator += (int v)
+	TListIterator& operator += (intptr_t v)
 	{
 		while(v < 0)
 			ToPrev(), v++;
@@ -108,7 +108,7 @@ public:
 		return *this;
 	}
 
-	TListIterator& operator -= (int v)
+	TListIterator& operator -= (intptr_t v)
 	{
 		while(v < 0)
 			ToNext(), v++;
@@ -119,10 +119,10 @@ public:
 		return *this;
 	}
 
-	TListIterator operator + (int v) const
+	TListIterator operator + (intptr_t v) const
 		{ return TListIterator(*this) += v; }
 
-	TListIterator operator - (int v) const
+	TListIterator operator - (intptr_t v) const
 		{ return TListIterator(*this) -= v; }
 
 	ObjectType& operator [] (int v) const
@@ -199,7 +199,7 @@ public:
 	TListConstIterator operator ++ (int)
 		{ const TListConstIterator Iter = *this; ToNext(); return Iter; }		
 
-	TListConstIterator& operator -= (int v)
+	TListConstIterator& operator -= (intptr_t v)
 	{
 		while(v < 0)
 			ToNext(), v++;
@@ -210,7 +210,7 @@ public:
 		return *this;
 	}
 
-	TListConstIterator& operator += (int v)
+	TListConstIterator& operator += (intptr_t v)
 	{
 		while(v < 0)
 			ToPrev(), v++;
@@ -221,10 +221,10 @@ public:
 		return *this;
 	}		
 
-	TListConstIterator operator - (int v) const
+	TListConstIterator operator - (intptr_t v) const
 		{ return TListConstIterator(*this) -= v; }
 
-	TListConstIterator operator + (int v) const
+	TListConstIterator operator + (intptr_t v) const
 		{ return TListConstIterator(*this) += v; }
 
 	const ObjectType& operator [] (int v) const
@@ -382,22 +382,22 @@ public:
 
 	TConstIterator GetIndexedRev(size_t szIndex) const;
 
-	TIterator operator + (int iIndex)
+	TIterator operator + (intptr_t iIndex)
 		{ return GetIndexed(iIndex); }	
 
-	TConstIterator operator + (int iIndex) const
+	TConstIterator operator + (intptr_t iIndex) const
 		{ return GetIndexed(iIndex); }
 
-	TIterator operator - (int iIndex)
+	TIterator operator - (intptr_t iIndex)
 		{ return GetIndexed(-iIndex); }
 
-	TConstIterator operator - (int iIndex) const
+	TConstIterator operator - (intptr_t iIndex) const
 		{ return GetIndexed(-iIndex); }
 
-	ObjectType& operator [] (int iIndex)
+	ObjectType& operator [] (intptr_t iIndex)
 		{ return *GetIndexed(iIndex); }
 
-	const ObjectType& operator [] (int iIndex) const
+	const ObjectType& operator [] (intptr_t iIndex) const
 		{ return *GetIndexed(iIndex); }
 
 	void Swap(TIterator Iter1, TIterator Iter2);

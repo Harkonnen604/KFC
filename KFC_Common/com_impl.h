@@ -211,7 +211,7 @@ public:
 
 		if(szPos >= m_Data.GetN())
 		{
-			InterlockedExchange(&m_lPos, m_Data.GetN());
+			InterlockedExchange(&m_lPos, (LONG)m_Data.GetN());
 			return S_FALSE;
 		}
 
@@ -220,7 +220,7 @@ public:
 		traits::Fill(m_Data.GetDataPtr() + szPos, rgelt, szAmt);
 
 		if(pceltFetched)
-			*pceltFetched = szAmt;
+			*pceltFetched = (ULONG)szAmt;
 
 		return szAmt == celt ? S_OK : S_FALSE;
 	}
@@ -234,7 +234,7 @@ public:
 
 		if(szPos >= m_Data.GetN())
 		{
-			InterlockedExchange(&m_lPos, m_Data.GetN());
+			InterlockedExchange(&m_lPos, (LONG)m_Data.GetN());
 			return S_FALSE;
 		}
 

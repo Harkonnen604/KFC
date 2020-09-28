@@ -216,7 +216,7 @@ void T_COM_Port::Receive(void* pRData, size_t szLength)
 	{
 		DWORD dwRead;
 
-		if(!ReadFile(m_hFile, pRData, szLength, &dwRead, NULL) || dwRead > szLength)
+		if(!ReadFile(m_hFile, pRData, (DWORD)szLength, &dwRead, NULL) || dwRead > szLength)
 		{
 			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error receiving data from COM port"),
 											GetLastError());
@@ -234,7 +234,7 @@ void T_COM_Port::Send(const void* pData, size_t szLength)
 	{
 		DWORD dwWritten;
 
-		if(!WriteFile(m_hFile, pData, szLength, &dwWritten, NULL) || dwWritten > szLength)
+		if(!WriteFile(m_hFile, pData, (DWORD)szLength, &dwWritten, NULL) || dwWritten > szLength)
 		{
 			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error sending data through COM port"),
 											GetLastError());
@@ -255,7 +255,7 @@ void T_COM_Port::Receive(void* pRData, size_t szLength, TEvent& Event, HANDLE hT
 
 		Overlapped.hEvent = Event;
 
-		if(	!ReadFile(m_hFile, pRData, szLength, NULL, &Overlapped) &&
+		if(	!ReadFile(m_hFile, pRData, (DWORD)szLength, NULL, &Overlapped) &&
 			GetLastError() != ERROR_IO_PENDING)
 		{
 			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error receiving data from COM port"),
@@ -296,7 +296,7 @@ void T_COM_Port::Send(const void* pData, size_t szLength, TEvent& Event, HANDLE 
 
 		Overlapped.hEvent = Event;
 
-		if(	!WriteFile(m_hFile, pData, szLength, NULL, &Overlapped) &&
+		if(	!WriteFile(m_hFile, pData, (DWORD)szLength, NULL, &Overlapped) &&
 			GetLastError() != ERROR_IO_PENDING)
 		{
 			INITIATE_DEFINED_CODE_FAILURE(	TEXT("Error sending data through COM port"),

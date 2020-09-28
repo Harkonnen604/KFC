@@ -203,10 +203,10 @@ public:
 	bool IsEmpty() const
 		{ return m_szN == 0; }
 
-	t* operator + (int i)
+	t* operator + (intptr_t i)
 		{ return m_pData + i; }
 
-	const t* operator + (int i) const
+	const t* operator + (intptr_t i) const
 		{ return m_pData + i; }
 
 	TArray& operator += (const TArray& Arr);

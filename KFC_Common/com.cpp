@@ -225,7 +225,7 @@ TStream& operator >> (TStream& Stream, VARIANT& RVariant)
 			size_t szLength;
 			Stream >> szLength;
 
-			RVariant.bstrVal = SysAllocStringLen(NULL, szLength);
+			RVariant.bstrVal = SysAllocStringLen(NULL, (UINT)szLength);
 
 			if(!RVariant.bstrVal)
 				INITIATE_DEFINED_FAILURE(TEXT("Error allocating COM string."));
@@ -402,7 +402,7 @@ T_COM_InterfaceTraits<IDispatch>::TIndexedProperty&
 
 	Params.rgvarg				= const_cast<VARIANT*>(pArgs);
 	Params.rgdispidNamedArgs	= NULL;
-	Params.cArgs				= m_Args.GetN() + 1;
+	Params.cArgs				= (UINT)m_Args.GetN() + 1;
 	Params.cNamedArgs			= 0;
 
 	UINT uiArgError = 0;
@@ -430,7 +430,7 @@ T_COM_InterfaceTraits<IDispatch>::TIndexedProperty::operator T_COM_Variant () co
 
 	Params.rgvarg				= const_cast<T_COM_Variant*>(m_Args.GetDataPtr());
 	Params.rgdispidNamedArgs	= NULL;
-	Params.cArgs				= m_Args.GetN();
+	Params.cArgs				= (UINT)m_Args.GetN();
 	Params.cNamedArgs			= 0;
 
 	UINT uiArgError;
@@ -481,7 +481,7 @@ T_COM_Variant T_COM_InterfaceTraits<IDispatch>::operator ()
 
 	Params.rgvarg				= const_cast<T_COM_Variant*>(Args.GetDataPtr());
 	Params.rgdispidNamedArgs	= NULL;
-	Params.cArgs				= Args.GetN();
+	Params.cArgs				= (UINT)Args.GetN();
 	Params.cNamedArgs			= 0;
 
 	UINT uiArgError;

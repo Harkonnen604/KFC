@@ -103,11 +103,11 @@ private:
 	bool	InternalRemove	();
 
 #ifdef _MSC_VER
-	void InternalSeekHandle(int iOffset, TFileSeekMode Mode = FSM_BEGIN) const;
+	void InternalSeekHandle(ptrdiff_t offset, TFileSeekMode Mode = FSM_BEGIN) const;
 #endif // _MSC_VER
-	void InternalSeekStream(int iOffset, TFileSeekMode Mode = FSM_BEGIN) const;
+	void InternalSeekStream(ptrdiff_t offset, TFileSeekMode Mode = FSM_BEGIN) const;
 
-	void InternalSeek(int iOffset, TFileSeekMode Mode = FSM_BEGIN) const;
+	void InternalSeek(ptrdiff_t offset, TFileSeekMode Mode = FSM_BEGIN) const;
 
 	size_t InternalTell() const;
 
@@ -231,7 +231,7 @@ public:
 	TFile& WriteFromString(const KString& String)
 		{ return WriteFromString((LPCTSTR)String, String.GetLength()); }
 
-	void Seek(int iOffset, TFileSeekMode Mode = FSM_BEGIN);
+	void Seek(ptrdiff_t offset, TFileSeekMode Mode = FSM_BEGIN);
 
 	size_t Tell() const
 	{

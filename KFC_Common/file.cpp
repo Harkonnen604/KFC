@@ -293,7 +293,7 @@ void TFile::SetLength(size_t szNewLength, bool bRetainOldOffset)
 
 	#ifdef _MSC_VER
 	{
-		SetFilePointer(m_hFile, szNewLength, NULL, FILE_BEGIN); // ... (no error check-up)
+		SetFilePointer(m_hFile, (LONG)szNewLength, NULL, FILE_BEGIN); // ... (no error check-up) // {{{ SetFilePointerEx
 
 		if(!SetEndOfFile(m_hFile))
 			INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error setting end of file \"") + m_FileName + TEXT("\""), GetLastError());
@@ -335,7 +335,7 @@ TFile& TFile::Read(void* pRData, size_t szSize)
 	{
 		DWORD dwRealSize;
 	
-		if(!ReadFile(m_hFile, pRData, szSize, &dwRealSize, NULL) || dwRealSize != szSize)
+		if(!ReadFile(m_hFile, pRData, (DWORD)szSize, &dwRealSize, NULL) || dwRealSize != szSize)
 			INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error reading from file \"") + m_FileName + TEXT("\""), GetLastError());
 	}
 	#else // _MSC_VER
@@ -382,7 +382,7 @@ TFile& TFile::Write(const void* pData, size_t szSize)
 	{
 		DWORD dwRealSize;
 	
-		if(!WriteFile(m_hFile, pData, szSize, &dwRealSize, NULL) || dwRealSize != szSize)
+		if(!WriteFile(m_hFile, pData, (DWORD)szSize, &dwRealSize, NULL) || dwRealSize != szSize)
 			INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error writing file \"") + m_FileName + TEXT("\""), GetLastError());
 	}
 	#else // _MSC_VER
@@ -415,7 +415,7 @@ TFile& TFile::ReadString(KString& RString, TFileReadStringMode Mode)
 
 	while(!IsEndOfFile())
 	{
-		ts[0] = 0, _fgetts(ts.GetDataPtr(), ts.GetN() - 1, m_pFile);
+		ts[0] = 0, _fgetts(ts.GetDataPtr(), (int)ts.GetN() - 1, m_pFile);
 
 		RString += ts.GetDataPtr();
 
@@ -533,7 +533,7 @@ void TFile::WriteEOL()
 
 #ifdef _MSC_VER
 
-void TFile::InternalSeekHandle(int iOffset, TFileSeekMode Mode) const
+void TFile::InternalSeekHandle(ptrdiff_t offset, TFileSeekMode Mode) const
 {
 	DWORD dwMode;
 
@@ -555,13 +555,13 @@ void TFile::InternalSeekHandle(int iOffset, TFileSeekMode Mode) const
 		DEBUG_INITIATE_FAILURE;
 	}
 
-	if(SetFilePointer(m_hFile, iOffset, NULL, dwMode) == INVALID_SET_FILE_POINTER)
+    if(SetFilePointer(m_hFile, (LONG)offset, NULL, dwMode) == INVALID_SET_FILE_POINTER) // {{{ SetFilePointerEx
 		INITIATE_DEFINED_CODE_FAILURE((KString)TEXT("Error changing offset in file \"") + m_FileName + TEXT("\""), GetLastError());
 }
 
 #endif // _MSC_VER
 
-void TFile::InternalSeekStream(int iOffset, TFileSeekMode Mode) const
+void TFile::InternalSeekStream(ptrdiff_t offset, TFileSeekMode Mode) const
 {
 	int iMode = SEEK_SET;
 
@@ -583,22 +583,22 @@ void TFile::InternalSeekStream(int iOffset, TFileSeekMode Mode) const
 		DEBUG_INITIATE_FAILURE;
 	}
 
-	if(fseek(m_pFile, iOffset, iMode))
+	if(fseek(m_pFile, (long)offset, iMode)) // {{{ fsetpos
 		INITIATE_DEFINED_CODE_FAILURE(TEXT("Error changing text file offset"), GetLastError());
 }
 
-void TFile::InternalSeek(int iOffset, TFileSeekMode Mode) const
+void TFile::InternalSeek(ptrdiff_t offset, TFileSeekMode Mode) const
 {
 	if(IsTextMode())
 	{
-		InternalSeekStream(iOffset, Mode);
+		InternalSeekStream(offset, Mode);
 	}
 	else
 	{
 		#ifdef _MSC_VER
-			InternalSeekHandle(m_szOffset, Mode);
+			InternalSeekHandle(offset, Mode);
 		#else // _MSC_VER
-			InternalSeekStream(m_szOffset, Mode);
+			InternalSeekStream(offset, Mode);
 		#endif // _MSC_VER		
 	}
 }
@@ -639,7 +639,7 @@ TFile& TFile::WriteFromString(LPCTSTR s, size_t l) // requires binary mode
 	return *this;
 }
 
-void TFile::Seek(int iOffset, TFileSeekMode Mode)
+void TFile::Seek(ptrdiff_t offset, TFileSeekMode Mode)
 {
 	DEBUG_VERIFY_ALLOCATION;
 
@@ -649,7 +649,7 @@ void TFile::Seek(int iOffset, TFileSeekMode Mode)
 
 	if(IsTextMode())
 	{
-		InternalSeek(iOffset, Mode);
+		InternalSeek(offset, Mode);
 	}
 	else
 	{
@@ -670,7 +670,7 @@ void TFile::Seek(int iOffset, TFileSeekMode Mode)
 			DEBUG_INITIATE_FAILURE;
 		}
 
-		m_szOffset += iOffset;
+		m_szOffset += offset;
 
 		if((int)m_szOffset < 0 || m_szOffset > m_szLength)
 			INITIATE_DEFINED_FAILURE((KString)"Attempt to seek outside of file \"" + m_FileName + TEXT("\"."));
@@ -885,7 +885,7 @@ KStrings::TIterator EnlistFiles(const KString&	Mask,
 	{
 		_tfinddata_t FileInfo;
 		
-		int iHandle = _tfindfirst(Mask, &FileInfo);
+		intptr_t iHandle = _tfindfirst(Mask, &FileInfo);
 	
 		if(iHandle < 0)
 			return NULL;
@@ -948,7 +948,7 @@ KStrings::TIterator EnlistFolders(	const KString&	Mask,
 	{
 		_tfinddata_t FileInfo;
 	
-		int iHandle = _tfindfirst(Mask, &FileInfo);
+        intptr_t iHandle = _tfindfirst(Mask, &FileInfo);
 		
 		if(iHandle < 0)
 			return NULL;	
